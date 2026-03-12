@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customize Templates</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Add SortableJS library for drag-and-drop -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        /* Style for the item being dragged */
+        .sortable-ghost {
+            background-color: #e0e7ff; /* A light indigo color */
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <!-- Header with Back button -->
+        <header class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6">
+            <a href="global_setting.html" id="back-to-global-settings-btn" class="text-gray-600 hover:text-gray-800 transition-colors flex items-center">
+                <i class="fas fa-arrow-left mr-2"></i>
+                <span class="font-medium">Back to Global Settings</span>
+            </a>
+            <h1 class="text-3xl font-bold text-gray-800 mt-4 sm:mt-0">Category & Template Management</h1>
+        </header>
+
+        <!-- Tabs -->
+        <div class="border-b border-gray-200 mb-6">
+            <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                <button data-tab="library" class="tab-button border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Category Library
+                </button>
+                <button data-tab="templates" class="tab-button border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Templates
+                </button>
+            </nav>
+        </div>
+
+        <!-- Tab Content -->
+        <div id="main-content">
+            <!-- Category Library Tab -->
+            <div id="library-content" class="tab-content" data-tab="library">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-4">
+                        <!-- Filters -->
+                        <div class="space-y-3 w-full">
+                            <div class="flex items-center gap-x-4 gap-y-2 flex-wrap">
+                                <span class="text-sm font-semibold text-gray-600">Type:</span>
+                                <button data-filter-group="type" data-filter-value="All" class="filter-btn type-filter bg-indigo-600 text-white px-3 py-1.5 rounded-full text-sm font-medium">All</button>
+                                <button data-filter-group="type" data-filter-value="Income" class="filter-btn type-filter bg-gray-200 text-gray-700 px-3 py-1.5 rounded-full text-sm font-medium hover:bg-gray-300">Income</button>
+                                <button data-filter-group="type" data-filter-value="Expense" class="filter-btn type-filter bg-gray-200 text-gray-700 px-3 py-1.5 rounded-full text-sm font-medium hover:bg-gray-300">Expense</button>
+                            </div>
+                            <div class="flex items-center gap-x-4 gap-y-2 flex-wrap">
+                                <span class="text-sm font-semibold text-gray-600">Status:</span>
+                                <button data-filter-group="status" data-filter-value="All" class="filter-btn status-filter bg-indigo-600 text-white px-3 py-1.5 rounded-full text-sm font-medium">All</button>
+                                <button data-filter-group="status" data-filter-value="Active" class="filter-btn status-filter bg-gray-200 text-gray-700 px-3 py-1.5 rounded-full text-sm font-medium hover:bg-gray-300">Active</button>
+                                <button data-filter-group="status" data-filter-value="Inactive" class="filter-btn status-filter bg-gray-200 text-gray-700 px-3 py-1.5 rounded-full text-sm font-medium hover:bg-gray-300">Inactive</button>
+                                <button data-filter-group="status" data-filter-value="KeptByPM" class="filter-btn status-filter bg-gray-200 text-gray-700 px-3 py-1.5 rounded-full text-sm font-medium hover:bg-gray-300">Kept by PM</button>
+                                <button data-filter-group="status" data-filter-value="MarkupExpense" class="filter-btn status-filter bg-gray-200 text-gray-700 px-3 py-1.5 rounded-full text-sm font-medium hover:bg-gray-300">Markup Expense</button>
+                            </div>
+                        </div>
+                        <!-- Search and Actions -->
+                        <div class="flex items-center gap-4 w-full sm:w-auto">
+                            <div class="relative flex-grow sm:flex-grow-0">
+                                <input type="text" id="category-search-input" placeholder="Search categories..." class="w-full sm:w-64 pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            </div>
+                            <button id="add-category-btn" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors whitespace-nowrap">
+                                <i class="fas fa-plus mr-1"></i> Add Category
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Categories Table -->
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">IRS Category</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Revenue</th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="category-library-body" class="bg-white">
+                                <!-- Category rows will be rendered here by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Templates Tab -->
+            <div id="templates-content" class="tab-content hidden" data-tab="templates">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800">My Templates</h2>
+                        <button id="add-template-btn" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
+                            <i class="fas fa-plus mr-1"></i> Add New Template
+                        </button>
+                    </div>
+                    <div id="templates-list" class="space-y-4">
+                        <!-- Template cards will be rendered here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template Editor View -->
+    <div id="template-editor-view" class="hidden max-w-7xl mx-auto">
+        <header class="flex items-center justify-between mb-6">
+            <button id="back-to-templates-btn" class="text-gray-600 hover:text-gray-800 transition-colors flex items-center">
+                <i class="fas fa-arrow-left mr-2"></i>
+                <span class="font-medium">Back to Template List</span>
+            </button>
+            <h1 id="template-editor-title" class="text-3xl font-bold text-gray-800">Create New Template</h1>
+        </header>
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <form id="template-form" class="space-y-6">
+                <input type="hidden" id="template-id">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="template-name" class="block text-sm font-medium text-gray-700">Template Name</label>
+                        <input type="text" id="template-name" required placeholder="e.g., Residential Standard" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label for="template-description" class="block text-sm font-medium text-gray-700">Description (Optional)</label>
+                        <input type="text" id="template-description" placeholder="e.g., For long-term residential units" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Select Categories</h3>
+                    <div class="relative mb-2">
+                        <input type="text" id="template-category-search" placeholder="Search categories..." class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    <div class="flex items-center my-3 px-1">
+                        <input type="checkbox" id="template-select-all-categories" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                        <label for="template-select-all-categories" class="ml-2 block text-sm font-medium text-gray-700">Select All / Deselect All</label>
+                    </div>
+                    <div id="template-category-list" class="border rounded-lg max-h-72 overflow-y-auto bg-gray-50">
+                        <!-- Category selection list will be rendered here -->
+                    </div>
+                </div>
+                <div class="flex justify-end space-x-4 pt-4 border-t">
+                    <button type="button" id="template-cancel-btn" class="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-300">Cancel</button>
+                    <button type="submit" id="template-save-btn" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700">Save Template</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Modals will go here -->
+    <div id="category-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-75 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-8 border w-full max-w-md shadow-lg rounded-md bg-white">
+            <div class="flex justify-between items-center mb-6">
+                <h3 id="modal-title" class="text-2xl font-bold text-gray-900">Add New Category</h3>
+                <button id="modal-close-btn" class="text-gray-400 hover:text-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <form id="category-form" class="space-y-4">
+                <input type="hidden" id="category-id">
+                <div>
+                    <label for="category-name" class="block text-sm font-medium text-gray-700">Category Name</label>
+                    <input type="text" id="category-name" required placeholder="e.g., Pet Fee Income" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label for="category-type" class="block text-sm font-medium text-gray-700">IRS Category</label>
+                    <div class="relative">
+                        <input type="text" id="category-type-search" placeholder="Search or select..." required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" autocomplete="off">
+                        <input type="hidden" id="category-type"> <!-- This will hold the selected value -->
+                        <div id="category-type-dropdown" class="hidden absolute z-20 w-full bg-white border border-gray-300 rounded-md mt-1 max-h-60 overflow-y-auto shadow-lg">
+                            <!-- Searchable options will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-2 space-y-2">
+                    <div id="kept-by-pm-container" class="hidden items-center">
+                        <input id="category-kept-by-pm" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                        <label for="category-kept-by-pm" class="ml-2 block text-sm font-medium text-gray-700">Income Kept By PM</label>
+                    </div>
+                    <div id="markup-expense-container" class="hidden items-center">
+                        <input id="category-markup-expense" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                        <label for="category-markup-expense" class="ml-2 block text-sm font-medium text-gray-700">Markup Expense</label>
+                    </div>
+                </div>
+                <div class="flex justify-end space-x-4 pt-4">
+                    <button type="button" id="modal-cancel-btn" class="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-300">Cancel</button>
+                    <button type="submit" id="modal-save-btn" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700">Save Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="customize_template.js" defer></script>
+</body>
+</html>

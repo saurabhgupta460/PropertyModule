@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kept By PM Rules</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <!-- Kept By PM Rules Page -->
+    <div id="existingKeptByPMRulesPage" class="max-w-7xl mx-auto">
+        <header class="flex items-center justify-between mb-6">
+            <div class="flex items-center space-x-4">
+                <a href="globalsettingvendor.html" class="text-gray-600 hover:text-gray-800 transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Global Settings
+                </a>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-800">Kept By PM Rules</h1>
+            <div class="flex items-center space-x-4">
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="keptByPmToggle" class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    <span class="ml-3 text-sm font-medium text-gray-900">Enable Feature</span>
+                </label>
+                <button id="createNewKeptByPMRuleBtn" class="bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 hidden">
+                    <i class="fas fa-plus mr-2"></i> Create New Rule
+                </button>
+            </div>
+        </header>
+
+        <div id="keptByPmListContainer" class="bg-white rounded-xl shadow-lg overflow-hidden hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rule Name</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Charge</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Properties</th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="keptbypm-rules-list-body" class="bg-white divide-y divide-gray-200"></tbody>
+                </table>
+            </div>
+            <div id="no-keptbypm-rules-message" class="hidden text-center py-12 px-6">
+                <i class="fas fa-folder-open text-4xl text-gray-400 mb-4"></i>
+                <h3 class="text-lg font-medium text-gray-700">No Kept By PM Rules Found</h3>
+                <p class="text-sm text-gray-500 mt-1">Click the "Create New Rule" button to get started.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kept By PM Rule Modal -->
+    <div id="keptByPMRuleModal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-60 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
+        <div class="relative w-full max-w-4xl bg-white rounded-xl shadow-2xl transform transition-all">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-900">New Kept By PM Rule</h3>
+                        <p class="text-sm text-gray-500 mt-1">Follow the steps to create a new rule.</p>
+                    </div>
+                    <button id="closeKeptByPMModalBtn" aria-label="Close modal" class="p-2 -mt-2 -mr-2 rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <i class="fas fa-times text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step Indicator -->
+            <div class="p-6 bg-gray-50 flex justify-center">
+                <div class="flex items-center">
+                    <!-- Step 1 -->
+                    <div id="keptbypm-step-1-indicator" class="step-indicator flex items-center text-indigo-600" aria-current="step">
+                        <span class="flex items-center justify-center w-10 h-10 bg-indigo-600 rounded-full shrink-0">
+                            <span class="text-white font-bold">1</span>
+                        </span>
+                        <div class="ml-4">
+                            <h4 class="text-lg font-semibold">Details</h4>
+                            <p class="text-sm text-gray-500">Rule name & charges.</p>
+                        </div>
+                    </div>
+                    <div class="flex-auto border-t-2 transition duration-500 ease-in-out border-gray-300 mx-4"></div>
+                    <!-- Step 2 -->
+                    <div id="keptbypm-step-2-indicator" class="step-indicator flex items-center text-gray-500" aria-current="false">
+                        <span class="flex items-center justify-center w-10 h-10 border-2 border-gray-300 rounded-full shrink-0">
+                            <span class="font-bold">2</span>
+                        </span>
+                        <div class="ml-4">
+                            <h4 class="text-lg font-semibold">Properties</h4>
+                            <p class="text-sm text-gray-500">Apply to properties.</p>
+                        </div>
+                    </div>
+                    <div class="flex-auto border-t-2 transition duration-500 ease-in-out border-gray-300 mx-4"></div>
+                    <!-- Step 3 -->
+                    <div id="keptbypm-step-3-indicator" class="step-indicator flex items-center text-gray-500" aria-current="false">
+                        <span class="flex items-center justify-center w-10 h-10 border-2 border-gray-300 rounded-full shrink-0">
+                            <span class="font-bold">3</span>
+                        </span>
+                        <div class="ml-4">
+                            <h4 class="text-lg font-semibold">Review</h4>
+                            <p class="text-sm text-gray-500">Confirm and save.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <!-- Step 1: Details -->
+                <div id="keptbypm-step-1" class="space-y-6">
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 space-y-4 h-[22.5rem]">
+                        <div>
+                            <label for="keptByPMRuleName" class="block text-sm font-medium text-gray-700">Rule Name</label>
+                            <input type="text" id="keptByPMRuleName" placeholder="e.g., 5% Management Fee" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <p id="keptByPMRuleName-error" class="hidden mt-1 text-xs text-red-600">Rule name is required.</p>
+                        </div>
+                        <div>
+                            <label for="keptByPMChargeSelectInput" class="block text-sm font-medium text-gray-700">Select Charge(s)</label>
+                            <div class="relative mt-1">
+                                <div id="keptbypm-charge-tags-container" class="flex flex-wrap gap-2 items-center w-full p-2 border border-gray-300 rounded-md bg-white shadow-sm min-h-[42px]">
+                                    <!-- Selected charge tags will go here -->
+                                    <input type="text" id="keptByPMChargeSelectInput" placeholder="Type to search for a charge..." class="flex-grow border-none focus:ring-0 p-0 sm:text-sm">
+                                </div>
+                                <div id="keptbypm-charge-suggestions-dropdown" class="hidden absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-48 overflow-y-auto">
+                                    <!-- Charge suggestions will be populated here by JavaScript -->
+                                </div>
+                            </div>
+                            <p id="keptbypm-charge-error" class="hidden mt-1 text-xs text-red-600">At least one charge must be selected.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Properties -->
+                <div id="keptbypm-step-2" class="hidden space-y-4">
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h4 class="text-lg font-semibold text-gray-800">Apply to Properties</h4>
+                        <p class="text-sm text-gray-600 mb-4">Select the properties this rule should apply to. If none are selected, the rule will apply to all properties.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 pb-4 border-b">
+                            <div>
+                                <label for="keptbypm-property-type-filter" class="block text-xs font-medium text-gray-500">Property Type</label>
+                                <select id="keptbypm-property-type-filter" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:text-sm">
+                                    <option value="all">All Types</option>
+                                    <option value="Residential">Residential</option>
+                                    <option value="Commercial">Commercial</option>
+                                    <option value="Multi-unit">Multi Unit</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="keptbypm-property-status-filter" class="block text-xs font-medium text-gray-500">Status</label>
+                                <select id="keptbypm-property-status-filter" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:text-sm">
+                                    <option value="all">All Statuses</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Archive">Archive</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="keptbypm-property-owner-filter" class="block text-xs font-medium text-gray-500">Owner</label>
+                                <select id="keptbypm-property-owner-filter" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:text-sm">
+                                    <option value="all">All Owners</option>
+                                    <!-- Owners will be populated by JS -->
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="keptByPMPropertySearchInput" class="block text-sm font-medium text-gray-700 sr-only">Search & Select Properties</label>
+                             <div class="relative">
+                                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                    <i class="fas fa-search text-gray-400"></i>
+                                </div>
+                                <input type="text" id="keptByPMPropertySearchInput" placeholder="Search properties..." class="block w-full pl-10 pr-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            </div>
+                            <div id="keptbypm-property-checkbox-list" class="mt-3 h-72 overflow-y-auto border border-gray-200 rounded-md p-2 space-y-1 bg-white">
+                                <!-- Property checkboxes will be populated here by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Review -->
+                <div id="keptbypm-step-3" class="hidden space-y-4">
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 h-[26rem]">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-4">Review Kept By PM Rule</h4>
+                        <div id="keptbypm-review-container" class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="font-medium text-gray-600">Rule Name:</span>
+                                <span id="keptbypm-review-ruleName" class="text-gray-800 font-semibold"></span>
+                            </div>
+                            <div class="flex justify-between items-start">
+                                <span class="font-medium text-gray-600">Charge Categories:</span>
+                                <div id="keptbypm-review-charges" class="text-right text-gray-800 font-semibold max-h-20 overflow-y-auto"></div>
+                            </div>
+                            <div class="flex justify-between items-start">
+                                <span class="font-medium text-gray-600">Applied Properties:</span>
+                                <div id="keptbypm-review-properties" class="text-right text-gray-800 font-semibold max-h-20 overflow-y-auto"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer with Navigation -->
+            <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end items-center space-x-3">
+                <button id="keptByPMPrevStepBtn" class="hidden px-4 py-2 bg-white text-gray-700 text-base font-medium rounded-md shadow-sm border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    Back
+                </button>
+                <button id="keptByPMNextStepBtn" class="px-4 py-2 bg-indigo-600 text-white text-base font-medium rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Next <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+                <button id="keptByPMSaveRuleBtn" class="hidden px-4 py-2 bg-green-600 text-white text-base font-medium rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    Save Rule <i class="fas fa-check ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="keptbypm.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const keptByPmToggle = document.getElementById('keptByPmToggle');
+            const createBtn = document.getElementById('createNewKeptByPMRuleBtn');
+            const listContainer = document.getElementById('keptByPmListContainer');
+
+            if (keptByPmToggle) {
+                keptByPmToggle.addEventListener('change', () => {
+                    const isChecked = keptByPmToggle.checked;
+                    if (createBtn) createBtn.classList.toggle('hidden', !isChecked);
+                    if (listContainer) listContainer.classList.toggle('hidden', !isChecked);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

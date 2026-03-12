@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Tax Rules</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <!-- Sales Tax Rules Page -->
+    <div id="existingSalesTaxRulesPage" class="max-w-7xl mx-auto">
+        <header class="flex items-center justify-between mb-6">
+            <div class="flex items-center space-x-4">
+                <a href="globalsettingvendor.html" class="text-gray-600 hover:text-gray-800 transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Global Settings
+                </a>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-800">Sales Tax Rules</h1>
+            <div class="flex items-center space-x-4">
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="salesTaxToggle" class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    <span class="ml-3 text-sm font-medium text-gray-900">Enable Feature</span>
+                </label>
+                <button id="createNewSalesTaxRuleBtn" class="bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 hidden">
+                    <i class="fas fa-plus mr-2"></i> Create New Rule
+                </button>
+            </div>
+        </header>
+
+        <div id="salesTaxRulesListContainer" class="bg-white rounded-xl shadow-lg overflow-hidden hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Agency Name</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jurisdiction</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tax Rate</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Properties</th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sales-tax-rules-list-body" class="bg-white divide-y divide-gray-200"></tbody>
+                </table>
+            </div>
+            <div id="no-sales-tax-rules-message" class="hidden text-center py-12 px-6">
+                <i class="fas fa-receipt text-4xl text-gray-400 mb-4"></i>
+                <h3 class="text-lg font-medium text-gray-700">No Sales Tax Rules Found</h3>
+                <p class="text-sm text-gray-500 mt-1">Click the "Create New Rule" button to get started.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sales Tax Rule Modal -->
+    <div id="salesTaxRuleModal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-60 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
+        <div class="relative w-full max-w-4xl bg-white rounded-xl shadow-2xl transform transition-all">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-900">New Sales Tax Rule</h3>
+                        <p class="text-sm text-gray-500 mt-1">Follow the steps to create a new sales tax rule.</p>
+                    </div>
+                    <button id="closeSalesTaxModalBtn" aria-label="Close modal" class="p-2 -mt-2 -mr-2 rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <i class="fas fa-times text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step Indicator -->
+            <div class="p-6 bg-gray-50 flex justify-center">
+                <div class="flex items-center">
+                    <!-- Step 1 -->
+                    <div id="salestax-step-1-indicator" class="step-indicator flex items-center text-indigo-600" aria-current="step">
+                        <span class="flex items-center justify-center w-10 h-10 bg-indigo-600 rounded-full shrink-0">
+                            <span class="text-white font-bold">1</span>
+                        </span>
+                        <div class="ml-4">
+                            <h4 class="text-lg font-semibold">Details</h4>
+                            <p class="text-sm text-gray-500">Agency, rate, and application.</p>
+                        </div>
+                    </div>
+                    <div class="flex-auto border-t-2 transition duration-500 ease-in-out border-gray-300 mx-4"></div>
+                    <!-- Step 2 -->
+                    <div id="salestax-step-2-indicator" class="step-indicator flex items-center text-gray-500" aria-current="false">
+                        <span class="flex items-center justify-center w-10 h-10 border-2 border-gray-300 rounded-full shrink-0">
+                            <span class="font-bold">2</span>
+                        </span>
+                        <div class="ml-4">
+                            <h4 class="text-lg font-semibold">Properties</h4>
+                            <p class="text-sm text-gray-500">Apply to properties.</p>
+                        </div>
+                    </div>
+                    <div class="flex-auto border-t-2 transition duration-500 ease-in-out border-gray-300 mx-4"></div>
+                    <!-- Step 3 -->
+                    <div id="salestax-step-3-indicator" class="step-indicator flex items-center text-gray-500" aria-current="false">
+                        <span class="flex items-center justify-center w-10 h-10 border-2 border-gray-300 rounded-full shrink-0">
+                            <span class="font-bold">3</span>
+                        </span>
+                        <div class="ml-4">
+                            <h4 class="text-lg font-semibold">Review</h4>
+                            <p class="text-sm text-gray-500">Confirm and save.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <!-- Step 1: Details -->
+                <div id="salestax-step-1" class="space-y-6">
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 space-y-4 h-[26rem] overflow-y-auto">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="salesTaxAgencyName" class="block text-sm font-medium text-gray-700">Agency Name</label>
+                                <input type="text" id="salesTaxAgencyName" placeholder="e.g., State Revenue Service" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="salesTaxJurisdiction" class="block text-sm font-medium text-gray-700">Jurisdiction</label>
+                                <input type="text" id="salesTaxJurisdiction" placeholder="e.g., Anytown" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="salesTaxRate" class="block text-sm font-medium text-gray-700">Tax Rate (%)</label>
+                            <div class="relative mt-1 rounded-md shadow-sm">
+                                <input type="number" id="salesTaxRate" placeholder="7.5" class="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                    <span class="text-gray-500 sm:text-sm">%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="salesTaxIncomeSelectInput" class="block text-sm font-medium text-gray-700">Apply Tax to Income</label>
+                            <div class="relative mt-1">
+                                <div id="salestax-income-tags-container" class="flex flex-wrap gap-2 items-center w-full p-2 border border-gray-300 rounded-md bg-white shadow-sm min-h-[42px]">
+                                    <input type="text" id="salesTaxIncomeSelectInput" placeholder="Search for income categories..." class="flex-grow border-none focus:ring-0 p-0 sm:text-sm">
+                                </div>
+                                <div id="salestax-income-suggestions-dropdown" class="hidden absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-48 overflow-y-auto"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="salesTaxExpenseSelectInput" class="block text-sm font-medium text-gray-700">Apply Tax to Expense</label>
+                            <div class="relative mt-1">
+                                <div id="salestax-expense-tags-container" class="flex flex-wrap gap-2 items-center w-full p-2 border border-gray-300 rounded-md bg-white shadow-sm min-h-[42px]">
+                                    <input type="text" id="salesTaxExpenseSelectInput" placeholder="Search for expense categories..." class="flex-grow border-none focus:ring-0 p-0 sm:text-sm">
+                                </div>
+                                <div id="salestax-expense-suggestions-dropdown" class="hidden absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-48 overflow-y-auto"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Properties -->
+                <div id="salestax-step-2" class="hidden space-y-4">
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h4 class="text-lg font-semibold text-gray-800">Apply to Properties</h4>
+                        <p class="text-sm text-gray-600 mb-4">Select the properties this rule should apply to. If none are selected, the rule will apply to all properties.</p>
+                        <div id="salestax-property-selection-container">
+                            <!-- Property filters and search will be cloned here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Review -->
+                <div id="salestax-step-3" class="hidden space-y-4">
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 h-[26rem]">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-4">Review Sales Tax Rule</h4>
+                        <div id="salestax-review-container" class="space-y-3 text-sm">
+                            <div class="flex justify-between"><span class="font-medium text-gray-600">Agency Name:</span><span id="salestax-review-agencyName" class="text-gray-800 font-semibold"></span></div>
+                            <div class="flex justify-between"><span class="font-medium text-gray-600">Jurisdiction:</span><span id="salestax-review-jurisdiction" class="text-gray-800 font-semibold"></span></div>
+                            <div class="flex justify-between"><span class="font-medium text-gray-600">Tax Rate:</span><span id="salestax-review-taxRate" class="text-gray-800 font-semibold"></span></div>
+                            <div class="flex justify-between items-start"><span class="font-medium text-gray-600">Taxed Income:</span><div id="salestax-review-income" class="text-right text-gray-800 font-semibold max-h-20 overflow-y-auto"></div></div>
+                            <div class="flex justify-between items-start"><span class="font-medium text-gray-600">Taxed Expenses:</span><div id="salestax-review-expenses" class="text-right text-gray-800 font-semibold max-h-20 overflow-y-auto"></div></div>
+                            <div class="flex justify-between items-start"><span class="font-medium text-gray-600">Applied Properties:</span><div id="salestax-review-properties" class="text-right text-gray-800 font-semibold max-h-20 overflow-y-auto"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer with Navigation -->
+            <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end items-center space-x-3">
+                <button id="salesTaxPrevStepBtn" class="hidden px-4 py-2 bg-white text-gray-700 text-base font-medium rounded-md shadow-sm border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    Back
+                </button>
+                <button id="salesTaxNextStepBtn" class="px-4 py-2 bg-indigo-600 text-white text-base font-medium rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Next <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+                <button id="salesTaxSaveRuleBtn" class="hidden px-4 py-2 bg-green-600 text-white text-base font-medium rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    Save Rule <i class="fas fa-check ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="sales_tax.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggle = document.getElementById('salesTaxToggle');
+            const createBtn = document.getElementById('createNewSalesTaxRuleBtn');
+            const listContainer = document.getElementById('salesTaxRulesListContainer');
+            const storageKey = 'feature_sales_tax_enabled';
+
+            if (toggle) {
+                const isEnabled = localStorage.getItem(storageKey) === 'true';
+                toggle.checked = isEnabled;
+                if (createBtn) createBtn.classList.toggle('hidden', !isEnabled);
+                if (listContainer) listContainer.classList.toggle('hidden', !isEnabled);
+
+                toggle.addEventListener('change', () => {
+                    const isChecked = toggle.checked;
+                    localStorage.setItem(storageKey, isChecked);
+                    if (createBtn) createBtn.classList.toggle('hidden', !isChecked);
+                    if (listContainer) listContainer.classList.toggle('hidden', !isChecked);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

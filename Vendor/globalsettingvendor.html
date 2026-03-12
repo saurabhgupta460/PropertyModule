@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Global Settings</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <!-- Main Global Settings View -->
+    <div id="globalSettingsView" class="max-w-7xl mx-auto">
+        <header class="flex items-center justify-start mb-6">
+            <div class="flex items-center space-x-4">
+                <a href="vendor.html" class="text-gray-600 hover:text-gray-800 transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Vendor Listing
+                </a>
+            </div>
+        </header>
+
+        <!-- Revenue Management Section -->
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Revenue Management</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Expense Markup Card -->
+            <a href="expense_markup.html" id="expenseMarkupCard" class="block bg-white rounded-xl shadow-lg p-6 cursor-pointer hover:shadow-xl transition-shadow">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-bold text-gray-800">Expense Markups</h2>
+                    <i class="fas fa-arrow-right text-indigo-600 text-2xl"></i>
+                </div>
+                <p class="text-gray-600 mt-2">Create rules to automatically mark up vendor expenses.</p>
+            </a>
+            <!-- Utility Bill (RUBS) Card -->
+            <a href="utility_billing.html" id="utilityBillCard" class="block bg-white rounded-xl shadow-lg p-6 cursor-pointer hover:shadow-xl transition-shadow">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-bold text-gray-800">Utility Bill (RUBS)</h2>
+                    <i class="fas fa-arrow-right text-indigo-600 text-2xl"></i>
+                </div>
+                <p class="text-gray-600 mt-2">Set up and manage Ratio Utility Billing System for tenants.</p>
+            </a>
+            <!-- CAM Card -->
+            <a href="cam.html" id="camCard" class="block bg-white rounded-xl shadow-lg p-6 cursor-pointer hover:shadow-xl transition-shadow">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-bold text-gray-800">CAM Charges</h2>
+                    <i class="fas fa-arrow-right text-indigo-600 text-2xl"></i>
+                </div>
+                <p class="text-gray-600 mt-2">Create and manage Common Area Maintenance charge rules.</p>
+            </a>
+            <!-- Discount Card -->
+            <a href="discounts.html" id="discountCard" class="block bg-white rounded-xl shadow-lg p-6 cursor-pointer hover:shadow-xl transition-shadow">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-bold text-gray-800">Discounts</h2>
+                    <i class="fas fa-arrow-right text-indigo-600 text-2xl"></i>
+                </div>
+                <p class="text-gray-600 mt-2">Create rules to apply discounts to vendor expenses.</p>
+            </a>
+            <!-- Sales Tax Card -->
+            <a href="sales_tax.html" id="salesTaxCard" class="block bg-white rounded-xl shadow-lg p-6 cursor-pointer hover:shadow-xl transition-shadow">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-bold text-gray-800">Sales Tax</h2>
+                    <i class="fas fa-arrow-right text-indigo-600 text-2xl"></i>
+                </div>
+                <p class="text-gray-600 mt-2">Set up rules for applying sales tax to income and expenses.</p>
+            </a>
+            <!-- Kept By PM Card -->
+            <a href="keptbypm.html" id="keptByPMCard" class="block bg-white rounded-xl shadow-lg p-6 cursor-pointer hover:shadow-xl transition-shadow">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-bold text-gray-800">Kept By PM</h2>
+                    <i class="fas fa-arrow-right text-indigo-600 text-2xl"></i>
+                </div>
+                <p class="text-gray-600 mt-2">Create rules for amounts kept by the Property Manager.</p>
+            </a>
+        </div>
+    </div>
+
+    <!-- No script tag needed here as this page is just for navigation -->
+</body>
+</html>

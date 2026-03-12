@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utility Billing (RUBS)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <!-- RUBS Rules Page -->
+    <div id="rubsRulesPage" class="max-w-7xl mx-auto">
+        <header class="flex items-center justify-between mb-6">
+            <div class="flex items-center space-x-4">
+                <a href="globalsettingvendor.html" id="backToGlobalSettingsBtn" class="text-gray-600 hover:text-gray-800 transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Global Settings
+                </a>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-800">Utility Bill (RUBS) Rules</h1>
+            <button id="createNewRubsRuleBtn" class="bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                <i class="fas fa-plus mr-2"></i> Create New RUBS Rule
+            </button>
+        </header>
+
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rule Name</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Utility Type</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Calculation Method</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vendor</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Properties</th>
+                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rubs-rules-list-body" class="bg-white divide-y divide-gray-200">
+                        <!-- RUBS rules will be dynamically inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="no-rubs-rules-message" class="hidden text-center py-12 px-6">
+                <i class="fas fa-file-invoice-dollar text-4xl text-gray-400 mb-4"></i>
+                <h3 class="text-lg font-medium text-gray-700">No RUBS Rules Found</h3>
+                <p class="text-sm text-gray-500 mt-1">Click the "Create New RUBS Rule" button to get started.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- RUBS Rule Modal -->
+    <div id="rubsRuleModal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-60 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
+        <div class="relative w-full max-w-3xl bg-white rounded-xl shadow-2xl transform transition-all">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-900">New RUBS Rule</h3>
+                        <p class="text-sm text-gray-500 mt-1">Follow the steps to create a new RUBS rule.</p>
+                    </div>
+                    <button id="closeRubsModalBtn" aria-label="Close modal" class="p-2 -mt-2 -mr-2 rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <i class="fas fa-times text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step Indicator -->
+            <div class="p-6 bg-gray-50">
+                <div class="flex items-center">
+                    <!-- Step 1 -->
+                    <div id="step-1-indicator" class="step-indicator flex items-center text-indigo-600" aria-current="step">
+                        <span class="flex items-center justify-center w-10 h-10 bg-indigo-600 rounded-full shrink-0">
+                            <span class="text-white font-bold">1</span>
+                        </span>
+                        <div class="ml-4">
+                            <h4 class="text-lg font-semibold">Details</h4>
+                            <p class="text-sm text-gray-500">Rule name and calculation.</p>
+                        </div>
+                    </div>
+                    <div class="flex-auto border-t-2 transition duration-500 ease-in-out border-gray-300 mx-4"></div>
+                    <!-- Step 2 -->
+                    <div id="step-2-indicator" class="step-indicator flex items-center text-gray-500" aria-current="false">
+                        <span class="flex items-center justify-center w-10 h-10 border-2 border-gray-300 rounded-full shrink-0">
+                            <span class="font-bold">2</span>
+                        </span>
+                        <div class="ml-4">
+                            <h4 class="text-lg font-semibold">Properties</h4>
+                            <p class="text-sm text-gray-500">Apply to properties.</p>
+                        </div>
+                    </div>
+                    <div class="flex-auto border-t-2 transition duration-500 ease-in-out border-gray-300 mx-4"></div>
+                    <!-- Step 3 -->
+                    <div id="step-3-indicator" class="step-indicator flex items-center text-gray-500" aria-current="false">
+                        <span class="flex items-center justify-center w-10 h-10 border-2 border-gray-300 rounded-full shrink-0">
+                            <span class="font-bold">3</span>
+                        </span>
+                        <div class="ml-4">
+                            <h4 class="text-lg font-semibold">Review</h4>
+                            <p class="text-sm text-gray-500">Confirm and save.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <!-- Step 1: Details -->
+                <div id="step-1" class="space-y-6">
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 space-y-4">
+                        <div>
+                            <label for="ruleName" class="block text-sm font-medium text-gray-700">Rule Name</label>
+                            <input type="text" id="ruleName" placeholder="e.g., Water Billing for 123 Main St" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <p id="ruleName-error" class="hidden mt-1 text-xs text-red-600">Rule name is required.</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="utilityType" class="block text-sm font-medium text-gray-700">Utility Type</label>
+                                <select id="utilityType" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                    <option>Water</option>
+                                    <option>Sewer</option>
+                                    <option>Gas</option>
+                                    <option>Electricity</option>
+                                    <option>Trash</option>
+                                    <option>Common Area Utilities</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="calculationMethod" class="block text-sm font-medium text-gray-700">Calculation Method</label>
+                                <select id="calculationMethod" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                    <option value="units">Number of Units</option>
+                                    <option value="tenants">Number of Tenants</option>
+                                    <option value="sqft">Based on Square Footage</option>
+                                    <option value="beds">Per Bedroom</option>
+                                    <option value="tenants_occupants">Number of Tenants and Occupants</option>
+                                    <option value="bathrooms">Based on Number of Bathrooms</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="paidByTenant" class="block text-sm font-medium text-gray-700">Paid By Tenant (%)</label>
+                            <div class="relative mt-1 rounded-md shadow-sm">
+                                <input type="number" id="paidByTenant" value="100" class="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="100">
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                    <span class="text-gray-500 sm:text-sm">%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="vendorSelect" class="block text-sm font-medium text-gray-700">Vendor Name</label>
+                            <select id="vendorSelect" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                <option value="">Select a vendor</option>
+                                <!-- Vendor options will be populated by JavaScript -->
+                            </select>
+                            <p id="vendor-error" class="hidden mt-1 text-xs text-red-600">Vendor is required.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Properties -->
+                <div id="step-2" class="hidden space-y-4">
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 h-[26rem]">
+                        <h4 class="text-lg font-semibold text-gray-800">Apply to Properties</h4>
+                        <p class="text-sm text-gray-600 mb-4">Select the properties this RUBS rule should apply to.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 pb-4 border-b">
+                            <div>
+                                <label for="property-type-filter" class="block text-xs font-medium text-gray-500">Property Type</label>
+                                <select id="property-type-filter" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:text-sm">
+                                    <option value="all">All Types</option>
+                                    <option value="Residential">Residential</option>
+                                    <option value="Commercial">Commercial</option>
+                                    <option value="Multi-unit">Multi Unit</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="property-status-filter" class="block text-xs font-medium text-gray-500">Status</label>
+                                <select id="property-status-filter" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:text-sm">
+                                    <option value="all">All Statuses</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Archive">Archive</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="property-owner-filter" class="block text-xs font-medium text-gray-500">Owner</label>
+                                <select id="property-owner-filter" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:text-sm">
+                                    <option value="all">All Owners</option>
+                                    <!-- Owners will be populated by JS -->
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="propertySearchInput" class="block text-sm font-medium text-gray-700 sr-only">Search & Select Properties</label>
+                             <div class="relative">
+                                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                    <i class="fas fa-search text-gray-400"></i>
+                                </div>
+                                <input type="text" id="propertySearchInput" placeholder="Search properties..." class="block w-full pl-10 pr-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            </div>
+                            <div id="property-checkbox-list" class="mt-3 h-72 overflow-y-auto border border-gray-200 rounded-md p-2 space-y-1 bg-white">
+                                <!-- Property checkboxes will be populated here by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Review -->
+                <div id="step-3" class="hidden space-y-4">
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 h-[26rem]">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-4">Review RUBS Rule</h4>
+                        <div id="review-container" class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="font-medium text-gray-600">Rule Name:</span>
+                                <span id="review-ruleName" class="text-gray-800 font-semibold"></span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-medium text-gray-600">Utility Type:</span>
+                                <span id="review-utilityType" class="text-gray-800 font-semibold"></span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-medium text-gray-600">Calculation Method:</span>
+                                <span id="review-calculationMethod" class="text-gray-800 font-semibold"></span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-medium text-gray-600">Paid By Tenant:</span>
+                                <span id="review-paidByTenant" class="text-gray-800 font-semibold"></span>
+                            </div>
+                            <div class="flex justify-between items-start">
+                                <span class="font-medium text-gray-600">Vendor:</span>
+                                <span id="review-vendor" class="text-gray-800 font-semibold"></span>
+                            </div>
+                            <div class="flex justify-between items-start">
+                                <span class="font-medium text-gray-600">Applied Properties:</span>
+                                <div id="review-properties" class="text-right text-gray-800 font-semibold max-h-40 overflow-y-auto"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer with Navigation -->
+            <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end items-center space-x-3">
+                <button id="prevStepBtn" class="hidden px-4 py-2 bg-white text-gray-700 text-base font-medium rounded-md shadow-sm border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    Back
+                </button>
+                <button id="nextStepBtn" class="px-4 py-2 bg-indigo-600 text-white text-base font-medium rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Next <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+                <button id="saveRuleBtn" class="hidden px-4 py-2 bg-green-600 text-white text-base font-medium rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    Save Rule <i class="fas fa-check ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calculation Modal -->
+    <div id="calculationModal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-60 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
+        <div class="relative w-full max-w-4xl bg-white rounded-xl shadow-2xl transform transition-all">
+            <div class="p-6 border-b border-gray-200 flex justify-between items-start">
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-900">Run RUBS Calculation</h3>
+                    <p id="calculation-rule-name" class="text-sm text-gray-500 mt-1">For rule: </p>
+                </div>
+                <button id="closeCalculationModalBtn" aria-label="Close modal" class="p-2 -mt-2 -mr-2 rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+            <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Input Section -->
+                <div class="md:col-span-1 bg-gray-50 p-4 rounded-lg border">
+                    <h4 class="font-semibold text-lg mb-4">Bill Details</h4>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="totalBillAmount" class="block text-sm font-medium text-gray-700">Total Utility Bill ($)</label>
+                            <input type="number" id="totalBillAmount" placeholder="e.g., 1500.00" min="0.01" step="0.01" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        </div>
+                        <button id="runCalculationBtn" class="w-full bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                            <i class="fas fa-calculator mr-2"></i> Run Calculation
+                        </button>
+                    </div>
+                </div>
+                <!-- Results Section -->
+                <div class="md:col-span-2">
+                    <h4 class="font-semibold text-lg mb-4">Calculation Results</h4>
+                    <div id="calculation-results-container" class="border rounded-lg overflow-hidden h-96">
+                        <div id="calculation-results-placeholder" class="flex items-center justify-center h-full text-gray-500">
+                            <p>Enter a bill amount and run the calculation.</p>
+                        </div>
+                        <div id="calculation-results-table" class="hidden h-full overflow-y-auto">
+                            <!-- Table will be generated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="utility_billing.js" defer></script>
+</body>
+</html>
