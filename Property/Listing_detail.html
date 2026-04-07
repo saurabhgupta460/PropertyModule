@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listing Detail — Apt 101</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #E8ECF1; min-height: 100vh; display: flex; flex-direction: column; }
+
+        /* ── Top Bar ── */
+        .top-bar {
+            background: linear-gradient(135deg, #1B4B6E 0%, #1A3D5C 100%);
+            height: 44px; display: flex; align-items: center; justify-content: center;
+            padding: 0 24px; gap: 16px; z-index: 20;
+        }
+        .top-bar .search-box {
+            background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; padding: 6px 16px;
+            gap: 8px; flex: 0 1 480px;
+        }
+        .top-bar .search-box i { color: rgba(255,255,255,0.6); font-size: 13px; }
+        .top-bar .search-box input {
+            background: transparent; border: none; outline: none;
+            color: rgba(255,255,255,0.7); font-size: 12.5px; width: 100%; font-family: inherit;
+        }
+        .top-bar .search-box input::placeholder { color: rgba(255,255,255,0.5); }
+        .top-bar-right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+        .top-bar-right .avatar {
+            width: 30px; height: 30px; border-radius: 50%; background: #4A90D9;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 12px; font-weight: 600;
+        }
+        .top-bar-right .avatar.orange { background: #E8843A; }
+        .top-bar-right .notif {
+            width: 30px; height: 30px; border-radius: 50%; background: #F0A830;
+            display: flex; align-items: center; justify-content: center; color: #fff; font-size: 13px;
+            position: relative;
+        }
+        .top-bar-right .notif .badge {
+            position: absolute; top: -2px; right: -2px; width: 14px; height: 14px;
+            background: #E53E3E; border-radius: 50%; font-size: 8px; display: flex;
+            align-items: center; justify-content: center; color: #fff; font-weight: 700;
+        }
+
+        /* ── Layout Shell ── */
+        .app-shell { display: flex; flex: 1; min-height: 0; }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            width: 52px;
+            background: linear-gradient(180deg, #1B4B6E 0%, #163A57 100%);
+            display: flex; flex-direction: column; align-items: center;
+            padding: 14px 0 20px; gap: 6px; flex-shrink: 0; overflow-y: auto;
+        }
+        .sidebar .icon-btn {
+            width: 32px; height: 32px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.55); font-size: 14px;
+            cursor: pointer; transition: all 0.15s; background: transparent; border: none;
+            text-decoration: none;
+        }
+        .sidebar .icon-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .sidebar .icon-btn.active { background: rgba(255,255,255,0.15); color: #fff; }
+        .sidebar .chevron-btn {
+            width: 28px; height: 28px; border-radius: 50%;
+            background: #3BAA6E; color: #fff; font-size: 12px;
+            display: flex; align-items: center; justify-content: center;
+            border: none; cursor: pointer; margin-bottom: 4px;
+        }
+        .sidebar .plus-btn {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: #E8843A; color: #fff; font-size: 18px; font-weight: 300;
+            display: flex; align-items: center; justify-content: center;
+            border: none; cursor: pointer; margin-bottom: 8px;
+        }
+        .sidebar .dollar-icon { margin-top: auto; font-size: 28px; color: rgba(255,255,255,0.15); }
+
+        /* ── Main Content ── */
+        .main-content { flex: 1; overflow-y: auto; padding: 24px 32px; }
+
+        /* ── Page Header ── */
+        .page-header { margin-bottom: 20px; }
+        .back-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .back-row a {
+            width: 34px; height: 34px; border-radius: 10px; background: #fff;
+            border: 1px solid #E2E6EB; display: flex; align-items: center; justify-content: center;
+            color: #3B8DBD; font-size: 14px; text-decoration: none; transition: all 0.15s;
+        }
+        .back-row a:hover { background: #EBF4FA; border-color: #3B8DBD; }
+        .header-top {
+            display: flex; align-items: flex-start; justify-content: space-between; gap: 20px;
+        }
+        .header-info h1 { font-size: 20px; font-weight: 700; color: #1A2B3D; }
+        .header-info p { font-size: 12.5px; color: #718096; margin-top: 3px; }
+        .header-meta {
+            display: flex; gap: 16px; margin-top: 8px; font-size: 12px; color: #5A6B7D;
+        }
+        .header-meta .meta-item {
+            display: flex; align-items: center; gap: 5px;
+        }
+        .header-meta .meta-item i { color: #3B8DBD; font-size: 11px; }
+        .header-actions { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
+        .btn-action {
+            padding: 8px 18px; border-radius: 8px; font-size: 12.5px; font-weight: 600;
+            border: none; cursor: pointer; display: flex; align-items: center; gap: 6px;
+            transition: all 0.15s; font-family: inherit;
+        }
+        .btn-action--primary { background: #3BAA6E; color: #fff; }
+        .btn-action--primary:hover { background: #2E9A5F; }
+        .btn-action--secondary { background: #3B8DBD; color: #fff; }
+        .btn-action--secondary:hover { background: #2E7AA5; }
+        .btn-action--outline { background: #fff; color: #3B8DBD; border: 1px solid #3B8DBD; }
+        .btn-action--outline:hover { background: #EBF4FA; }
+        .btn-action--danger { background: #fff; color: #E53E3E; border: 1px solid #E53E3E; }
+        .btn-action--danger:hover { background: #FEE8E8; }
+
+        /* Status badge */
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 4px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 600;
+        }
+        .status-badge .dot { width: 7px; height: 7px; border-radius: 50%; }
+        .status--active { background: #E6F8EE; color: #22894A; }
+        .status--active .dot { background: #22894A; }
+
+        /* ── Tab Bar ── */
+        .tab-bar {
+            display: flex; gap: 0; border-bottom: 2px solid #E2E6EB;
+            margin-bottom: 24px; overflow-x: auto;
+        }
+        .tab {
+            padding: 12px 22px; font-size: 13px; font-weight: 600; color: #718096;
+            background: none; border: none; cursor: pointer; position: relative;
+            white-space: nowrap; transition: color 0.15s; font-family: inherit;
+        }
+        .tab:hover { color: #1B5068; }
+        .tab.active { color: #1B5068; }
+        .tab.active::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
+            height: 2px; background: #3B8DBD; border-radius: 2px 2px 0 0;
+        }
+
+        /* ── Tab Panels ── */
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* ── KPI Row ── */
+        .kpi-row {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+            margin-bottom: 22px;
+        }
+        .kpi {
+            background: #fff; border: 1px solid #E2E6EB; border-radius: 12px;
+            padding: 16px 18px; display: flex; align-items: center; gap: 14px;
+        }
+        .kpi .kpi-icon {
+            width: 42px; height: 42px; border-radius: 10px; display: flex;
+            align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
+        }
+        .kpi-icon--blue { background: #EBF4FA; color: #3B8DBD; }
+        .kpi-icon--green { background: #E6F8EE; color: #3BAA6E; }
+        .kpi-icon--orange { background: #FFF4E8; color: #E8843A; }
+        .kpi-icon--red { background: #FEE8E8; color: #E53E3E; }
+        .kpi .kpi-label { font-size: 11.5px; color: #718096; font-weight: 500; }
+        .kpi .kpi-value { font-size: 22px; font-weight: 700; color: #1A2B3D; line-height: 1; }
+
+        /* ── Common Table ── */
+        .ad-table {
+            width: 100%; border-collapse: collapse; font-size: 12.5px;
+        }
+        .ad-table thead th {
+            background: #F0F4F8; text-align: left; padding: 10px 14px;
+            font-weight: 600; color: #5A6B7D; font-size: 11.5px;
+            text-transform: uppercase; letter-spacing: 0.4px;
+        }
+        .ad-table tbody td {
+            padding: 12px 14px; border-bottom: 1px solid #F0F2F5; color: #2D3748;
+            vertical-align: middle;
+        }
+        .ad-table tbody tr:hover { background: #FAFBFC; }
+
+        /* ── Badges ── */
+        .ad-badge {
+            display: inline-flex; padding: 3px 10px; border-radius: 20px;
+            font-size: 11px; font-weight: 600;
+        }
+        .ad-badge--green { background: #E6F8EE; color: #22894A; }
+        .ad-badge--orange { background: #FFF4E8; color: #B86E1F; }
+        .ad-badge--gray { background: #F0F2F5; color: #718096; }
+        .ad-badge--blue { background: #EBF4FA; color: #2E7AA5; }
+
+        /* ── Toggle ── */
+        .ad-toggle {
+            width: 38px; height: 22px; border-radius: 11px; background: #CBD5E0;
+            position: relative; cursor: pointer; transition: background 0.2s; border: none;
+        }
+        .ad-toggle.active { background: #3BAA6E; }
+        .ad-toggle::after {
+            content: ''; position: absolute; width: 18px; height: 18px;
+            border-radius: 50%; background: #fff; top: 2px; left: 2px;
+            transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .ad-toggle.active::after { transform: translateX(16px); }
+
+        /* ── Buttons ── */
+        .ad-btn {
+            padding: 7px 16px; border-radius: 8px; font-size: 12px; font-weight: 600;
+            border: none; cursor: pointer; display: inline-flex; align-items: center;
+            gap: 6px; transition: all 0.15s; font-family: inherit;
+        }
+        .ad-btn--primary { background: #3B8DBD; color: #fff; }
+        .ad-btn--primary:hover { background: #2E7AA5; }
+        .ad-btn--success { background: #3BAA6E; color: #fff; }
+        .ad-btn--success:hover { background: #2E9A5F; }
+        .ad-btn--outline { background: #fff; color: #3B8DBD; border: 1px solid #E2E6EB; }
+        .ad-btn--outline:hover { border-color: #3B8DBD; }
+        .ad-btn--sm { padding: 5px 10px; font-size: 11px; }
+        .ad-btn--danger { background: #fff; color: #E53E3E; border: 1px solid #FECACA; }
+        .ad-btn--danger:hover { background: #FEE8E8; }
+
+        /* ── Wizard Steps ── */
+        .ad-wizard-steps {
+            display: flex; gap: 0; margin-bottom: 24px; background: #F0F4F8;
+            border-radius: 12px; padding: 6px; border: 1px solid #E2E6EB;
+        }
+        .ad-step {
+            flex: 1; display: flex; align-items: center; gap: 8px;
+            padding: 10px 14px; border-radius: 8px; font-size: 12px;
+            color: #718096; font-weight: 500; transition: all 0.15s;
+        }
+        .ad-step .step-num {
+            width: 24px; height: 24px; border-radius: 50%; background: #E2E6EB;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px; font-weight: 700; color: #718096; flex-shrink: 0;
+        }
+        .ad-step.active { background: #fff; color: #1B5068; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+        .ad-step.active .step-num { background: #3B8DBD; color: #fff; }
+        .ad-step.done .step-num { background: #3BAA6E; color: #fff; }
+        .ad-step.done { color: #3BAA6E; }
+
+        /* ── Form Elements ── */
+        .ad-form-group { margin-bottom: 16px; }
+        .ad-label {
+            display: block; font-size: 12px; font-weight: 600; color: #5A6B7D;
+            margin-bottom: 6px;
+        }
+        .ad-input, .ad-textarea, .ad-select {
+            width: 100%; padding: 9px 14px; border: 1px solid #E2E6EB;
+            border-radius: 8px; font-size: 13px; font-family: inherit;
+            color: #2D3748; outline: none; transition: border 0.15s;
+        }
+        .ad-input:focus, .ad-textarea:focus, .ad-select:focus { border-color: #3B8DBD; box-shadow: 0 0 0 3px rgba(59,141,189,0.1); }
+        .ad-textarea { min-height: 100px; resize: vertical; }
+
+        /* ── Photo Grid ── */
+        .ad-photo-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px; margin-bottom: 16px;
+        }
+        .ad-photo-card {
+            border-radius: 10px; overflow: hidden; border: 1px solid #E2E6EB;
+            position: relative; aspect-ratio: 4/3; background: #F0F4F8;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .ad-photo-card img { width: 100%; height: 100%; object-fit: cover; }
+        .ad-photo-card .photo-tag {
+            position: absolute; bottom: 6px; left: 6px; background: rgba(0,0,0,0.6);
+            color: #fff; font-size: 9.5px; padding: 2px 7px; border-radius: 4px;
+        }
+        .ad-photo-card .photo-actions {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.4); display: flex; align-items: center;
+            justify-content: center; gap: 8px; opacity: 0; transition: opacity 0.2s;
+        }
+        .ad-photo-card:hover .photo-actions { opacity: 1; }
+        .ad-photo-card .photo-actions button {
+            width: 30px; height: 30px; border-radius: 50%; border: none;
+            background: #fff; color: #1A2B3D; font-size: 12px; cursor: pointer;
+        }
+        .ad-photo-add {
+            border: 2px dashed #CBD5E0; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 6px; cursor: pointer;
+            color: #A0AEC0; font-size: 12px; transition: all 0.15s;
+        }
+        .ad-photo-add:hover { border-color: #3B8DBD; color: #3B8DBD; background: #F0F8FF; }
+        .ad-photo-add i { font-size: 24px; }
+
+        /* ── Amenity Tags ── */
+        .ad-amenity-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px;
+        }
+        .ad-amenity {
+            display: flex; align-items: center; gap: 8px; padding: 8px 12px;
+            border: 1px solid #E2E6EB; border-radius: 8px; font-size: 12px;
+            color: #5A6B7D; cursor: pointer; transition: all 0.15s;
+        }
+        .ad-amenity:hover { border-color: #3B8DBD; }
+        .ad-amenity.checked { background: #EBF4FA; border-color: #3B8DBD; color: #1B5068; }
+        .ad-amenity input[type="checkbox"] { accent-color: #3B8DBD; }
+
+        /* ── Syndication Cards ── */
+        .ad-synd-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px;
+        }
+        .ad-synd-card {
+            background: #fff; border: 1px solid #E2E6EB; border-radius: 12px;
+            padding: 18px; display: flex; align-items: center; gap: 14px;
+            transition: border 0.15s;
+        }
+        .ad-synd-card:hover { border-color: #3B8DBD; }
+        .ad-synd-logo {
+            width: 42px; height: 42px; border-radius: 10px; background: #F0F4F8;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; flex-shrink: 0;
+        }
+        .ad-synd-body { flex: 1; min-width: 0; }
+        .ad-synd-name { font-weight: 600; font-size: 13px; color: #1A2B3D; }
+        .ad-synd-type { font-size: 11px; color: #718096; }
+        .ad-synd-actions { display: flex; align-items: center; gap: 10px; }
+
+        /* ── Lead Cards ── */
+        .ad-lead-list { display: flex; flex-direction: column; gap: 10px; }
+        .ad-lead-card {
+            background: #fff; border: 1px solid #E2E6EB; border-radius: 12px;
+            padding: 16px; display: flex; gap: 14px; transition: border 0.15s;
+        }
+        .ad-lead-card:hover { border-color: #3B8DBD; }
+        .ad-lead-avatar {
+            width: 40px; height: 40px; border-radius: 50%; background: #EBF4FA;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: 700; color: #3B8DBD; flex-shrink: 0;
+        }
+        .ad-lead-body { flex: 1; min-width: 0; }
+        .ad-lead-name { font-weight: 600; font-size: 13px; color: #1A2B3D; }
+        .ad-lead-unit { font-size: 11.5px; color: #718096; }
+        .ad-lead-msg {
+            font-size: 12px; color: #5A6B7D; margin-top: 6px;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .ad-lead-meta {
+            display: flex; gap: 12px; margin-top: 8px; font-size: 11px; color: #A0AEC0;
+        }
+        .ad-lead-meta span { display: flex; align-items: center; gap: 4px; }
+        .ad-lead-actions { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; flex-shrink: 0; }
+
+        /* ── Calendar ── */
+        .ad-calendar-grid {
+            display: grid; grid-template-columns: repeat(7, 1fr);
+            border: 1px solid #E2E6EB; border-radius: 12px; overflow: hidden;
+        }
+        .ad-cal-header {
+            background: #F0F4F8; padding: 8px; text-align: center;
+            font-size: 11px; font-weight: 600; color: #5A6B7D;
+            text-transform: uppercase;
+        }
+        .ad-cal-day {
+            min-height: 80px; padding: 6px; border: 1px solid #F0F2F5;
+            font-size: 11.5px;
+        }
+        .ad-cal-day.empty { background: #FAFBFC; }
+        .ad-cal-day.today { background: #F0F8FF; }
+        .ad-cal-day .day-num { font-weight: 600; margin-bottom: 4px; }
+        .ad-cal-event {
+            font-size: 9.5px; padding: 2px 5px; border-radius: 4px;
+            margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .ad-cal-event.showing { background: #E0EFFF; color: #1B5068; }
+        .ad-cal-event.tour { background: #E6F8EE; color: #22894A; }
+
+        /* ── Chart Placeholder ── */
+        .ad-chart-placeholder {
+            background: #F8FAFB; border: 2px dashed #E2E6EB; border-radius: 12px;
+            height: 200px; display: flex; align-items: center; justify-content: center;
+            color: #A0AEC0; font-size: 13px; font-weight: 500;
+        }
+
+        /* ── Funnel ── */
+        .ad-funnel { display: flex; flex-direction: column; gap: 6px; }
+        .ad-funnel-step {
+            display: flex; align-items: center; gap: 14px; padding: 10px 16px;
+            background: #fff; border: 1px solid #E2E6EB; border-radius: 10px;
+        }
+        .ad-funnel-step .fn-bar { height: 8px; border-radius: 4px; background: linear-gradient(90deg, #3B8DBD, #22894A); }
+        .ad-funnel-step .fn-label { font-size: 12px; font-weight: 500; color: #5A6B7D; min-width: 100px; }
+        .ad-funnel-step .fn-val { font-size: 13px; font-weight: 700; color: #1A2B3D; min-width: 40px; text-align: right; }
+
+        /* ── Settings ── */
+        .ad-settings-section {
+            background: #fff; border: 1px solid #E2E6EB; border-radius: 12px;
+            padding: 20px; margin-bottom: 16px;
+        }
+        .ad-settings-section h4 {
+            font-size: 14px; font-weight: 700; color: #1A2B3D;
+            margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+        }
+        .ad-settings-section h4 i { color: #3B8DBD; font-size: 14px; }
+
+        /* ── Grid Helpers ── */
+        .ad-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .ad-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+        /* ── Section Card ── */
+        .section-card {
+            background: #fff; border: 1px solid #E2E6EB; border-radius: 14px;
+            padding: 22px; margin-bottom: 20px;
+        }
+        .section-card h3 {
+            font-size: 15px; font-weight: 700; color: #1A2B3D;
+            margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+        }
+        .section-card h3 i { color: #3B8DBD; font-size: 15px; }
+
+        /* ── Responsive ── */
+        @media (max-width: 1100px) {
+            .kpi-row { grid-template-columns: repeat(2, 1fr); }
+            .ad-grid-2, .ad-grid-3 { grid-template-columns: 1fr; }
+            .ad-synd-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 700px) {
+            .kpi-row { grid-template-columns: 1fr; }
+            .header-top { flex-direction: column; }
+            .ad-wizard-steps { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ═══ TOP BAR ═══ -->
+    <header class="top-bar">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search properties, tenants, owners, vendors, transactions...">
+        </div>
+        <div class="top-bar-right">
+            <div class="notif"><i class="fas fa-bell"></i><span class="badge">3</span></div>
+            <div class="avatar">SK</div>
+            <div class="avatar orange">PM</div>
+        </div>
+    </header>
+
+    <div class="app-shell">
+
+        <!-- ═══ SIDEBAR ═══ -->
+        <aside class="sidebar">
+            <button class="chevron-btn"><i class="fas fa-chevron-right"></i></button>
+            <button class="plus-btn">+</button>
+            <button class="icon-btn"><i class="fas fa-th-large"></i></button>
+            <a href="Property_detailed_view.html" class="icon-btn"><i class="fas fa-building"></i></a>
+            <a href="Listing_main.html" class="icon-btn active" title="Listings"><i class="fas fa-bullhorn"></i></a>
+            <button class="icon-btn"><i class="fas fa-list-alt"></i></button>
+            <button class="icon-btn"><i class="fas fa-user"></i></button>
+            <button class="icon-btn"><i class="fas fa-crown"></i></button>
+            <button class="icon-btn"><i class="fas fa-wrench"></i></button>
+            <button class="icon-btn"><i class="fas fa-comment-dots"></i></button>
+            <button class="icon-btn"><i class="fas fa-university"></i></button>
+            <button class="icon-btn"><i class="fas fa-calendar-alt"></i></button>
+            <button class="icon-btn"><i class="fas fa-dollar-sign"></i></button>
+            <button class="icon-btn"><i class="fas fa-chart-line"></i></button>
+            <button class="icon-btn"><i class="fas fa-cog"></i></button>
+            <span class="dollar-icon"><i class="fas fa-dollar-sign"></i></span>
+        </aside>
+
+        <!-- ═══ MAIN CONTENT ═══ -->
+        <div class="main-content">
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="back-row">
+                    <a href="Listing_main.html"><i class="fas fa-arrow-left"></i></a>
+                    <span style="font-size:12.5px; color:#718096;">Back to Listings</span>
+                </div>
+                <div class="header-top">
+                    <div class="header-info">
+                        <h1>Apt 101 — Oak St <span class="status-badge status--active" style="margin-left:10px; vertical-align: middle;"><span class="dot"></span> Active</span></h1>
+                        <p>111 Oak St, Indiana · 2 Bed / 1 Bath · 850 sqft</p>
+                        <div class="header-meta">
+                            <span class="meta-item"><i class="fas fa-dollar-sign"></i> $1,450 / mo</span>
+                            <span class="meta-item"><i class="fas fa-clock"></i> 12 days on market</span>
+                            <span class="meta-item"><i class="fas fa-user-plus"></i> 8 leads</span>
+                            <span class="meta-item"><i class="fas fa-eye"></i> 3 showings</span>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn-action btn-action--primary"><i class="fas fa-edit"></i> Edit Listing</button>
+                        <button class="btn-action btn-action--secondary"><i class="fas fa-share-alt"></i> Share</button>
+                        <button class="btn-action btn-action--danger"><i class="fas fa-pause-circle"></i> Deactivate</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Bar -->
+            <div class="tab-bar">
+                <button class="tab active" data-panel="panel-overview">Listing Overview</button>
+                <button class="tab" data-panel="panel-setup">Listing Setup</button>
+                <button class="tab" data-panel="panel-syndication">Syndication</button>
+                <button class="tab" data-panel="panel-leads">Leads &amp; Showings</button>
+                <button class="tab" data-panel="panel-analytics">Analytics</button>
+                <button class="tab" data-panel="panel-settings">Settings</button>
+            </div>
+
+            <!-- ═══════════════════════════════════
+                 TAB 1 — LISTING OVERVIEW
+                 ═══════════════════════════════════ -->
+            <div id="panel-overview" class="tab-panel active">
+
+                <div class="kpi-row">
+                    <div class="kpi">
+                        <div class="kpi-icon kpi-icon--green"><i class="fas fa-check-circle"></i></div>
+                        <div><div class="kpi-label">Status</div><div class="kpi-value" style="font-size:16px;">Active</div></div>
+                    </div>
+                    <div class="kpi">
+                        <div class="kpi-icon kpi-icon--orange"><i class="fas fa-clock"></i></div>
+                        <div><div class="kpi-label">Days on Market</div><div class="kpi-value">12</div></div>
+                    </div>
+                    <div class="kpi">
+                        <div class="kpi-icon kpi-icon--blue"><i class="fas fa-user-plus"></i></div>
+                        <div><div class="kpi-label">Total Leads</div><div class="kpi-value">8</div></div>
+                    </div>
+                    <div class="kpi">
+                        <div class="kpi-icon kpi-icon--red"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div><div class="kpi-label">Vacancy Loss / Mo</div><div class="kpi-value">$1,450</div></div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h3><i class="fas fa-th-list"></i> Vacancy Dashboard</h3>
+                    <table class="ad-table">
+                        <thead>
+                            <tr>
+                                <th>Unit</th>
+                                <th>Status</th>
+                                <th>Market Rent</th>
+                                <th>Days on Market</th>
+                                <th>Leads</th>
+                                <th>Showings</th>
+                                <th>Platforms</th>
+                                <th>Active</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Apt 101</strong><br><span style="font-size:11px;color:#718096;">2 Bed / 1 Bath · 850 sqft</span></td>
+                                <td><span class="ad-badge ad-badge--green">Active</span></td>
+                                <td>$1,450</td>
+                                <td>12</td>
+                                <td>8</td>
+                                <td>3</td>
+                                <td>Zillow, Zumper, Apartments.com</td>
+                                <td><button class="ad-toggle active" onclick="this.classList.toggle('active')"></button></td>
+                                <td><button class="ad-btn ad-btn--outline ad-btn--sm"><i class="fas fa-pen"></i> Edit</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════
+                 TAB 2 — LISTING SETUP
+                 ═══════════════════════════════════ -->
+            <div id="panel-setup" class="tab-panel">
+
+                <div class="ad-wizard-steps">
+                    <div class="ad-step done"><span class="step-num"><i class="fas fa-check" style="font-size:10px;"></i></span> Contact Info</div>
+                    <div class="ad-step done"><span class="step-num"><i class="fas fa-check" style="font-size:10px;"></i></span> Features</div>
+                    <div class="ad-step active"><span class="step-num">3</span> Description</div>
+                    <div class="ad-step"><span class="step-num">4</span> Photos</div>
+                    <div class="ad-step"><span class="step-num">5</span> Virtual Tour</div>
+                    <div class="ad-step"><span class="step-num">6</span> Syndication</div>
+                </div>
+
+                <div class="section-card">
+                    <h3><i class="fas fa-robot"></i> AI Listing Description Generator</h3>
+                    <p style="font-size:12.5px; color:#5A6B7D; margin-bottom:14px;">Generate a professional listing description using AI based on your property features and amenities.</p>
+                    <button class="ad-btn ad-btn--primary"><i class="fas fa-magic"></i> Generate with AI</button>
+                </div>
+
+                <div class="section-card">
+                    <h3><i class="fas fa-pen-fancy"></i> Listing Content</h3>
+                    <div class="ad-form-group">
+                        <label class="ad-label">Listing Headline</label>
+                        <input class="ad-input" type="text" value="Spacious 2BR Apartment in Oak St — Move-in Ready!">
+                    </div>
+                    <div class="ad-form-group">
+                        <label class="ad-label">Full Description</label>
+                        <textarea class="ad-textarea">Welcome to this beautifully maintained 2-bedroom, 1-bathroom apartment at 111 Oak St, Indiana. This spacious 850 sqft unit features an open-concept living area, updated kitchen with modern appliances, in-unit laundry, and abundant natural light. Located in a quiet, tree-lined neighborhood with easy access to shops, parks, and public transit. Pet-friendly with approval. Available immediately — schedule your tour today!</textarea>
+                    </div>
+                    <div class="ad-grid-2">
+                        <div class="ad-form-group">
+                            <label class="ad-label">Virtual Tour URL</label>
+                            <input class="ad-input" type="url" placeholder="https://my.matterport.com/show/...">
+                        </div>
+                        <div class="ad-form-group">
+                            <label class="ad-label">Contact Phone</label>
+                            <input class="ad-input" type="tel" value="(234) 567-8901">
+                        </div>
+                    </div>
+                    <div class="ad-form-group">
+                        <label class="ad-label">Contact Email</label>
+                        <input class="ad-input" type="email" value="listings@simplifyem.com">
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h3><i class="fas fa-images"></i> Photo Gallery</h3>
+                    <div class="ad-photo-grid">
+                        <div class="ad-photo-card">
+                            <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=280&h=210&fit=crop" alt="Exterior">
+                            <span class="photo-tag">Exterior</span>
+                            <div class="photo-actions">
+                                <button title="Set as primary"><i class="fas fa-star"></i></button>
+                                <button title="Delete"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <div class="ad-photo-card">
+                            <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=280&h=210&fit=crop" alt="Living Room">
+                            <span class="photo-tag">Living Room</span>
+                            <div class="photo-actions">
+                                <button title="Set as primary"><i class="fas fa-star"></i></button>
+                                <button title="Delete"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <div class="ad-photo-card">
+                            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=280&h=210&fit=crop" alt="Kitchen">
+                            <span class="photo-tag">Kitchen</span>
+                            <div class="photo-actions">
+                                <button title="Set as primary"><i class="fas fa-star"></i></button>
+                                <button title="Delete"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <div class="ad-photo-card">
+                            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=280&h=210&fit=crop" alt="Bedroom">
+                            <span class="photo-tag">Bedroom</span>
+                            <div class="photo-actions">
+                                <button title="Set as primary"><i class="fas fa-star"></i></button>
+                                <button title="Delete"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <div class="ad-photo-card ad-photo-add">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>Add Photo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h3><i class="fas fa-tags"></i> Amenities &amp; Features</h3>
+                    <div class="ad-amenity-grid">
+                        <label class="ad-amenity checked"><input type="checkbox" checked> In-Unit Laundry</label>
+                        <label class="ad-amenity checked"><input type="checkbox" checked> Dishwasher</label>
+                        <label class="ad-amenity checked"><input type="checkbox" checked> Central A/C</label>
+                        <label class="ad-amenity"><input type="checkbox"> Parking</label>
+                        <label class="ad-amenity checked"><input type="checkbox" checked> Pet-Friendly</label>
+                        <label class="ad-amenity"><input type="checkbox"> Gym</label>
+                        <label class="ad-amenity"><input type="checkbox"> Pool</label>
+                        <label class="ad-amenity checked"><input type="checkbox" checked> Balcony</label>
+                        <label class="ad-amenity"><input type="checkbox"> EV Charging</label>
+                        <label class="ad-amenity"><input type="checkbox"> Storage</label>
+                        <label class="ad-amenity checked"><input type="checkbox" checked> Hardwood Floors</label>
+                        <label class="ad-amenity"><input type="checkbox"> Furnished</label>
+                    </div>
+                </div>
+
+                <div style="text-align:right; margin-top:8px;">
+                    <button class="ad-btn ad-btn--success"><i class="fas fa-save"></i> Save &amp; Continue</button>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════
+                 TAB 3 — SYNDICATION
+                 ═══════════════════════════════════ -->
+            <div id="panel-syndication" class="tab-panel">
+
+                <div class="section-card">
+                    <h3><i class="fas fa-globe"></i> Free Networks</h3>
+                    <div class="ad-synd-grid">
+                        <div class="ad-synd-card">
+                            <div class="ad-synd-logo" style="color:#006AFF;">Z</div>
+                            <div class="ad-synd-body">
+                                <div class="ad-synd-name">Zillow / Trulia / HotPads</div>
+                                <div class="ad-synd-type">Zillow Rental Network</div>
+                            </div>
+                            <div class="ad-synd-actions">
+                                <span class="ad-badge ad-badge--green">Live</span>
+                                <button class="ad-toggle active" onclick="this.classList.toggle('active')"></button>
+                            </div>
+                        </div>
+                        <div class="ad-synd-card">
+                            <div class="ad-synd-logo" style="color:#FF5722;">A</div>
+                            <div class="ad-synd-body">
+                                <div class="ad-synd-name">Apartments.com</div>
+                                <div class="ad-synd-type">CoStar Network</div>
+                            </div>
+                            <div class="ad-synd-actions">
+                                <span class="ad-badge ad-badge--orange">Pending</span>
+                                <button class="ad-toggle active" onclick="this.classList.toggle('active')"></button>
+                            </div>
+                        </div>
+                        <div class="ad-synd-card">
+                            <div class="ad-synd-logo" style="color:#5C6BC0;">Zu</div>
+                            <div class="ad-synd-body">
+                                <div class="ad-synd-name">Zumper</div>
+                                <div class="ad-synd-type">Zumper Network</div>
+                            </div>
+                            <div class="ad-synd-actions">
+                                <span class="ad-badge ad-badge--green">Live</span>
+                                <button class="ad-toggle active" onclick="this.classList.toggle('active')"></button>
+                            </div>
+                        </div>
+                        <div class="ad-synd-card">
+                            <div class="ad-synd-logo" style="color:#1877F2;"><i class="fab fa-facebook-f"></i></div>
+                            <div class="ad-synd-body">
+                                <div class="ad-synd-name">Facebook Marketplace</div>
+                                <div class="ad-synd-type">Meta</div>
+                            </div>
+                            <div class="ad-synd-actions">
+                                <span class="ad-badge ad-badge--gray">Off</span>
+                                <button class="ad-toggle" onclick="this.classList.toggle('active')"></button>
+                            </div>
+                        </div>
+                        <div class="ad-synd-card">
+                            <div class="ad-synd-logo" style="color:#5F2ECE;"><i class="fas fa-list"></i></div>
+                            <div class="ad-synd-body">
+                                <div class="ad-synd-name">Craigslist</div>
+                                <div class="ad-synd-type">HTML Export</div>
+                            </div>
+                            <div class="ad-synd-actions">
+                                <button class="ad-btn ad-btn--outline ad-btn--sm"><i class="fas fa-code"></i> Export</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h3><i class="fas fa-crown"></i> Premium Networks</h3>
+                    <div class="ad-synd-grid">
+                        <div class="ad-synd-card">
+                            <div class="ad-synd-logo" style="color:#006AFF;">Z+</div>
+                            <div class="ad-synd-body">
+                                <div class="ad-synd-name">Zillow Listing Spotlight</div>
+                                <div class="ad-synd-type">Premium Placement</div>
+                            </div>
+                            <div class="ad-synd-actions">
+                                <button class="ad-btn ad-btn--primary ad-btn--sm"><i class="fas fa-arrow-up"></i> Upgrade</button>
+                            </div>
+                        </div>
+                        <div class="ad-synd-card">
+                            <div class="ad-synd-logo" style="color:#E8843A;"><i class="fas fa-star"></i></div>
+                            <div class="ad-synd-body">
+                                <div class="ad-synd-name">Premium Leads Network</div>
+                                <div class="ad-synd-type">Pay-per-verified-lead</div>
+                            </div>
+                            <div class="ad-synd-actions">
+                                <button class="ad-btn ad-btn--primary ad-btn--sm"><i class="fas fa-arrow-up"></i> Upgrade</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════
+                 TAB 4 — LEADS & SHOWINGS
+                 ═══════════════════════════════════ -->
+            <div id="panel-leads" class="tab-panel">
+
+                <div class="ad-grid-2" style="margin-bottom:24px;">
+                    <div class="section-card" style="margin-bottom:0;">
+                        <h3><i class="fas fa-inbox"></i> Lead Inbox</h3>
+                        <div class="ad-lead-list">
+                            <div class="ad-lead-card">
+                                <div class="ad-lead-avatar">MR</div>
+                                <div class="ad-lead-body">
+                                    <div class="ad-lead-name">Maria Rodriguez</div>
+                                    <div class="ad-lead-unit">Interested in: Apt 101</div>
+                                    <div class="ad-lead-msg">Hi, I saw your listing on Zillow and would love to schedule a tour. I'm looking to move in by May 1st. Is the unit still available?</div>
+                                    <div class="ad-lead-meta">
+                                        <span><i class="fas fa-clock"></i> 2 hours ago</span>
+                                        <span><i class="fas fa-globe"></i> Zillow</span>
+                                    </div>
+                                </div>
+                                <div class="ad-lead-actions">
+                                    <span class="ad-badge ad-badge--green">Pre-Qualified</span>
+                                    <button class="ad-btn ad-btn--primary ad-btn--sm"><i class="fas fa-reply"></i> Reply</button>
+                                </div>
+                            </div>
+                            <div class="ad-lead-card">
+                                <div class="ad-lead-avatar">JK</div>
+                                <div class="ad-lead-body">
+                                    <div class="ad-lead-name">James Kim</div>
+                                    <div class="ad-lead-unit">Interested in: Apt 101</div>
+                                    <div class="ad-lead-msg">Does this apartment allow small dogs? I have a 15-lb terrier mix. Also, is the parking spot included?</div>
+                                    <div class="ad-lead-meta">
+                                        <span><i class="fas fa-clock"></i> 5 hours ago</span>
+                                        <span><i class="fas fa-globe"></i> Zumper</span>
+                                    </div>
+                                </div>
+                                <div class="ad-lead-actions">
+                                    <span class="ad-badge ad-badge--orange">Pending</span>
+                                    <button class="ad-btn ad-btn--primary ad-btn--sm"><i class="fas fa-reply"></i> Reply</button>
+                                </div>
+                            </div>
+                            <div class="ad-lead-card">
+                                <div class="ad-lead-avatar">SJ</div>
+                                <div class="ad-lead-body">
+                                    <div class="ad-lead-name">Sarah Johnson</div>
+                                    <div class="ad-lead-unit">Interested in: Apt 101</div>
+                                    <div class="ad-lead-msg">I'd like to apply for this unit. When is the earliest I can schedule a viewing? I'm available weekdays after 5pm.</div>
+                                    <div class="ad-lead-meta">
+                                        <span><i class="fas fa-clock"></i> 1 day ago</span>
+                                        <span><i class="fas fa-globe"></i> Apartments.com</span>
+                                    </div>
+                                </div>
+                                <div class="ad-lead-actions">
+                                    <span class="ad-badge ad-badge--green">Pre-Qualified</span>
+                                    <button class="ad-btn ad-btn--outline ad-btn--sm"><i class="fas fa-calendar"></i> Schedule</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="section-card" style="margin-bottom:16px;">
+                            <h3><i class="fas fa-calendar-alt"></i> Showing Calendar — April 2026</h3>
+                            <div class="ad-calendar-grid">
+                                <div class="ad-cal-header">Sun</div>
+                                <div class="ad-cal-header">Mon</div>
+                                <div class="ad-cal-header">Tue</div>
+                                <div class="ad-cal-header">Wed</div>
+                                <div class="ad-cal-header">Thu</div>
+                                <div class="ad-cal-header">Fri</div>
+                                <div class="ad-cal-header">Sat</div>
+                                <div class="ad-cal-day empty"></div>
+                                <div class="ad-cal-day empty"></div>
+                                <div class="ad-cal-day empty"></div>
+                                <div class="ad-cal-day"><div class="day-num">1</div></div>
+                                <div class="ad-cal-day"><div class="day-num">2</div></div>
+                                <div class="ad-cal-day"><div class="day-num">3</div></div>
+                                <div class="ad-cal-day"><div class="day-num">4</div></div>
+                                <div class="ad-cal-day"><div class="day-num">5</div></div>
+                                <div class="ad-cal-day"><div class="day-num">6</div></div>
+                                <div class="ad-cal-day today"><div class="day-num">7</div><div class="ad-cal-event showing">3pm — Maria R.</div></div>
+                                <div class="ad-cal-day"><div class="day-num">8</div><div class="ad-cal-event tour">Self-Tour: James K.</div></div>
+                                <div class="ad-cal-day"><div class="day-num">9</div></div>
+                                <div class="ad-cal-day"><div class="day-num">10</div><div class="ad-cal-event showing">5pm — Sarah J.</div></div>
+                                <div class="ad-cal-day"><div class="day-num">11</div></div>
+                                <div class="ad-cal-day"><div class="day-num">12</div></div>
+                                <div class="ad-cal-day"><div class="day-num">13</div></div>
+                                <div class="ad-cal-day"><div class="day-num">14</div></div>
+                                <div class="ad-cal-day"><div class="day-num">15</div></div>
+                                <div class="ad-cal-day"><div class="day-num">16</div></div>
+                                <div class="ad-cal-day"><div class="day-num">17</div></div>
+                                <div class="ad-cal-day"><div class="day-num">18</div></div>
+                                <div class="ad-cal-day"><div class="day-num">19</div></div>
+                                <div class="ad-cal-day"><div class="day-num">20</div></div>
+                                <div class="ad-cal-day"><div class="day-num">21</div></div>
+                                <div class="ad-cal-day"><div class="day-num">22</div></div>
+                                <div class="ad-cal-day"><div class="day-num">23</div></div>
+                                <div class="ad-cal-day"><div class="day-num">24</div></div>
+                                <div class="ad-cal-day"><div class="day-num">25</div></div>
+                                <div class="ad-cal-day"><div class="day-num">26</div></div>
+                                <div class="ad-cal-day"><div class="day-num">27</div></div>
+                                <div class="ad-cal-day"><div class="day-num">28</div></div>
+                                <div class="ad-cal-day"><div class="day-num">29</div></div>
+                                <div class="ad-cal-day"><div class="day-num">30</div></div>
+                            </div>
+                        </div>
+
+                        <div class="section-card" style="margin-bottom:0;">
+                            <h3><i class="fas fa-filter"></i> Pre-Qualification Pipeline</h3>
+                            <div style="display:flex; gap:14px; flex-wrap:wrap;">
+                                <div style="text-align:center;">
+                                    <div style="font-size:24px; font-weight:700; color:#1A2B3D;">8</div>
+                                    <div style="font-size:11px; color:#718096;">Total Leads</div>
+                                </div>
+                                <div style="text-align:center;">
+                                    <div style="font-size:24px; font-weight:700; color:#3BAA6E;">5</div>
+                                    <div style="font-size:11px; color:#718096;">Pre-Qualified</div>
+                                </div>
+                                <div style="text-align:center;">
+                                    <div style="font-size:24px; font-weight:700; color:#3B8DBD;">3</div>
+                                    <div style="font-size:11px; color:#718096;">Showings</div>
+                                </div>
+                                <div style="text-align:center;">
+                                    <div style="font-size:24px; font-weight:700; color:#E8843A;">1</div>
+                                    <div style="font-size:11px; color:#718096;">Applications</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════
+                 TAB 5 — ANALYTICS
+                 ═══════════════════════════════════ -->
+            <div id="panel-analytics" class="tab-panel">
+
+                <div class="kpi-row">
+                    <div class="kpi">
+                        <div class="kpi-icon kpi-icon--blue"><i class="fas fa-eye"></i></div>
+                        <div><div class="kpi-label">Total Impressions</div><div class="kpi-value">2,340</div></div>
+                    </div>
+                    <div class="kpi">
+                        <div class="kpi-icon kpi-icon--green"><i class="fas fa-mouse-pointer"></i></div>
+                        <div><div class="kpi-label">Clicks</div><div class="kpi-value">186</div></div>
+                    </div>
+                    <div class="kpi">
+                        <div class="kpi-icon kpi-icon--orange"><i class="fas fa-percentage"></i></div>
+                        <div><div class="kpi-label">Click Rate</div><div class="kpi-value">7.9%</div></div>
+                    </div>
+                    <div class="kpi">
+                        <div class="kpi-icon kpi-icon--blue"><i class="fas fa-calendar-check"></i></div>
+                        <div><div class="kpi-label">Avg Days to Lease</div><div class="kpi-value">22</div></div>
+                    </div>
+                </div>
+
+                <div class="ad-grid-2" style="margin-bottom:20px;">
+                    <div class="section-card" style="margin-bottom:0;">
+                        <h3><i class="fas fa-chart-area"></i> Impressions &amp; Clicks</h3>
+                        <div class="ad-chart-placeholder"><i class="fas fa-chart-line" style="margin-right:8px;"></i> Chart visualization will render here</div>
+                    </div>
+                    <div class="section-card" style="margin-bottom:0;">
+                        <h3><i class="fas fa-sitemap"></i> Source Attribution</h3>
+                        <table class="ad-table">
+                            <thead>
+                                <tr><th>Platform</th><th>Impressions</th><th>Clicks</th><th>Leads</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Zillow</td><td>1,200</td><td>98</td><td>4</td></tr>
+                                <tr><td>Zumper</td><td>680</td><td>52</td><td>2</td></tr>
+                                <tr><td>Apartments.com</td><td>460</td><td>36</td><td>2</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="ad-grid-2">
+                    <div class="section-card" style="margin-bottom:0;">
+                        <h3><i class="fas fa-funnel-dollar"></i> Conversion Funnel</h3>
+                        <div class="ad-funnel">
+                            <div class="ad-funnel-step">
+                                <span class="fn-label">Impressions</span>
+                                <div style="flex:1;"><div class="fn-bar" style="width:100%;"></div></div>
+                                <span class="fn-val">2,340</span>
+                            </div>
+                            <div class="ad-funnel-step">
+                                <span class="fn-label">Clicks</span>
+                                <div style="flex:1;"><div class="fn-bar" style="width:60%;"></div></div>
+                                <span class="fn-val">186</span>
+                            </div>
+                            <div class="ad-funnel-step">
+                                <span class="fn-label">Leads</span>
+                                <div style="flex:1;"><div class="fn-bar" style="width:25%;"></div></div>
+                                <span class="fn-val">8</span>
+                            </div>
+                            <div class="ad-funnel-step">
+                                <span class="fn-label">Showings</span>
+                                <div style="flex:1;"><div class="fn-bar" style="width:12%;"></div></div>
+                                <span class="fn-val">3</span>
+                            </div>
+                            <div class="ad-funnel-step">
+                                <span class="fn-label">Applications</span>
+                                <div style="flex:1;"><div class="fn-bar" style="width:5%;"></div></div>
+                                <span class="fn-val">1</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-card" style="margin-bottom:0;">
+                        <h3><i class="fas fa-dollar-sign"></i> Vacancy Cost Tracker</h3>
+                        <table class="ad-table">
+                            <thead>
+                                <tr><th>Unit</th><th>Market Rent</th><th>Days Vacant</th><th>Est. Loss</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Apt 101</td><td>$1,450</td><td>12</td><td style="color:#E53E3E; font-weight:600;">$580</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════
+                 TAB 6 — SETTINGS
+                 ═══════════════════════════════════ -->
+            <div id="panel-settings" class="tab-panel">
+
+                <div class="ad-settings-section">
+                    <h4><i class="fas fa-globe"></i> Default Syndication Preferences</h4>
+                    <p style="font-size:12px; color:#718096; margin-bottom:14px;">Choose which platforms new listings are automatically syndicated to.</p>
+                    <div class="ad-amenity-grid">
+                        <label class="ad-amenity checked"><input type="checkbox" checked> Zillow / Trulia / HotPads</label>
+                        <label class="ad-amenity checked"><input type="checkbox" checked> Apartments.com</label>
+                        <label class="ad-amenity checked"><input type="checkbox" checked> Zumper</label>
+                        <label class="ad-amenity"><input type="checkbox"> Facebook Marketplace</label>
+                        <label class="ad-amenity"><input type="checkbox"> Craigslist</label>
+                    </div>
+                </div>
+
+                <div class="ad-settings-section">
+                    <h4><i class="fas fa-shield-alt"></i> Pre-Qualification Criteria</h4>
+                    <div class="ad-grid-2">
+                        <div class="ad-form-group">
+                            <label class="ad-label">Minimum Income (Monthly)</label>
+                            <input class="ad-input" type="text" value="$4,350 (3× rent)">
+                        </div>
+                        <div class="ad-form-group">
+                            <label class="ad-label">Move-in Date Range</label>
+                            <input class="ad-input" type="text" value="Within 30 days">
+                        </div>
+                        <div class="ad-form-group">
+                            <label class="ad-label">Pet Policy</label>
+                            <select class="ad-select">
+                                <option selected>Pets allowed with deposit</option>
+                                <option>No pets</option>
+                                <option>Cats only</option>
+                                <option>Dogs only</option>
+                            </select>
+                        </div>
+                        <div class="ad-form-group">
+                            <label class="ad-label">Minimum Credit Score</label>
+                            <input class="ad-input" type="text" value="650">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ad-settings-section">
+                    <h4><i class="fas fa-calendar-alt"></i> Showing Availability</h4>
+                    <div class="ad-grid-3">
+                        <div class="ad-form-group">
+                            <label class="ad-label">Weekday Hours</label>
+                            <input class="ad-input" type="text" value="9:00 AM – 6:00 PM">
+                        </div>
+                        <div class="ad-form-group">
+                            <label class="ad-label">Weekend Hours</label>
+                            <input class="ad-input" type="text" value="10:00 AM – 4:00 PM">
+                        </div>
+                        <div class="ad-form-group">
+                            <label class="ad-label">Time Slot Duration</label>
+                            <select class="ad-select">
+                                <option>15 minutes</option>
+                                <option selected>30 minutes</option>
+                                <option>45 minutes</option>
+                                <option>60 minutes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="margin-top:12px; display:flex; align-items:center; gap:14px;">
+                        <label style="font-size:12.5px; color:#5A6B7D; font-weight:500; display:flex; align-items:center; gap:8px;">
+                            Enable Self-Showing <button class="ad-toggle active" onclick="this.classList.toggle('active')"></button>
+                        </label>
+                        <label style="font-size:12.5px; color:#5A6B7D; font-weight:500; display:flex; align-items:center; gap:8px;">
+                            Sync with Google Calendar <button class="ad-toggle" onclick="this.classList.toggle('active')"></button>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="ad-settings-section">
+                    <h4><i class="fas fa-envelope"></i> Automated Messages</h4>
+                    <div style="display:flex; flex-direction:column; gap:12px;">
+                        <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid #F0F2F5;">
+                            <div>
+                                <div style="font-size:13px; font-weight:600; color:#1A2B3D;">Inquiry Acknowledgment</div>
+                                <div style="font-size:11.5px; color:#718096;">Auto-reply to new lead inquiries</div>
+                            </div>
+                            <button class="ad-toggle active" onclick="this.classList.toggle('active')"></button>
+                        </div>
+                        <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid #F0F2F5;">
+                            <div>
+                                <div style="font-size:13px; font-weight:600; color:#1A2B3D;">Showing Confirmation</div>
+                                <div style="font-size:11.5px; color:#718096;">Confirm upcoming showing to prospect</div>
+                            </div>
+                            <button class="ad-toggle active" onclick="this.classList.toggle('active')"></button>
+                        </div>
+                        <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid #F0F2F5;">
+                            <div>
+                                <div style="font-size:13px; font-weight:600; color:#1A2B3D;">Post-Showing Follow-up</div>
+                                <div style="font-size:11.5px; color:#718096;">Request feedback after viewing</div>
+                            </div>
+                            <button class="ad-toggle" onclick="this.classList.toggle('active')"></button>
+                        </div>
+                        <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 0;">
+                            <div>
+                                <div style="font-size:13px; font-weight:600; color:#1A2B3D;">Application Link Delivery</div>
+                                <div style="font-size:11.5px; color:#718096;">Send application after showing or pre-qual</div>
+                            </div>
+                            <button class="ad-toggle active" onclick="this.classList.toggle('active')"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ad-settings-section">
+                    <h4><i class="fas fa-bell"></i> Notifications</h4>
+                    <div class="ad-grid-2">
+                        <label class="ad-amenity checked"><input type="checkbox" checked> Email — New leads</label>
+                        <label class="ad-amenity checked"><input type="checkbox" checked> Email — Showing scheduled</label>
+                        <label class="ad-amenity"><input type="checkbox"> SMS — New leads</label>
+                        <label class="ad-amenity checked"><input type="checkbox" checked> Email — Application received</label>
+                    </div>
+                </div>
+
+                <div style="text-align:right; margin-top:8px;">
+                    <button class="ad-btn ad-btn--success"><i class="fas fa-check"></i> Save Settings</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        const tabs = document.querySelectorAll('.tab-bar .tab');
+        const panels = document.querySelectorAll('.tab-panel');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                panels.forEach(p => p.classList.remove('active'));
+                const target = document.getElementById(tab.dataset.panel);
+                if (target) target.classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.ad-amenity input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', () => {
+                cb.closest('.ad-amenity').classList.toggle('checked', cb.checked);
+            });
+        });
+
+        document.querySelectorAll('.ad-toggle').forEach(t => {
+            t.addEventListener('click', () => t.classList.toggle('active'));
+        });
+    })();
+    </script>
+
+</body>
+</html>

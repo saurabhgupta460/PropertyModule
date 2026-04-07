@@ -274,28 +274,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveSettingsBtn = document.getElementById('saveSettingsBtn');
     const propertyViewBtn = document.getElementById('property-view-btn');
     const propertyLedgerList = document.getElementById('property-ledger-list');
-    const postExpenseBtn = document.getElementById('post-expense-btn');
     const worksheetViewBtn = document.getElementById('worksheet-view-btn');
     const transactionViewBtn = document.getElementById('transaction-view-btn');
-    const postExpenseDropdownToggle = document.getElementById('post-expense-dropdown-toggle');
-    const postExpenseDropdownMenu = document.getElementById('post-expense-dropdown-menu');
-    const postRecurringExpenseBtn = document.getElementById('post-recurring-expense-btn');
-    const addPropertyIncomeBtn = document.getElementById('add-property-income-btn');
-    const addIncomeDropdownToggle = document.getElementById('add-income-dropdown-toggle');
-    const addIncomeDropdownMenu = document.getElementById('add-income-dropdown-menu');
-    const addRecurringIncomeBtn = document.getElementById('add-recurring-income-btn');
     const propertySwitcherDropdown = document.getElementById('propertySwitcherDropdown');
     const searchInput = document.getElementById('searchInput');
-
-    // Header Add Expense Dropdown
-    const addExpenseDropdownToggle = document.getElementById('add-expense-dropdown-toggle');
-    const addExpenseDropdownMenu = document.getElementById('add-expense-dropdown-menu');
-    const addRecurringExpenseBtn = document.getElementById('add-recurring-expense-btn');
 
     // Modal Elements
     const addExpenseModal = document.getElementById('addExpenseModal');
     const addExpenseForm = document.getElementById('addExpenseForm');
-    const addExpenseBtn = document.getElementById('addExpenseBtn');
 
     const addExpenseModalCloseBtn = document.getElementById('addExpenseModalCloseBtn');
     const cancelAddExpenseBtn = document.getElementById('cancelAddExpenseBtn');
@@ -1227,7 +1213,6 @@ document.addEventListener('DOMContentLoaded', () => {
         saveAddExpenseBtn.disabled = false;
     };
 
-    // addExpenseBtn is handled above
     if (addExpenseModalCloseBtn) addExpenseModalCloseBtn.addEventListener('click', closeAddExpenseModal);
     if (cancelAddExpenseBtn) cancelAddExpenseBtn.addEventListener('click', closeAddExpenseModal);
     
@@ -1269,38 +1254,6 @@ document.addEventListener('DOMContentLoaded', () => {
         closeAddExpenseModal();
     });
 
-    // --- Worksheet Add Expense Dropdown Logic ---
-    if (postExpenseBtn) postExpenseBtn.addEventListener('click', () => {
-        const unitFilter = document.getElementById('unit-ledger-filter');
-        const selectedUnitName = unitFilter.value;
-        let preselectedUnitId = null, selectAll = false;
-    
-        if (selectedUnitName && currentProperty) {
-            if (selectedUnitName === 'all') {
-                selectAll = true;
-            } else {
-                const unit = currentProperty.units.find(u => u.name === selectedUnitName);
-                if (unit) preselectedUnitId = unit.id;
-            }
-        }
-        openAddExpenseModal(preselectedUnitId, selectAll);
-    });
-    
-    if (postExpenseDropdownToggle) postExpenseDropdownToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        postExpenseDropdownMenu.classList.toggle('hidden');
-    });
-    
-    if (postRecurringExpenseBtn) postRecurringExpenseBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        showModal('Coming Soon', 'Adding recurring expenses from the worksheet will be available in a future update.');
-        postExpenseDropdownMenu.classList.add('hidden');
-    });
-
-    // --- Header Add Expense Button ---
-    if (addExpenseBtn) {
-        addExpenseBtn.addEventListener('click', () => openAddExpenseModal());
-    }
     const addIncomeForm = document.getElementById('addIncomeForm');
     const addIncomeModal = document.getElementById('addIncomeModal');
     const incomeFileName = document.getElementById('income-file-name');
@@ -1427,31 +1380,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
         closeAddIncomeModal();
         showModal('Success', 'Income has been successfully added.');
-    });
-
-    // --- Worksheet Add Income Dropdown Logic ---
-    if (addPropertyIncomeBtn) addPropertyIncomeBtn.addEventListener('click', () => {
-        const unitFilter = document.getElementById('unit-ledger-filter');
-        openAddIncomeModal(unitFilter.value); 
-    });
-    
-    if (addExpenseDropdownToggle) addExpenseDropdownToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        addExpenseDropdownMenu.classList.toggle('hidden');
-    });
-    
-    if (addRecurringExpenseBtn) addRecurringExpenseBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        showModal('Coming Soon', 'Adding recurring expenses will be available in a future update.');
-        addExpenseDropdownMenu.classList.add('hidden');
-    });
-
-    // Placeholder for recurring income
-    if (addRecurringIncomeBtn) addRecurringIncomeBtn.addEventListener('click', (e) => { e.preventDefault(); showModal('Coming Soon', 'Adding recurring income will be available in a future update.'); addIncomeDropdownMenu.classList.add('hidden'); });
-    
-    if (addIncomeDropdownToggle) addIncomeDropdownToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        addIncomeDropdownMenu.classList.toggle('hidden');
     });
 
     const incomeFileUpload = document.getElementById('income-file-upload');
@@ -1626,22 +1554,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         document.addEventListener('click', () => {
-            bulkActionMenu.classList.add('hidden');
-        });
-
-        document.getElementById('bulk-post-income').addEventListener('click', (e) => {
-            e.preventDefault();
-            const selectedUnitIds = Array.from(document.querySelectorAll('.unit-checkbox:checked')).map(cb => cb.dataset.unitId);
-            // This is a placeholder. In a real app, you'd open a modal pre-filled with these units.
-            showModal('Bulk Action', `This would open the 'Add Income' modal for the ${selectedUnitIds.length} selected units.`);
-            bulkActionMenu.classList.add('hidden');
-        });
-
-        document.getElementById('bulk-post-expense').addEventListener('click', (e) => {
-            e.preventDefault();
-            const selectedUnitIds = Array.from(document.querySelectorAll('.unit-checkbox:checked')).map(cb => cb.dataset.unitId);
-            // This reuses the existing expense modal logic.
-            openAddExpenseModal(true, selectedUnitIds, false);
             bulkActionMenu.classList.add('hidden');
         });
 
@@ -2069,22 +1981,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Quick Actions Toolbar Logic ---
-    const quickActionPostIncome = document.getElementById('quick-action-post-income');
-    if (quickActionPostIncome) quickActionPostIncome.addEventListener('click', () => {
-        if (currentProperty) {
-            // Open income modal for all units in the current property
-            openAddIncomeModal(true, null, true);
-        }
-    });
-    
-    const quickActionPostExpense = document.getElementById('quick-action-post-expense');
-    if (quickActionPostExpense) quickActionPostExpense.addEventListener('click', () => {
-        if (currentProperty) {
-            // Open expense modal for all units in the current property
-            openAddExpenseModal(true, null, true);
-        }
-    });
-    
     const quickActionNewWorkOrder = document.getElementById('quick-action-new-work-order');
     if (quickActionNewWorkOrder) quickActionNewWorkOrder.addEventListener('click', () => {
         if (currentProperty) {
@@ -2571,14 +2467,4 @@ document.addEventListener('DOMContentLoaded', () => {
     if (setupUnitBtn) setupUnitBtn.addEventListener('click', () => window.location.href = 'setupunit.html');
     if (globalSettingsBtn) globalSettingsBtn.addEventListener('click', () => window.location.href = 'global_setting.html');
 
-    const addPropertyExpenseBtn = document.getElementById('add-property-expense-btn');
-    if (addPropertyExpenseBtn) {
-        addPropertyExpenseBtn.addEventListener('click', () => {
-            if (currentProperty) {
-                window.location.href = `propery_Add_exp.html?propertyId=${currentProperty.id}`;
-            } else {
-                window.location.href = 'propery_Add_exp.html';
-            }
-        });
-    }
 });

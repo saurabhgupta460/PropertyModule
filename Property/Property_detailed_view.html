@@ -1,0 +1,1395 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property's Detailed View</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #E8ECF1; min-height: 100vh; display: flex; flex-direction: column; }
+
+        /* â”€â”€ Top Search Bar â”€â”€ */
+        .top-bar {
+            background: linear-gradient(135deg, #1B4B6E 0%, #1A3D5C 100%);
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 24px;
+            gap: 16px;
+            z-index: 20;
+        }
+        .top-bar .search-box {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            padding: 6px 16px;
+            gap: 8px;
+            flex: 0 1 480px;
+        }
+        .top-bar .search-box i { color: rgba(255,255,255,0.6); font-size: 13px; }
+        .top-bar .search-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: rgba(255,255,255,0.7);
+            font-size: 12.5px;
+            width: 100%;
+            font-family: inherit;
+        }
+        .top-bar .search-box input::placeholder { color: rgba(255,255,255,0.5); }
+        .top-bar-right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+        .top-bar-right .avatar {
+            width: 30px; height: 30px; border-radius: 50%;
+            background: #4A90D9; display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 12px; font-weight: 600;
+        }
+        .top-bar-right .avatar.orange { background: #E8843A; }
+        .top-bar-right .notif {
+            width: 30px; height: 30px; border-radius: 50%; background: #F0A830;
+            display: flex; align-items: center; justify-content: center; color: #fff; font-size: 13px;
+            position: relative;
+        }
+        .top-bar-right .notif .badge {
+            position: absolute; top: -2px; right: -2px; width: 14px; height: 14px;
+            background: #E53E3E; border-radius: 50%; font-size: 8px; display: flex;
+            align-items: center; justify-content: center; color: #fff; font-weight: 700;
+        }
+
+        /* â”€â”€ Layout Shell â”€â”€ */
+        .app-shell { display: flex; flex: 1; min-height: 0; }
+
+        /* â”€â”€ Sidebar â”€â”€ */
+        .sidebar {
+            width: 52px;
+            background: linear-gradient(180deg, #1B4B6E 0%, #163A57 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 14px 0 20px;
+            gap: 6px;
+            flex-shrink: 0;
+            overflow-y: auto;
+        }
+        .sidebar .icon-btn {
+            width: 32px; height: 32px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.55); font-size: 14px;
+            cursor: pointer; transition: all 0.15s;
+            background: transparent; border: none;
+        }
+        .sidebar .icon-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .sidebar .icon-btn.active { background: rgba(255,255,255,0.15); color: #fff; }
+        .sidebar .chevron-btn {
+            width: 28px; height: 28px; border-radius: 50%;
+            background: #3BAA6E; color: #fff; font-size: 12px;
+            display: flex; align-items: center; justify-content: center;
+            border: none; cursor: pointer; margin-bottom: 4px;
+        }
+        .sidebar .plus-btn {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: #E8843A; color: #fff; font-size: 18px; font-weight: 300;
+            display: flex; align-items: center; justify-content: center;
+            border: none; cursor: pointer; margin-bottom: 8px;
+        }
+        .sidebar .dollar-icon {
+            margin-top: auto;
+            font-size: 28px; color: rgba(255,255,255,0.15);
+        }
+
+        /* â”€â”€ Main Content â”€â”€ */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            background: #E8ECF1;
+        }
+
+        /* â”€â”€ Page Header â”€â”€ */
+        .page-header {
+            background: linear-gradient(135deg, #1B4B6E 0%, #1E5A80 50%, #E8ECF1 100%);
+            padding: 18px 32px 22px;
+        }
+        .page-header .back-row {
+            display: flex; align-items: center; gap: 10px; margin-bottom: 4px;
+        }
+        .page-header .back-row a {
+            color: rgba(255,255,255,0.8); text-decoration: none; font-size: 14px;
+        }
+        .page-header h1 { color: #fff; font-size: 20px; font-weight: 700; }
+        .page-header p { color: rgba(255,255,255,0.7); font-size: 12.5px; margin-top: 2px; }
+
+        /* â”€â”€ Content Area â”€â”€ */
+        .content-area { padding: 0 28px 32px; margin-top: -2px; }
+
+        /* â”€â”€ Property Selector â”€â”€ */
+        .property-selector {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: #fff; border: 1px solid #D5DAE0;
+            border-radius: 28px; padding: 8px 18px 8px 10px;
+            margin-bottom: 16px; cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+        .property-selector .thumb {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: #B0C4D8; display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        .property-selector .thumb i { color: #5A7A9A; font-size: 16px; }
+        .property-selector .label { font-size: 14px; font-weight: 600; color: #2D3748; }
+        .property-selector .chevron { color: #718096; font-size: 11px; margin-left: 4px; }
+
+        /* â”€â”€ Tab Bar â”€â”€ */
+        .tab-bar {
+            display: flex; background: #fff;
+            border: 1px solid #D5DAE0;
+            border-radius: 10px; overflow: hidden;
+            margin-bottom: 18px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .tab-bar .tab {
+            flex: 1; padding: 11px 8px;
+            text-align: center; font-size: 13px; font-weight: 500;
+            color: #5A6B7E; cursor: pointer; border: none; background: #fff;
+            border-right: 1px solid #E2E6EB; transition: all 0.15s;
+            font-family: inherit;
+        }
+        .tab-bar .tab:last-child { border-right: none; }
+        .tab-bar .tab:hover { background: #F0F4F8; }
+        .tab-bar .tab.active {
+            background: #1B4B6E; color: #fff; font-weight: 600;
+        }
+
+        /* â”€â”€ Cards â”€â”€ */
+        .card {
+            background: #fff; border: 1px solid #D5DAE0;
+            border-radius: 12px; padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 18px;
+        }
+        .card-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .card-title {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 15px; font-weight: 700; color: #2D3748;
+        }
+        .card-title .icon {
+            width: 24px; height: 24px; background: #EDF2F7; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            color: #4A6B8A; font-size: 12px;
+        }
+        .card-actions { display: flex; align-items: center; gap: 8px; }
+
+        /* â”€â”€ Dropdowns / Filters â”€â”€ */
+        .filter-dd {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 5px 12px; border: 1px solid #D5DAE0; border-radius: 6px;
+            font-size: 12px; color: #5A6B7E; background: #fff; cursor: pointer;
+            font-family: inherit;
+        }
+        .dots-menu {
+            width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+            color: #8896A6; font-size: 14px; cursor: pointer; border: none; background: none;
+        }
+
+        /* â”€â”€ Quick Action Buttons â”€â”€ */
+        .qa-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+        .qa-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 9px 18px; border: 1.5px solid #E8843A; border-radius: 8px;
+            background: #fff; color: #E8843A; font-size: 13px; font-weight: 600;
+            cursor: pointer; font-family: inherit; transition: all 0.15s;
+        }
+        .qa-btn:hover { background: #FFF7F0; }
+
+        /* â”€â”€ Property Status Section â”€â”€ */
+        .status-body {
+            display: flex; gap: 28px; align-items: flex-start;
+        }
+        .status-left {
+            display: flex; align-items: center; gap: 24px;
+            flex-shrink: 0;
+        }
+
+        /* Donut Chart */
+        .donut-wrap {
+            position: relative; width: 170px; height: 170px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .donut-wrap svg { transform: rotate(-90deg); }
+        .donut-center {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: #fff; border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 10px 16px; text-align: center;
+        }
+        .donut-center .pct { font-size: 22px; font-weight: 700; color: #1B4B6E; line-height: 1.1; }
+        .donut-center .lbl { font-size: 11px; color: #8896A6; }
+
+        /* Status Info */
+        .status-info { display: flex; flex-direction: column; gap: 8px; }
+        .active-badge {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 3px 10px; border-radius: 12px;
+            background: #E6F8EE; color: #22894A; font-size: 11px; font-weight: 600;
+            width: fit-content;
+        }
+        .active-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #22894A; }
+        .prop-type-title { font-size: 20px; font-weight: 700; color: #1A2B3D; }
+        .prop-type-sub { font-size: 12px; color: #8896A6; }
+        .legend { display: flex; flex-direction: column; gap: 5px; margin-top: 6px; }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: #5A6B7E; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+        .legend-dot.occupied { background: #3B8DBD; }
+        .legend-dot.vacant { background: #C8CDD4; }
+
+        /* â”€â”€ Data Tables â”€â”€ */
+        .data-table {
+            width: 100%; border-collapse: separate; border-spacing: 0;
+            border: 1px solid #D5DAE0; border-radius: 8px; overflow: hidden;
+            font-size: 13px;
+        }
+        .data-table thead th {
+            background: #1B5068;
+            color: #fff; font-weight: 600; font-size: 12px;
+            padding: 10px 14px; text-align: left;
+            border-bottom: 1px solid #16465A;
+        }
+        .data-table thead th:first-child { border-radius: 0; }
+        .data-table thead th:last-child { border-radius: 0; }
+        .data-table tbody td {
+            padding: 10px 14px; color: #3D4F63;
+            border-bottom: 1px solid #EDF0F4;
+        }
+        .data-table tbody tr:last-child td { border-bottom: none; }
+        .data-table tbody tr:nth-child(even) { background: #F7F9FB; }
+        .data-table tbody tr:hover { background: #EEF3F8; }
+
+        .link-blue { color: #2B7AB5; font-weight: 500; text-decoration: none; }
+        .link-blue:hover { text-decoration: underline; }
+        .link-orange { color: #E8843A; font-weight: 600; text-decoration: none; }
+        .link-orange:hover { text-decoration: underline; }
+        .future-tenant { color: #8896A6; font-style: italic; }
+
+        /* â”€â”€ Bottom Grid â”€â”€ */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+        .bottom-grid .data-table thead th {
+            background: #1B6B70;
+            font-size: 11.5px;
+        }
+        .bottom-grid .card { margin-bottom: 0; }
+
+        /* â”€â”€ Financial Table specifics â”€â”€ */
+        .fin-table td.val { text-align: center; color: #5A6B7E; }
+        .fin-table th { text-align: center; }
+        .fin-table th:first-child, .fin-table td:first-child { text-align: left; }
+
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+           ADVERTISEMENT TAB
+           â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+           WORKSHEET TAB â€” MODERN REDESIGN
+           â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+
+        /* â”€â”€ Toolbar â”€â”€ */
+        .ws-toolbar {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
+            background: rgba(255,255,255,0.7); backdrop-filter: blur(12px);
+            border: 1px solid #E2E6EB; border-radius: 14px;
+            padding: 10px 16px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+        }
+        .ws-toolbar .toolbar-left { display: flex; align-items: center; gap: 10px; }
+        .ws-toolbar .unit-select {
+            padding: 8px 14px; border: 1px solid #D5DAE0; border-radius: 10px;
+            font-size: 13px; color: #3D4F63; background: #fff; font-family: inherit;
+            cursor: pointer; transition: border-color 0.2s;
+        }
+        .ws-toolbar .unit-select:focus { border-color: #3B8DBD; outline: none; }
+        .ws-toolbar .month-nav {
+            display: flex; align-items: center; gap: 2px;
+            background: #F0F4F8; border-radius: 10px; padding: 4px;
+        }
+        .ws-toolbar .month-nav button {
+            background: none; border: none; cursor: pointer;
+            width: 30px; height: 30px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            color: #5A6B7E; font-size: 12px; transition: all 0.15s;
+        }
+        .ws-toolbar .month-nav button:hover { background: #E2E8EF; color: #1B4B6E; }
+        .ws-toolbar .month-nav .current-label {
+            font-size: 12.5px; font-weight: 600; color: #1B4B6E;
+            padding: 0 12px; white-space: nowrap;
+        }
+        .ws-toolbar .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .ws-btn {
+            padding: 9px 18px; border-radius: 10px; font-size: 12.5px; font-weight: 600;
+            border: none; cursor: pointer; font-family: inherit; color: #fff;
+            transition: all 0.2s; display: inline-flex; align-items: center; gap: 7px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .ws-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .ws-btn:active { transform: translateY(0); }
+        .ws-btn.green { background: linear-gradient(135deg, #3AAF6E, #2D9A5C); }
+        .ws-btn.teal { background: linear-gradient(135deg, #1B9AAD, #178A9B); }
+
+        /* â”€â”€ Spreadsheet Card â”€â”€ */
+        .ws-sheet-wrap {
+            background: #fff; border: 1px solid #E2E6EB; border-radius: 14px;
+            overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .ws-sheet-scroll { overflow-x: auto; }
+
+        /* Grid Table */
+        .ws-sheet {
+            width: 100%; border-collapse: collapse; border-spacing: 0;
+            font-size: 13px; background: #fff;
+        }
+        .ws-sheet th, .ws-sheet td {
+            padding: 0; height: 42px; vertical-align: middle;
+        }
+
+        /* Sticky header */
+        .ws-sheet thead { position: sticky; top: 0; z-index: 10; }
+        .ws-sheet thead th {
+            background: linear-gradient(135deg, #1B4B6E 0%, #1B5C78 100%);
+            color: #fff; font-weight: 600; font-size: 11.5px;
+            padding: 0 16px; text-align: right; white-space: nowrap;
+            letter-spacing: 0.3px;
+        }
+        .ws-sheet thead th:first-child {
+            text-align: left; min-width: 320px;
+        }
+        .ws-sheet thead th.nav-cell {
+            text-align: center; width: 40px; padding: 0 6px;
+        }
+        .ws-sheet thead th.nav-cell button {
+            background: rgba(255,255,255,0.1); border: none;
+            color: rgba(255,255,255,0.75); cursor: pointer;
+            font-size: 12px; width: 28px; height: 28px; border-radius: 7px;
+            transition: all 0.15s;
+        }
+        .ws-sheet thead th.nav-cell button:hover {
+            background: rgba(255,255,255,0.2); color: #fff;
+        }
+
+        /* Body rows */
+        .ws-sheet tbody td {
+            padding: 0 16px; color: #3D4F63; text-align: right;
+            position: relative; border-bottom: 1px solid #F0F3F6;
+            transition: background 0.12s;
+        }
+        .ws-sheet tbody td:first-child {
+            text-align: left; border-left: 3px solid transparent;
+            overflow: hidden;
+            vertical-align: middle;
+        }
+        .ws-sheet tbody tr:last-child td { border-bottom: none; }
+        .ws-sheet tbody tr:hover td { background: #F6F9FC; }
+        .ws-sheet tbody tr:hover td:first-child { border-left-color: #3B8DBD; }
+
+        /* Current month column â€” frosted glass highlight */
+        .ws-sheet .col-current {
+            background: linear-gradient(180deg, #EAF4FB 0%, #E0EEF7 100%);
+            box-shadow: inset 1px 0 0 #C8DFF0, inset -1px 0 0 #C8DFF0;
+        }
+        .ws-sheet thead th.col-current {
+            background: linear-gradient(135deg, #144454 0%, #0F3A4A 100%);
+            position: relative;
+        }
+        .ws-sheet thead th.col-current::after {
+            content: ''; position: absolute; bottom: 0; left: 8px; right: 8px;
+            height: 3px; background: #E8843A; border-radius: 3px 3px 0 0;
+        }
+        .ws-sheet tbody tr:hover .col-current { background: #D8EBF6; }
+
+        .ws-add-link {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 4px 14px; border: 1px solid #C8D6E0; border-radius: 8px;
+            font-size: 11.5px; font-weight: 600; color: #3B7CAD; background: #F4F8FB;
+            cursor: pointer; margin-left: 12px; text-decoration: none;
+            transition: all 0.2s; font-family: inherit;
+        }
+        .ws-add-link:hover { background: #E4EEF5; color: #1B5068; border-color: #A0BFDA; transform: translateY(-1px); }
+        .ws-add-link i { font-size: 10px; }
+
+        /* â•â•â• #1 â€” SINGLE-LINE TENANT ROW â•â•â• */
+        .ws-row-id {
+            display: flex; align-items: center; gap: 0;
+            white-space: nowrap; overflow: hidden; min-width: 0;
+            line-height: 1;
+        }
+
+        /* â”€â”€ Primary: Name â”€â”€ */
+        .ws-name {
+            font-weight: 600; font-size: 13px; color: #1B5068;
+            cursor: pointer; text-decoration: none;
+            overflow: hidden; text-overflow: ellipsis;
+            flex-shrink: 1; min-width: 60px;
+            transition: color 0.15s;
+        }
+        .ws-name:hover { color: #2B7AB5; text-decoration: underline; text-underline-offset: 2px; }
+        .ws-name--plain {
+            color: #2D3748; cursor: default; text-decoration: none;
+        }
+        .ws-name--plain:hover { color: #2D3748; text-decoration: none; }
+        .ws-name--muted { color: #A0AEC0; font-weight: 500; font-style: italic; }
+
+        /* â”€â”€ Separator dot â”€â”€ */
+        .ws-sep {
+            flex-shrink: 0; margin: 0 8px;
+            width: 3px; height: 3px; border-radius: 50%;
+            background: #C4CDD6; display: inline-block;
+        }
+
+        /* â”€â”€ Unit tag â”€â”€ */
+        .ws-unit {
+            flex-shrink: 0; font-size: 12px; font-weight: 500; color: #5A6B7D;
+            background: #F0F4F8; border-radius: 4px; padding: 2px 7px;
+            letter-spacing: 0.01em;
+        }
+
+        /* â”€â”€ Balance badge â”€â”€ */
+        .ws-bal {
+            flex-shrink: 0; font-size: 11px; font-weight: 700;
+            padding: 1px 8px; border-radius: 5px; margin-left: 8px;
+        }
+        .ws-bal--owed { color: #C53030; background: #FFF5F5; }
+        .ws-bal--credit { color: #B7791F; background: #FFFAF0; }
+
+        /* â”€â”€ Status icons â”€â”€ */
+        .ws-status-icons {
+            flex-shrink: 0; display: inline-flex; align-items: center;
+            gap: 6px; margin-left: 10px;
+        }
+        .ws-ico {
+            width: 20px; height: 20px; border-radius: 6px;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 10px; cursor: default; position: relative;
+            transition: all 0.15s;
+        }
+        .ws-ico--online {
+            color: #22894A; background: #E6F8EE; border: 1px solid #B7E8CB;
+        }
+        .ws-ico--offline {
+            color: #E8843A; background: #FFF7ED; border: 1px solid #FDDCB5;
+            cursor: pointer;
+        }
+        .ws-ico--offline:hover { background: #FEECD3; border-color: #E8843A; }
+        .ws-ico--moved {
+            color: #9C4221; background: #FFF8ED; border: 1px solid #F5D5A8;
+        }
+        .ws-ico[data-tip]::after {
+            content: attr(data-tip);
+            position: absolute; bottom: calc(100% + 6px); left: 50%;
+            transform: translateX(-50%); white-space: nowrap;
+            font-size: 10.5px; font-weight: 500; color: #fff;
+            background: #2D3748; padding: 4px 10px; border-radius: 6px;
+            pointer-events: none; opacity: 0; transition: opacity 0.12s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .ws-ico[data-tip]:hover::after { opacity: 1; }
+
+        /* â”€â”€ Expense/income item (non-tenant) â”€â”€ */
+        .ws-item-type {
+            flex-shrink: 0; font-size: 10.5px; font-weight: 500; color: #718096;
+            background: #F7F8FA; border-radius: 4px; padding: 2px 7px;
+            margin-left: 8px;
+        }
+
+        /* â•â•â• #2 â€” INTERACTIVE AMOUNT CELLS â•â•â• */
+        .ws-amount-cell {
+            position: relative; cursor: pointer;
+            padding: 4px 10px; border-radius: 6px;
+            transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .ws-amount-cell:hover {
+            background: #EDF4FB; box-shadow: 0 0 0 1px #C3DEF3;
+        }
+        .ws-amount-cell .amt-value { font-variant-numeric: tabular-nums; }
+        .ws-amount-cell .amt-actions {
+            display: none; align-items: center; gap: 2px;
+        }
+        .ws-amount-cell:hover .amt-actions { display: inline-flex; }
+        .ws-amount-cell .amt-action {
+            width: 22px; height: 22px; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            border: none; background: transparent; cursor: pointer;
+            color: #8896A6; font-size: 10px; transition: all 0.12s;
+        }
+        .ws-amount-cell .amt-action:hover { background: #D6ECFC; color: #1B5068; }
+        .ws-amount-cell .amt-action.delete:hover { background: #FEE; color: #C53030; }
+
+        .ws-amount-cell.has-value .amt-value { font-weight: 600; color: #2D3748; }
+        .ws-amount-cell.zero .amt-value { color: #C4CDD6; }
+
+        /* â•â•â• #4 â€” FINANCIAL HIERARCHY â•â•â• */
+        .ws-sheet tbody tr.ws-data-row td:first-child {
+            padding-left: 36px;
+        }
+        .ws-section-row td {
+            font-weight: 700; font-size: 13.5px; height: 44px;
+            background: #FAFBFD; border-bottom: 1px solid #E2E6EB;
+            padding: 0 16px; border-left: none !important;
+        }
+        .ws-section-row .section-icon {
+            display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px;
+        }
+        .ws-section-row .section-icon i { font-size: 13px; }
+        .ws-section-row .section-income {
+            color: #22894A;
+            background: linear-gradient(90deg, #E6F8EE, transparent);
+            padding: 5px 14px 5px 12px; border-radius: 8px;
+        }
+        .ws-section-row .section-expense {
+            color: #D35B3E;
+            background: linear-gradient(90deg, #FDE8E8, transparent);
+            padding: 5px 14px 5px 12px; border-radius: 8px;
+        }
+
+        .ws-total-row td {
+            font-weight: 700; font-size: 13px;
+            background: #F4F6F9; border-top: 2px solid #D5DAE0;
+            border-bottom: 2px solid #D5DAE0;
+            padding-left: 20px;
+        }
+        .ws-total-row td:first-child {
+            border-left: 3px solid #8896A6 !important;
+            padding-left: 16px;
+        }
+        .ws-total-row.income-total td { border-left-color: #3AAF6E !important; }
+        .ws-total-row.income-total td:first-child { color: #22894A; }
+        .ws-total-row.expense-total td { border-left-color: #D35B3E !important; }
+        .ws-total-row.expense-total td:first-child { color: #D35B3E; }
+
+        .ws-net-row td {
+            font-weight: 800; font-size: 14px; height: 48px;
+            background: linear-gradient(90deg, #E0F3D8 0%, #EFF8EB 40%, #F6FBF4 100%);
+            border-top: 3px solid #6DBD60; color: #1E6B22;
+        }
+        .ws-net-row .col-current {
+            background: linear-gradient(180deg, #CCECBF, #DAEFD3) !important;
+            box-shadow: inset 1px 0 0 #B0D8A2, inset -1px 0 0 #B0D8A2;
+        }
+        .ws-net-row td:first-child {
+            border-left: 4px solid #3AAF6E !important; padding-left: 16px;
+            font-size: 14px; letter-spacing: 0.2px;
+        }
+
+        /* â”€â”€ Multi-payment badge â”€â”€ */
+        .ws-multi {
+            display: inline-flex; align-items: center; gap: 4px;
+            color: #2B7AB5; font-size: 11px; font-weight: 600;
+            cursor: pointer; position: relative;
+            padding: 3px 10px; border-radius: 6px;
+            background: #EBF5FF; border: 1px solid #C3DEF3;
+            transition: all 0.15s;
+        }
+        .ws-multi:hover { background: #D6ECFC; border-color: #A0CCEB; }
+        .ws-multi i { font-size: 8px; }
+
+        /* â”€â”€ Multi-payment popover â”€â”€ */
+        .ws-popover {
+            display: none; position: absolute; top: calc(100% + 8px); left: 50%;
+            transform: translateX(-50%); z-index: 30;
+            background: #fff; border: 1px solid #E2E6EB; border-radius: 14px;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.06);
+            padding: 16px 20px; min-width: 280px; text-align: left;
+        }
+        .ws-popover.show { display: block; animation: popIn 0.2s ease-out; }
+        @keyframes popIn { from { opacity: 0; transform: translateX(-50%) translateY(-6px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+        .ws-popover .pop-header {
+            font-size: 12.5px; font-weight: 700; color: #2D3748;
+            margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 10px; border-bottom: 1px solid #F0F3F6;
+        }
+        .ws-popover .pop-close {
+            background: #F0F4F8; border: none; color: #8896A6; cursor: pointer;
+            font-size: 16px; width: 26px; height: 26px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.15s;
+        }
+        .ws-popover .pop-close:hover { background: #E2E8EF; }
+        .ws-popover .pop-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 8px 0; border-bottom: 1px solid #F7F9FB;
+        }
+        .ws-popover .pop-item:last-child { border-bottom: none; }
+        .ws-popover .pop-amount { color: #22894A; font-weight: 700; font-size: 13px; }
+        .ws-popover .pop-date { color: #A0AEC0; font-size: 11px; }
+        .ws-popover .pop-link {
+            color: #3B8DBD; font-size: 12px; cursor: pointer;
+            width: 28px; height: 28px; border-radius: 8px; background: #F0F8FF;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.15s;
+        }
+        .ws-popover .pop-link:hover { background: #D6ECFC; }
+
+        /* â”€â”€ Add Income / Expense dropdown â”€â”€ */
+        .ws-inline-dd { position: relative; display: inline-block; }
+        .ws-dd-menu {
+            display: none; position: absolute; top: 100%; left: 0;
+            margin-top: 6px; z-index: 30;
+            background: #fff; border: 1px solid #E2E6EB; border-radius: 14px;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.06);
+            min-width: 250px; overflow: hidden;
+        }
+        .ws-dd-menu.show { display: block; animation: popIn 0.18s ease-out; }
+        .ws-dd-menu .dd-search { padding: 12px 14px; border-bottom: 1px solid #F0F3F6; }
+        .ws-dd-menu .dd-search input {
+            width: 100%; padding: 8px 12px; border: 1px solid #D5DAE0; border-radius: 10px;
+            font-size: 12.5px; font-family: inherit; color: #3D4F63; transition: border-color 0.2s;
+        }
+        .ws-dd-menu .dd-search input:focus { border-color: #3B8DBD; outline: none; }
+        .ws-dd-menu .dd-option {
+            padding: 10px 16px; font-size: 12.5px; color: #3D4F63;
+            cursor: pointer; transition: all 0.12s;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .ws-dd-menu .dd-option:hover { background: #F4F8FB; }
+        .ws-dd-menu .dd-option.selected {
+            background: linear-gradient(135deg, #1B4B6E, #1B5C78); color: #fff;
+        }
+        .ws-dd-menu .dd-option.selected .dd-star { color: #F6AD55; }
+        .ws-dd-menu .dd-divider { height: 1px; background: #F0F3F6; }
+        .ws-dd-menu .dd-create {
+            padding: 12px 16px; font-size: 12.5px; color: #3B7CAD;
+            cursor: pointer; display: flex; align-items: center; gap: 8px;
+            font-weight: 600; transition: background 0.12s;
+        }
+        .ws-dd-menu .dd-create:hover { background: #F4F8FB; }
+
+        /* Row 3-dot menu */
+        .ws-row-menu { width: 36px; text-align: center; }
+        .ws-row-menu button {
+            background: none; border: none; color: #C4CDD6;
+            cursor: pointer; font-size: 14px; padding: 4px;
+            width: 28px; height: 28px; border-radius: 8px;
+            transition: all 0.15s;
+        }
+        .ws-row-menu button:hover { color: #4A6B8A; background: #F0F4F8; }
+
+        /* â”€â”€ Responsive â”€â”€ */
+        @media (max-width: 1024px) {
+            .status-body { flex-direction: column; }
+            .bottom-grid { grid-template-columns: 1fr; }
+            .ws-sheet { font-size: 12px; }
+            .ws-sheet thead th:first-child { min-width: 220px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- â•â•â• TOP SEARCH BAR â•â•â• -->
+    <div class="top-bar">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search properties, tenants, owners, vendors, transactions...">
+        </div>
+        <div class="top-bar-right">
+            <div class="avatar">SG</div>
+            <div class="avatar orange">AB</div>
+            <div class="notif">
+                <i class="fas fa-bell"></i>
+                <span class="badge">3</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-shell">
+        <!-- â•â•â• SIDEBAR â•â•â• -->
+        <aside class="sidebar">
+            <button class="chevron-btn"><i class="fas fa-chevron-right"></i></button>
+            <button class="plus-btn">+</button>
+            <button class="icon-btn active"><i class="fas fa-th-large"></i></button>
+            <button class="icon-btn"><i class="fas fa-building"></i></button>
+            <a href="Listing_main.html" class="icon-btn" title="Listings"><i class="fas fa-bullhorn"></i></a>
+            <button class="icon-btn"><i class="fas fa-list-alt"></i></button>
+            <button class="icon-btn"><i class="fas fa-user"></i></button>
+            <button class="icon-btn"><i class="fas fa-crown"></i></button>
+            <button class="icon-btn"><i class="fas fa-wrench"></i></button>
+            <button class="icon-btn"><i class="fas fa-comment-dots"></i></button>
+            <button class="icon-btn"><i class="fas fa-university"></i></button>
+            <button class="icon-btn"><i class="fas fa-calendar-alt"></i></button>
+            <button class="icon-btn"><i class="fas fa-dollar-sign"></i></button>
+            <button class="icon-btn"><i class="fas fa-chart-line"></i></button>
+            <button class="icon-btn"><i class="fas fa-cog"></i></button>
+            <span class="dollar-icon"><i class="fas fa-dollar-sign"></i></span>
+        </aside>
+
+        <!-- â•â•â• MAIN CONTENT â•â•â• -->
+        <div class="main-content">
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="back-row">
+                    <a href="#"><i class="fas fa-arrow-left"></i></a>
+                </div>
+                <h1>Property's Detailed View</h1>
+                <p>Manage properties, add tenants, track rents or create rental ads effortlessly</p>
+            </div>
+
+            <div class="content-area">
+
+                <!-- Property Selector -->
+                <div class="property-selector">
+                    <div class="thumb"><i class="fas fa-home"></i></div>
+                    <span class="label">880, Arsela Ave, MI</span>
+                    <i class="fas fa-caret-down chevron"></i>
+                </div>
+
+                <!-- Tab Bar -->
+                <div class="tab-bar">
+                    <button class="tab active">Overview</button>
+                    <button class="tab">Worksheet</button>
+                    <button class="tab">Unit</button>
+                    <button class="tab">Communications</button>
+                    <button class="tab">Tasks</button>
+                    <button class="tab">Settings</button>
+                </div>
+
+                <!-- â•â•â• TAB PANELS â•â•â• -->
+                <div id="panel-overview" class="tab-panel active">
+
+                <!-- â”€â”€ Quick Actions â”€â”€ -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <div class="icon"><i class="fas fa-hand-pointer"></i></div>
+                            Quick Actions
+                        </div>
+                    </div>
+                    <div class="qa-buttons">
+                        <button class="qa-btn">Receive Other Income</button>
+                        <button class="qa-btn">Record Expenses</button>
+                        <button class="qa-btn">New Work Order</button>
+                        <button class="qa-btn">Post Ad</button>
+                    </div>
+                </div>
+
+                <!-- â”€â”€ Property Status â”€â”€ -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <div class="icon"><i class="fas fa-dollar-sign"></i></div>
+                            Property Status
+                        </div>
+                        <div class="card-actions">
+                            <select class="filter-dd">
+                                <option>Status</option>
+                            </select>
+                            <select class="filter-dd">
+                                <option>All Units</option>
+                            </select>
+                            <button class="dots-menu"><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="status-body">
+                        <div class="status-left">
+                            <!-- Donut Chart -->
+                            <div class="donut-wrap">
+                                <svg width="170" height="170" viewBox="0 0 170 170">
+                                    <!-- Background ring (vacant) -->
+                                    <circle cx="85" cy="85" r="68" fill="none" stroke="#D5DAE4" stroke-width="22" />
+                                    <!-- Occupied arc: 83% = 0.83 * 2Ï€ * 68 â‰ˆ 354.5 -->
+                                    <circle cx="85" cy="85" r="68" fill="none" stroke="#3B8DBD" stroke-width="22"
+                                        stroke-dasharray="354.5, 427.3"
+                                        stroke-linecap="round" />
+                                </svg>
+                                <div class="donut-center">
+                                    <div class="pct">83%</div>
+                                    <div class="lbl">Occupied</div>
+                                </div>
+                            </div>
+
+                            <!-- Status Info -->
+                            <div class="status-info">
+                                <div class="active-badge"><span class="dot"></span> Active</div>
+                                <div class="prop-type-title">Single Family Home</div>
+                                <div class="prop-type-sub">Property type</div>
+                                <div class="legend">
+                                    <div class="legend-item"><span class="legend-dot occupied"></span> 5 Occupied</div>
+                                    <div class="legend-item"><span class="legend-dot vacant"></span> 1 Vacant</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Unit Table -->
+                        <div style="flex:1; min-width:0;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Unit Name</th>
+                                        <th>Occupied By</th>
+                                        <th style="text-align:right">Lease Ends on</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Unit 101 A</td>
+                                        <td><a href="#" class="link-blue">Sam Jackson</a></td>
+                                        <td style="text-align:right">10/25/25</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Unit 101 B</td>
+                                        <td>Vacant &nbsp; <a href="#" class="link-orange">Post Ad <i class="fas fa-external-link-alt" style="font-size:10px"></i></a></td>
+                                        <td style="text-align:right"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Unit 101 C</td>
+                                        <td><span class="future-tenant">George J. ( Future Tenant)</span></td>
+                                        <td style="text-align:right">10/25/26</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Unit 101 D</td>
+                                        <td><a href="#" class="link-blue">Nina Sherapowa</a></td>
+                                        <td style="text-align:right">10/25/25</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Unit 101E</td>
+                                        <td><a href="#" class="link-blue">John Smithson</a></td>
+                                        <td style="text-align:right">10/25/25</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- â”€â”€ Bottom Grid: Financial Summary + Open Tasks â”€â”€ -->
+                <div class="bottom-grid">
+
+                    <!-- Financial Summary -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="icon"><i class="fas fa-dollar-sign"></i></div>
+                                Financial Summary (Last 3 Months)
+                            </div>
+                            <div class="card-actions">
+                                <select class="filter-dd">
+                                    <option>All Units</option>
+                                </select>
+                                <button class="dots-menu"><i class="fas fa-ellipsis-v"></i></button>
+                            </div>
+                        </div>
+                        <table class="data-table fin-table">
+                            <thead>
+                                <tr>
+                                    <th>Summary</th>
+                                    <th>Oct'25 ($)</th>
+                                    <th>Nov'25 ($)</th>
+                                    <th>Current ($)</th>
+                                    <th>Jan'26 ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Income</td>
+                                    <td class="val">0.00</td>
+                                    <td class="val">0.00</td>
+                                    <td class="val">0.00</td>
+                                    <td class="val">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Expense</td>
+                                    <td class="val">0.00</td>
+                                    <td class="val">0.00</td>
+                                    <td class="val">0.00</td>
+                                    <td class="val">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:600">Net Income</td>
+                                    <td class="val" style="font-weight:600">0.00</td>
+                                    <td class="val" style="font-weight:600">0.00</td>
+                                    <td class="val" style="font-weight:600">0.00</td>
+                                    <td class="val" style="font-weight:600">0.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Open Tasks -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="icon"><i class="fas fa-tasks"></i></div>
+                                Open Tasks
+                            </div>
+                            <div class="card-actions">
+                                <button class="dots-menu"><i class="fas fa-ellipsis-v"></i></button>
+                            </div>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Task Name</th>
+                                    <th>Unit</th>
+                                    <th style="text-align:right">Due Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Tap Leakage</td>
+                                    <td>40440 Andoura Court, Milpitas, CA</td>
+                                    <td style="text-align:right">10/25/25</td>
+                                </tr>
+                                <tr>
+                                    <td>Annual fire alarm</td>
+                                    <td>6822 Sunview Ave, Fremont, CA</td>
+                                    <td style="text-align:right">10/25/25</td>
+                                </tr>
+                                <tr>
+                                    <td>Neighbour issues</td>
+                                    <td>9933 Library Way, NJ</td>
+                                    <td style="text-align:right">10/25/25</td>
+                                </tr>
+                                <tr>
+                                    <td>HVAC service</td>
+                                    <td>7432 College St, ON</td>
+                                    <td style="text-align:right">10/25/25</td>
+                                </tr>
+                                <tr>
+                                    <td>Plumbing Issue</td>
+                                    <td>1022 College St, ON</td>
+                                    <td style="text-align:right">10/25/25</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                </div><!-- /panel-overview -->
+
+                <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+                     WORKSHEET TAB PANEL
+                     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+                <div id="panel-worksheet" class="tab-panel">
+
+                    <!-- Toolbar -->
+                    <div class="ws-toolbar">
+                        <div class="toolbar-left">
+                            <select class="unit-select">
+                                <option>All Units</option>
+                                <option>Unit 101 A</option>
+                                <option>Unit 101 B</option>
+                                <option>Unit 101 C</option>
+                                <option>Unit 101 D</option>
+                                <option>Unit 101E</option>
+                                <option>Unit 105</option>
+                            </select>
+                            <div class="month-nav">
+                                <button title="Previous month"><i class="fas fa-chevron-left"></i></button>
+                                <span class="current-label"><i class="far fa-calendar-alt" style="margin-right:6px;opacity:0.6"></i>Oct'25</span>
+                                <button title="Next month"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <button class="ws-btn green"><i class="fas fa-hand-holding-usd"></i>Receive Rent</button>
+                            <button class="ws-btn teal"><i class="fas fa-file-invoice"></i>Create Bill</button>
+                        </div>
+                    </div>
+
+                    <!-- Spreadsheet -->
+                    <div class="ws-sheet-wrap">
+                    <div class="ws-sheet-scroll">
+                    <table class="ws-sheet" id="wsSheet">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th class="nav-cell"><button title="Select date"><i class="far fa-calendar-alt"></i></button></th>
+                                <th class="nav-cell"><button id="wsPrev" title="Previous month"><i class="fas fa-chevron-left"></i></button></th>
+                                <th id="wsM1">Aug'25</th>
+                                <th id="wsM2">Sep'25</th>
+                                <th id="wsM3" class="col-current">Oct'25 (Current)</th>
+                                <th id="wsM4">Nov'25</th>
+                                <th class="nav-cell"><button id="wsNext" title="Next month"><i class="fas fa-chevron-right"></i></button></th>
+                                <th class="nav-cell"><button title="Select date"><i class="far fa-calendar-alt"></i></button></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <!-- â”€â”€ INCOME SECTION â”€â”€ -->
+                            <tr class="ws-section-row">
+                                <td colspan="9">
+                                    <span class="section-icon section-income">
+                                        <i class="fas fa-chart-line"></i> Income
+                                    </span>
+                                    <span class="ws-inline-dd" style="margin-left:12px">
+                                        <button class="ws-add-link" data-dropdown="addIncomeDD"><i class="fas fa-plus"></i> Add Income</button>
+                                        <div class="ws-dd-menu" id="addIncomeDD">
+                                            <div class="dd-search">
+                                                <input type="text" placeholder="Type or Select">
+                                            </div>
+                                            <div class="dd-option">Parking Income</div>
+                                            <div class="dd-option selected">Laundry Vending <span class="dd-star">â˜…</span></div>
+                                            <div class="dd-option">Storage Rental</div>
+                                            <div class="dd-divider"></div>
+                                            <div class="dd-create"><i class="fas fa-plus-circle"></i> Create New Item</div>
+                                        </div>
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <!-- Tenant: Jane Doe  Â·  Online enabled -->
+                            <tr class="ws-data-row">
+                                <td>
+                                    <div class="ws-row-id">
+                                        <a href="#" class="ws-name">Jane Doe</a>
+                                        <span class="ws-sep"></span>
+                                        <span class="ws-unit">Apt 101</span>
+                                        <span class="ws-bal ws-bal--owed">$(1,450.00)</span>
+                                        <span class="ws-status-icons">
+                                            <span class="ws-ico ws-ico--online" data-tip="Online payments enabled"><i class="fas fa-wifi"></i></span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td></td><td></td>
+                                <td>
+                                    <span class="ws-multi" data-popover="pop-jane-aug">Multi <i class="fas fa-chevron-down"></i></span>
+                                    <span class="ws-amount-cell has-value">
+                                        <span class="amt-value">(1450.00)</span>
+                                        <span class="amt-actions">
+                                            <button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button>
+                                            <button class="amt-action" title="Add"><i class="fas fa-plus"></i></button>
+                                            <button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                                        </span>
+                                    </span>
+                                    <div class="ws-popover" id="pop-jane-aug">
+                                        <div class="pop-header">$1,450.00 as multi-payment <button class="pop-close">&times;</button></div>
+                                        <div class="pop-item">
+                                            <div><span class="pop-amount">$1,000.00</span><br><span class="pop-date">31/03/26</span></div>
+                                            <a class="pop-link"><i class="fas fa-external-link-alt"></i></a>
+                                        </div>
+                                        <div class="pop-item">
+                                            <div><span class="pop-amount">$450.00</span><br><span class="pop-date">31/03/26</span></div>
+                                            <a class="pop-link"><i class="fas fa-external-link-alt"></i></a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="ws-amount-cell has-value"><span class="amt-value">1,450.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span></td>
+                                <td class="col-current"><span class="ws-amount-cell has-value"><span class="amt-value" style="font-weight:700">1,450.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span></td>
+                                <td><span class="ws-amount-cell has-value"><span class="amt-value">1,450.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span></td>
+                                <td></td>
+                                <td class="ws-row-menu"><button><i class="fas fa-ellipsis-v"></i></button></td>
+                            </tr>
+
+                            <!-- Tenant: Bob Johnson  Â·  Online enabled -->
+                            <tr class="ws-data-row">
+                                <td>
+                                    <div class="ws-row-id">
+                                        <a href="#" class="ws-name">Bob Johnson</a>
+                                        <span class="ws-sep"></span>
+                                        <span class="ws-unit">Apt 103</span>
+                                        <span class="ws-bal ws-bal--credit">$1,450.00</span>
+                                        <span class="ws-status-icons">
+                                            <span class="ws-ico ws-ico--online" data-tip="Online payments enabled"><i class="fas fa-wifi"></i></span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td></td><td></td>
+                                <td><span class="ws-amount-cell has-value"><span class="amt-value">1,500.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span></td>
+                                <td><span class="ws-amount-cell has-value"><span class="amt-value">1,500.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span></td>
+                                <td class="col-current">
+                                    <span class="ws-multi">Multi <i class="fas fa-chevron-down"></i></span>
+                                    <span class="ws-amount-cell has-value"><span class="amt-value" style="font-weight:700">1500.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span>
+                                </td>
+                                <td><span class="ws-amount-cell has-value"><span class="amt-value">1,500.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span></td>
+                                <td></td>
+                                <td class="ws-row-menu"><button><i class="fas fa-ellipsis-v"></i></button></td>
+                            </tr>
+
+                            <!-- Tenant: Charlie Brown  Â·  Online OFF (click to enable) -->
+                            <tr class="ws-data-row">
+                                <td>
+                                    <div class="ws-row-id">
+                                        <a href="#" class="ws-name">Charlie Brown</a>
+                                        <span class="ws-sep"></span>
+                                        <span class="ws-unit">Apt 105</span>
+                                        <span class="ws-bal ws-bal--credit">$1,344.00</span>
+                                        <span class="ws-status-icons">
+                                            <span class="ws-ico ws-ico--offline" data-tip="Click to enable online payment"><i class="fas fa-wifi"></i></span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td></td><td></td>
+                                <td>
+                                    <span class="ws-multi">Multi <i class="fas fa-chevron-down"></i></span>
+                                    <span class="ws-amount-cell has-value"><span class="amt-value">1350.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span>
+                                </td>
+                                <td><span class="ws-amount-cell has-value"><span class="amt-value">1,350.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span></td>
+                                <td class="col-current"><span class="ws-amount-cell has-value"><span class="amt-value" style="font-weight:700">1,350.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span></td>
+                                <td><span class="ws-amount-cell has-value"><span class="amt-value">1,350.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span></td>
+                                <td></td>
+                                <td class="ws-row-menu"><button><i class="fas fa-ellipsis-v"></i></button></td>
+                            </tr>
+
+                            <!-- Tenant: Bridgeton Seth  Â·  Moved out -->
+                            <tr class="ws-data-row">
+                                <td>
+                                    <div class="ws-row-id">
+                                        <a href="#" class="ws-name">Bridgeton Seth</a>
+                                        <span class="ws-sep"></span>
+                                        <span class="ws-unit">Apt 106</span>
+                                        <span class="ws-bal ws-bal--owed">$(120.00)</span>
+                                        <span class="ws-status-icons">
+                                            <span class="ws-ico ws-ico--moved" data-tip="Moved out â€” balance due"><i class="fas fa-right-from-bracket"></i></span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td></td><td></td>
+                                <td>
+                                    <span class="ws-multi">Multi <i class="fas fa-chevron-down"></i></span>
+                                    <span class="ws-amount-cell has-value"><span class="amt-value">1350.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span>
+                                </td>
+                                <td>
+                                    <span class="ws-multi">Multi <i class="fas fa-chevron-down"></i></span>
+                                    <span class="ws-amount-cell has-value"><span class="amt-value">1,350.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span>
+                                </td>
+                                <td class="col-current"><span class="ws-amount-cell has-value"><span class="amt-value" style="font-weight:700">1,350.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span></td>
+                                <td>
+                                    <span class="ws-multi">Multi <i class="fas fa-chevron-down"></i></span>
+                                    <span class="ws-amount-cell has-value"><span class="amt-value">1,350.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span>
+                                </td>
+                                <td></td>
+                                <td class="ws-row-menu"><button><i class="fas fa-ellipsis-v"></i></button></td>
+                            </tr>
+
+                            <!-- Unit 105 - Vacant -->
+                            <tr class="ws-data-row">
+                                <td>
+                                    <div class="ws-row-id">
+                                        <span class="ws-name ws-name--muted">Vacant</span>
+                                        <span class="ws-sep"></span>
+                                        <span class="ws-unit">Unit 105</span>
+                                    </div>
+                                </td>
+                                <td></td><td></td>
+                                <td style="color:#C4CDD6">-</td>
+                                <td style="color:#C4CDD6">-</td>
+                                <td class="col-current" style="color:#C4CDD6">-</td>
+                                <td style="color:#C4CDD6">-</td>
+                                <td></td>
+                                <td class="ws-row-menu"><button><i class="fas fa-ellipsis-v"></i></button></td>
+                            </tr>
+
+                            <!-- Late Fee -->
+                            <tr class="ws-data-row">
+                                <td>
+                                    <div class="ws-row-id">
+                                        <span class="ws-name ws-name--plain">Allice Williams</span>
+                                        <span class="ws-item-type">Late fee</span>
+                                    </div>
+                                </td>
+                                <td></td><td></td>
+                                <td><span class="ws-amount-cell zero"><span class="amt-value">0.00</span><span class="amt-actions"><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button></span></span></td>
+                                <td><span class="ws-amount-cell zero"><span class="amt-value">0.00</span><span class="amt-actions"><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button></span></span></td>
+                                <td class="col-current">
+                                    <span class="ws-multi">Multi <i class="fas fa-chevron-down"></i></span>
+                                    <span class="ws-amount-cell has-value"><span class="amt-value" style="font-weight:700">50.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span>
+                                </td>
+                                <td><span class="ws-amount-cell zero"><span class="amt-value">0.00</span><span class="amt-actions"><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button></span></span></td>
+                                <td></td>
+                                <td class="ws-row-menu"><button><i class="fas fa-ellipsis-v"></i></button></td>
+                            </tr>
+
+                            <!-- Laundry Vending -->
+                            <tr class="ws-data-row">
+                                <td>
+                                    <div class="ws-row-id">
+                                        <span class="ws-name ws-name--plain">Laundry Vending</span>
+                                        <span class="ws-item-type">Other income</span>
+                                    </div>
+                                </td>
+                                <td></td><td></td>
+                                <td><span class="ws-amount-cell zero"><span class="amt-value">0.00</span><span class="amt-actions"><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button></span></span></td>
+                                <td><span class="ws-amount-cell has-value"><span class="amt-value">235.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span></td>
+                                <td class="col-current"><span class="ws-amount-cell zero"><span class="amt-value" style="font-weight:700">0.00</span><span class="amt-actions"><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button></span></span></td>
+                                <td><span class="ws-amount-cell has-value"><span class="amt-value">500.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span></td>
+                                <td></td>
+                                <td class="ws-row-menu"><button><i class="fas fa-ellipsis-v"></i></button></td>
+                            </tr>
+
+                            <!-- Total Income -->
+                            <tr class="ws-total-row income-total">
+                                <td><i class="fas fa-sigma" style="font-size:11px;margin-right:6px;opacity:0.5"></i>Total Income</td>
+                                <td></td><td></td>
+                                <td>5,500.00</td>
+                                <td>5,735.00</td>
+                                <td class="col-current">5,500.00</td>
+                                <td>5,500.00</td>
+                                <td></td><td></td>
+                            </tr>
+
+                            <!-- â”€â”€ EXPENSE SECTION â”€â”€ -->
+                            <tr class="ws-section-row">
+                                <td colspan="9">
+                                    <span class="section-icon section-expense">
+                                        <i class="fas fa-receipt"></i> Expense
+                                    </span>
+                                    <span class="ws-inline-dd" style="margin-left:12px">
+                                        <button class="ws-add-link" data-dropdown="addExpenseDD"><i class="fas fa-plus"></i> Add Expense</button>
+                                        <div class="ws-dd-menu" id="addExpenseDD">
+                                            <div class="dd-search">
+                                                <input type="text" placeholder="Type or Select">
+                                            </div>
+                                            <div class="dd-option">Repairs &amp; Maintenance</div>
+                                            <div class="dd-option">Insurance</div>
+                                            <div class="dd-option">Property Taxes</div>
+                                            <div class="dd-divider"></div>
+                                            <div class="dd-create"><i class="fas fa-plus-circle"></i> Create New Item</div>
+                                        </div>
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <!-- Expense: Common Area Electricity -->
+                            <tr class="ws-data-row">
+                                <td>
+                                    <div class="ws-row-id">
+                                        <span class="ws-name ws-name--plain">Common Area Electricity</span>
+                                        <span class="ws-item-type">Utilities</span>
+                                    </div>
+                                </td>
+                                <td></td><td></td>
+                                <td>
+                                    <span class="ws-multi">Multi <i class="fas fa-chevron-down"></i></span>
+                                    <span class="ws-amount-cell has-value"><span class="amt-value">185.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span>
+                                </td>
+                                <td><span class="ws-amount-cell zero"><span class="amt-value">0.00</span><span class="amt-actions"><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button></span></span></td>
+                                <td class="col-current"><span class="ws-amount-cell zero"><span class="amt-value" style="font-weight:700">0.00</span><span class="amt-actions"><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button></span></span></td>
+                                <td><span class="ws-amount-cell zero"><span class="amt-value">0.00</span><span class="amt-actions"><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button></span></span></td>
+                                <td></td>
+                                <td class="ws-row-menu"><button><i class="fas fa-ellipsis-v"></i></button></td>
+                            </tr>
+
+                            <!-- Expense: Landscaping -->
+                            <tr class="ws-data-row">
+                                <td>
+                                    <div class="ws-row-id">
+                                        <span class="ws-name ws-name--plain">Landscaping</span>
+                                        <span class="ws-item-type">Maintenance</span>
+                                    </div>
+                                </td>
+                                <td></td><td></td>
+                                <td><span class="ws-amount-cell zero"><span class="amt-value">0.00</span><span class="amt-actions"><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button></span></span></td>
+                                <td><span class="ws-amount-cell has-value"><span class="amt-value">150.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span></td>
+                                <td class="col-current"><span class="ws-amount-cell has-value"><span class="amt-value" style="font-weight:700">150.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span></td>
+                                <td><span class="ws-amount-cell has-value"><span class="amt-value">150.00</span><span class="amt-actions"><button class="amt-action" title="Edit"><i class="fas fa-pen"></i></button><button class="amt-action" title="Add"><i class="fas fa-plus"></i></button><button class="amt-action delete" title="Delete"><i class="fas fa-trash-alt"></i></button></span></span></td>
+                                <td></td>
+                                <td class="ws-row-menu"><button><i class="fas fa-ellipsis-v"></i></button></td>
+                            </tr>
+
+                            <!-- Total Expense -->
+                            <tr class="ws-total-row expense-total">
+                                <td><i class="fas fa-sigma" style="font-size:11px;margin-right:6px;opacity:0.5"></i>Total Expense</td>
+                                <td></td><td></td>
+                                <td>185.00</td>
+                                <td>150.00</td>
+                                <td class="col-current">150.00</td>
+                                <td>150.00</td>
+                                <td></td><td></td>
+                            </tr>
+
+                            <!-- NET INCOME -->
+                            <tr class="ws-net-row">
+                                <td><i class="fas fa-scale-balanced" style="font-size:12px;margin-right:8px;opacity:0.7"></i>Net Income</td>
+                                <td></td><td></td>
+                                <td>5,315.00</td>
+                                <td>5,585.00</td>
+                                <td class="col-current">5,350.00</td>
+                                <td>5,350.00</td>
+                                <td></td><td></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    </div>
+                    </div>
+
+                </div><!-- /panel-worksheet -->
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        const tabs = document.querySelectorAll('.tab-bar .tab');
+        const panels = {
+            'Overview': document.getElementById('panel-overview'),
+            'Worksheet': document.getElementById('panel-worksheet'),
+        };
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                Object.values(panels).forEach(p => { if (p) p.classList.remove('active'); });
+                const panel = panels[tab.textContent.trim()];
+                if (panel) panel.classList.add('active');
+            });
+        });
+
+
+        document.querySelectorAll('[data-dropdown]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const dd = document.getElementById(btn.dataset.dropdown);
+                document.querySelectorAll('.ws-dd-menu.show').forEach(m => {
+                    if (m !== dd) m.classList.remove('show');
+                });
+                dd.classList.toggle('show');
+            });
+        });
+
+        document.querySelectorAll('[data-popover]').forEach(el => {
+            el.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const pop = document.getElementById(el.dataset.popover);
+                document.querySelectorAll('.ws-popover.show').forEach(p => {
+                    if (p !== pop) p.classList.remove('show');
+                });
+                pop.classList.toggle('show');
+            });
+        });
+
+        document.querySelectorAll('.pop-close').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                btn.closest('.ws-popover').classList.remove('show');
+            });
+        });
+
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.ws-dd-menu.show').forEach(m => m.classList.remove('show'));
+            document.querySelectorAll('.ws-popover.show').forEach(p => p.classList.remove('show'));
+        });
+
+        document.querySelectorAll('.ws-dd-menu, .ws-popover').forEach(el => {
+            el.addEventListener('click', e => e.stopPropagation());
+        });
+    })();
+    </script>
+
+</body>
+</html>

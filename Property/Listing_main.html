@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listings</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #E8ECF1; min-height: 100vh; display: flex; flex-direction: column; }
+
+        /* ── Top Search Bar ── */
+        .top-bar {
+            background: linear-gradient(135deg, #1B4B6E 0%, #1A3D5C 100%);
+            height: 44px; display: flex; align-items: center; justify-content: center;
+            padding: 0 24px; gap: 16px; z-index: 20;
+        }
+        .top-bar .search-box {
+            background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; padding: 6px 16px;
+            gap: 8px; flex: 0 1 480px;
+        }
+        .top-bar .search-box i { color: rgba(255,255,255,0.6); font-size: 13px; }
+        .top-bar .search-box input {
+            background: transparent; border: none; outline: none;
+            color: rgba(255,255,255,0.7); font-size: 12.5px; width: 100%; font-family: inherit;
+        }
+        .top-bar .search-box input::placeholder { color: rgba(255,255,255,0.5); }
+        .top-bar-right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+        .top-bar-right .avatar {
+            width: 30px; height: 30px; border-radius: 50%; background: #4A90D9;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 12px; font-weight: 600;
+        }
+        .top-bar-right .avatar.orange { background: #E8843A; }
+        .top-bar-right .notif {
+            width: 30px; height: 30px; border-radius: 50%; background: #F0A830;
+            display: flex; align-items: center; justify-content: center; color: #fff; font-size: 13px;
+            position: relative;
+        }
+        .top-bar-right .notif .badge {
+            position: absolute; top: -2px; right: -2px; width: 14px; height: 14px;
+            background: #E53E3E; border-radius: 50%; font-size: 8px; display: flex;
+            align-items: center; justify-content: center; color: #fff; font-weight: 700;
+        }
+
+        /* ── Layout Shell ── */
+        .app-shell { display: flex; flex: 1; min-height: 0; }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            width: 52px;
+            background: linear-gradient(180deg, #1B4B6E 0%, #163A57 100%);
+            display: flex; flex-direction: column; align-items: center;
+            padding: 14px 0 20px; gap: 6px; flex-shrink: 0; overflow-y: auto;
+        }
+        .sidebar .icon-btn {
+            width: 32px; height: 32px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.55); font-size: 14px;
+            cursor: pointer; transition: all 0.15s; background: transparent; border: none;
+            text-decoration: none;
+        }
+        .sidebar .icon-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .sidebar .icon-btn.active { background: rgba(255,255,255,0.15); color: #fff; }
+        .sidebar .chevron-btn {
+            width: 28px; height: 28px; border-radius: 50%;
+            background: #3BAA6E; color: #fff; font-size: 12px;
+            display: flex; align-items: center; justify-content: center;
+            border: none; cursor: pointer; margin-bottom: 4px;
+        }
+        .sidebar .plus-btn {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: #E8843A; color: #fff; font-size: 18px; font-weight: 300;
+            display: flex; align-items: center; justify-content: center;
+            border: none; cursor: pointer; margin-bottom: 8px;
+        }
+        .sidebar .dollar-icon { margin-top: auto; font-size: 28px; color: rgba(255,255,255,0.15); }
+
+        /* ── Main Content ── */
+        .main-content { flex: 1; overflow-y: auto; padding: 28px 32px; }
+
+        /* ── Page Header ── */
+        .page-header {
+            display: flex; align-items: flex-start; justify-content: space-between;
+            margin-bottom: 22px; gap: 20px;
+        }
+        .page-title-block { display: flex; align-items: center; gap: 14px; }
+        .page-title-block .back-btn {
+            width: 36px; height: 36px; border-radius: 10px; background: #fff;
+            border: 1px solid #E2E6EB; display: flex; align-items: center; justify-content: center;
+            color: #3B8DBD; font-size: 14px; cursor: pointer; text-decoration: none;
+            transition: all 0.15s;
+        }
+        .page-title-block .back-btn:hover { background: #EBF4FA; border-color: #3B8DBD; }
+        .page-title h1 { font-size: 20px; font-weight: 700; color: #1A2B3D; line-height: 1.2; }
+        .page-title p { font-size: 12.5px; color: #718096; margin-top: 2px; }
+        .header-actions { display: flex; gap: 10px; align-items: center; }
+        .btn-action {
+            padding: 8px 18px; border-radius: 8px; font-size: 12.5px; font-weight: 600;
+            border: none; cursor: pointer; display: flex; align-items: center; gap: 6px;
+            transition: all 0.15s; font-family: inherit;
+        }
+        .btn-action--primary { background: #3BAA6E; color: #fff; }
+        .btn-action--primary:hover { background: #2E9A5F; transform: translateY(-1px); }
+        .btn-action--secondary { background: #3B8DBD; color: #fff; }
+        .btn-action--secondary:hover { background: #2E7AA5; transform: translateY(-1px); }
+        .btn-action--outline {
+            background: #fff; color: #3B8DBD; border: 1px solid #3B8DBD;
+        }
+        .btn-action--outline:hover { background: #EBF4FA; }
+
+        /* ── Toolbar ── */
+        .toolbar {
+            display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+        }
+        .toolbar .search-input {
+            background: #fff; border: 1px solid #E2E6EB; border-radius: 8px;
+            padding: 8px 14px 8px 34px; font-size: 12.5px; font-family: inherit;
+            width: 220px; outline: none; color: #2D3748; position: relative;
+        }
+        .toolbar .search-input:focus { border-color: #3B8DBD; box-shadow: 0 0 0 3px rgba(59,141,189,0.1); }
+        .search-wrap { position: relative; }
+        .search-wrap i {
+            position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+            font-size: 12px; color: #A0AEC0;
+        }
+        .toolbar .filter-btn {
+            background: #fff; border: 1px solid #E2E6EB; border-radius: 8px;
+            padding: 8px 14px; font-size: 12.5px; font-weight: 500; color: #5A6B7D;
+            cursor: pointer; display: flex; align-items: center; gap: 6px; font-family: inherit;
+        }
+        .toolbar .filter-btn:hover { border-color: #3B8DBD; color: #3B8DBD; }
+
+        /* ── KPI Strip ── */
+        .kpi-strip {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+            margin-bottom: 20px;
+        }
+        .kpi-card {
+            background: #fff; border: 1px solid #E2E6EB; border-radius: 12px;
+            padding: 16px 18px; display: flex; align-items: center; gap: 14px;
+        }
+        .kpi-card .kpi-icon {
+            width: 42px; height: 42px; border-radius: 10px; display: flex;
+            align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
+        }
+        .kpi-icon--blue { background: #EBF4FA; color: #3B8DBD; }
+        .kpi-icon--green { background: #E6F8EE; color: #3BAA6E; }
+        .kpi-icon--orange { background: #FFF4E8; color: #E8843A; }
+        .kpi-icon--red { background: #FEE8E8; color: #E53E3E; }
+        .kpi-card .kpi-label { font-size: 11.5px; color: #718096; font-weight: 500; }
+        .kpi-card .kpi-value { font-size: 22px; font-weight: 700; color: #1A2B3D; line-height: 1; }
+
+        /* ── Listing Table ── */
+        .listing-table-wrap {
+            background: #fff; border: 1px solid #E2E6EB; border-radius: 14px;
+            overflow: hidden;
+        }
+        .listing-table {
+            width: 100%; border-collapse: collapse; table-layout: fixed;
+        }
+        .listing-table thead th {
+            background: linear-gradient(135deg, #1B4B6E 0%, #1A3D5C 100%);
+            color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.4px; padding: 13px 16px; text-align: left;
+            white-space: nowrap;
+        }
+        .listing-table thead th:first-child { padding-left: 20px; }
+        .listing-table thead th.sortable { cursor: pointer; user-select: none; }
+        .listing-table thead th.sortable:hover { background: rgba(255,255,255,0.1); }
+        .listing-table thead th .sort-icon { margin-left: 4px; font-size: 10px; opacity: 0.6; }
+
+        .listing-table tbody tr {
+            border-bottom: 1px solid #F0F2F5; transition: background 0.12s;
+        }
+        .listing-table tbody tr:hover { background: #F8FAFB; }
+        .listing-table tbody tr:last-child { border-bottom: none; }
+        .listing-table tbody td {
+            padding: 14px 16px; font-size: 13px; color: #2D3748; vertical-align: middle;
+        }
+        .listing-table tbody td:first-child { padding-left: 20px; }
+
+        /* ── Unit Cell ── */
+        .unit-cell { display: flex; align-items: center; gap: 12px; }
+        .unit-avatar {
+            width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: 700; color: #fff;
+        }
+        .unit-avatar--blue { background: linear-gradient(135deg, #3B8DBD, #2C6F9E); }
+        .unit-avatar--green { background: linear-gradient(135deg, #3BAA6E, #2E8F5C); }
+        .unit-avatar--orange { background: linear-gradient(135deg, #E8843A, #D06D2A); }
+        .unit-avatar--purple { background: linear-gradient(135deg, #7C5CBF, #5A3FA0); }
+        .unit-avatar--teal { background: linear-gradient(135deg, #38A89D, #2C8A80); }
+        .unit-avatar img {
+            width: 100%; height: 100%; object-fit: cover; border-radius: 10px;
+        }
+        .unit-info { min-width: 0; }
+        .unit-name {
+            font-size: 13.5px; font-weight: 600; color: #1B5068;
+            cursor: pointer; text-decoration: none; display: block;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .unit-name:hover { color: #2B7AB5; text-decoration: underline; text-underline-offset: 2px; }
+        .unit-address {
+            font-size: 11.5px; color: #718096; margin-top: 1px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        /* ── Listing Details Col ── */
+        .listing-details { line-height: 1.6; }
+        .listing-details .detail-line {
+            font-size: 12.5px; color: #4A5568; display: flex; align-items: center; gap: 6px;
+        }
+        .listing-details .detail-line i { font-size: 11px; color: #A0AEC0; width: 14px; text-align: center; }
+
+        /* ── Status Badges ── */
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 4px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 600;
+            white-space: nowrap;
+        }
+        .status-badge .dot {
+            width: 7px; height: 7px; border-radius: 50%;
+        }
+        .status--active { background: #E6F8EE; color: #22894A; }
+        .status--active .dot { background: #22894A; }
+        .status--draft { background: #FFF4E8; color: #B86E1F; }
+        .status--draft .dot { background: #E8843A; }
+        .status--inactive { background: #F0F2F5; color: #718096; }
+        .status--inactive .dot { background: #A0AEC0; }
+        .status--pending { background: #EBF4FA; color: #2E7AA5; }
+        .status--pending .dot { background: #3B8DBD; }
+
+        /* ── Platforms ── */
+        .platform-pills { display: flex; flex-wrap: wrap; gap: 4px; }
+        .platform-pill {
+            padding: 3px 8px; border-radius: 6px; font-size: 10.5px; font-weight: 600;
+            background: #F0F4F8; color: #5A6B7D; border: 1px solid #E2E6EB;
+            white-space: nowrap;
+        }
+        .platform-pill--live { background: #E6F8EE; color: #22894A; border-color: #C6F0D5; }
+
+        /* ── Contact Icons ── */
+        .contact-icons { display: flex; gap: 6px; }
+        .contact-icon {
+            width: 30px; height: 30px; border-radius: 8px; border: 1px solid #E2E6EB;
+            background: #fff; display: flex; align-items: center; justify-content: center;
+            color: #718096; font-size: 12px; cursor: pointer; transition: all 0.15s;
+        }
+        .contact-icon:hover { border-color: #3B8DBD; color: #3B8DBD; background: #EBF4FA; }
+
+        /* ── Balance / Rent ── */
+        .rent-display {
+            font-size: 14px; font-weight: 700; color: #1A2B3D; white-space: nowrap;
+        }
+        .rent-display .rent-period {
+            font-size: 11px; font-weight: 400; color: #A0AEC0;
+        }
+
+        /* ── Action Column ── */
+        .action-col { display: flex; flex-direction: column; gap: 6px; }
+        .action-row {
+            display: flex; align-items: center; gap: 8px; font-size: 12px;
+        }
+        .action-dot {
+            width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+        }
+        .action-dot--green { background: #3BAA6E; }
+        .action-dot--orange { background: #E8843A; }
+        .action-dot--red { background: #E53E3E; }
+        .action-dot--blue { background: #3B8DBD; }
+        .action-link {
+            color: #3B8DBD; font-weight: 600; text-decoration: none; cursor: pointer;
+            white-space: nowrap;
+        }
+        .action-link:hover { text-decoration: underline; text-underline-offset: 2px; }
+        .action-text { color: #5A6B7D; white-space: nowrap; }
+
+        /* ── Toggle Switch ── */
+        .toggle-sm {
+            width: 36px; height: 20px; border-radius: 10px; background: #CBD5E0;
+            position: relative; cursor: pointer; transition: background 0.2s;
+            border: none; flex-shrink: 0;
+        }
+        .toggle-sm.active { background: #3BAA6E; }
+        .toggle-sm::after {
+            content: ''; position: absolute; width: 16px; height: 16px;
+            border-radius: 50%; background: #fff; top: 2px; left: 2px;
+            transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .toggle-sm.active::after { transform: translateX(16px); }
+
+        /* ── Metrics sub-row ── */
+        .metrics-row {
+            display: flex; gap: 16px; font-size: 11.5px; color: #718096;
+            margin-top: 4px;
+        }
+        .metric-item {
+            display: flex; align-items: center; gap: 4px;
+        }
+        .metric-item i { font-size: 10px; }
+        .metric-value { font-weight: 600; color: #1A2B3D; }
+
+        /* ── Column widths ── */
+        .col-unit { width: 22%; }
+        .col-details { width: 18%; }
+        .col-status { width: 10%; }
+        .col-rent { width: 10%; }
+        .col-metrics { width: 14%; }
+        .col-platforms { width: 12%; }
+        .col-actions { width: 14%; }
+
+        /* ── Responsive ── */
+        @media (max-width: 1200px) {
+            .kpi-strip { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 800px) {
+            .kpi-strip { grid-template-columns: 1fr; }
+            .page-header { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ═══ TOP BAR ═══ -->
+    <header class="top-bar">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search properties, tenants, owners, vendors, transactions...">
+        </div>
+        <div class="top-bar-right">
+            <div class="notif"><i class="fas fa-bell"></i><span class="badge">3</span></div>
+            <div class="avatar">SK</div>
+            <div class="avatar orange">PM</div>
+        </div>
+    </header>
+
+    <div class="app-shell">
+
+        <!-- ═══ SIDEBAR ═══ -->
+        <aside class="sidebar">
+            <button class="chevron-btn"><i class="fas fa-chevron-right"></i></button>
+            <button class="plus-btn">+</button>
+            <button class="icon-btn"><i class="fas fa-th-large"></i></button>
+            <a href="Property_detailed_view.html" class="icon-btn"><i class="fas fa-building"></i></a>
+            <a href="Listing_main.html" class="icon-btn active" title="Listings"><i class="fas fa-bullhorn"></i></a>
+            <button class="icon-btn"><i class="fas fa-list-alt"></i></button>
+            <button class="icon-btn"><i class="fas fa-user"></i></button>
+            <button class="icon-btn"><i class="fas fa-crown"></i></button>
+            <button class="icon-btn"><i class="fas fa-wrench"></i></button>
+            <button class="icon-btn"><i class="fas fa-comment-dots"></i></button>
+            <button class="icon-btn"><i class="fas fa-university"></i></button>
+            <button class="icon-btn"><i class="fas fa-calendar-alt"></i></button>
+            <button class="icon-btn"><i class="fas fa-dollar-sign"></i></button>
+            <button class="icon-btn"><i class="fas fa-chart-line"></i></button>
+            <button class="icon-btn"><i class="fas fa-cog"></i></button>
+            <span class="dollar-icon"><i class="fas fa-dollar-sign"></i></span>
+        </aside>
+
+        <!-- ═══ MAIN CONTENT ═══ -->
+        <div class="main-content">
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-title-block">
+                    <a href="Property_detailed_view.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+                    <div class="page-title">
+                        <h1>Listings</h1>
+                        <p>Manage rental listings, syndication, leads, and marketing for all units</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-action btn-action--primary"><i class="fas fa-plus"></i> Create Listing</button>
+                    <button class="btn-action btn-action--secondary"><i class="fas fa-bullhorn"></i> Bulk Syndicate</button>
+                    <button class="btn-action btn-action--outline"><i class="fas fa-ellipsis-h"></i> More Actions</button>
+                </div>
+            </div>
+
+            <!-- KPI Strip -->
+            <div class="kpi-strip">
+                <div class="kpi-card">
+                    <div class="kpi-icon kpi-icon--green"><i class="fas fa-check-circle"></i></div>
+                    <div>
+                        <div class="kpi-label">Active Listings</div>
+                        <div class="kpi-value">5</div>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon kpi-icon--orange"><i class="fas fa-clock"></i></div>
+                    <div>
+                        <div class="kpi-label">Avg Days on Market</div>
+                        <div class="kpi-value">18</div>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon kpi-icon--blue"><i class="fas fa-user-plus"></i></div>
+                    <div>
+                        <div class="kpi-label">Total Leads (30d)</div>
+                        <div class="kpi-value">34</div>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon kpi-icon--red"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div>
+                        <div class="kpi-label">Vacancy Loss / Mo</div>
+                        <div class="kpi-value">$2,850</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Toolbar -->
+            <div class="toolbar">
+                <div class="search-wrap">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="search-input" placeholder="Search listings...">
+                </div>
+                <button class="filter-btn"><i class="fas fa-filter"></i> Filters</button>
+                <button class="filter-btn"><i class="fas fa-sort-amount-down"></i> Sort by</button>
+            </div>
+
+            <!-- Listing Table -->
+            <div class="listing-table-wrap">
+                <table class="listing-table">
+                    <thead>
+                        <tr>
+                            <th class="col-unit sortable">Unit <i class="fas fa-sort sort-icon"></i></th>
+                            <th class="col-details">Listing Details</th>
+                            <th class="col-status">Status</th>
+                            <th class="col-rent sortable">Market Rent <i class="fas fa-sort sort-icon"></i></th>
+                            <th class="col-metrics">Performance</th>
+                            <th class="col-platforms">Platforms</th>
+                            <th class="col-actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <!-- Row 1 — Apt 101 -->
+                        <tr>
+                            <td>
+                                <div class="unit-cell">
+                                    <div class="unit-avatar unit-avatar--blue">
+                                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=80&h=80&fit=crop" alt="">
+                                    </div>
+                                    <div class="unit-info">
+                                        <a href="Listing_detail.html?unit=apt101" class="unit-name">Apt 101 — Oak St</a>
+                                        <div class="unit-address">111 Oak St, Indiana · 2 Bed / 1 Bath</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="listing-details">
+                                    <div class="detail-line"><i class="fas fa-ruler-combined"></i> 850 sqft</div>
+                                    <div class="detail-line"><i class="fas fa-calendar-alt"></i> Available Now</div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge status--active"><span class="dot"></span> Active</span></td>
+                            <td>
+                                <div class="rent-display">$1,450 <span class="rent-period">/ mo</span></div>
+                            </td>
+                            <td>
+                                <div class="metrics-row" style="margin-top:0; flex-direction: column; gap: 4px;">
+                                    <div class="metric-item"><i class="fas fa-clock"></i> <span class="metric-value">12</span> days</div>
+                                    <div class="metric-item"><i class="fas fa-user-plus"></i> <span class="metric-value">8</span> leads</div>
+                                    <div class="metric-item"><i class="fas fa-eye"></i> <span class="metric-value">3</span> showings</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="platform-pills">
+                                    <span class="platform-pill platform-pill--live">Zillow</span>
+                                    <span class="platform-pill platform-pill--live">Zumper</span>
+                                    <span class="platform-pill">Apartments.com</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="action-col">
+                                    <div class="action-row">
+                                        <span class="action-dot action-dot--green"></span>
+                                        <a href="Listing_detail.html?unit=apt101" class="action-link">View Details →</a>
+                                    </div>
+                                    <div class="action-row">
+                                        <span class="action-dot action-dot--blue"></span>
+                                        <a href="Listing_detail.html?unit=apt101&tab=leads" class="action-link">Manage Leads →</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 2 — Unit D -->
+                        <tr>
+                            <td>
+                                <div class="unit-cell">
+                                    <div class="unit-avatar unit-avatar--green">UD</div>
+                                    <div class="unit-info">
+                                        <a href="Listing_detail.html?unit=unitd" class="unit-name">Unit D — MG Prop</a>
+                                        <div class="unit-address">332 MG Prop, Milpitas · 1 Bed / 1 Bath</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="listing-details">
+                                    <div class="detail-line"><i class="fas fa-ruler-combined"></i> 620 sqft</div>
+                                    <div class="detail-line"><i class="fas fa-calendar-alt"></i> Apr 15, 2026</div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge status--draft"><span class="dot"></span> Draft</span></td>
+                            <td>
+                                <div class="rent-display">$1,200 <span class="rent-period">/ mo</span></div>
+                            </td>
+                            <td>
+                                <div class="metrics-row" style="margin-top:0; flex-direction: column; gap: 4px;">
+                                    <div class="metric-item"><i class="fas fa-clock"></i> <span class="metric-value">—</span></div>
+                                    <div class="metric-item"><i class="fas fa-user-plus"></i> <span class="metric-value">0</span> leads</div>
+                                    <div class="metric-item"><i class="fas fa-eye"></i> <span class="metric-value">0</span> showings</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="platform-pills">
+                                    <span class="platform-pill" style="color:#A0AEC0;">Not syndicated</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="action-col">
+                                    <div class="action-row">
+                                        <span class="action-dot action-dot--orange"></span>
+                                        <a href="Listing_detail.html?unit=unitd" class="action-link">Complete Setup →</a>
+                                    </div>
+                                    <div class="action-row">
+                                        <span class="action-dot action-dot--green"></span>
+                                        <span class="action-text">Activate Listing</span>
+                                        <button class="toggle-sm" onclick="this.classList.toggle('active')"></button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 3 — Unit A (Oak St) -->
+                        <tr>
+                            <td>
+                                <div class="unit-cell">
+                                    <div class="unit-avatar unit-avatar--purple">
+                                        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=80&h=80&fit=crop" alt="">
+                                    </div>
+                                    <div class="unit-info">
+                                        <a href="Listing_detail.html?unit=unita-oak" class="unit-name">Unit A — Oak St</a>
+                                        <div class="unit-address">111 Oak St, Indiana · 3 Bed / 2 Bath</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="listing-details">
+                                    <div class="detail-line"><i class="fas fa-ruler-combined"></i> 1,100 sqft</div>
+                                    <div class="detail-line"><i class="fas fa-calendar-alt"></i> Available Now</div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge status--active"><span class="dot"></span> Active</span></td>
+                            <td>
+                                <div class="rent-display">$1,850 <span class="rent-period">/ mo</span></div>
+                            </td>
+                            <td>
+                                <div class="metrics-row" style="margin-top:0; flex-direction: column; gap: 4px;">
+                                    <div class="metric-item"><i class="fas fa-clock"></i> <span class="metric-value">24</span> days</div>
+                                    <div class="metric-item"><i class="fas fa-user-plus"></i> <span class="metric-value">12</span> leads</div>
+                                    <div class="metric-item"><i class="fas fa-eye"></i> <span class="metric-value">5</span> showings</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="platform-pills">
+                                    <span class="platform-pill platform-pill--live">Zillow</span>
+                                    <span class="platform-pill platform-pill--live">Facebook</span>
+                                    <span class="platform-pill platform-pill--live">Craigslist</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="action-col">
+                                    <div class="action-row">
+                                        <span class="action-dot action-dot--green"></span>
+                                        <a href="Listing_detail.html?unit=unita-oak" class="action-link">View Details →</a>
+                                    </div>
+                                    <div class="action-row">
+                                        <span class="action-dot action-dot--orange"></span>
+                                        <a href="Listing_detail.html?unit=unita-oak&tab=leads" class="action-link">5 New Leads →</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 4 — Unit A (Barondale) -->
+                        <tr>
+                            <td>
+                                <div class="unit-cell">
+                                    <div class="unit-avatar unit-avatar--teal">BA</div>
+                                    <div class="unit-info">
+                                        <a href="Listing_detail.html?unit=unita-baron" class="unit-name">Unit A — Barondale Dr</a>
+                                        <div class="unit-address">492 Barondale Dr, TX · 2 Bed / 2 Bath</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="listing-details">
+                                    <div class="detail-line"><i class="fas fa-ruler-combined"></i> 920 sqft</div>
+                                    <div class="detail-line"><i class="fas fa-calendar-alt"></i> May 1, 2026</div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge status--pending"><span class="dot"></span> Pending</span></td>
+                            <td>
+                                <div class="rent-display">$1,350 <span class="rent-period">/ mo</span></div>
+                            </td>
+                            <td>
+                                <div class="metrics-row" style="margin-top:0; flex-direction: column; gap: 4px;">
+                                    <div class="metric-item"><i class="fas fa-clock"></i> <span class="metric-value">5</span> days</div>
+                                    <div class="metric-item"><i class="fas fa-user-plus"></i> <span class="metric-value">3</span> leads</div>
+                                    <div class="metric-item"><i class="fas fa-eye"></i> <span class="metric-value">1</span> showing</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="platform-pills">
+                                    <span class="platform-pill platform-pill--live">Zillow</span>
+                                    <span class="platform-pill">Pending</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="action-col">
+                                    <div class="action-row">
+                                        <span class="action-dot action-dot--blue"></span>
+                                        <a href="Listing_detail.html?unit=unita-baron" class="action-link">View Details →</a>
+                                    </div>
+                                    <div class="action-row">
+                                        <span class="action-dot action-dot--orange"></span>
+                                        <span class="action-text">Invite sent 03/31/26</span> <a href="#" class="action-link">Remind →</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 5 — Unit C (College) -->
+                        <tr>
+                            <td>
+                                <div class="unit-cell">
+                                    <div class="unit-avatar unit-avatar--orange">
+                                        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=80&h=80&fit=crop" alt="">
+                                    </div>
+                                    <div class="unit-info">
+                                        <a href="Listing_detail.html?unit=unitc-college" class="unit-name">Unit C — College St</a>
+                                        <div class="unit-address">293 College St, Toronto · 1 Bed / 1 Bath</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="listing-details">
+                                    <div class="detail-line"><i class="fas fa-ruler-combined"></i> 540 sqft</div>
+                                    <div class="detail-line"><i class="fas fa-calendar-alt"></i> Available Now</div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge status--active"><span class="dot"></span> Active</span></td>
+                            <td>
+                                <div class="rent-display">$1,100 <span class="rent-period">/ mo</span></div>
+                            </td>
+                            <td>
+                                <div class="metrics-row" style="margin-top:0; flex-direction: column; gap: 4px;">
+                                    <div class="metric-item"><i class="fas fa-clock"></i> <span class="metric-value">31</span> days</div>
+                                    <div class="metric-item"><i class="fas fa-user-plus"></i> <span class="metric-value">6</span> leads</div>
+                                    <div class="metric-item"><i class="fas fa-eye"></i> <span class="metric-value">4</span> showings</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="platform-pills">
+                                    <span class="platform-pill platform-pill--live">Zillow</span>
+                                    <span class="platform-pill platform-pill--live">Zumper</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="action-col">
+                                    <div class="action-row">
+                                        <span class="action-dot action-dot--green"></span>
+                                        <a href="Listing_detail.html?unit=unitc-college" class="action-link">View Details →</a>
+                                    </div>
+                                    <div class="action-row">
+                                        <span class="action-dot action-dot--red"></span>
+                                        <span class="action-text">31 days — consider refresh</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 6 — Unit A (Aspen) -->
+                        <tr>
+                            <td>
+                                <div class="unit-cell">
+                                    <div class="unit-avatar unit-avatar--blue">AS</div>
+                                    <div class="unit-info">
+                                        <a href="Listing_detail.html?unit=unita-aspen" class="unit-name">Unit A — Aspen St</a>
+                                        <div class="unit-address">852 Aspen St, New Hampshire · 2 Bed / 1 Bath</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="listing-details">
+                                    <div class="detail-line"><i class="fas fa-ruler-combined"></i> 780 sqft</div>
+                                    <div class="detail-line"><i class="fas fa-calendar-alt"></i> Apr 20, 2026</div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge status--inactive"><span class="dot"></span> Inactive</span></td>
+                            <td>
+                                <div class="rent-display">$1,250 <span class="rent-period">/ mo</span></div>
+                            </td>
+                            <td>
+                                <div class="metrics-row" style="margin-top:0; flex-direction: column; gap: 4px;">
+                                    <div class="metric-item"><i class="fas fa-clock"></i> <span class="metric-value">—</span></div>
+                                    <div class="metric-item"><i class="fas fa-user-plus"></i> <span class="metric-value">0</span> leads</div>
+                                    <div class="metric-item"><i class="fas fa-eye"></i> <span class="metric-value">0</span> showings</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="platform-pills">
+                                    <span class="platform-pill" style="color:#A0AEC0;">Deactivated</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="action-col">
+                                    <div class="action-row">
+                                        <span class="action-dot action-dot--blue"></span>
+                                        <a href="Listing_detail.html?unit=unita-aspen" class="action-link">Re-list →</a>
+                                    </div>
+                                    <div class="action-row">
+                                        <span class="action-dot action-dot--green"></span>
+                                        <span class="action-text">Activate</span>
+                                        <button class="toggle-sm" onclick="this.classList.toggle('active')"></button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 7 — Unit A (Sunnyville) -->
+                        <tr>
+                            <td>
+                                <div class="unit-cell">
+                                    <div class="unit-avatar unit-avatar--green">
+                                        <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=80&h=80&fit=crop" alt="">
+                                    </div>
+                                    <div class="unit-info">
+                                        <a href="Listing_detail.html?unit=unita-sunny" class="unit-name">Unit A — Sunnyville</a>
+                                        <div class="unit-address">492 Sunnyville, CA · 3 Bed / 2 Bath</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="listing-details">
+                                    <div class="detail-line"><i class="fas fa-ruler-combined"></i> 1,050 sqft</div>
+                                    <div class="detail-line"><i class="fas fa-calendar-alt"></i> Available Now</div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge status--active"><span class="dot"></span> Active</span></td>
+                            <td>
+                                <div class="rent-display">$2,100 <span class="rent-period">/ mo</span></div>
+                            </td>
+                            <td>
+                                <div class="metrics-row" style="margin-top:0; flex-direction: column; gap: 4px;">
+                                    <div class="metric-item"><i class="fas fa-clock"></i> <span class="metric-value">7</span> days</div>
+                                    <div class="metric-item"><i class="fas fa-user-plus"></i> <span class="metric-value">5</span> leads</div>
+                                    <div class="metric-item"><i class="fas fa-eye"></i> <span class="metric-value">2</span> showings</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="platform-pills">
+                                    <span class="platform-pill platform-pill--live">Zillow</span>
+                                    <span class="platform-pill platform-pill--live">Apartments.com</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="action-col">
+                                    <div class="action-row">
+                                        <span class="action-dot action-dot--green"></span>
+                                        <a href="Listing_detail.html?unit=unita-sunny" class="action-link">View Details →</a>
+                                    </div>
+                                    <div class="action-row">
+                                        <span class="action-dot action-dot--blue"></span>
+                                        <span class="action-text">Verification sent 03/01/26</span> <a href="#" class="action-link">Remind →</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 8 — Unit A (Gold Ave) -->
+                        <tr>
+                            <td>
+                                <div class="unit-cell">
+                                    <div class="unit-avatar unit-avatar--purple">GA</div>
+                                    <div class="unit-info">
+                                        <a href="Listing_detail.html?unit=unita-gold" class="unit-name">Unit A — Gold Ave</a>
+                                        <div class="unit-address">111 Gold Ave, PH · 1 Bed / 1 Bath</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="listing-details">
+                                    <div class="detail-line"><i class="fas fa-ruler-combined"></i> 500 sqft</div>
+                                    <div class="detail-line"><i class="fas fa-calendar-alt"></i> Available Now</div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge status--active"><span class="dot"></span> Active</span></td>
+                            <td>
+                                <div class="rent-display">$950 <span class="rent-period">/ mo</span></div>
+                            </td>
+                            <td>
+                                <div class="metrics-row" style="margin-top:0; flex-direction: column; gap: 4px;">
+                                    <div class="metric-item"><i class="fas fa-clock"></i> <span class="metric-value">3</span> days</div>
+                                    <div class="metric-item"><i class="fas fa-user-plus"></i> <span class="metric-value">1</span> lead</div>
+                                    <div class="metric-item"><i class="fas fa-eye"></i> <span class="metric-value">0</span> showings</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="platform-pills">
+                                    <span class="platform-pill platform-pill--live">Zillow</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="action-col">
+                                    <div class="action-row">
+                                        <span class="action-dot action-dot--green"></span>
+                                        <a href="Listing_detail.html?unit=unita-gold" class="action-link">View Details →</a>
+                                    </div>
+                                    <div class="action-row">
+                                        <span class="action-dot action-dot--green"></span>
+                                        <span class="action-text">Next Auto-Payment 04/03/26</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        document.querySelectorAll('.toggle-sm').forEach(t => {
+            t.addEventListener('click', () => t.classList.toggle('active'));
+        });
+    })();
+    </script>
+
+</body>
+</html>
