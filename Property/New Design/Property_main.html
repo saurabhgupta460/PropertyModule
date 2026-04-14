@@ -1,0 +1,1973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Listing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh; display: flex; flex-direction: column;
+            background: #D6E4EE;
+        }
+
+        /* ─────────────────────────────────
+           TOP BAR
+        ───────────────────────────────── */
+        .top-bar {
+            background: linear-gradient(135deg, #1B4B6E 0%, #1E5A82 60%, #2770A0 100%);
+            height: 48px; display: flex; align-items: center;
+            padding: 0 28px; gap: 16px; flex-shrink: 0; position: relative; z-index: 10;
+        }
+        .top-bar-search {
+            flex: 0 1 500px; margin: 0 auto;
+            background: rgba(255,255,255,0.13); border: 1px solid rgba(255,255,255,0.22);
+            border-radius: 22px; display: flex; align-items: center;
+            padding: 7px 18px; gap: 10px;
+        }
+        .top-bar-search i { color: rgba(255,255,255,0.55); font-size: 13px; }
+        .top-bar-search input {
+            background: none; border: none; outline: none;
+            color: rgba(255,255,255,0.85); font-size: 13px; font-family: inherit;
+            width: 100%;
+        }
+        .top-bar-search input::placeholder { color: rgba(255,255,255,0.45); }
+        .top-bar-right {
+            display: flex; align-items: center; gap: 10px; margin-left: auto;
+        }
+        .tb-icon-btn {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: rgba(255,255,255,0.12); border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.8); font-size: 14px; position: relative;
+            transition: background 0.15s;
+        }
+        .tb-icon-btn:hover { background: rgba(255,255,255,0.22); color: #fff; }
+        .tb-icon-btn .notif-dot {
+            position: absolute; top: 1px; right: 1px;
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #E53E3E; border: 1.5px solid #1B4B6E;
+        }
+        .tb-avatar {
+            width: 32px; height: 32px; border-radius: 50%; overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.3); cursor: pointer;
+        }
+        .tb-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .tb-avatar-initials {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: #4A90D9; display: flex; align-items: center;
+            justify-content: center; color: #fff; font-size: 11px; font-weight: 700;
+            border: 2px solid rgba(255,255,255,0.3); cursor: pointer;
+        }
+
+        /* ─────────────────────────────────
+           PAGE SHELL
+        ───────────────────────────────── */
+        .page-shell {
+            flex: 1; display: flex; flex-direction: column;
+            position: relative; overflow: hidden;
+        }
+
+        /* Decorative background blobs */
+        .page-shell::before, .page-shell::after {
+            content: ''; position: absolute; border-radius: 50%;
+            pointer-events: none; z-index: 0;
+        }
+        .page-shell::before {
+            width: 520px; height: 520px;
+            background: radial-gradient(circle, rgba(59,141,189,0.18) 0%, transparent 70%);
+            top: -120px; right: -80px;
+        }
+        .page-shell::after {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(59,141,189,0.12) 0%, transparent 70%);
+            bottom: -100px; left: -60px;
+        }
+        .blob-mid {
+            position: absolute; width: 360px; height: 360px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(100,170,210,0.15) 0%, transparent 70%);
+            top: 30%; right: 20%; pointer-events: none; z-index: 0;
+        }
+
+        /* ─────────────────────────────────
+           PAGE HEADER
+        ───────────────────────────────── */
+        .page-header {
+            padding: 24px 32px 16px;
+            display: flex; align-items: flex-start; justify-content: space-between;
+            position: relative; z-index: 1;
+        }
+        .page-header-left { display: flex; align-items: flex-start; gap: 14px; }
+        .back-btn {
+            width: 32px; height: 32px; border-radius: 8px;
+            background: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.8);
+            display: flex; align-items: center; justify-content: center;
+            color: #1B4B6E; font-size: 14px; cursor: pointer;
+            text-decoration: none; transition: all 0.15s; flex-shrink: 0; margin-top: 3px;
+        }
+        .back-btn:hover { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .page-title h1 {
+            font-size: 22px; font-weight: 700; color: #1A2B3D; line-height: 1.2;
+        }
+        .page-title p { font-size: 13px; color: #5A7A94; margin-top: 3px; }
+        .page-header-right { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
+        .btn-orange {
+            padding: 9px 22px; border-radius: 8px; font-size: 13px; font-weight: 600;
+            border: none; cursor: pointer; background: #E8843A; color: #fff;
+            font-family: inherit; display: flex; align-items: center; gap: 7px;
+            transition: all 0.15s; white-space: nowrap;
+        }
+        .btn-orange:hover { background: #D4722E; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(232,132,58,0.35); }
+
+        /* ─────────────────────────────────
+           MAIN CARD
+        ───────────────────────────────── */
+        .main-card {
+            margin: 0 32px 32px; background: #fff;
+            border-radius: 16px; box-shadow: 0 4px 32px rgba(27,75,110,0.1);
+            overflow: hidden; position: relative; z-index: 1; flex: 1;
+        }
+
+        /* ─────────────────────────────────
+           TOOLBAR
+        ───────────────────────────────── */
+        .toolbar {
+            padding: 16px 20px; display: flex; align-items: center; gap: 10px;
+            border-bottom: 1px solid #EDF0F4;
+        }
+        .search-wrap { position: relative; flex: 0 1 240px; }
+        .search-wrap i {
+            position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+            font-size: 12px; color: #B0BBCA; pointer-events: none;
+        }
+        .search-input {
+            width: 100%; padding: 8px 12px 8px 32px;
+            border: 1.5px solid #E2E8EF; border-radius: 8px;
+            font-size: 13px; font-family: inherit; outline: none; color: #2D3748;
+            background: #FAFBFC; transition: border-color 0.15s;
+        }
+        .search-input:focus { border-color: #3B8DBD; background: #fff; }
+        .filter-btn {
+            padding: 8px 14px; border: 1.5px solid #E2E8EF; border-radius: 8px;
+            background: #FAFBFC; color: #5A6B7E; font-size: 13px; font-weight: 500;
+            font-family: inherit; cursor: pointer; display: flex; align-items: center; gap: 7px;
+            transition: all 0.15s; white-space: nowrap;
+        }
+        .filter-btn:hover, .filter-btn.active { border-color: #3B8DBD; color: #1B4B6E; background: #F0F8FF; }
+        .filter-btn i.fa-chevron-down { font-size: 10px; color: #A0AEC0; }
+        .toolbar-gap { flex: 1; }
+        .result-info { font-size: 12.5px; color: #8896A6; }
+
+        /* ─────────────────────────────────
+           TABLE
+        ───────────────────────────────── */
+        .prop-table-wrap { overflow-x: auto; }
+        .prop-table {
+            width: 100%; border-collapse: collapse; table-layout: fixed;
+        }
+
+        /* Header */
+        .prop-table thead tr {
+            background: linear-gradient(135deg, #1B4B6E 0%, #1E5A82 100%);
+        }
+        .prop-table thead th {
+            padding: 13px 20px; font-size: 12.5px; font-weight: 600;
+            color: rgba(255,255,255,0.92); text-align: left; letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+        .prop-table thead th.th-center { text-align: center; }
+
+        /* Body rows */
+        .prop-table tbody tr {
+            border-bottom: 6px solid #F2F5F8;
+            background: #fff;
+            transition: background 0.12s;
+            cursor: pointer;
+        }
+        .prop-table tbody tr:last-child { border-bottom: none; }
+        .prop-table tbody tr:hover { background: #F7FBFF; }
+        .prop-table tbody td {
+            padding: 16px 20px; font-size: 13.5px; color: #2D3748;
+            vertical-align: middle;
+        }
+
+        /* ── Property column ── */
+        .prop-cell { display: flex; align-items: center; gap: 14px; }
+        .prop-thumb {
+            width: 52px; height: 52px; border-radius: 10px; flex-shrink: 0;
+            overflow: hidden; background: #EDF2F7;
+            border: 1px solid #E2E8EF;
+        }
+        .prop-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .prop-thumb-placeholder {
+            width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+            font-size: 20px; color: #A0AEC0;
+        }
+        .prop-addr {
+            font-size: 13.5px; font-weight: 600; color: #2B7AB5;
+            cursor: pointer; text-decoration: none; line-height: 1.3;
+        }
+        .prop-addr:hover { text-decoration: underline; color: #1B5A8A; }
+
+        /* ── Type column ── */
+        .prop-type { font-size: 13.5px; color: #4A5568; }
+        .prop-type .unit-count { color: #8896A6; }
+
+        /* ── Status column ── */
+        .status-cell { text-align: center; }
+        .status-occ  { font-size: 13px; font-weight: 600; color: #3B8DBD; line-height: 1.6; }
+        .status-vac  { font-size: 13px; font-weight: 600; color: #3B8DBD; }
+        .status-only-occ { font-size: 13px; font-weight: 600; color: #3BAA6E; }
+        .status-only-vac { font-size: 13px; font-weight: 600; color: #E8843A; }
+
+        /* ── Owner column ── */
+        .owner-cell { display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .owner-name { font-size: 13.5px; font-weight: 600; color: #1A2B3D; }
+        .owner-more {
+            font-size: 12px; font-weight: 600; color: #8896A6;
+            background: #F0F4F8; padding: 2px 7px; border-radius: 10px;
+        }
+
+        /* ── Actions column ── */
+        .act-cell { text-align: right; padding-right: 16px !important; }
+        .dots-btn {
+            width: 30px; height: 30px; border-radius: 6px; border: none;
+            background: transparent; cursor: pointer; color: #A0AEC0; font-size: 15px;
+            display: inline-flex; align-items: center; justify-content: center;
+            transition: all 0.15s; position: relative;
+        }
+        .dots-btn:hover { background: #F0F4F8; color: #5A6B7E; }
+
+        /* Dropdown */
+        .row-dropdown-wrap { position: relative; display: inline-block; }
+        .row-dropdown {
+            display: none; position: absolute; right: 0; top: 34px; z-index: 200;
+            background: #fff; border: 1px solid #E2E8EF; border-radius: 10px;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.12); min-width: 180px;
+            overflow: hidden;
+        }
+        .row-dropdown.open { display: block; }
+        .row-dd-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 11px 16px; font-size: 13px; color: #2D3748;
+            cursor: pointer; transition: background 0.1s; border: none;
+            background: none; width: 100%; text-align: left; font-family: inherit; font-weight: 500;
+        }
+        .row-dd-item i { color: #8896A6; width: 14px; text-align: center; font-size: 12px; }
+        .row-dd-item:hover { background: #F5FAFE; color: #1B4B6E; }
+        .row-dd-item:hover i { color: #3B8DBD; }
+        .row-dd-sep { height: 1px; background: #F0F2F5; margin: 3px 0; }
+        .row-dd-item.danger { color: #E53E3E; }
+        .row-dd-item.danger i { color: #E53E3E; }
+        .row-dd-item.danger:hover { background: #FFF5F5; }
+
+        /* ── Column widths ── */
+        .col-prop   { width: 32%; }
+        .col-type   { width: 22%; }
+        .col-status { width: 16%; }
+        .col-owner  { width: 22%; }
+        .col-act    { width: 8%; }
+
+        /* ── Empty state ── */
+        .empty-state {
+            text-align: center; padding: 72px 32px; color: #A0AEC0;
+        }
+        .empty-state i { font-size: 52px; margin-bottom: 16px; display: block; opacity: 0.35; }
+        .empty-state h3 { font-size: 17px; font-weight: 600; color: #718096; margin-bottom: 8px; }
+        .empty-state p  { font-size: 13px; }
+
+        /* ── Responsive ── */
+        @media (max-width: 900px) {
+            .main-card { margin: 0 16px 24px; }
+            .page-header { padding: 18px 16px 12px; flex-direction: column; gap: 14px; }
+            .col-owner { display: none; }
+        }
+        @media (max-width: 640px) {
+            .col-type { display: none; }
+            .page-header-right { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ═══ TOP BAR ═══ -->
+    <header class="top-bar">
+        <div class="top-bar-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search properties, tenants, owners, vendors, transactions..." id="global-search">
+        </div>
+        <div class="top-bar-right">
+            <button class="tb-icon-btn" title="Notifications">
+                <i class="fas fa-bell"></i>
+                <span class="notif-dot"></span>
+            </button>
+            <div class="tb-avatar">
+                <img src="https://i.pravatar.cc/64?img=12" alt="User">
+            </div>
+            <div class="tb-avatar-initials">PM</div>
+        </div>
+    </header>
+
+    <!-- ═══ PAGE SHELL ═══ -->
+    <div class="page-shell">
+        <div class="blob-mid"></div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-header-left">
+                <a href="#" class="back-btn" title="Back"><i class="fas fa-arrow-left"></i></a>
+                <div class="page-title">
+                    <h1>Property Listing</h1>
+                    <p>Manage properties, add tenants, track rents or create rental ads effortlessly</p>
+                </div>
+            </div>
+            <div class="page-header-right">
+                <button class="btn-orange" id="btn-add-property">
+                    <i class="fas fa-plus"></i> Add Property
+                </button>
+                <button class="btn-orange" id="btn-setup-unit" style="background:#E8843A;">
+                    <i class="fas fa-cog"></i> Setup Unit
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Card -->
+        <div class="main-card">
+
+            <!-- Toolbar -->
+            <div class="toolbar">
+                <div class="search-wrap">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="search-input" id="prop-search" placeholder="Search">
+                </div>
+                <button class="filter-btn" id="filter-btn">
+                    <i class="fas fa-filter"></i> Filters
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="toolbar-gap"></div>
+                <span class="result-info" id="result-info">9 properties</span>
+            </div>
+
+            <!-- Table -->
+            <div class="prop-table-wrap">
+                <table class="prop-table" id="prop-table">
+                    <thead>
+                        <tr>
+                            <th class="col-prop">Property</th>
+                            <th class="col-type">Type</th>
+                            <th class="col-status th-center">Status</th>
+                            <th class="col-owner th-center">Owner</th>
+                            <th class="col-act"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="prop-tbody">
+
+                        <!-- Row 1 -->
+                        <tr data-href="Property_detailed_view.html">
+                            <td>
+                                <div class="prop-cell">
+                                    <div class="prop-thumb">
+                                        <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=100&h=100&fit=crop" alt="">
+                                    </div>
+                                    <a class="prop-addr" href="Property_detailed_view.html">550, Westwood, CA 3334</a>
+                                </div>
+                            </td>
+                            <td><span class="prop-type">Condo / Townhouse <span class="unit-count">(4)</span></span></td>
+                            <td class="status-cell">
+                                <div class="status-occ">Occupied: 3</div>
+                                <div class="status-vac">Vacant: 1</div>
+                            </td>
+                            <td>
+                                <div class="owner-cell">
+                                    <span class="owner-name">Gulivers Adam</span>
+                                    <span class="owner-more">+1</span>
+                                </div>
+                            </td>
+                            <td class="act-cell">
+                                <div class="row-dropdown-wrap">
+                                    <button class="dots-btn" type="button"><i class="fas fa-ellipsis-v"></i></button>
+                                    <div class="row-dropdown">
+                                        <button class="row-dd-item" onclick="window.location='Property_detailed_view.html'"><i class="fas fa-eye"></i> View Details</button>
+                                        <button class="row-dd-item"><i class="fas fa-pen"></i> Edit Property</button>
+                                        <button class="row-dd-item"><i class="fas fa-plus-circle"></i> Add Unit</button>
+                                        <button class="row-dd-item"><i class="fas fa-bullhorn"></i> Create Listing</button>
+                                        <div class="row-dd-sep"></div>
+                                        <button class="row-dd-item danger"><i class="fas fa-trash-alt"></i> Delete</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 2 -->
+                        <tr data-href="Property_detailed_view.html">
+                            <td>
+                                <div class="prop-cell">
+                                    <div class="prop-thumb">
+                                        <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=100&h=100&fit=crop" alt="">
+                                    </div>
+                                    <a class="prop-addr" href="Property_detailed_view.html">330, Windsor Greens, NM 39920</a>
+                                </div>
+                            </td>
+                            <td><span class="prop-type">Single Family Home</span></td>
+                            <td class="status-cell">
+                                <div class="status-only-vac">Vacant</div>
+                            </td>
+                            <td>
+                                <div class="owner-cell">
+                                    <span class="owner-name">Greydon Clark</span>
+                                </div>
+                            </td>
+                            <td class="act-cell">
+                                <div class="row-dropdown-wrap">
+                                    <button class="dots-btn" type="button"><i class="fas fa-ellipsis-v"></i></button>
+                                    <div class="row-dropdown">
+                                        <button class="row-dd-item" onclick="window.location='Property_detailed_view.html'"><i class="fas fa-eye"></i> View Details</button>
+                                        <button class="row-dd-item"><i class="fas fa-pen"></i> Edit Property</button>
+                                        <button class="row-dd-item"><i class="fas fa-plus-circle"></i> Add Unit</button>
+                                        <button class="row-dd-item"><i class="fas fa-bullhorn"></i> Create Listing</button>
+                                        <div class="row-dd-sep"></div>
+                                        <button class="row-dd-item danger"><i class="fas fa-trash-alt"></i> Delete</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 3 -->
+                        <tr data-href="Property_detailed_view.html">
+                            <td>
+                                <div class="prop-cell">
+                                    <div class="prop-thumb">
+                                        <div class="prop-thumb-placeholder"><i class="fas fa-building"></i></div>
+                                    </div>
+                                    <a class="prop-addr" href="Property_detailed_view.html">550, Westwood, CA 3334</a>
+                                </div>
+                            </td>
+                            <td><span class="prop-type">Condo / Townhouse <span class="unit-count">(2)</span></span></td>
+                            <td class="status-cell">
+                                <div class="status-occ">Occupied: 1</div>
+                                <div class="status-vac">Vacant: 1</div>
+                            </td>
+                            <td>
+                                <div class="owner-cell">
+                                    <span class="owner-name">PS Ventures</span>
+                                </div>
+                            </td>
+                            <td class="act-cell">
+                                <div class="row-dropdown-wrap">
+                                    <button class="dots-btn" type="button"><i class="fas fa-ellipsis-v"></i></button>
+                                    <div class="row-dropdown">
+                                        <button class="row-dd-item" onclick="window.location='Property_detailed_view.html'"><i class="fas fa-eye"></i> View Details</button>
+                                        <button class="row-dd-item"><i class="fas fa-pen"></i> Edit Property</button>
+                                        <button class="row-dd-item"><i class="fas fa-plus-circle"></i> Add Unit</button>
+                                        <button class="row-dd-item"><i class="fas fa-bullhorn"></i> Create Listing</button>
+                                        <div class="row-dd-sep"></div>
+                                        <button class="row-dd-item danger"><i class="fas fa-trash-alt"></i> Delete</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 4 -->
+                        <tr data-href="Property_detailed_view.html">
+                            <td>
+                                <div class="prop-cell">
+                                    <div class="prop-thumb">
+                                        <div class="prop-thumb-placeholder"><i class="fas fa-home"></i></div>
+                                    </div>
+                                    <a class="prop-addr" href="Property_detailed_view.html">022, College St, CA 30033</a>
+                                </div>
+                            </td>
+                            <td><span class="prop-type">Single Family Home <span class="unit-count">(4)</span></span></td>
+                            <td class="status-cell">
+                                <div class="status-occ">Occupied: 3</div>
+                                <div class="status-vac">Vacant: 1</div>
+                            </td>
+                            <td>
+                                <div class="owner-cell">
+                                    <span class="owner-name">Teresa Coleman</span>
+                                </div>
+                            </td>
+                            <td class="act-cell">
+                                <div class="row-dropdown-wrap">
+                                    <button class="dots-btn" type="button"><i class="fas fa-ellipsis-v"></i></button>
+                                    <div class="row-dropdown">
+                                        <button class="row-dd-item" onclick="window.location='Property_detailed_view.html'"><i class="fas fa-eye"></i> View Details</button>
+                                        <button class="row-dd-item"><i class="fas fa-pen"></i> Edit Property</button>
+                                        <button class="row-dd-item"><i class="fas fa-plus-circle"></i> Add Unit</button>
+                                        <button class="row-dd-item"><i class="fas fa-bullhorn"></i> Create Listing</button>
+                                        <div class="row-dd-sep"></div>
+                                        <button class="row-dd-item danger"><i class="fas fa-trash-alt"></i> Delete</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 5 -->
+                        <tr data-href="Property_detailed_view.html">
+                            <td>
+                                <div class="prop-cell">
+                                    <div class="prop-thumb">
+                                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=100&h=100&fit=crop" alt="">
+                                    </div>
+                                    <a class="prop-addr" href="Property_detailed_view.html">9400 Avenue City, CA 93033</a>
+                                </div>
+                            </td>
+                            <td><span class="prop-type">Duplex <span class="unit-count">(2)</span></span></td>
+                            <td class="status-cell">
+                                <div class="status-occ">Occupied: 1</div>
+                                <div class="status-vac">Vacant: 1</div>
+                            </td>
+                            <td>
+                                <div class="owner-cell">
+                                    <span class="owner-name">Angel Hopkins</span>
+                                    <span class="owner-more">+1</span>
+                                </div>
+                            </td>
+                            <td class="act-cell">
+                                <div class="row-dropdown-wrap">
+                                    <button class="dots-btn" type="button"><i class="fas fa-ellipsis-v"></i></button>
+                                    <div class="row-dropdown">
+                                        <button class="row-dd-item" onclick="window.location='Property_detailed_view.html'"><i class="fas fa-eye"></i> View Details</button>
+                                        <button class="row-dd-item"><i class="fas fa-pen"></i> Edit Property</button>
+                                        <button class="row-dd-item"><i class="fas fa-plus-circle"></i> Add Unit</button>
+                                        <button class="row-dd-item"><i class="fas fa-bullhorn"></i> Create Listing</button>
+                                        <div class="row-dd-sep"></div>
+                                        <button class="row-dd-item danger"><i class="fas fa-trash-alt"></i> Delete</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 6 -->
+                        <tr data-href="Property_detailed_view.html">
+                            <td>
+                                <div class="prop-cell">
+                                    <div class="prop-thumb">
+                                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=100&h=100&fit=crop" alt="">
+                                    </div>
+                                    <a class="prop-addr" href="Property_detailed_view.html">123 Gardens Eastwood, CA 94933</a>
+                                </div>
+                            </td>
+                            <td><span class="prop-type">Single Family Home</span></td>
+                            <td class="status-cell">
+                                <div class="status-only-occ">Occupied</div>
+                            </td>
+                            <td>
+                                <div class="owner-cell">
+                                    <span class="owner-name">Anna Bianca Capital</span>
+                                </div>
+                            </td>
+                            <td class="act-cell">
+                                <div class="row-dropdown-wrap">
+                                    <button class="dots-btn" type="button"><i class="fas fa-ellipsis-v"></i></button>
+                                    <div class="row-dropdown">
+                                        <button class="row-dd-item" onclick="window.location='Property_detailed_view.html'"><i class="fas fa-eye"></i> View Details</button>
+                                        <button class="row-dd-item"><i class="fas fa-pen"></i> Edit Property</button>
+                                        <button class="row-dd-item"><i class="fas fa-plus-circle"></i> Add Unit</button>
+                                        <button class="row-dd-item"><i class="fas fa-bullhorn"></i> Create Listing</button>
+                                        <div class="row-dd-sep"></div>
+                                        <button class="row-dd-item danger"><i class="fas fa-trash-alt"></i> Delete</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 7 -->
+                        <tr data-href="Property_detailed_view.html">
+                            <td>
+                                <div class="prop-cell">
+                                    <div class="prop-thumb">
+                                        <div class="prop-thumb-placeholder"><i class="fas fa-store"></i></div>
+                                    </div>
+                                    <a class="prop-addr" href="Property_detailed_view.html">880, Arsela Ave, Maryland, USA</a>
+                                </div>
+                            </td>
+                            <td><span class="prop-type">Commercial Property <span class="unit-count">(2)</span></span></td>
+                            <td class="status-cell">
+                                <div class="status-occ">Occupied: 1</div>
+                                <div class="status-vac">Vacant: 1</div>
+                            </td>
+                            <td>
+                                <div class="owner-cell">
+                                    <span class="owner-name">Dorjee Williams</span>
+                                </div>
+                            </td>
+                            <td class="act-cell">
+                                <div class="row-dropdown-wrap">
+                                    <button class="dots-btn" type="button"><i class="fas fa-ellipsis-v"></i></button>
+                                    <div class="row-dropdown">
+                                        <button class="row-dd-item" onclick="window.location='Property_detailed_view.html'"><i class="fas fa-eye"></i> View Details</button>
+                                        <button class="row-dd-item"><i class="fas fa-pen"></i> Edit Property</button>
+                                        <button class="row-dd-item"><i class="fas fa-plus-circle"></i> Add Unit</button>
+                                        <button class="row-dd-item"><i class="fas fa-bullhorn"></i> Create Listing</button>
+                                        <div class="row-dd-sep"></div>
+                                        <button class="row-dd-item danger"><i class="fas fa-trash-alt"></i> Delete</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 8 -->
+                        <tr data-href="Property_detailed_view.html">
+                            <td>
+                                <div class="prop-cell">
+                                    <div class="prop-thumb">
+                                        <div class="prop-thumb-placeholder"><i class="fas fa-store"></i></div>
+                                    </div>
+                                    <a class="prop-addr" href="Property_detailed_view.html">022 Lakeland, College St, CA 30033</a>
+                                </div>
+                            </td>
+                            <td><span class="prop-type">Commercial Property <span class="unit-count">(2)</span></span></td>
+                            <td class="status-cell">
+                                <div class="status-only-occ">Occupied: 2</div>
+                            </td>
+                            <td>
+                                <div class="owner-cell">
+                                    <span class="owner-name">Dorjee Williams</span>
+                                </div>
+                            </td>
+                            <td class="act-cell">
+                                <div class="row-dropdown-wrap">
+                                    <button class="dots-btn" type="button"><i class="fas fa-ellipsis-v"></i></button>
+                                    <div class="row-dropdown">
+                                        <button class="row-dd-item" onclick="window.location='Property_detailed_view.html'"><i class="fas fa-eye"></i> View Details</button>
+                                        <button class="row-dd-item"><i class="fas fa-pen"></i> Edit Property</button>
+                                        <button class="row-dd-item"><i class="fas fa-plus-circle"></i> Add Unit</button>
+                                        <button class="row-dd-item"><i class="fas fa-bullhorn"></i> Create Listing</button>
+                                        <div class="row-dd-sep"></div>
+                                        <button class="row-dd-item danger"><i class="fas fa-trash-alt"></i> Delete</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 9 -->
+                        <tr data-href="Property_detailed_view.html">
+                            <td>
+                                <div class="prop-cell">
+                                    <div class="prop-thumb">
+                                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=100&h=100&fit=crop" alt="">
+                                    </div>
+                                    <a class="prop-addr" href="Property_detailed_view.html">334, Windsor Gardens, NJ 20003</a>
+                                </div>
+                            </td>
+                            <td><span class="prop-type">Duplex <span class="unit-count">(2)</span></span></td>
+                            <td class="status-cell">
+                                <div class="status-occ">Occupied: 1</div>
+                                <div class="status-vac">Vacant: 1</div>
+                            </td>
+                            <td>
+                                <div class="owner-cell">
+                                    <span class="owner-name">Jake Freeman</span>
+                                </div>
+                            </td>
+                            <td class="act-cell">
+                                <div class="row-dropdown-wrap">
+                                    <button class="dots-btn" type="button"><i class="fas fa-ellipsis-v"></i></button>
+                                    <div class="row-dropdown">
+                                        <button class="row-dd-item" onclick="window.location='Property_detailed_view.html'"><i class="fas fa-eye"></i> View Details</button>
+                                        <button class="row-dd-item"><i class="fas fa-pen"></i> Edit Property</button>
+                                        <button class="row-dd-item"><i class="fas fa-plus-circle"></i> Add Unit</button>
+                                        <button class="row-dd-item"><i class="fas fa-bullhorn"></i> Create Listing</button>
+                                        <div class="row-dd-sep"></div>
+                                        <button class="row-dd-item danger"><i class="fas fa-trash-alt"></i> Delete</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div><!-- /table-wrap -->
+
+        </div><!-- /main-card -->
+    </div><!-- /page-shell -->
+
+    <script>
+    (function() {
+
+        /* ── Row click → navigate to Property_detailed_view.html ── */
+        document.querySelectorAll('#prop-tbody tr').forEach(function(row) {
+            row.addEventListener('click', function(e) {
+                // Don't navigate if clicking the dots button or dropdown
+                if (e.target.closest('.row-dropdown-wrap')) return;
+                var href = this.dataset.href;
+                if (href) window.location.href = href;
+            });
+        });
+
+        /* ── Address links don't bubble ── */
+        document.querySelectorAll('.prop-addr').forEach(function(a) {
+            a.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+
+        /* ── Dots dropdown toggle ── */
+        document.addEventListener('click', function(e) {
+            var dotsBtn = e.target.closest('.dots-btn');
+
+            // Close all open dropdowns first
+            document.querySelectorAll('.row-dropdown.open').forEach(function(dd) {
+                if (!dotsBtn || !dd.parentElement.contains(dotsBtn)) {
+                    dd.classList.remove('open');
+                }
+            });
+
+            if (dotsBtn) {
+                e.stopPropagation();
+                var wrap = dotsBtn.closest('.row-dropdown-wrap');
+                var dd = wrap && wrap.querySelector('.row-dropdown');
+                if (dd) dd.classList.toggle('open');
+            }
+        });
+
+        /* ── Live search ── */
+        var rows = Array.from(document.querySelectorAll('#prop-tbody tr'));
+        document.getElementById('prop-search').addEventListener('input', function() {
+            var q = this.value.toLowerCase().trim();
+            var visible = 0;
+            rows.forEach(function(row) {
+                var show = !q || row.textContent.toLowerCase().indexOf(q) !== -1;
+                row.style.display = show ? '' : 'none';
+                if (show) visible++;
+            });
+            document.getElementById('result-info').textContent = visible + ' propert' + (visible === 1 ? 'y' : 'ies');
+        });
+
+    })();
+    </script>
+
+    <!-- ═══════════════════════════════════════════
+         ADD PROPERTY WIZARD OVERLAY
+         ═══════════════════════════════════════════ -->
+    <div id="apw-overlay" class="apw-overlay">
+      <div class="apw-page">
+        <div class="apw-topbar">
+          <button class="apw-back-btn" id="apw-close-top">
+            <i class="fas fa-arrow-left"></i> Back
+          </button>
+          <div class="apw-topbar-title">
+            <h1>New Property</h1>
+            <p>Start the simple, step-by-step process of adding a new property to your listings</p>
+          </div>
+          <div class="apw-search"><i class="fas fa-search"></i> Search properties, tenants, owners, vendors...</div>
+        </div>
+        <div class="apw-card">
+          <div class="apw-steps-bar">
+            <div class="apw-step active" data-step="1">
+              <div class="apw-step-circle">1</div>
+              <div class="apw-step-label">Property Type</div>
+            </div>
+            <div class="apw-step" data-step="2">
+              <div class="apw-step-circle">2</div>
+              <div class="apw-step-label">Property Address</div>
+            </div>
+            <div class="apw-step" data-step="3">
+              <div class="apw-step-circle">3</div>
+              <div class="apw-step-label">Property Information</div>
+            </div>
+            <div class="apw-step" data-step="4">
+              <div class="apw-step-circle">4</div>
+              <div class="apw-step-label">Unit Details</div>
+            </div>
+            <div class="apw-step" data-step="5">
+              <div class="apw-step-circle">5</div>
+              <div class="apw-step-label">Review &amp; Finish</div>
+            </div>
+          </div>
+          <div class="apw-body">
+            <!-- STEP 1: Property Type -->
+            <div class="apw-step-content active" data-step="1">
+              <div class="apw-inner">
+                <div class="apw-section-title">Type of Property</div>
+                <div class="apw-type-grid">
+                  <div class="apw-type-card" data-type="Residential">
+                    <div class="apw-type-icon"><i class="fas fa-home"></i></div>
+                    <div class="apw-type-label">Residential</div>
+                  </div>
+                  <div class="apw-type-card" data-type="Commercial">
+                    <div class="apw-type-icon"><i class="fas fa-building"></i></div>
+                    <div class="apw-type-label">Commercial</div>
+                  </div>
+                </div>
+                <div class="apw-unit-option-wrap" id="apw-unit-option-wrap">
+                  <div class="apw-unit-option-label">
+                    <i class="fas fa-layer-group"></i> Select Unit Option
+                  </div>
+                  <div class="apw-unit-option-cards">
+                    <div class="apw-unit-option-card" data-unit-type="Single">
+                      <div class="apw-unit-option-icon"><i class="fas fa-house-user"></i></div>
+                      <div class="apw-unit-option-text">
+                        <div class="apw-unit-option-title">Single</div>
+                        <div class="apw-unit-option-sub">One unit in this property</div>
+                      </div>
+                    </div>
+                    <div class="apw-unit-option-card" data-unit-type="Multiple Unit">
+                      <div class="apw-unit-option-icon"><i class="fas fa-building"></i></div>
+                      <div class="apw-unit-option-text">
+                        <div class="apw-unit-option-title">Multiple Unit</div>
+                        <div class="apw-unit-option-sub">Two or more units in this property</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="apw-num-units-wrap" id="apw-num-units-wrap">
+                    <div class="apw-num-units-inner">
+                      <i class="fas fa-hashtag apw-num-units-ic"></i>
+                      <div class="apw-form-group" style="flex:1; max-width:200px;">
+                        <label class="apw-label">Number of Units</label>
+                        <input class="apw-input" type="number" id="apw-num-units" min="2" step="1" placeholder="e.g. 4" style="width:100%;">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- STEP 2: Property Address -->
+            <div class="apw-step-content" data-step="2">
+              <div class="apw-inner">
+                <div class="apw-section-title">Address of the Property</div>
+                <div class="apw-section-box">
+                  <div class="apw-section-box-title">Enter property's address</div>
+                  <div class="apw-form-grid" style="margin-bottom:14px;">
+                    <div class="apw-form-group">
+                      <label class="apw-label">Street 1</label>
+                      <input class="apw-input" type="text" id="apw-street1" placeholder="Enter street details">
+                    </div>
+                    <div class="apw-form-group">
+                      <label class="apw-label">Street 2</label>
+                      <input class="apw-input" type="text" id="apw-street2" placeholder="Enter street details">
+                    </div>
+                    <div class="apw-form-group">
+                      <label class="apw-label">Select City</label>
+                      <input class="apw-input" type="text" id="apw-city" placeholder="Enter city name">
+                    </div>
+                    <div class="apw-form-group">
+                      <label class="apw-label">Select State</label>
+                      <input class="apw-input" type="text" id="apw-state" placeholder="Enter state">
+                    </div>
+                    <div class="apw-form-group">
+                      <label class="apw-label">Select Zipcode</label>
+                      <input class="apw-input" type="text" id="apw-zip" placeholder="Enter zipcode">
+                    </div>
+                    <div class="apw-form-group">
+                      <label class="apw-label">Sort by Property Name <span class="req">*</span></label>
+                      <input class="apw-input" type="text" id="apw-propname" placeholder="Enter property name">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- STEP 3: Property Information -->
+            <div class="apw-step-content" data-step="3">
+              <div class="apw-inner">
+                <div class="apw-section-title">Add Owner Info</div>
+                <div class="apw-section-box">
+                  <div class="apw-owner-header">
+                    <span class="apw-owner-tab">Add owner</span>
+                    <span class="apw-owner-sep">|</span>
+                    <button type="button" class="apw-owner-link">View Ownership History Log</button>
+                  </div>
+                  <div class="apw-form-group" style="max-width:220px; margin-bottom:14px;">
+                    <label class="apw-label">Effective Date</label>
+                    <input class="apw-input" type="date" id="apw-eff-date">
+                  </div>
+                  <div id="apw-owners-list">
+                    <div class="apw-owner-row" style="margin-bottom:12px;">
+                      <div class="apw-form-group">
+                        <label class="apw-label">Owner Name</label>
+                        <input class="apw-input" type="text" placeholder="Select or type in">
+                      </div>
+                      <div class="apw-form-group" style="max-width:180px;">
+                        <label class="apw-label">Ownership (%)</label>
+                        <input class="apw-input" type="number" min="0" max="100" placeholder="Enter ownership percentage">
+                      </div>
+                    </div>
+                  </div>
+                  <button type="button" class="apw-add-link" id="apw-add-owner">
+                    <i class="fas fa-plus-circle" style="color:#3B8DBD;"></i> Add Another Ownership
+                  </button>
+                </div>
+                <div class="apw-section-title" style="text-align:center; font-size:17px; margin:20px 0 14px;">Bank Accounts</div>
+                <div class="apw-section-box">
+                  <div class="apw-bank-toggle-row">
+                    <div class="apw-bank-toggle-info">
+                      <strong>Add Bank Account</strong>
+                      Configure bank accounts and reserve for the property
+                    </div>
+                    <button type="button" class="apw-toggle-switch" id="apw-bank-toggle"></button>
+                  </div>
+                  <div id="apw-bank-fields">
+                    <div class="apw-form-group" style="margin-bottom:12px;">
+                      <label class="apw-label">Income <i class="fas fa-info-circle" style="color:#A0AEC0; font-size:11px;"></i></label>
+                      <select class="apw-select apw-input"><option value="">Select or type in Bank</option></select>
+                    </div>
+                    <div class="apw-form-group" style="margin-bottom:12px;">
+                      <label class="apw-label">Expense <i class="fas fa-info-circle" style="color:#A0AEC0; font-size:11px;"></i></label>
+                      <select class="apw-select apw-input"><option value="">Select or type in Bank</option></select>
+                    </div>
+                    <div class="apw-form-group">
+                      <label class="apw-label">Security Deposits <i class="fas fa-info-circle" style="color:#A0AEC0; font-size:11px;"></i></label>
+                      <select class="apw-select apw-input"><option value="">Select or type in Bank</option></select>
+                    </div>
+                  </div>
+                </div>
+                <div class="apw-section-title" style="text-align:center; font-size:17px; margin:20px 0 14px;">Property Reserve</div>
+                <div class="apw-section-box">
+                  <div class="apw-form-group" style="max-width:220px;">
+                    <label class="apw-label">Set Property Reserve ($)</label>
+                    <input class="apw-input" type="number" id="apw-prop-reserve" min="0" step="0.01" value="0.00" placeholder="0.00" style="text-align:right;">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- STEP 4: Unit Details -->
+            <div class="apw-step-content" data-step="4">
+              <div class="apw-inner">
+                <div class="apw-section-title" id="apw-ud-heading">Unit Details</div>
+                <p style="text-align:center; color:#718096; font-size:13px; margin-bottom:16px;" id="apw-ud-sub">Enter details for your units below.</p>
+                <div class="apw-ut-toolbar" id="apw-ut-toolbar">
+                  <div class="apw-ut-info">
+                    <i class="fas fa-layer-group"></i>
+                    <span id="apw-ut-count-label">1 unit</span>
+                  </div>
+                  <div class="apw-ut-progress-wrap">
+                    <div class="apw-ut-progress-bar" id="apw-ut-progress-bar"></div>
+                  </div>
+                  <span class="apw-ut-progress-txt" id="apw-ut-progress-txt">0 / 1 filled</span>
+                </div>
+                <div class="apw-bulk-toolbar" id="apw-bulk-toolbar">
+                  <div class="apw-bulk-left">
+                    <i class="fas fa-magic"></i>
+                    <span class="apw-bulk-title">Bulk Edit</span>
+                    <span class="apw-bulk-hint">Fill common values across all units at once</span>
+                  </div>
+                  <button type="button" class="apw-bulk-toggle-btn" id="apw-bulk-toggle">
+                    <i class="fas fa-chevron-down"></i>
+                  </button>
+                </div>
+                <div class="apw-bulk-panel" id="apw-bulk-panel">
+                  <div class="apw-bulk-fields">
+                    <div class="apw-bulk-field">
+                      <label class="apw-label">Bedroom</label>
+                      <select class="apw-input apw-select" id="apw-bulk-beds">
+                        <option value="">—</option>
+                        <option>Studio</option><option>1</option><option>2</option>
+                        <option>3</option><option>4</option><option>5</option><option>6+</option>
+                      </select>
+                    </div>
+                    <div class="apw-bulk-field">
+                      <label class="apw-label">Bathroom</label>
+                      <select class="apw-input apw-select" id="apw-bulk-baths">
+                        <option value="">—</option>
+                        <option>1</option><option>1.5</option><option>2</option>
+                        <option>2.5</option><option>3</option><option>3+</option>
+                      </select>
+                    </div>
+                    <div class="apw-bulk-field">
+                      <label class="apw-label">Size (sq ft)</label>
+                      <input class="apw-input" type="text" id="apw-bulk-size" placeholder="e.g. 850">
+                    </div>
+                    <div class="apw-bulk-field">
+                      <label class="apw-label">Address Strategy</label>
+                      <select class="apw-input apw-select" id="apw-bulk-strat">
+                        <option value="">—</option>
+                        <option>Unit number</option><option>Suite</option>
+                        <option>Apt</option><option>Floor</option>
+                      </select>
+                    </div>
+                    <div class="apw-bulk-field">
+                      <label class="apw-label">Market Rent ($)</label>
+                      <input class="apw-input" type="text" id="apw-bulk-rent" placeholder="$0.00">
+                    </div>
+                  </div>
+                  <div class="apw-bulk-actions">
+                    <button type="button" class="apw-bulk-apply-btn" id="apw-bulk-apply">
+                      <i class="fas fa-check-double"></i> Apply To All Empty Row
+                    </button>
+                    <button type="button" class="apw-bulk-overwrite-btn" id="apw-bulk-overwrite">
+                      <i class="fas fa-sync-alt"></i> Apply To All Row (Override)
+                    </button>
+                    <button type="button" class="apw-bulk-selected-btn" id="apw-bulk-selected">
+                      <i class="fas fa-check-square"></i> Apply to Selected Row
+                      <span class="apw-bulk-sel-badge" id="apw-bulk-sel-badge">0</span>
+                    </button>
+                    <button type="button" class="apw-bulk-clear-btn" id="apw-bulk-clear">
+                      <i class="fas fa-eraser"></i> Clear All
+                    </button>
+                  </div>
+                </div>
+                <div class="apw-ut-wrap">
+                  <table class="apw-ut-table" id="apw-ut-table">
+                    <thead>
+                      <tr>
+                        <th class="apw-ut-th-chk"><label class="apw-chk-wrap" title="Select all"><input type="checkbox" id="apw-chk-all"><span class="apw-chk-box"></span></label></th>
+                        <th class="apw-ut-th-num">#</th>
+                        <th>Unit Name</th><th>Bed</th><th>Bath</th>
+                        <th>Size (sq ft)</th><th>Address Strategy</th>
+                        <th>Market Rent ($)</th><th>Description</th>
+                      </tr>
+                    </thead>
+                    <tbody id="apw-ut-tbody"></tbody>
+                  </table>
+                </div>
+                <div class="apw-ut-pagination" id="apw-ut-pagination">
+                  <button type="button" class="apw-ut-page-btn" id="apw-ut-prev" disabled><i class="fas fa-chevron-left"></i></button>
+                  <span class="apw-ut-page-info" id="apw-ut-page-info">1 – 10 of 20</span>
+                  <button type="button" class="apw-ut-page-btn" id="apw-ut-next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+              </div>
+            </div>
+            <!-- STEP 5: Review & Finish -->
+            <div class="apw-step-content" data-step="5">
+              <div class="apw-inner">
+                <div class="apw-section-title">Review &amp; Finish</div>
+                <p style="text-align:center; color:#718096; font-size:13px; margin-bottom:24px;">Please review all the details below before submitting.</p>
+                <div class="apw-review-grid">
+                  <div class="apw-review-section">
+                    <h4><i class="fas fa-building" style="margin-right:6px;"></i> Property Type</h4>
+                    <div class="apw-review-row"><span class="apw-review-label">Type</span><span class="apw-review-val" id="rv-type">—</span></div>
+                    <div class="apw-review-row" id="rv-unit-option-row" style="display:none;"><span class="apw-review-label">Unit Option</span><span class="apw-review-val" id="rv-unit-option">—</span></div>
+                    <div class="apw-review-row" id="rv-num-units-row" style="display:none;"><span class="apw-review-label">Number of Units</span><span class="apw-review-val" id="rv-num-units">—</span></div>
+                  </div>
+                  <div class="apw-review-section">
+                    <h4><i class="fas fa-map-marker-alt" style="margin-right:6px;"></i> Address</h4>
+                    <div class="apw-review-row"><span class="apw-review-label">Street 1</span><span class="apw-review-val" id="rv-street1">—</span></div>
+                    <div class="apw-review-row"><span class="apw-review-label">Street 2</span><span class="apw-review-val" id="rv-street2">—</span></div>
+                    <div class="apw-review-row"><span class="apw-review-label">City</span><span class="apw-review-val" id="rv-city">—</span></div>
+                    <div class="apw-review-row"><span class="apw-review-label">State</span><span class="apw-review-val" id="rv-state">—</span></div>
+                    <div class="apw-review-row"><span class="apw-review-label">Zipcode</span><span class="apw-review-val" id="rv-zip">—</span></div>
+                    <div class="apw-review-row"><span class="apw-review-label">Property Name</span><span class="apw-review-val" id="rv-propname">—</span></div>
+                  </div>
+                  <div class="apw-review-section">
+                    <h4><i class="fas fa-user" style="margin-right:6px;"></i> Owner Info</h4>
+                    <div class="apw-review-row"><span class="apw-review-label">Effective Date</span><span class="apw-review-val" id="rv-effdate">—</span></div>
+                  </div>
+                  <div class="apw-review-section">
+                    <h4><i class="fas fa-piggy-bank" style="margin-right:6px;"></i> Property Reserve</h4>
+                    <div class="apw-review-row"><span class="apw-review-label">Reserve Amount</span><span class="apw-review-val" id="rv-reserve">$0.00</span></div>
+                  </div>
+                  <div class="apw-review-section" id="rv-units-section" style="grid-column:1/-1; display:none;">
+                    <h4><i class="fas fa-home" style="margin-right:6px;"></i> Unit Details</h4>
+                    <div id="rv-units-body"></div>
+                  </div>
+                  <div class="apw-review-section" style="grid-column: 1 / -1;">
+                    <h4><i class="fas fa-shopping-basket" style="margin-right:6px;"></i> Next steps</h4>
+                    <p style="font-size:12.5px; color:#718096; margin:0; line-height:1.6;">Add property amenities and upload photos from the <strong>Complete your property &amp; unit</strong> checklist on the Overview tab after you finish.</p>
+                  </div>
+                </div>
+                <div style="margin-top:24px; text-align:center;">
+                  <div id="apw-success-msg" style="display:none; background:#E6F8EE; border:1px solid #9AE6B4; border-radius:10px; padding:18px 24px; color:#22894A; font-size:14px; font-weight:600;">
+                    <i class="fas fa-check-circle" style="font-size:20px; margin-bottom:6px; display:block;"></i>
+                    Property added successfully!
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- /apw-body -->
+          <div class="apw-footer">
+            <span class="apw-footer-left" id="apw-step-label">Step 1 of 5</span>
+            <div style="display:flex; gap:12px;">
+              <button type="button" class="apw-btn-back" id="apw-btn-back">Back</button>
+              <button type="button" class="apw-btn-next" id="apw-btn-next">Next</button>
+            </div>
+          </div>
+        </div><!-- /apw-card -->
+      </div><!-- /apw-page -->
+    </div><!-- /apw-overlay -->
+
+    <!-- ═══════════════════════════════════════════
+         SETUP UNIT WIZARD OVERLAY
+         ═══════════════════════════════════════════ -->
+    <div id="suw-overlay" class="apw-overlay" style="z-index:2100;">
+      <div class="apw-page">
+        <div class="apw-topbar">
+          <button class="apw-back-btn" id="suw-close-top">
+            <i class="fas fa-arrow-left"></i> Back
+          </button>
+          <div class="apw-topbar-title">
+            <h1>Setup a New Unit</h1>
+            <p>This process will guide you through adding a new unit to an existing property</p>
+          </div>
+          <div class="apw-search"><i class="fas fa-search"></i> Search properties, tenants, owners, vendors...</div>
+        </div>
+        <div class="apw-card">
+          <div class="apw-steps-bar">
+            <div class="apw-step active" data-step="1">
+              <div class="apw-step-circle">1</div>
+              <div class="apw-step-label">Unit Details</div>
+            </div>
+            <div class="apw-step" data-step="2">
+              <div class="apw-step-circle">2</div>
+              <div class="apw-step-label">Review &amp; Finish</div>
+            </div>
+          </div>
+          <div class="apw-body">
+            <!-- STEP 1: Unit Details -->
+            <div class="apw-step-content active" data-step="1">
+              <div class="apw-inner">
+                <div class="apw-section-title">Unit Details</div>
+                <div class="apw-section-box">
+                  <div class="apw-section-box-title">Enter Unit Details</div>
+                  <div class="apw-form-group" style="margin-bottom:14px;">
+                    <label class="apw-label">Unit Name</label>
+                    <input class="apw-input" type="text" id="suw-unit-name" placeholder="e.g. Unit 101, Suite A">
+                  </div>
+                  <div class="suw-row" style="display:flex; gap:12px; margin-bottom:14px;">
+                    <div class="apw-form-group">
+                      <label class="apw-label">Bedroom</label>
+                      <select class="apw-input apw-select" id="suw-beds">
+                        <option value="">Select</option>
+                        <option>Studio</option><option>1</option><option>2</option>
+                        <option>3</option><option>4</option><option>5</option><option>6+</option>
+                      </select>
+                    </div>
+                    <div class="apw-form-group">
+                      <label class="apw-label">Bathroom</label>
+                      <select class="apw-input apw-select" id="suw-baths">
+                        <option value="">Select</option>
+                        <option>1</option><option>1.5</option><option>2</option>
+                        <option>2.5</option><option>3</option><option>3+</option>
+                      </select>
+                    </div>
+                    <div class="apw-form-group" style="flex:1;">
+                      <label class="apw-label">Size (sq ft)</label>
+                      <input class="apw-input" type="text" id="suw-size" placeholder="e.g. 850">
+                    </div>
+                  </div>
+                  <div class="apw-form-group" style="margin-bottom:14px;">
+                    <label class="apw-label">Street Address Strategy</label>
+                    <select class="apw-input apw-select" id="suw-addr-strategy">
+                      <option value="">Select</option>
+                      <option>Unit number</option><option>Suite</option>
+                      <option>Apt</option><option>Floor</option>
+                    </select>
+                  </div>
+                  <div class="apw-form-group" style="margin-bottom:14px;">
+                    <label class="apw-label">Market Rent ($)</label>
+                    <input class="apw-input" type="text" id="suw-market-rent" placeholder="$0.00">
+                  </div>
+                  <div class="apw-form-group">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+                      <label class="apw-label">Description for your unit <span style="color:#9AA5B4; font-weight:400;">(Can be used in Listing)</span></label>
+                      <span id="suw-notes-count" style="font-size:11px; color:#9AA5B4;">0/1000</span>
+                    </div>
+                    <textarea class="apw-textarea" id="suw-notes" maxlength="1000" placeholder="Describe the unit — this text can be reused when creating a listing advertisement." rows="5"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- STEP 2: Review & Finish -->
+            <div class="apw-step-content" data-step="2">
+              <div class="apw-inner">
+                <div class="apw-section-title">Review &amp; Finish</div>
+                <p style="text-align:center; color:#718096; font-size:13px; margin-bottom:24px;">Please review all the details below before submitting.</p>
+                <div class="apw-review-grid">
+                  <div class="apw-review-section">
+                    <h4><i class="fas fa-home" style="margin-right:6px;"></i> Unit Details</h4>
+                    <div class="apw-review-row"><span class="apw-review-label">Unit Name</span><span class="apw-review-val" id="suw-rv-name">—</span></div>
+                    <div class="apw-review-row"><span class="apw-review-label">Bedroom</span><span class="apw-review-val" id="suw-rv-beds">—</span></div>
+                    <div class="apw-review-row"><span class="apw-review-label">Bathroom</span><span class="apw-review-val" id="suw-rv-baths">—</span></div>
+                    <div class="apw-review-row"><span class="apw-review-label">Size</span><span class="apw-review-val" id="suw-rv-size">—</span></div>
+                    <div class="apw-review-row"><span class="apw-review-label">Street Address Strategy</span><span class="apw-review-val" id="suw-rv-strategy">—</span></div>
+                    <div class="apw-review-row"><span class="apw-review-label">Market Rent</span><span class="apw-review-val" id="suw-rv-market-rent">—</span></div>
+                    <div class="apw-review-row"><span class="apw-review-label">Description</span><span class="apw-review-val" id="suw-rv-notes">—</span></div>
+                  </div>
+                  <div class="apw-review-section" style="grid-column: 1 / -1;">
+                    <h4><i class="fas fa-shopping-basket" style="margin-right:6px;"></i> Next steps</h4>
+                    <p style="font-size:12.5px; color:#718096; margin:0; line-height:1.6;">Add unit amenities and upload unit photos from the <strong>Complete your property &amp; unit</strong> checklist on the Overview tab after you finish.</p>
+                  </div>
+                </div>
+                <div style="margin-top:24px; text-align:center;">
+                  <div id="suw-success-msg" style="display:none; background:#E6F8EE; border:1px solid #9AE6B4; border-radius:10px; padding:18px 24px; color:#22894A; font-size:14px; font-weight:600;">
+                    <i class="fas fa-check-circle" style="font-size:20px; margin-bottom:6px; display:block;"></i>
+                    Unit added successfully!
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- /apw-body -->
+          <div class="apw-footer">
+            <span class="apw-footer-left" id="suw-step-label">Step 1 of 2</span>
+            <div style="display:flex; gap:12px;">
+              <button type="button" class="apw-btn-back" id="suw-btn-back">Back</button>
+              <button type="button" class="apw-btn-next" id="suw-btn-next">Next</button>
+            </div>
+          </div>
+        </div><!-- /apw-card -->
+      </div><!-- /apw-page -->
+    </div><!-- /suw-overlay -->
+
+    <style>
+        /* ══ ADD PROPERTY / SETUP UNIT WIZARD STYLES ══ */
+        @keyframes apw-fadein {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .apw-overlay {
+            display: none; position: fixed; inset: 0; z-index: 2000;
+            background: linear-gradient(135deg, #1B4B6E 0%, #2E7AA5 100%);
+            overflow-y: auto;
+        }
+        .apw-overlay.open { display: block; animation: fadeIn 0.2s; }
+        .apw-page { min-height: 100vh; display: flex; flex-direction: column; }
+        .apw-topbar {
+            display: flex; align-items: center; gap: 14px;
+            padding: 14px 32px; flex-shrink: 0;
+        }
+        .apw-back-btn {
+            background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.85);
+            font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 7px;
+            padding: 0; font-family: inherit;
+        }
+        .apw-back-btn:hover { color: #fff; }
+        .apw-topbar-title { color: #fff; }
+        .apw-topbar-title h1 { font-size: 18px; font-weight: 700; margin: 0; line-height: 1.2; }
+        .apw-topbar-title p  { font-size: 12px; color: rgba(255,255,255,0.7); margin: 2px 0 0; }
+        .apw-search {
+            margin-left: auto; background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.18); border-radius: 8px;
+            display: flex; align-items: center; gap: 8px;
+            padding: 7px 14px; color: rgba(255,255,255,0.6); font-size: 13px; width: 340px;
+        }
+        .apw-card {
+            background: #fff; border-radius: 14px; margin: 0 24px 24px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.18); display: flex; flex-direction: column; flex: 1;
+        }
+        .apw-steps-bar {
+            display: flex; align-items: center; justify-content: center;
+            gap: 0; padding: 24px 40px 20px; border-bottom: 1px solid #EDF2F7;
+            background: #FAFBFC; border-radius: 14px 14px 0 0;
+        }
+        .apw-step {
+            display: flex; flex-direction: column; align-items: center;
+            flex: 1; position: relative; cursor: default;
+        }
+        .apw-step:not(:last-child)::after {
+            content: ''; position: absolute; top: 18px; left: 55%; right: -45%;
+            height: 2px; background: #D5DAE0; z-index: 0;
+        }
+        .apw-step.completed:not(:last-child)::after { background: #1B4B6E; }
+        .apw-step-circle {
+            width: 36px; height: 36px; border-radius: 50%; border: 2px solid #D5DAE0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px; font-weight: 700; color: #8896A6; background: #fff;
+            position: relative; z-index: 1;
+        }
+        .apw-step.active   .apw-step-circle { border-color: #1B4B6E; background: #1B4B6E; color: #fff; }
+        .apw-step.completed .apw-step-circle { border-color: #1B4B6E; background: #1B4B6E; color: #fff; }
+        .apw-step-label { font-size: 11px; font-weight: 500; color: #A0AEC0; margin-top: 6px; text-align: center; white-space: nowrap; }
+        .apw-step.active   .apw-step-label { color: #1B4B6E; font-weight: 700; }
+        .apw-step.completed .apw-step-label { color: #4A6B8A; font-weight: 600; }
+        .apw-body { flex: 1; overflow-y: auto; }
+        .apw-step-content { display: none; padding: 0; }
+        .apw-step-content.active { display: block; animation: apw-fadein 0.2s; }
+        .apw-inner { padding: 32px 40px; }
+        .apw-section-title { font-size: 18px; font-weight: 700; color: #1A2B3D; margin-bottom: 28px; text-align: center; }
+        .apw-type-grid { display: flex; justify-content: center; gap: 24px; margin-top: 8px; }
+        .apw-type-card {
+            width: 150px; border: 2px solid #E2E6EB; border-radius: 12px;
+            padding: 28px 20px 20px; display: flex; flex-direction: column; align-items: center;
+            gap: 14px; cursor: pointer; transition: all 0.15s; background: #FAFBFC;
+        }
+        .apw-type-card:hover { border-color: #3B8DBD; background: #EBF4FA; }
+        .apw-type-card.selected { border-color: #1B4B6E; background: #EBF4FA; }
+        .apw-type-icon {
+            width: 64px; height: 64px; border-radius: 12px;
+            background: #EDF2F7; display: flex; align-items: center; justify-content: center;
+            font-size: 26px; color: #4A6B8A;
+        }
+        .apw-type-card.selected .apw-type-icon { background: #1B4B6E; color: #fff; }
+        .apw-type-label { font-size: 14px; font-weight: 600; color: #2D3748; }
+        .apw-unit-option-wrap { display: none; margin-top: 28px; animation: apw-fadein 0.22s ease; }
+        .apw-unit-option-wrap.visible { display: block; }
+        .apw-unit-option-label { font-size: 13px; font-weight: 700; color: #1B2D3F; margin-bottom: 12px; display: flex; align-items: center; gap: 7px; }
+        .apw-unit-option-label i { color: #3B8DBD; }
+        .apw-unit-option-cards { display: flex; gap: 12px; }
+        .apw-unit-option-card {
+            flex: 1; display: flex; align-items: center; gap: 14px;
+            padding: 14px 18px; border: 2px solid #E2E6EB; border-radius: 12px;
+            background: #FAFBFC; cursor: pointer; transition: all 0.15s;
+        }
+        .apw-unit-option-card:hover { border-color: #3B8DBD; background: #EBF4FA; }
+        .apw-unit-option-card.selected { border-color: #1B5068; background: #EBF4FA; }
+        .apw-unit-option-icon {
+            width: 44px; height: 44px; border-radius: 10px;
+            background: #EDF2F7; display: flex; align-items: center; justify-content: center;
+            font-size: 20px; color: #4A6B8A; flex-shrink: 0; transition: all 0.15s;
+        }
+        .apw-unit-option-card.selected .apw-unit-option-icon { background: #1B5068; color: #fff; }
+        .apw-unit-option-title { font-size: 13.5px; font-weight: 700; color: #2D3748; }
+        .apw-unit-option-sub   { font-size: 11.5px; color: #8896A6; margin-top: 2px; }
+        .apw-num-units-wrap { display: none; margin-top: 14px; animation: apw-fadein 0.2s ease; }
+        .apw-num-units-wrap.visible { display: block; }
+        .apw-num-units-inner {
+            display: flex; align-items: flex-end; gap: 12px;
+            padding: 14px 16px; background: #F0F8FF; border: 1.5px solid #BEE0F8; border-radius: 10px;
+        }
+        .apw-num-units-ic { color: #3B8DBD; font-size: 16px; padding-bottom: 8px; }
+        .apw-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .apw-form-group { display: flex; flex-direction: column; gap: 5px; }
+        .apw-label { font-size: 12.5px; font-weight: 600; color: #4A5568; }
+        .apw-label .req { color: #E53E3E; margin-left: 2px; }
+        .apw-input, .apw-select {
+            padding: 9px 12px; border: 1px solid #D1D9E4; border-radius: 8px;
+            font-size: 13px; color: #2D3748; font-family: inherit;
+            background: #fff; outline: none; transition: border-color 0.15s;
+        }
+        .apw-input::placeholder { color: #A0AEC0; }
+        .apw-input:focus, .apw-select:focus { border-color: #3B8DBD; box-shadow: 0 0 0 3px rgba(59,141,189,0.12); }
+        .apw-section-box { border: 1px solid #E2E6EB; border-radius: 10px; padding: 20px 22px; margin-bottom: 20px; background: #FAFBFC; }
+        .apw-section-box-title { font-size: 14px; font-weight: 600; color: #1A2B3D; margin-bottom: 16px; }
+        .apw-owner-row { display: flex; gap: 14px; }
+        .apw-owner-row .apw-form-group { flex: 1; }
+        .apw-add-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #3B8DBD; background: none; border: none; cursor: pointer; padding: 4px 0; font-family: inherit; }
+        .apw-add-link:hover { color: #1B5068; text-decoration: underline; }
+        .apw-bank-toggle-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .apw-bank-toggle-info { font-size: 13px; color: #5A6B7E; }
+        .apw-bank-toggle-info strong { font-size: 14px; color: #1A2B3D; display: block; margin-bottom: 2px; }
+        .apw-toggle-switch { width: 46px; height: 26px; border-radius: 13px; background: #3BAA6E; border: none; cursor: pointer; position: relative; flex-shrink: 0; }
+        .apw-toggle-switch::after { content: ''; position: absolute; top: 3px; left: 22px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.2); transition: left 0.2s; }
+        .apw-toggle-switch.off { background: #CBD5E0; }
+        .apw-toggle-switch.off::after { left: 3px; }
+        .apw-owner-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+        .apw-owner-tab { font-size: 13px; font-weight: 600; color: #1A2B3D; }
+        .apw-owner-sep { color: #CBD5E0; }
+        .apw-owner-link { font-size: 13px; color: #3B8DBD; background: none; border: none; cursor: pointer; font-family: inherit; }
+        /* Unit table */
+        .apw-ut-toolbar { display: flex; align-items: center; gap: 14px; background: #F0F8FF; border: 1.5px solid #BEE0F8; border-radius: 10px; padding: 10px 16px; margin-bottom: 14px; }
+        .apw-ut-info { display: flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 700; color: #1B4B6E; white-space: nowrap; }
+        .apw-ut-info i { color: #3B8DBD; }
+        .apw-ut-progress-wrap { flex: 1; height: 6px; background: #D1ECF8; border-radius: 3px; overflow: hidden; }
+        .apw-ut-progress-bar { height: 100%; background: #3B8DBD; border-radius: 3px; width: 0%; transition: width 0.3s; }
+        .apw-ut-progress-txt { font-size: 11px; font-weight: 600; color: #4A6B8A; white-space: nowrap; }
+        .apw-ut-wrap { border: 1.5px solid #E2E6EB; border-radius: 10px; overflow: auto; background: #fff; max-height: 520px; }
+        .apw-ut-table { width: 100%; border-collapse: collapse; font-size: 12.5px; table-layout: fixed; }
+        .apw-ut-table thead th { background: #1B5068; color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 10px 8px; text-align: left; position: sticky; top: 0; z-index: 2; border-right: 1px solid rgba(255,255,255,0.1); }
+        .apw-ut-table thead th:last-child { border-right: none; }
+        .apw-ut-th-num { width: 36px; text-align: center !important; }
+        .apw-ut-table tbody tr { transition: background 0.1s; }
+        .apw-ut-table tbody tr:nth-child(even) { background: #F8FAFB; }
+        .apw-ut-table tbody tr:hover { background: #EDF6FF; }
+        .apw-ut-table tbody td { padding: 6px 6px; vertical-align: middle; border-bottom: 1px solid #EDF2F7; border-right: 1px solid #F0F4F8; }
+        .apw-ut-table tbody td:last-child { border-right: none; }
+        .apw-ut-num { width: 24px; height: 24px; border-radius: 50%; background: #E2E8F0; color: #4A6B8A; font-size: 10px; font-weight: 700; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
+        .apw-ut-filled .apw-ut-num { background: #3BAA6E; color: #fff; }
+        .apw-ut-table tbody input[type="text"], .apw-ut-table tbody textarea { width: 100%; padding: 6px 8px; border: 1.5px solid transparent; border-radius: 6px; font-size: 12px; font-family: inherit; color: #2D3748; background: transparent; outline: none; transition: border-color 0.12s, background 0.12s; box-sizing: border-box; }
+        .apw-ut-table tbody input[type="text"]:focus, .apw-ut-table tbody textarea:focus { border-color: #3B8DBD; background: #fff; box-shadow: 0 0 0 2px rgba(59,141,189,0.12); }
+        .apw-ut-table tbody select { width: 100%; padding: 5px 6px; border: 1.5px solid transparent; border-radius: 6px; font-size: 12px; font-family: inherit; color: #2D3748; background: transparent; outline: none; cursor: pointer; }
+        .apw-ut-table tbody select:focus { border-color: #3B8DBD; background: #fff; }
+        .apw-ut-table tbody textarea { resize: vertical; min-height: 32px; }
+        .rv-units-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
+        .rv-units-table th { background: #F0F4F8; padding: 7px 10px; font-weight: 700; color: #4A6B8A; text-align: left; font-size: 11px; border-bottom: 1px solid #E2E6EB; }
+        .rv-units-table td { padding: 8px 10px; border-bottom: 1px solid #F0F4F8; color: #2D3748; }
+        .rv-units-table tr:last-child td { border-bottom: none; }
+        /* Bulk edit toolbar */
+        .apw-bulk-toolbar { display: none; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #F0F4FF 0%, #E8F0FE 100%); border: 1.5px solid #C2D5F0; border-radius: 10px; padding: 10px 16px; margin-bottom: 0; cursor: pointer; transition: all 0.15s; }
+        .apw-bulk-toolbar.visible { display: flex; }
+        .apw-bulk-toolbar.visible:not(.panel-open) { margin-bottom: 14px; }
+        .apw-bulk-toolbar:hover { border-color: #8BAADB; }
+        .apw-bulk-left { display: flex; align-items: center; gap: 8px; }
+        .apw-bulk-left i { color: #4A7FC1; font-size: 14px; }
+        .apw-bulk-title { font-size: 13px; font-weight: 700; color: #1B3A5C; }
+        .apw-bulk-hint { font-size: 11.5px; color: #6B89A8; margin-left: 4px; }
+        .apw-bulk-toggle-btn { background: none; border: none; cursor: pointer; color: #4A7FC1; font-size: 12px; padding: 4px 8px; border-radius: 6px; transition: all 0.15s; }
+        .apw-bulk-toggle-btn.open i { transform: rotate(180deg); }
+        .apw-bulk-panel { display: none; background: #F8FAFF; border: 1.5px solid #C2D5F0; border-top: none; border-radius: 0 0 10px 10px; padding: 16px 18px 14px; margin-bottom: 14px; animation: apw-fadein 0.2s ease; }
+        .apw-bulk-panel.open { display: block; }
+        .apw-bulk-toolbar.panel-open { border-radius: 10px 10px 0 0; margin-bottom: 0; border-bottom-color: transparent; }
+        .apw-bulk-fields { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+        .apw-bulk-field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 130px; }
+        .apw-bulk-field .apw-label { font-size: 11px; }
+        .apw-bulk-field .apw-input, .apw-bulk-field .apw-select { padding: 7px 10px; font-size: 12px; }
+        .apw-bulk-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        .apw-bulk-apply-btn, .apw-bulk-overwrite-btn, .apw-bulk-selected-btn, .apw-bulk-clear-btn { padding: 7px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s; white-space: nowrap; }
+        .apw-bulk-apply-btn { background: #3BAA6E; color: #fff; }
+        .apw-bulk-apply-btn:hover { background: #2E9A5F; }
+        .apw-bulk-overwrite-btn { background: #3B8DBD; color: #fff; }
+        .apw-bulk-overwrite-btn:hover { background: #2D7AAD; }
+        .apw-bulk-selected-btn { background: #7B4FCF; color: #fff; }
+        .apw-bulk-selected-btn:hover { background: #6A3FBF; }
+        .apw-bulk-selected-btn:disabled { background: #BEA8E8; cursor: not-allowed; }
+        .apw-bulk-sel-badge { background: rgba(255,255,255,0.3); border-radius: 10px; font-size: 10px; font-weight: 700; padding: 1px 6px; margin-left: 2px; min-width: 18px; text-align: center; }
+        .apw-bulk-clear-btn { background: #F0F4F8; color: #4A6B8A; border: 1px solid #D1D9E4; }
+        .apw-bulk-clear-btn:hover { background: #E2E8F0; }
+        /* Row checkboxes */
+        .apw-ut-th-chk { width: 36px; text-align: center !important; }
+        .apw-chk-wrap { display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 2px; }
+        .apw-chk-wrap input[type="checkbox"] { display: none; }
+        .apw-chk-box { width: 16px; height: 16px; border-radius: 4px; border: 2px solid rgba(255,255,255,0.5); background: transparent; display: inline-block; position: relative; transition: all 0.15s; flex-shrink: 0; }
+        .apw-chk-wrap input:checked + .apw-chk-box { background: #fff; border-color: #fff; }
+        .apw-chk-wrap input:checked + .apw-chk-box::after { content: ''; position: absolute; left: 3px; top: 0px; width: 5px; height: 9px; border: 2px solid #1B4B6E; border-top: none; border-left: none; transform: rotate(45deg); }
+        .apw-ut-table tbody .apw-chk-wrap .apw-chk-box { border-color: #C0CCDA; }
+        .apw-ut-table tbody .apw-chk-wrap input:checked + .apw-chk-box { background: #7B4FCF; border-color: #7B4FCF; }
+        .apw-ut-table tbody .apw-chk-wrap input:checked + .apw-chk-box::after { border-color: #fff; }
+        .apw-ut-table tbody tr.apw-ut-selected { background: #F5F0FF !important; }
+        .apw-ut-table tbody tr.apw-ut-selected:hover { background: #EDE5FF !important; }
+        /* Pagination */
+        .apw-ut-pagination { display: none; align-items: center; justify-content: center; gap: 14px; padding: 12px 0 4px; margin-top: 8px; }
+        .apw-ut-pagination.visible { display: flex; }
+        .apw-ut-page-btn { width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid #D1D9E4; background: #fff; color: #4A6B8A; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+        .apw-ut-page-btn:hover:not(:disabled) { background: #EDF6FF; border-color: #3B8DBD; color: #3B8DBD; }
+        .apw-ut-page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .apw-ut-page-info { font-size: 12.5px; font-weight: 600; color: #4A6B8A; }
+        /* Review grid */
+        .apw-review-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .apw-review-section { background: #FAFBFC; border: 1px solid #E2E6EB; border-radius: 10px; padding: 18px 20px; }
+        .apw-review-section h4 { font-size: 12.5px; font-weight: 700; color: #1B4B6E; text-transform: uppercase; letter-spacing: 0.3px; margin: 0 0 12px; }
+        .apw-review-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #F0F2F5; font-size: 13px; }
+        .apw-review-row:last-child { border-bottom: none; }
+        .apw-review-label { color: #718096; }
+        .apw-review-val { font-weight: 600; color: #1A2B3D; text-align: right; max-width: 60%; }
+        /* Footer */
+        .apw-footer { display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; border-top: 1px solid #EDF2F7; background: #fff; border-radius: 0 0 14px 14px; flex-shrink: 0; }
+        .apw-footer-left { font-size: 12.5px; color: #8896A6; }
+        .apw-btn-back { padding: 10px 28px; border: 1.5px solid #E8863A; border-radius: 8px; background: #fff; color: #E8863A; font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.12s; }
+        .apw-btn-back:hover { background: #FFF7F0; }
+        .apw-btn-next { padding: 10px 32px; border-radius: 8px; background: #E8863A; border: none; color: #fff; font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.12s; }
+        .apw-btn-next:hover { background: #D4771F; }
+        .apw-btn-next.finish { background: #3BAA6E; }
+        .apw-btn-next.finish:hover { background: #2E9A5F; }
+        .apw-textarea { width: 100%; resize: vertical; min-height: 70px; padding: 9px 12px; border: 1px solid #D1D9E4; border-radius: 8px; font-size: 13px; color: #2D3748; font-family: inherit; outline: none; box-sizing: border-box; }
+        .apw-textarea:focus { border-color: #3B8DBD; box-shadow: 0 0 0 3px rgba(59,141,189,0.12); }
+    </style>
+
+    <script>
+    /* ══ ADD PROPERTY WIZARD ══ */
+    (function() {
+        var overlay      = document.getElementById('apw-overlay');
+        var totalSteps   = 5;
+        var currentStep  = 1;
+        var selectedType = '';
+
+        function apwOpen() {
+            currentStep  = 1;
+            selectedType = '';
+            document.querySelectorAll('#apw-overlay .apw-type-card').forEach(function(c){ c.classList.remove('selected'); });
+            if (typeof selectedUnitOption !== 'undefined') selectedUnitOption = '';
+            document.querySelectorAll('#apw-overlay .apw-unit-option-card').forEach(function(c){ c.classList.remove('selected'); });
+            var uow = document.getElementById('apw-unit-option-wrap');
+            if (uow) uow.classList.remove('visible');
+            var nuw = document.getElementById('apw-num-units-wrap');
+            if (nuw) nuw.classList.remove('visible');
+            var nui = document.getElementById('apw-num-units');
+            if (nui) nui.value = '';
+            if (typeof apwUnitData !== 'undefined') { apwUnitData = []; apwCurrentPage = 1; }
+            var bulkBar = document.getElementById('apw-bulk-toolbar');
+            if (bulkBar) { bulkBar.classList.remove('visible'); bulkBar.classList.remove('panel-open'); }
+            var bulkPnl = document.getElementById('apw-bulk-panel');
+            if (bulkPnl) bulkPnl.classList.remove('open');
+            var pag = document.getElementById('apw-ut-pagination');
+            if (pag) pag.classList.remove('visible');
+            var utb = document.getElementById('apw-ut-tbody');
+            if (utb) utb.innerHTML = '';
+            document.getElementById('apw-success-msg').style.display = 'none';
+            document.getElementById('apw-btn-next').classList.remove('finish');
+            document.getElementById('apw-btn-next').textContent = 'Next';
+            apwRender();
+            overlay.classList.add('open');
+            overlay.scrollTop = 0;
+            document.body.style.overflow = 'hidden';
+        }
+        window.apwClose = function() {
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+        };
+
+        function apwRender() {
+            document.querySelectorAll('#apw-overlay .apw-step').forEach(function(el) {
+                var s = parseInt(el.dataset.step);
+                el.classList.toggle('active',    s === currentStep);
+                el.classList.toggle('completed', s < currentStep);
+                var circle = el.querySelector('.apw-step-circle');
+                if (s < currentStep) {
+                    circle.innerHTML = '<i class="fas fa-check" style="font-size:11px;"></i>';
+                } else {
+                    circle.textContent = s;
+                }
+            });
+            document.querySelectorAll('#apw-overlay .apw-step-content').forEach(function(el) {
+                el.classList.toggle('active', parseInt(el.dataset.step) === currentStep);
+            });
+            var step4el = document.querySelector('#apw-overlay .apw-steps-bar .apw-step[data-step="4"]');
+            if (step4el) step4el.style.display = (selectedType === 'Commercial') ? 'none' : '';
+            var effectiveTotal = (selectedType === 'Commercial') ? totalSteps - 1 : totalSteps;
+            var displayStep   = (selectedType === 'Commercial' && currentStep === 5) ? 4 : currentStep;
+            document.getElementById('apw-step-label').textContent = 'Step ' + displayStep + ' of ' + effectiveTotal;
+            var btnNext = document.getElementById('apw-btn-next');
+            if (currentStep === totalSteps) {
+                btnNext.textContent = 'Submit';
+                btnNext.classList.add('finish');
+            } else {
+                btnNext.textContent = 'Next';
+                btnNext.classList.remove('finish');
+            }
+            document.getElementById('apw-btn-back').style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+            overlay.scrollTop = 0;
+        }
+
+        function apwPopulateReview() {
+            function v(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+            document.getElementById('rv-type').textContent      = selectedType || '—';
+            var rvUnitRow    = document.getElementById('rv-unit-option-row');
+            var rvNumUnitsRow = document.getElementById('rv-num-units-row');
+            if (rvUnitRow) {
+                if (selectedType === 'Residential' && selectedUnitOption) {
+                    document.getElementById('rv-unit-option').textContent = selectedUnitOption;
+                    rvUnitRow.style.display = '';
+                } else { rvUnitRow.style.display = 'none'; }
+            }
+            if (rvNumUnitsRow) {
+                if (selectedUnitOption === 'Multiple Unit') {
+                    var nUnits = document.getElementById('apw-num-units');
+                    var nVal = nUnits ? nUnits.value.trim() : '';
+                    document.getElementById('rv-num-units').textContent = nVal ? nVal + ' units' : '—';
+                    rvNumUnitsRow.style.display = '';
+                } else { rvNumUnitsRow.style.display = 'none'; }
+            }
+            document.getElementById('rv-street1').textContent   = v('apw-street1') || '—';
+            document.getElementById('rv-street2').textContent   = v('apw-street2') || '—';
+            document.getElementById('rv-city').textContent      = v('apw-city')    || '—';
+            document.getElementById('rv-state').textContent     = v('apw-state')   || '—';
+            document.getElementById('rv-zip').textContent       = v('apw-zip')     || '—';
+            document.getElementById('rv-propname').textContent  = v('apw-propname')|| '—';
+            document.getElementById('rv-effdate').textContent   = v('apw-eff-date')|| '—';
+            var reserveVal = parseFloat(v('apw-prop-reserve'));
+            document.getElementById('rv-reserve').textContent = !isNaN(reserveVal) ? '$' + reserveVal.toFixed(2) : '$0.00';
+        }
+
+        var selectedUnitOption = '';
+        var unitOptionWrap = document.getElementById('apw-unit-option-wrap');
+
+        document.querySelectorAll('#apw-overlay .apw-type-card').forEach(function(card) {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('#apw-overlay .apw-type-card').forEach(function(c){ c.classList.remove('selected'); });
+                this.classList.add('selected');
+                selectedType = this.dataset.type;
+                if (selectedType === 'Residential') {
+                    unitOptionWrap.classList.add('visible');
+                } else {
+                    unitOptionWrap.classList.remove('visible');
+                    document.querySelectorAll('#apw-overlay .apw-unit-option-card').forEach(function(c){ c.classList.remove('selected'); });
+                    selectedUnitOption = '';
+                }
+            });
+        });
+
+        var numUnitsWrap = document.getElementById('apw-num-units-wrap');
+        var numUnitsInput = document.getElementById('apw-num-units');
+
+        document.querySelectorAll('#apw-overlay .apw-unit-option-card').forEach(function(card) {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('#apw-overlay .apw-unit-option-card').forEach(function(c){ c.classList.remove('selected'); });
+                this.classList.add('selected');
+                selectedUnitOption = this.dataset.unitType;
+                if (selectedUnitOption === 'Multiple Unit') {
+                    numUnitsWrap.classList.add('visible');
+                    numUnitsInput.focus();
+                } else {
+                    numUnitsWrap.classList.remove('visible');
+                    numUnitsInput.value = '';
+                }
+            });
+        });
+
+        var bankToggle = document.getElementById('apw-bank-toggle');
+        if (bankToggle) {
+            bankToggle.addEventListener('click', function() {
+                this.classList.toggle('off');
+                var fields = document.getElementById('apw-bank-fields');
+                if (fields) fields.style.display = this.classList.contains('off') ? 'none' : 'block';
+            });
+        }
+
+        var addOwnerBtn = document.getElementById('apw-add-owner');
+        if (addOwnerBtn) {
+            addOwnerBtn.addEventListener('click', function() {
+                var list = document.getElementById('apw-owners-list');
+                var row = document.createElement('div');
+                row.className = 'apw-owner-row';
+                row.style.marginBottom = '12px';
+                row.innerHTML = '<div class="apw-form-group"><label class="apw-label">Owner Name</label><input class="apw-input" type="text" placeholder="Select or type in"></div><div class="apw-form-group" style="max-width:180px;"><label class="apw-label">Ownership (%)</label><input class="apw-input" type="number" min="0" max="100" placeholder="Enter ownership percentage"></div>';
+                list.appendChild(row);
+            });
+        }
+
+        var apwUnitData = [];
+        var apwCurrentPage = 1;
+        var APW_PAGE_SIZE = 10;
+
+        function apwInitUnitStep() {
+            var heading = document.getElementById('apw-ud-heading');
+            var sub     = document.getElementById('apw-ud-sub');
+            var bulkBar = document.getElementById('apw-bulk-toolbar');
+            var bulkPanel = document.getElementById('apw-bulk-panel');
+            var unitCount = 1;
+            if (selectedUnitOption === 'Multiple Unit') {
+                var nInput = document.getElementById('apw-num-units');
+                unitCount = Math.max(2, parseInt(nInput ? nInput.value : '2') || 2);
+            }
+            heading.textContent = 'Unit Details';
+            sub.textContent = unitCount === 1 ? 'Enter the details for your unit below.' : 'Enter details for all ' + unitCount + ' units in the spreadsheet below.';
+            if (bulkBar) {
+                if (unitCount > 1) { bulkBar.classList.add('visible'); }
+                else { bulkBar.classList.remove('visible'); bulkBar.classList.remove('panel-open'); }
+            }
+            if (bulkPanel) bulkPanel.classList.remove('open');
+            if (apwUnitData.length !== unitCount) {
+                apwUnitData = [];
+                for (var i = 0; i < unitCount; i++) {
+                    apwUnitData.push({ name: '', beds: '', baths: '', size: '', strat: '', rent: '', desc: '', _selected: false });
+                }
+            }
+            apwCurrentPage = 1;
+            apwBuildTable();
+            apwUpdateProgress();
+        }
+
+        function escAttr(s) { return (s || '').replace(/"/g, '&quot;'); }
+        function escHtml(s) { return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+        function apwBuildTable() {
+            var tbody = document.getElementById('apw-ut-tbody');
+            var countLabel = document.getElementById('apw-ut-count-label');
+            var pagination = document.getElementById('apw-ut-pagination');
+            var total = apwUnitData.length;
+            if (countLabel) countLabel.textContent = total + ' unit' + (total !== 1 ? 's' : '');
+            var usePagination = total > APW_PAGE_SIZE;
+            if (pagination) pagination.classList.toggle('visible', usePagination);
+            var startIdx = usePagination ? (apwCurrentPage - 1) * APW_PAGE_SIZE : 0;
+            var endIdx   = usePagination ? Math.min(startIdx + APW_PAGE_SIZE, total) : total;
+            var BED_OPTS   = ['', 'Studio', '1', '2', '3', '4', '5', '6+'];
+            var BATH_OPTS  = ['', '1', '1.5', '2', '2.5', '3', '3+'];
+            var STRAT_OPTS = ['', 'Unit number', 'Suite', 'Apt', 'Floor'];
+            tbody.innerHTML = '';
+            for (var i = startIdx; i < endIdx; i++) {
+                (function(idx) {
+                    var d = apwUnitData[idx];
+                    var tr = document.createElement('tr');
+                    tr.dataset.unitIdx = idx;
+                    var classes = [];
+                    if (d.name || d.beds || d.baths || d.rent) classes.push('apw-ut-filled');
+                    if (d._selected) classes.push('apw-ut-selected');
+                    if (classes.length) tr.className = classes.join(' ');
+                    tr.innerHTML =
+                        '<td style="text-align:center;"><label class="apw-chk-wrap"><input type="checkbox" class="ut-ichk"' + (d._selected ? ' checked' : '') + '><span class="apw-chk-box"></span></label></td>' +
+                        '<td style="text-align:center;"><div class="apw-ut-num">' + (idx + 1) + '</div></td>' +
+                        '<td><input type="text" class="ut-iname" value="' + escAttr(d.name) + '" placeholder="Unit ' + (idx + 1) + '"></td>' +
+                        '<td><select class="ut-ibeds">' + BED_OPTS.map(function(o){ return '<option value="' + o + '"' + (o === d.beds ? ' selected' : '') + '>' + (o || 'Select') + '</option>'; }).join('') + '</select></td>' +
+                        '<td><select class="ut-ibaths">' + BATH_OPTS.map(function(o){ return '<option value="' + o + '"' + (o === d.baths ? ' selected' : '') + '>' + (o || 'Select') + '</option>'; }).join('') + '</select></td>' +
+                        '<td><input type="text" class="ut-isize" value="' + escAttr(d.size) + '" placeholder="e.g. 850"></td>' +
+                        '<td><select class="ut-istrat">' + STRAT_OPTS.map(function(o){ return '<option value="' + o + '"' + (o === d.strat ? ' selected' : '') + '>' + (o || 'Select') + '</option>'; }).join('') + '</select></td>' +
+                        '<td><input type="text" class="ut-irent" value="' + escAttr(d.rent) + '" placeholder="$0.00"></td>' +
+                        '<td><textarea class="ut-idesc" rows="1" maxlength="500" placeholder="Optional…">' + escHtml(d.desc) + '</textarea></td>';
+                    tr.querySelector('.ut-ichk').addEventListener('change', function() {
+                        apwUnitData[idx]._selected = this.checked;
+                        tr.classList.toggle('apw-ut-selected', this.checked);
+                        apwSyncSelectAll();
+                        apwUpdateSelBadge();
+                    });
+                    function bind(cls, key, evt) {
+                        var el = tr.querySelector('.' + cls);
+                        if (!el) return;
+                        el.addEventListener(evt, function() {
+                            apwUnitData[idx][key] = this.value;
+                            var hasSome = apwUnitData[idx].name || apwUnitData[idx].beds || apwUnitData[idx].baths || apwUnitData[idx].rent;
+                            tr.classList.toggle('apw-ut-filled', !!hasSome);
+                            apwUpdateProgress();
+                        });
+                    }
+                    bind('ut-iname', 'name', 'input');
+                    bind('ut-ibeds', 'beds', 'change');
+                    bind('ut-ibaths', 'baths', 'change');
+                    bind('ut-isize', 'size', 'input');
+                    bind('ut-istrat', 'strat', 'change');
+                    bind('ut-irent', 'rent', 'input');
+                    bind('ut-idesc', 'desc', 'input');
+                    tbody.appendChild(tr);
+                })(i);
+            }
+            var chkAll = document.getElementById('apw-chk-all');
+            if (chkAll) {
+                chkAll.checked = apwUnitData.length > 0 && apwUnitData.every(function(d){ return d._selected; });
+                chkAll.indeterminate = !chkAll.checked && apwUnitData.some(function(d){ return d._selected; });
+            }
+            if (usePagination) apwUpdatePagination(startIdx + 1, endIdx, total);
+            apwUpdateSelBadge();
+        }
+
+        function apwUpdateProgress() {
+            var filled = 0;
+            apwUnitData.forEach(function(d) { if (d.name || d.beds || d.baths || d.rent) filled++; });
+            var total = apwUnitData.length;
+            var pct = total > 0 ? Math.round(filled / total * 100) : 0;
+            var bar = document.getElementById('apw-ut-progress-bar');
+            var txt = document.getElementById('apw-ut-progress-txt');
+            if (bar) bar.style.width = pct + '%';
+            if (txt) txt.textContent = filled + ' / ' + total + ' filled';
+        }
+
+        function apwUpdatePagination(start, end, total) {
+            var info = document.getElementById('apw-ut-page-info');
+            var prev = document.getElementById('apw-ut-prev');
+            var next = document.getElementById('apw-ut-next');
+            if (info) info.textContent = start + ' – ' + end + ' of ' + total;
+            if (prev) prev.disabled = (apwCurrentPage <= 1);
+            if (next) next.disabled = (end >= total);
+        }
+
+        document.getElementById('apw-ut-prev').addEventListener('click', function() {
+            if (apwCurrentPage > 1) { apwCurrentPage--; apwBuildTable(); }
+        });
+        document.getElementById('apw-ut-next').addEventListener('click', function() {
+            var maxPage = Math.ceil(apwUnitData.length / APW_PAGE_SIZE);
+            if (apwCurrentPage < maxPage) { apwCurrentPage++; apwBuildTable(); }
+        });
+
+        document.getElementById('apw-chk-all').addEventListener('change', function() {
+            var checked = this.checked;
+            apwUnitData.forEach(function(d) { d._selected = checked; });
+            apwBuildTable();
+            apwUpdateSelBadge();
+        });
+
+        function apwSyncSelectAll() {
+            var chkAll = document.getElementById('apw-chk-all');
+            if (!chkAll) return;
+            var allChecked = apwUnitData.length > 0 && apwUnitData.every(function(d){ return d._selected; });
+            var anyChecked = apwUnitData.some(function(d){ return d._selected; });
+            chkAll.checked = allChecked;
+            chkAll.indeterminate = !allChecked && anyChecked;
+        }
+
+        function apwUpdateSelBadge() {
+            var count = apwUnitData.filter(function(d){ return d._selected; }).length;
+            var badge = document.getElementById('apw-bulk-sel-badge');
+            var btn   = document.getElementById('apw-bulk-selected');
+            if (badge) badge.textContent = count;
+            if (btn)   btn.disabled = (count === 0);
+        }
+
+        var bulkToggleBtn = document.getElementById('apw-bulk-toggle');
+        var bulkToolbar   = document.getElementById('apw-bulk-toolbar');
+        var bulkPanel     = document.getElementById('apw-bulk-panel');
+
+        function toggleBulkPanel() {
+            var isOpen = bulkPanel.classList.toggle('open');
+            bulkToggleBtn.classList.toggle('open', isOpen);
+            bulkToolbar.classList.toggle('panel-open', isOpen);
+        }
+        if (bulkToggleBtn) bulkToggleBtn.addEventListener('click', toggleBulkPanel);
+        if (bulkToolbar)   bulkToolbar.addEventListener('click', function(e) {
+            if (e.target === bulkToolbar || e.target.closest('.apw-bulk-left')) toggleBulkPanel();
+        });
+
+        document.getElementById('apw-bulk-apply').addEventListener('click', function() {
+            var beds  = document.getElementById('apw-bulk-beds').value;
+            var baths = document.getElementById('apw-bulk-baths').value;
+            var size  = document.getElementById('apw-bulk-size').value.trim();
+            var strat = document.getElementById('apw-bulk-strat').value;
+            var rent  = document.getElementById('apw-bulk-rent').value.trim();
+            apwUnitData.forEach(function(d) {
+                if (beds  && !d.beds)  d.beds  = beds;
+                if (baths && !d.baths) d.baths = baths;
+                if (size  && !d.size)  d.size  = size;
+                if (strat && !d.strat) d.strat = strat;
+                if (rent  && !d.rent)  d.rent  = rent;
+            });
+            apwBuildTable(); apwUpdateProgress();
+        });
+
+        document.getElementById('apw-bulk-overwrite').addEventListener('click', function() {
+            var beds  = document.getElementById('apw-bulk-beds').value;
+            var baths = document.getElementById('apw-bulk-baths').value;
+            var size  = document.getElementById('apw-bulk-size').value.trim();
+            var strat = document.getElementById('apw-bulk-strat').value;
+            var rent  = document.getElementById('apw-bulk-rent').value.trim();
+            apwUnitData.forEach(function(d) {
+                if (beds)  d.beds  = beds;
+                if (baths) d.baths = baths;
+                if (size)  d.size  = size;
+                if (strat) d.strat = strat;
+                if (rent)  d.rent  = rent;
+            });
+            apwBuildTable(); apwUpdateProgress();
+        });
+
+        document.getElementById('apw-bulk-selected').addEventListener('click', function() {
+            var beds  = document.getElementById('apw-bulk-beds').value;
+            var baths = document.getElementById('apw-bulk-baths').value;
+            var size  = document.getElementById('apw-bulk-size').value.trim();
+            var strat = document.getElementById('apw-bulk-strat').value;
+            var rent  = document.getElementById('apw-bulk-rent').value.trim();
+            apwUnitData.forEach(function(d) {
+                if (!d._selected) return;
+                if (beds)  d.beds  = beds;
+                if (baths) d.baths = baths;
+                if (size)  d.size  = size;
+                if (strat) d.strat = strat;
+                if (rent)  d.rent  = rent;
+            });
+            apwBuildTable(); apwUpdateProgress();
+        });
+
+        document.getElementById('apw-bulk-clear').addEventListener('click', function() {
+            apwUnitData.forEach(function(d) {
+                d.name = ''; d.beds = ''; d.baths = ''; d.size = '';
+                d.strat = ''; d.rent = ''; d.desc = ''; d._selected = false;
+            });
+            apwCurrentPage = 1;
+            apwBuildTable(); apwUpdateProgress();
+        });
+
+        function apwPopulateUnitsReview() {
+            var section = document.getElementById('rv-units-section');
+            var body    = document.getElementById('rv-units-body');
+            if (!section || !body) return;
+            if (selectedType !== 'Residential') { section.style.display = 'none'; return; }
+            section.style.display = '';
+            body.innerHTML = '';
+            var tbl = '<table class="rv-units-table"><thead><tr><th>#</th><th>Name</th><th>Bed</th><th>Bath</th><th>Size</th><th>Market Rent</th></tr></thead><tbody>';
+            apwUnitData.forEach(function(d, i) {
+                var name = d.name || ('Unit ' + (i + 1));
+                tbl += '<tr><td>' + (i + 1) + '</td><td>' + escHtml(name) + '</td><td>' + (d.beds || '—') + '</td><td>' + (d.baths || '—') + '</td><td>' + (d.size ? d.size + ' sq ft' : '—') + '</td><td>' + (d.rent ? '$' + d.rent : '—') + '</td></tr>';
+            });
+            tbl += '</tbody></table>';
+            body.innerHTML = tbl;
+        }
+
+        document.getElementById('apw-btn-back').addEventListener('click', function() {
+            if (currentStep > 1) {
+                currentStep--;
+                if (currentStep === 4 && selectedType !== 'Residential') currentStep--;
+                apwRender();
+            } else { window.apwClose(); }
+        });
+
+        document.getElementById('apw-btn-next').addEventListener('click', function() {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                if (currentStep === 4 && selectedType !== 'Residential') currentStep++;
+                if (currentStep === 4) apwInitUnitStep();
+                if (currentStep === totalSteps) { apwPopulateReview(); apwPopulateUnitsReview(); }
+                apwRender();
+            } else {
+                document.getElementById('apw-success-msg').style.display = 'block';
+                var btn = document.getElementById('apw-btn-next');
+                btn.textContent = 'Done';
+                btn.classList.add('finish');
+                setTimeout(function() { window.apwClose(); }, 2000);
+            }
+        });
+
+        document.getElementById('apw-close-top').addEventListener('click', window.apwClose);
+
+        var openBtn = document.getElementById('btn-add-property');
+        if (openBtn) openBtn.addEventListener('click', apwOpen);
+    })();
+
+    /* ══ SETUP UNIT WIZARD ══ */
+    (function() {
+        var overlay     = document.getElementById('suw-overlay');
+        var totalSteps  = 2;
+        var currentStep = 1;
+
+        function suwOpen() {
+            currentStep = 1;
+            document.getElementById('suw-success-msg').style.display = 'none';
+            document.getElementById('suw-btn-next').classList.remove('finish');
+            document.getElementById('suw-btn-next').textContent = 'Next';
+            suwRender();
+            overlay.classList.add('open');
+            overlay.scrollTop = 0;
+            document.body.style.overflow = 'hidden';
+        }
+        function suwClose() {
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        window.suwClose = suwClose;
+
+        function suwRender() {
+            document.querySelectorAll('#suw-overlay .apw-step').forEach(function(el) {
+                var s = parseInt(el.dataset.step);
+                el.classList.toggle('active',    s === currentStep);
+                el.classList.toggle('completed', s < currentStep);
+                var circle = el.querySelector('.apw-step-circle');
+                if (s < currentStep) {
+                    circle.innerHTML = '<i class="fas fa-check" style="font-size:11px;"></i>';
+                } else { circle.textContent = s; }
+            });
+            document.querySelectorAll('#suw-overlay .apw-step-content').forEach(function(el) {
+                el.classList.toggle('active', parseInt(el.dataset.step) === currentStep);
+            });
+            document.getElementById('suw-step-label').textContent = 'Step ' + currentStep + ' of ' + totalSteps;
+            var btnNext = document.getElementById('suw-btn-next');
+            if (currentStep === totalSteps) {
+                btnNext.textContent = 'Submit';
+                btnNext.classList.add('finish');
+            } else {
+                btnNext.textContent = 'Next';
+                btnNext.classList.remove('finish');
+            }
+            document.getElementById('suw-btn-back').style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+            overlay.scrollTop = 0;
+        }
+
+        function suwPopulateReview() {
+            function v(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+            document.getElementById('suw-rv-name').textContent      = v('suw-unit-name') || '—';
+            document.getElementById('suw-rv-beds').textContent      = v('suw-beds')      || '—';
+            document.getElementById('suw-rv-baths').textContent     = v('suw-baths')     || '—';
+            document.getElementById('suw-rv-size').textContent      = v('suw-size') ? v('suw-size') + ' sq ft' : '—';
+            var stratSel = document.getElementById('suw-addr-strategy');
+            var stratTxt = '—';
+            if (stratSel && stratSel.value && stratSel.selectedOptions[0]) stratTxt = stratSel.selectedOptions[0].textContent.trim();
+            document.getElementById('suw-rv-strategy').textContent  = stratTxt;
+            var rent = v('suw-market-rent');
+            document.getElementById('suw-rv-market-rent').textContent = rent ? '$' + rent : '—';
+            var notes = v('suw-notes');
+            if (notes.length > 140) notes = notes.slice(0, 137) + '…';
+            document.getElementById('suw-rv-notes').textContent     = notes || '—';
+        }
+
+        var notesTA = document.getElementById('suw-notes');
+        if (notesTA) {
+            notesTA.addEventListener('input', function() {
+                var count = document.getElementById('suw-notes-count');
+                if (count) count.textContent = this.value.length + '/1000';
+            });
+        }
+
+        document.getElementById('suw-btn-back').addEventListener('click', function() {
+            if (currentStep > 1) { currentStep--; suwRender(); }
+            else suwClose();
+        });
+
+        document.getElementById('suw-btn-next').addEventListener('click', function() {
+            if (currentStep < totalSteps) {
+                if (currentStep === totalSteps - 1) suwPopulateReview();
+                currentStep++;
+                suwRender();
+            } else {
+                document.getElementById('suw-success-msg').style.display = 'block';
+                var btn = document.getElementById('suw-btn-next');
+                btn.textContent = 'Done';
+                btn.classList.add('finish');
+                setTimeout(function() { suwClose(); }, 2000);
+            }
+        });
+
+        document.getElementById('suw-close-top').addEventListener('click', suwClose);
+
+        var openBtn = document.getElementById('btn-setup-unit');
+        if (openBtn) openBtn.addEventListener('click', suwOpen);
+    })();
+    </script>
+</body>
+</html>
