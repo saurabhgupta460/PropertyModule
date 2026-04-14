@@ -6875,6 +6875,81 @@
         .suw-media-remove { background: none; border: none; cursor: pointer; color: #E05252; font-size: 12px; padding: 0 2px; flex-shrink: 0; }
         .suw-media-remove:hover { color: #C0392B; }
 
+        /* ══ BULK SETUP UNIT — UNIT TABLE STYLES ══ */
+        .apw-ut-toolbar { display: flex; align-items: center; gap: 14px; background: #F0F8FF; border: 1.5px solid #BEE0F8; border-radius: 10px; padding: 10px 16px; margin-bottom: 14px; }
+        .apw-ut-info { display: flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 700; color: #1B4B6E; white-space: nowrap; }
+        .apw-ut-info i { color: #3B8DBD; }
+        .apw-ut-progress-wrap { flex: 1; height: 6px; background: #D1ECF8; border-radius: 3px; overflow: hidden; }
+        .apw-ut-progress-bar { height: 100%; background: #3B8DBD; border-radius: 3px; width: 0%; transition: width 0.3s; }
+        .apw-ut-progress-txt { font-size: 11px; font-weight: 600; color: #4A6B8A; white-space: nowrap; }
+        .apw-ut-wrap { border: 1.5px solid #E2E6EB; border-radius: 10px; overflow: auto; background: #fff; max-height: 520px; margin-bottom: 14px; }
+        .apw-ut-table { width: 100%; border-collapse: collapse; font-size: 12.5px; table-layout: fixed; }
+        .apw-ut-table thead th { background: #1B5068; color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 10px 8px; text-align: left; position: sticky; top: 0; z-index: 2; border-right: 1px solid rgba(255,255,255,0.1); }
+        .apw-ut-table thead th:last-child { border-right: none; }
+        .apw-ut-th-chk { width: 36px; text-align: center !important; }
+        .apw-ut-th-num { width: 36px; text-align: center !important; }
+        .apw-ut-table tbody tr { transition: background 0.1s; }
+        .apw-ut-table tbody tr:nth-child(even) { background: #F8FAFB; }
+        .apw-ut-table tbody tr:hover { background: #EDF6FF; }
+        .apw-ut-table tbody td { padding: 6px; vertical-align: middle; border-bottom: 1px solid #EDF2F7; border-right: 1px solid #F0F4F8; }
+        .apw-ut-table tbody td:last-child { border-right: none; }
+        .apw-ut-num { width: 24px; height: 24px; border-radius: 50%; background: #E2E8F0; color: #4A6B8A; font-size: 10px; font-weight: 700; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
+        .apw-ut-filled .apw-ut-num { background: #3BAA6E; color: #fff; }
+        .apw-ut-table tbody input[type="text"], .apw-ut-table tbody textarea { width: 100%; padding: 6px 8px; border: 1.5px solid transparent; border-radius: 6px; font-size: 12px; font-family: inherit; color: #2D3748; background: transparent; outline: none; transition: border-color 0.12s, background 0.12s; box-sizing: border-box; }
+        .apw-ut-table tbody input[type="text"]:focus, .apw-ut-table tbody textarea:focus { border-color: #3B8DBD; background: #fff; box-shadow: 0 0 0 2px rgba(59,141,189,0.12); }
+        .apw-ut-table tbody select { width: 100%; padding: 5px 6px; border: 1.5px solid transparent; border-radius: 6px; font-size: 12px; font-family: inherit; color: #2D3748; background: transparent; outline: none; cursor: pointer; }
+        .apw-ut-table tbody select:focus { border-color: #3B8DBD; background: #fff; }
+        .apw-ut-table tbody textarea { resize: vertical; min-height: 32px; }
+        .apw-ut-table tbody tr.apw-ut-filled { }
+        .apw-ut-table tbody tr.apw-ut-selected { background: #F5F0FF !important; }
+        .apw-ut-table tbody tr.apw-ut-selected:hover { background: #EDE5FF !important; }
+        /* Bulk toolbar */
+        .apw-bulk-toolbar { display: none; align-items: center; justify-content: space-between; background: linear-gradient(135deg,#F0F4FF 0%,#E8F0FE 100%); border: 1.5px solid #C2D5F0; border-radius: 10px; padding: 10px 16px; margin-bottom: 0; cursor: pointer; transition: all 0.15s; }
+        .apw-bulk-toolbar.visible { display: flex; }
+        .apw-bulk-toolbar.visible:not(.panel-open) { margin-bottom: 14px; }
+        .apw-bulk-toolbar:hover { border-color: #8BAADB; }
+        .apw-bulk-left { display: flex; align-items: center; gap: 8px; }
+        .apw-bulk-left i { color: #4A7FC1; font-size: 14px; }
+        .apw-bulk-title { font-size: 13px; font-weight: 700; color: #1B3A5C; }
+        .apw-bulk-hint { font-size: 11.5px; color: #6B89A8; margin-left: 4px; }
+        .apw-bulk-toggle-btn { background: none; border: none; cursor: pointer; color: #4A7FC1; font-size: 12px; padding: 4px 8px; border-radius: 6px; transition: all 0.15s; }
+        .apw-bulk-toggle-btn.open i { transform: rotate(180deg); }
+        .apw-bulk-panel { display: none; background: #F8FAFF; border: 1.5px solid #C2D5F0; border-top: none; border-radius: 0 0 10px 10px; padding: 16px 18px 14px; margin-bottom: 14px; }
+        .apw-bulk-panel.open { display: block; }
+        .apw-bulk-toolbar.panel-open { border-radius: 10px 10px 0 0; margin-bottom: 0; border-bottom-color: transparent; }
+        .apw-bulk-fields { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+        .apw-bulk-field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 130px; }
+        .apw-bulk-field .apw-label { font-size: 11px; }
+        .apw-bulk-field .apw-input, .apw-bulk-field .apw-select { padding: 7px 10px; font-size: 12px; }
+        .apw-bulk-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        .apw-bulk-apply-btn, .apw-bulk-overwrite-btn, .apw-bulk-selected-btn, .apw-bulk-clear-btn { padding: 7px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s; white-space: nowrap; }
+        .apw-bulk-apply-btn { background: #3BAA6E; color: #fff; }
+        .apw-bulk-apply-btn:hover { background: #2E9A5F; }
+        .apw-bulk-overwrite-btn { background: #3B8DBD; color: #fff; }
+        .apw-bulk-overwrite-btn:hover { background: #2D7AAD; }
+        .apw-bulk-selected-btn { background: #7B4FCF; color: #fff; }
+        .apw-bulk-selected-btn:hover { background: #6A3FBF; }
+        .apw-bulk-selected-btn:disabled { background: #BEA8E8; cursor: not-allowed; }
+        .apw-bulk-sel-badge { background: rgba(255,255,255,0.3); border-radius: 10px; font-size: 10px; font-weight: 700; padding: 1px 6px; margin-left: 2px; min-width: 18px; text-align: center; }
+        .apw-bulk-clear-btn { background: #F0F4F8; color: #4A6B8A; border: 1px solid #D1D9E4; }
+        .apw-bulk-clear-btn:hover { background: #E2E8F0; }
+        /* Checkboxes */
+        .apw-chk-wrap { display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 2px; }
+        .apw-chk-wrap input[type="checkbox"] { display: none; }
+        .apw-chk-box { width: 16px; height: 16px; border-radius: 4px; border: 2px solid rgba(255,255,255,0.5); background: transparent; display: inline-block; position: relative; transition: all 0.15s; flex-shrink: 0; }
+        .apw-chk-wrap input:checked + .apw-chk-box { background: #fff; border-color: #fff; }
+        .apw-chk-wrap input:checked + .apw-chk-box::after { content: ''; position: absolute; left: 3px; top: 0px; width: 5px; height: 9px; border: 2px solid #1B4B6E; border-top: none; border-left: none; transform: rotate(45deg); }
+        .apw-ut-table tbody .apw-chk-wrap .apw-chk-box { border-color: #C0CCDA; }
+        .apw-ut-table tbody .apw-chk-wrap input:checked + .apw-chk-box { background: #7B4FCF; border-color: #7B4FCF; }
+        .apw-ut-table tbody .apw-chk-wrap input:checked + .apw-chk-box::after { border-color: #fff; }
+        /* Pagination */
+        .apw-ut-pagination { display: none; align-items: center; justify-content: center; gap: 14px; padding: 12px 0 4px; margin-top: 8px; }
+        .apw-ut-pagination.visible { display: flex; }
+        .apw-ut-page-btn { width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid #D1D9E4; background: #fff; color: #4A6B8A; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+        .apw-ut-page-btn:hover:not(:disabled) { background: #EDF6FF; border-color: #3B8DBD; color: #3B8DBD; }
+        .apw-ut-page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .apw-ut-page-info { font-size: 12.5px; font-weight: 600; color: #4A6B8A; }
+
         /* ══ BULK SETUP UNIT WIZARD ══ */
         .bsuw-hidden { display: none !important; }
         .bsuw-count-row { display: flex; align-items: center; gap: 14px; background: #F0F8FF; border: 1.5px solid #BEE0F8; border-radius: 10px; padding: 14px 18px; margin-bottom: 18px; }
