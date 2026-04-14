@@ -2013,6 +2013,46 @@
         .am-sel-tag-remove:hover { background: #3B8DBD; color: #fff; }
         .am-sel-empty { font-size: 11.5px; color: #B0BAC8; font-style: italic; }
 
+        /* Apply-to bar — Unit Amenities context */
+        .am-apply-bar {
+            display: none; align-items: center; gap: 10px; flex-wrap: wrap;
+            padding: 10px 24px; background: #F3EEFF;
+            border-bottom: 1px solid #E2D5F8; flex-shrink: 0;
+        }
+        .am-apply-bar.visible { display: flex; }
+        .am-apply-label {
+            font-size: 12px; font-weight: 700; color: #5B32A8;
+            white-space: nowrap; display: flex; align-items: center; gap: 6px;
+        }
+        .am-apply-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 14px; border-radius: 8px; border: 1.5px solid #C9B3EF;
+            background: #fff; font-size: 12px; font-weight: 600; color: #7B4FCF;
+            cursor: pointer; font-family: inherit; transition: all 0.12s;
+        }
+        .am-apply-btn:hover { border-color: #7B4FCF; background: #EDE5FF; }
+        .am-apply-btn.active { background: #7B4FCF; border-color: #7B4FCF; color: #fff; }
+        .am-apply-sel-count {
+            background: rgba(255,255,255,0.3); border-radius: 10px;
+            font-size: 10px; font-weight: 700; padding: 1px 6px;
+            min-width: 18px; text-align: center;
+        }
+        .am-apply-btn:not(.active) .am-apply-sel-count { background: #E8863A; color: #fff; }
+        .am-unit-checklist {
+            display: none; flex-wrap: wrap; gap: 8px; padding: 10px 24px;
+            background: #FAF8FF; border-bottom: 1px solid #E2D5F8;
+            max-height: 130px; overflow-y: auto; flex-shrink: 0;
+        }
+        .am-unit-checklist.visible { display: flex; }
+        .am-unit-chk-item {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 4px 10px; border: 1.5px solid #D1D9E4; border-radius: 20px;
+            font-size: 12px; font-weight: 500; color: #4A5568;
+            cursor: pointer; background: #fff; transition: all 0.12s; user-select: none;
+        }
+        .am-unit-chk-item.checked { background: #EDE5FF; border-color: #7B4FCF; color: #5B32A8; font-weight: 700; }
+        .am-unit-chk-item input { display: none; }
+
         /* Quad footer full-width button */
         .am-quad-footer .ov-btn { width: 100%; justify-content: center; }
 
@@ -5861,6 +5901,18 @@
                     <span class="am-sel-empty">Nothing selected yet — pick amenities below.</span>
                 </div>
             </div>
+            <!-- Apply-to bar (Unit Amenities only) -->
+            <div class="am-apply-bar" id="am-apply-bar">
+                <span class="am-apply-label"><i class="fas fa-bullseye" style="color:#7B4FCF;"></i> Apply to:</span>
+                <button type="button" class="am-apply-btn active" id="am-apply-all-btn">
+                    <i class="fas fa-layer-group"></i> All Units
+                </button>
+                <button type="button" class="am-apply-btn" id="am-apply-sel-btn">
+                    <i class="fas fa-check-square"></i> Selected Units
+                    <span class="am-apply-sel-count" id="am-apply-sel-count">0</span>
+                </button>
+            </div>
+            <div class="am-unit-checklist" id="am-unit-checklist"></div>
             <div class="am-controls">
                 <div class="am-search-wrap">
                     <i class="fas fa-search am-search-icon"></i>
@@ -6019,6 +6071,10 @@
         var searchQuery  = '';
         var mediaCtx     = 'property';   // 'property' | 'unit'
 
+        // Apply-to state (Unit Amenities)
+        var amApplyToAll     = true;
+        var amSelectedUnits  = new Set();
+
         // ── Utility ───────────────────────────────────────────────────────────────
         function esc(s) {
             return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
@@ -6125,7 +6181,62 @@
             renderCategoryChips();
             renderAmenities();
             renderSelectedStrip();
+            populateUnitChecklist();
+            syncApplyBar();
             openModal('am-modal-amenities');
+        }
+
+        // ── Apply-to bar helpers ──────────────────────────────────────────────────
+        function syncApplyBar() {
+            var bar       = document.getElementById('am-apply-bar');
+            var checklist = document.getElementById('am-unit-checklist');
+            if (!bar) return;
+            if (activeTab === 'unit') {
+                bar.classList.add('visible');
+                if (!amApplyToAll) {
+                    checklist.classList.add('visible');
+                } else {
+                    checklist.classList.remove('visible');
+                }
+            } else {
+                bar.classList.remove('visible');
+                checklist.classList.remove('visible');
+            }
+        }
+
+        function populateUnitChecklist() {
+            var checklist = document.getElementById('am-unit-checklist');
+            if (!checklist) return;
+            // Gather unit names from the unit rows in the page
+            var unitNames = [];
+            document.querySelectorAll('.unit-name').forEach(function(el) {
+                var name = el.textContent.trim();
+                if (name && unitNames.indexOf(name) === -1) unitNames.push(name);
+            });
+            if (unitNames.length === 0) {
+                // Fallback: generic unit labels
+                unitNames = ['Unit 101','Unit 102','Unit 201','Unit 202','Unit 301'];
+            }
+            checklist.innerHTML = '';
+            unitNames.forEach(function(name) {
+                var item = document.createElement('label');
+                item.className = 'am-unit-chk-item' + (amSelectedUnits.has(name) ? ' checked' : '');
+                item.innerHTML = '<input type="checkbox"' + (amSelectedUnits.has(name) ? ' checked' : '') + '>'
+                    + '<i class="fas fa-door-closed" style="font-size:10px;opacity:0.7;"></i>'
+                    + esc(name);
+                item.addEventListener('click', function() {
+                    if (amSelectedUnits.has(name)) {
+                        amSelectedUnits.delete(name);
+                        item.classList.remove('checked');
+                    } else {
+                        amSelectedUnits.add(name);
+                        item.classList.add('checked');
+                    }
+                    document.getElementById('am-apply-sel-count').textContent = amSelectedUnits.size;
+                });
+                checklist.appendChild(item);
+            });
+            document.getElementById('am-apply-sel-count').textContent = amSelectedUnits.size;
         }
 
         function renderAmenities() {
@@ -6342,7 +6453,22 @@
                     renderCategoryChips();
                     renderAmenities();
                     renderSelectedStrip();
+                    syncApplyBar();
                 });
+            });
+
+            // Apply-to toggle buttons
+            document.getElementById('am-apply-all-btn').addEventListener('click', function() {
+                amApplyToAll = true;
+                document.getElementById('am-apply-all-btn').classList.add('active');
+                document.getElementById('am-apply-sel-btn').classList.remove('active');
+                document.getElementById('am-unit-checklist').classList.remove('visible');
+            });
+            document.getElementById('am-apply-sel-btn').addEventListener('click', function() {
+                amApplyToAll = false;
+                document.getElementById('am-apply-sel-btn').classList.add('active');
+                document.getElementById('am-apply-all-btn').classList.remove('active');
+                document.getElementById('am-unit-checklist').classList.add('visible');
             });
 
             // Search
