@@ -1104,6 +1104,14 @@
             </div>
             <div class="apw-step" data-step="2">
               <div class="apw-step-circle">2</div>
+              <div class="apw-step-label">Unit Amenities</div>
+            </div>
+            <div class="apw-step" data-step="3">
+              <div class="apw-step-circle">3</div>
+              <div class="apw-step-label">Unit Photos</div>
+            </div>
+            <div class="apw-step" data-step="4">
+              <div class="apw-step-circle">4</div>
               <div class="apw-step-label">Review &amp; Finish</div>
             </div>
           </div>
@@ -1162,8 +1170,39 @@
                 </div>
               </div>
             </div>
-            <!-- STEP 2: Review & Finish -->
+            <!-- STEP 2: Unit Amenities -->
             <div class="apw-step-content" data-step="2">
+              <div class="apw-inner">
+                <div class="apw-section-title">Unit Amenities</div>
+                <div class="apw-section-box" style="padding:0; overflow:hidden;">
+                  <div class="suw-am-sel-strip" id="suw-am-sel-strip">
+                    <span class="suw-am-sel-placeholder">No amenities selected yet</span>
+                  </div>
+                  <div style="padding:16px 20px 20px;">
+                    <div id="suw-am-grid-body"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 3: Unit Photos -->
+            <div class="apw-step-content" data-step="3">
+              <div class="apw-inner">
+                <div class="apw-section-title">Unit Photos</div>
+                <div class="apw-section-box">
+                  <div class="suw-photo-drop" id="suw-photo-drop">
+                    <i class="fas fa-cloud-upload-alt" style="font-size:28px; color:#90AFC5; margin-bottom:8px;"></i>
+                    <div style="font-size:14px; font-weight:600; color:#4A6FA5; margin-bottom:4px;">Drop photos here or click to upload</div>
+                    <div style="font-size:12px; color:#9AA5B4;">JPG, PNG, WEBP — up to 10 MB each</div>
+                    <input type="file" id="suw-photo-input" accept="image/*" multiple style="display:none;">
+                  </div>
+                  <div class="suw-uploaded-grid" id="suw-uploaded-grid"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 4: Review & Finish -->
+            <div class="apw-step-content" data-step="4">
               <div class="apw-inner">
                 <div class="apw-section-title">Review &amp; Finish</div>
                 <p style="text-align:center; color:#718096; font-size:13px; margin-bottom:24px;">Please review all the details below before submitting.</p>
@@ -1178,9 +1217,13 @@
                     <div class="apw-review-row"><span class="apw-review-label">Market Rent</span><span class="apw-review-val" id="suw-rv-market-rent">—</span></div>
                     <div class="apw-review-row"><span class="apw-review-label">Description</span><span class="apw-review-val" id="suw-rv-notes">—</span></div>
                   </div>
-                  <div class="apw-review-section" style="grid-column: 1 / -1;">
-                    <h4><i class="fas fa-shopping-basket" style="margin-right:6px;"></i> Next steps</h4>
-                    <p style="font-size:12.5px; color:#718096; margin:0; line-height:1.6;">Add unit amenities and upload unit photos from the <strong>Complete your property &amp; unit</strong> checklist on the Overview tab after you finish.</p>
+                  <div class="apw-review-section">
+                    <h4><i class="fas fa-star" style="margin-right:6px;"></i> Unit Amenities</h4>
+                    <div class="apw-review-row"><span class="apw-review-label">Selected</span><span class="apw-review-val" id="suw-rv-amenities">—</span></div>
+                  </div>
+                  <div class="apw-review-section">
+                    <h4><i class="fas fa-images" style="margin-right:6px;"></i> Unit Photos</h4>
+                    <div class="apw-review-row"><span class="apw-review-label">Uploaded</span><span class="apw-review-val" id="suw-rv-photos">—</span></div>
                   </div>
                 </div>
                 <div style="margin-top:24px; text-align:center;">
@@ -1193,7 +1236,7 @@
             </div>
           </div><!-- /apw-body -->
           <div class="apw-footer">
-            <span class="apw-footer-left" id="suw-step-label">Step 1 of 2</span>
+            <span class="apw-footer-left" id="suw-step-label">Step 1 of 4</span>
             <div style="display:flex; gap:12px;">
               <button type="button" class="apw-btn-back" id="suw-btn-back">Back</button>
               <button type="button" class="apw-btn-next" id="suw-btn-next">Next</button>
@@ -1435,6 +1478,29 @@
         .apw-btn-next.finish:hover { background: #2E9A5F; }
         .apw-textarea { width: 100%; resize: vertical; min-height: 70px; padding: 9px 12px; border: 1px solid #D1D9E4; border-radius: 8px; font-size: 13px; color: #2D3748; font-family: inherit; outline: none; box-sizing: border-box; }
         .apw-textarea:focus { border-color: #3B8DBD; box-shadow: 0 0 0 3px rgba(59,141,189,0.12); }
+        /* ── Unit Amenities step ── */
+        .suw-am-sel-strip { min-height: 44px; padding: 10px 20px 10px; border-bottom: 1px solid #EDF2F7; background: #F8FAFB; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+        .suw-am-sel-placeholder { font-size: 12.5px; color: #A0AEC0; font-style: italic; }
+        .suw-am-sel-tag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 6px 3px 10px; background: #EBF4FA; border: 1px solid #BDE0F5; border-radius: 20px; font-size: 12px; font-weight: 600; color: #2C6F9A; }
+        .suw-am-sel-tag button { background: none; border: none; cursor: pointer; color: #7BAECE; font-size: 13px; line-height: 1; padding: 0 2px; font-family: inherit; }
+        .suw-am-sel-tag button:hover { color: #1B4B6E; }
+        .suw-am-cat-title { font-size: 11px; font-weight: 700; color: #8896A6; text-transform: uppercase; letter-spacing: 0.5px; margin: 14px 0 8px; }
+        .suw-am-cat-title:first-child { margin-top: 0; }
+        .suw-am-chip-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 6px; }
+        .suw-am-chip { padding: 5px 13px; border-radius: 20px; border: 1.5px solid #D1D9E4; background: #fff; font-size: 12.5px; color: #4A6FA5; cursor: pointer; font-family: inherit; font-weight: 500; transition: all 0.12s; }
+        .suw-am-chip:hover { border-color: #3B8DBD; background: #EDF6FF; }
+        .suw-am-chip.selected { background: #1B4B6E; border-color: #1B4B6E; color: #fff; font-weight: 600; }
+        /* ── Unit Photos step ── */
+        .suw-photo-drop { border: 2px dashed #BFCFE0; border-radius: 12px; padding: 32px 20px; text-align: center; cursor: pointer; background: #F8FBFD; transition: border-color 0.15s, background 0.15s; margin-bottom: 16px; }
+        .suw-photo-drop:hover, .suw-photo-drop.drag-over { border-color: #3B8DBD; background: #EDF6FF; }
+        .suw-uploaded-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+        .suw-media-card { border: 1.5px solid #E2E6EB; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; background: #fff; }
+        .suw-media-card img { width: 100%; height: 90px; object-fit: cover; display: block; }
+        .suw-media-tag-row { padding: 6px 8px; display: flex; align-items: center; gap: 6px; border-top: 1px solid #EDF2F7; background: #FAFBFC; }
+        .suw-media-tag-label { font-size: 10.5px; color: #8896A6; font-weight: 600; flex-shrink: 0; }
+        .suw-media-tag-select { flex: 1; border: 1px solid #D1D9E4; border-radius: 6px; font-size: 11px; padding: 3px 5px; font-family: inherit; color: #2D3748; outline: none; background: #fff; }
+        .suw-media-remove { background: none; border: none; cursor: pointer; color: #E05252; font-size: 12px; padding: 0 2px; flex-shrink: 0; }
+        .suw-media-remove:hover { color: #C0392B; }
     </style>
 
     <script>
@@ -1874,11 +1940,114 @@
     /* ══ SETUP UNIT WIZARD ══ */
     (function() {
         var overlay     = document.getElementById('suw-overlay');
-        var totalSteps  = 2;
+        var totalSteps  = 4;
         var currentStep = 1;
+
+        /* ── Amenity data ── */
+        var SUW_AMENITIES = {
+            'Interior': ['Air Conditioning','Heating','Ceiling Fans','Hardwood Floors','Carpet','Tile Floors','Walk-in Closet','Linen Closet','In-Unit Washer/Dryer','Washer/Dryer Hookups','Dishwasher','Garbage Disposal','Microwave','Refrigerator','Stove/Range','Oven','Fireplace','Balcony/Patio','Private Yard','Storage Room'],
+            'Bathroom': ['Walk-in Shower','Bathtub','Double Vanity','Soaking Tub','Bidet'],
+            'Kitchen':  ['Granite Countertops','Quartz Countertops','Kitchen Island','Breakfast Bar','Stainless Steel Appliances','Gas Range','Double Oven'],
+            'Tech & Utilities': ['High-Speed Internet','Cable Ready','Smart Thermostat','Smart Lock','EV Charging','Solar Panels'],
+            'Accessibility': ['Wheelchair Accessible','Roll-in Shower','Grab Bars','First Floor Unit','Elevator Access']
+        };
+        var suwSelectedAmenities = new Set();
+
+        function suwRenderAmenityChips() {
+            var grid = document.getElementById('suw-am-grid-body');
+            if (!grid) return;
+            var html = '';
+            Object.keys(SUW_AMENITIES).forEach(function(cat) {
+                html += '<div class="suw-am-cat-title">' + cat + '</div><div class="suw-am-chip-row">';
+                SUW_AMENITIES[cat].forEach(function(item) {
+                    var sel = suwSelectedAmenities.has(item) ? ' selected' : '';
+                    html += '<button class="suw-am-chip' + sel + '" data-am="' + item + '">' + item + '</button>';
+                });
+                html += '</div>';
+            });
+            grid.innerHTML = html;
+            grid.querySelectorAll('.suw-am-chip').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var am = this.dataset.am;
+                    if (suwSelectedAmenities.has(am)) { suwSelectedAmenities.delete(am); this.classList.remove('selected'); }
+                    else { suwSelectedAmenities.add(am); this.classList.add('selected'); }
+                    suwRenderSelStrip();
+                });
+            });
+        }
+
+        function suwRenderSelStrip() {
+            var strip = document.getElementById('suw-am-sel-strip');
+            if (!strip) return;
+            if (suwSelectedAmenities.size === 0) {
+                strip.innerHTML = '<span class="suw-am-sel-placeholder">No amenities selected yet</span>';
+                return;
+            }
+            var html = '';
+            suwSelectedAmenities.forEach(function(am) {
+                html += '<span class="suw-am-sel-tag">' + am + '<button data-am="' + am + '" title="Remove">&#x2715;</button></span>';
+            });
+            strip.innerHTML = html;
+            strip.querySelectorAll('button').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var am = this.dataset.am;
+                    suwSelectedAmenities.delete(am);
+                    var chip = document.querySelector('#suw-am-grid-body .suw-am-chip[data-am="' + am + '"]');
+                    if (chip) chip.classList.remove('selected');
+                    suwRenderSelStrip();
+                });
+            });
+        }
+
+        /* ── Photo upload ── */
+        var suwPhotos = [];
+
+        function suwRenderPhotoGrid() {
+            var grid = document.getElementById('suw-uploaded-grid');
+            if (!grid) return;
+            if (suwPhotos.length === 0) { grid.innerHTML = ''; return; }
+            var html = '';
+            suwPhotos.forEach(function(p, i) {
+                html += '<div class="suw-media-card">'
+                    + '<img src="' + p.url + '" alt="photo">'
+                    + '<div class="suw-media-tag-row">'
+                    + '<span class="suw-media-tag-label">Tag:</span>'
+                    + '<select class="suw-media-tag-select" data-idx="' + i + '">'
+                    + ['Primary','Living Room','Bedroom','Bathroom','Kitchen','Dining Room','Balcony/Patio','Exterior','Other'].map(function(t){
+                        return '<option' + (p.tag===t?' selected':'') + '>' + t + '</option>';
+                      }).join('')
+                    + '</select>'
+                    + '<button class="suw-media-remove" data-idx="' + i + '" title="Remove">&#x2715;</button>'
+                    + '</div></div>';
+            });
+            grid.innerHTML = html;
+            grid.querySelectorAll('.suw-media-tag-select').forEach(function(sel) {
+                sel.addEventListener('change', function() { suwPhotos[+this.dataset.idx].tag = this.value; });
+            });
+            grid.querySelectorAll('.suw-media-remove').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    suwPhotos.splice(+this.dataset.idx, 1);
+                    suwRenderPhotoGrid();
+                });
+            });
+        }
+
+        function suwHandleFiles(files) {
+            Array.from(files).forEach(function(file) {
+                if (!file.type.startsWith('image/')) return;
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    suwPhotos.push({ url: e.target.result, tag: suwPhotos.length === 0 ? 'Primary' : 'Living Room' });
+                    suwRenderPhotoGrid();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
 
         function suwOpen() {
             currentStep = 1;
+            suwSelectedAmenities.clear();
+            suwPhotos = [];
             document.getElementById('suw-success-msg').style.display = 'none';
             document.getElementById('suw-btn-next').classList.remove('finish');
             document.getElementById('suw-btn-next').textContent = 'Next';
@@ -1916,6 +2085,8 @@
                 btnNext.classList.remove('finish');
             }
             document.getElementById('suw-btn-back').style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+            if (currentStep === 2) { suwRenderAmenityChips(); suwRenderSelStrip(); }
+            if (currentStep === 3) suwRenderPhotoGrid();
             overlay.scrollTop = 0;
         }
 
@@ -1934,6 +2105,10 @@
             var notes = v('suw-notes');
             if (notes.length > 140) notes = notes.slice(0, 137) + '…';
             document.getElementById('suw-rv-notes').textContent     = notes || '—';
+            var amCount = suwSelectedAmenities.size;
+            document.getElementById('suw-rv-amenities').textContent = amCount > 0 ? amCount + ' amenit' + (amCount === 1 ? 'y' : 'ies') + ' selected' : '—';
+            var phCount = suwPhotos.length;
+            document.getElementById('suw-rv-photos').textContent    = phCount > 0 ? phCount + ' photo' + (phCount === 1 ? '' : 's') + ' uploaded' : '—';
         }
 
         var notesTA = document.getElementById('suw-notes');
@@ -1943,6 +2118,17 @@
                 if (count) count.textContent = this.value.length + '/1000';
             });
         }
+
+        /* Photo drop zone */
+        var dropZone = document.getElementById('suw-photo-drop');
+        var photoInput = document.getElementById('suw-photo-input');
+        if (dropZone) {
+            dropZone.addEventListener('click', function() { photoInput.click(); });
+            dropZone.addEventListener('dragover', function(e) { e.preventDefault(); dropZone.classList.add('drag-over'); });
+            dropZone.addEventListener('dragleave', function() { dropZone.classList.remove('drag-over'); });
+            dropZone.addEventListener('drop', function(e) { e.preventDefault(); dropZone.classList.remove('drag-over'); suwHandleFiles(e.dataTransfer.files); });
+        }
+        if (photoInput) photoInput.addEventListener('change', function() { suwHandleFiles(this.files); this.value=''; });
 
         document.getElementById('suw-btn-back').addEventListener('click', function() {
             if (currentStep > 1) { currentStep--; suwRender(); }
