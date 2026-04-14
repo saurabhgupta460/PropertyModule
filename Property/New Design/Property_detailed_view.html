@@ -625,6 +625,52 @@
         .tab-panel { display: none; }
         .tab-panel.active { display: block; }
 
+        /* ── SETTINGS TAB STYLES ── */
+        .stg-toolbar { display:flex; justify-content:flex-end; margin-bottom:16px; }
+        .stg-expand-btn {
+            display:inline-flex; align-items:center; gap:7px;
+            padding:7px 18px; border:1.5px solid #D1D9E4; border-radius:8px;
+            background:#fff; font-size:13px; font-weight:600; color:#2D3748;
+            cursor:pointer; font-family:inherit; transition:all 0.15s;
+        }
+        .stg-expand-btn:hover { border-color:#3B8DBD; color:#3B8DBD; }
+        .stg-expand-icon { font-size:11px; transition:transform 0.25s; }
+        .stg-expand-icon.rotated { transform:rotate(180deg); }
+        .stg-section {
+            background:#fff; border:1px solid #E2E8F0; border-radius:12px;
+            margin-bottom:14px; overflow:hidden;
+        }
+        .stg-section-header {
+            display:flex; align-items:center; gap:10px;
+            padding:14px 20px; cursor:pointer; user-select:none;
+            border-bottom:1px solid #EDF2F7; background:#FAFBFC;
+            transition:background 0.15s;
+        }
+        .stg-section-header:hover { background:#F0F4F8; }
+        .stg-section-chevron { font-size:11px; color:#718096; transition:transform 0.25s; flex-shrink:0; }
+        .stg-section.collapsed .stg-section-chevron { transform:rotate(180deg); }
+        .stg-section-title { font-size:14px; font-weight:700; color:#1A2B3D; }
+        .stg-section-body { padding:16px 20px; }
+        .stg-section.collapsed .stg-section-body { display:none; }
+        .stg-cards-grid {
+            display:grid; grid-template-columns:repeat(3,1fr); gap:12px;
+        }
+        .stg-card {
+            display:flex; align-items:flex-start; gap:14px;
+            padding:16px 18px; border:1px solid #E2E8F0; border-radius:10px;
+            background:#fff; cursor:pointer; transition:all 0.15s;
+        }
+        .stg-card:hover { border-color:#3B8DBD; box-shadow:0 2px 10px rgba(59,141,189,0.12); }
+        .stg-card-icon {
+            width:40px; height:40px; border-radius:10px; flex-shrink:0;
+            background:#EBF4FA; border:1.5px solid #C5DFF0;
+            display:flex; align-items:center; justify-content:center;
+            color:#3B8DBD; font-size:16px;
+        }
+        .stg-card-content { flex:1; }
+        .stg-card-title { font-size:13px; font-weight:600; color:#3B8DBD; margin-bottom:4px; line-height:1.3; }
+        .stg-card-desc { font-size:11.5px; color:#718096; line-height:1.4; }
+
         /* ── ADVERTISEMENT TAB STYLES ── */
 
         .ad-metrics {
@@ -3851,6 +3897,139 @@
 
                 </div><!-- /panel-unit -->
 
+                <!-- COMMUNICATIONS TAB PANEL -->
+                <div id="panel-communications" class="tab-panel">
+                    <div style="padding:40px;text-align:center;color:#A0AEC0;">
+                        <i class="fas fa-comments" style="font-size:48px;margin-bottom:16px;display:block;"></i>
+                        <div style="font-size:16px;font-weight:600;">Communications</div>
+                        <div style="font-size:13px;margin-top:8px;">Coming soon</div>
+                    </div>
+                </div>
+
+                <!-- TASKS TAB PANEL -->
+                <div id="panel-tasks" class="tab-panel">
+                    <div style="padding:40px;text-align:center;color:#A0AEC0;">
+                        <i class="fas fa-tasks" style="font-size:48px;margin-bottom:16px;display:block;"></i>
+                        <div style="font-size:16px;font-weight:600;">Tasks</div>
+                        <div style="font-size:13px;margin-top:8px;">Coming soon</div>
+                    </div>
+                </div>
+
+                <!-- SETTINGS TAB PANEL -->
+                <div id="panel-settings" class="tab-panel">
+
+                    <div class="stg-toolbar">
+                        <button class="stg-expand-btn" id="stg-expand-all-btn">
+                            Expand All <i class="fas fa-chevron-down stg-expand-icon" id="stg-expand-icon"></i>
+                        </button>
+                    </div>
+
+                    <!-- Tenant Payments -->
+                    <div class="stg-section">
+                        <div class="stg-section-header">
+                            <i class="fas fa-chevron-up stg-section-chevron"></i>
+                            <span class="stg-section-title">Tenant Payments</span>
+                        </div>
+                        <div class="stg-section-body">
+                            <div class="stg-cards-grid">
+                                <div class="stg-card">
+                                    <div class="stg-card-icon"><i class="fas fa-credit-card"></i></div>
+                                    <div class="stg-card-content">
+                                        <div class="stg-card-title">Online Payment Preferences</div>
+                                        <div class="stg-card-desc">Configure limits, processing, retries, bank setup</div>
+                                    </div>
+                                </div>
+                                <div class="stg-card">
+                                    <div class="stg-card-icon"><i class="fas fa-sitemap"></i></div>
+                                    <div class="stg-card-content">
+                                        <div class="stg-card-title">Allocation Strategy</div>
+                                        <div class="stg-card-desc">Define payments auto allocated to outstanding charges</div>
+                                    </div>
+                                </div>
+                                <div class="stg-card">
+                                    <div class="stg-card-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                                    <div class="stg-card-content">
+                                        <div class="stg-card-title">Fee &amp; Charges</div>
+                                        <div class="stg-card-desc">Manage charges, returned payments, etc</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Communications -->
+                    <div class="stg-section">
+                        <div class="stg-section-header">
+                            <i class="fas fa-chevron-up stg-section-chevron"></i>
+                            <span class="stg-section-title">Communications</span>
+                        </div>
+                        <div class="stg-section-body">
+                            <div class="stg-cards-grid">
+                                <div class="stg-card">
+                                    <div class="stg-card-icon"><i class="fas fa-comments"></i></div>
+                                    <div class="stg-card-content">
+                                        <div class="stg-card-title">Tenant Communication</div>
+                                        <div class="stg-card-desc">Manage triggers, recipients, delivery methods, messages</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Banking -->
+                    <div class="stg-section">
+                        <div class="stg-section-header">
+                            <i class="fas fa-chevron-up stg-section-chevron"></i>
+                            <span class="stg-section-title">Banking</span>
+                        </div>
+                        <div class="stg-section-body">
+                            <div class="stg-cards-grid">
+                                <div class="stg-card">
+                                    <div class="stg-card-icon"><i class="fas fa-university"></i></div>
+                                    <div class="stg-card-content">
+                                        <div class="stg-card-title">Default Bank Account</div>
+                                        <div class="stg-card-desc">Select bank for income, expense &amp; deposits</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recurring Payments -->
+                    <div class="stg-section">
+                        <div class="stg-section-header">
+                            <i class="fas fa-chevron-up stg-section-chevron"></i>
+                            <span class="stg-section-title">Recurring Payments</span>
+                        </div>
+                        <div class="stg-section-body">
+                            <div class="stg-cards-grid">
+                                <div class="stg-card">
+                                    <div class="stg-card-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                                    <div class="stg-card-content">
+                                        <div class="stg-card-title">Recurring Rent Received</div>
+                                        <div class="stg-card-desc">Manage recurring rent received here</div>
+                                    </div>
+                                </div>
+                                <div class="stg-card">
+                                    <div class="stg-card-icon"><i class="fas fa-coins"></i></div>
+                                    <div class="stg-card-content">
+                                        <div class="stg-card-title">Recurring Other Income</div>
+                                        <div class="stg-card-desc">Manage recurring income other here</div>
+                                    </div>
+                                </div>
+                                <div class="stg-card">
+                                    <div class="stg-card-icon"><i class="fas fa-receipt"></i></div>
+                                    <div class="stg-card-content">
+                                        <div class="stg-card-title">Recurring Expense</div>
+                                        <div class="stg-card-desc">Manage recurring expense here</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /panel-settings -->
+
             </div>
         </div>
     </div>
@@ -3863,6 +4042,9 @@
             'Advertisement': document.getElementById('panel-advertisement'),
             'Worksheet': document.getElementById('panel-worksheet'),
             'Unit': document.getElementById('panel-unit'),
+            'Communications': document.getElementById('panel-communications'),
+            'Tasks': document.getElementById('panel-tasks'),
+            'Settings': document.getElementById('panel-settings'),
         };
 
         // Post Ad master toggle — controls all syndication channels in the Ad tab
@@ -4051,6 +4233,35 @@
             });
         });
 
+        // Settings accordion
+        (function() {
+            var expanded = true;
+            document.querySelectorAll('.stg-section-header').forEach(function(hdr) {
+                hdr.addEventListener('click', function() {
+                    hdr.closest('.stg-section').classList.toggle('collapsed');
+                    var anyCollapsed = document.querySelectorAll('.stg-section.collapsed').length > 0;
+                    expanded = !anyCollapsed;
+                    syncBtn();
+                });
+            });
+            function syncBtn() {
+                var btn  = document.getElementById('stg-expand-all-btn');
+                var icon = document.getElementById('stg-expand-icon');
+                if (!btn) return;
+                btn.childNodes[0].textContent = expanded ? 'Collapse All ' : 'Expand All ';
+                icon.classList.toggle('rotated', expanded);
+            }
+            var expandBtn = document.getElementById('stg-expand-all-btn');
+            if (expandBtn) {
+                expandBtn.addEventListener('click', function() {
+                    expanded = !expanded;
+                    document.querySelectorAll('.stg-section').forEach(function(s) {
+                        s.classList.toggle('collapsed', !expanded);
+                    });
+                    syncBtn();
+                });
+            }
+        })();
 
         document.querySelectorAll('[data-dropdown]').forEach(btn => {
             btn.addEventListener('click', (e) => {
