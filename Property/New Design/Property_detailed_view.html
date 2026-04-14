@@ -3544,6 +3544,9 @@
                             <i class="fas fa-sliders-h"></i> Filters
                             <i class="fas fa-chevron-down" style="font-size:10px; margin-left:2px;"></i>
                         </button>
+                        <button class="filter-dd" id="btn-bulk-setup-unit-dv" style="background:#7B4FCF; color:#fff; border-color:#7B4FCF; margin-left:auto;">
+                            <i class="fas fa-layer-group"></i> Bulk Setup Unit
+                        </button>
                     </div>
 
                     <!-- Units Table -->
@@ -4791,6 +4794,141 @@
         </div><!-- /apw-card -->
       </div><!-- /apw-page -->
     </div><!-- /suw-overlay -->
+
+    <!-- ═══════════════════════════════════════════
+         BULK SETUP UNIT WIZARD
+         ═══════════════════════════════════════════ -->
+    <div id="bsuw-overlay" class="apw-overlay" style="z-index:2300;">
+      <div class="apw-page">
+        <div class="apw-topbar">
+          <button class="apw-back-btn" id="bsuw-close-top">
+            <i class="fas fa-arrow-left"></i> Back
+          </button>
+          <div class="apw-topbar-title">
+            <h1>Bulk Setup Units</h1>
+            <p>Set up multiple units at once with shared amenities</p>
+          </div>
+          <div class="apw-search"><i class="fas fa-search"></i> Search properties, tenants, owners, vendors...</div>
+        </div>
+        <div class="apw-card">
+          <div class="apw-steps-bar">
+            <div class="apw-step active" data-step="1"><div class="apw-step-circle">1</div><div class="apw-step-label">Unit Details</div></div>
+            <div class="apw-step" data-step="2"><div class="apw-step-circle">2</div><div class="apw-step-label">Unit Amenities</div></div>
+            <div class="apw-step" data-step="3"><div class="apw-step-circle">3</div><div class="apw-step-label">Review</div></div>
+          </div>
+          <div class="apw-body">
+
+            <!-- STEP 1: Unit Details -->
+            <div class="apw-step-content active" data-step="1">
+              <div class="apw-inner">
+                <div class="apw-section-title">Unit Details</div>
+                <p style="text-align:center;color:#718096;font-size:13px;margin-bottom:20px;">Specify how many units to set up, then fill in the details below.</p>
+                <div class="bsuw-count-row">
+                  <i class="fas fa-layer-group" style="color:#7B4FCF;font-size:16px;"></i>
+                  <div class="apw-form-group" style="flex-direction:row;align-items:center;gap:10px;">
+                    <label class="apw-label" style="white-space:nowrap;margin:0;">Number of Units</label>
+                    <input class="apw-input" type="number" id="bsuw-num-units" min="1" max="200" value="5" style="width:90px;">
+                  </div>
+                  <button type="button" class="apw-btn-next" id="bsuw-generate-btn" style="padding:9px 22px;font-size:13px;margin-left:auto;">
+                    <i class="fas fa-table"></i> Generate Table
+                  </button>
+                </div>
+                <div class="apw-ut-toolbar bsuw-hidden" id="bsuw-ut-toolbar">
+                  <div class="apw-ut-info"><i class="fas fa-layer-group"></i><span id="bsuw-ut-count-label">0 units</span></div>
+                  <div class="apw-ut-progress-wrap"><div class="apw-ut-progress-bar" id="bsuw-ut-progress-bar"></div></div>
+                  <span class="apw-ut-progress-txt" id="bsuw-ut-progress-txt">0 / 0 filled</span>
+                </div>
+                <div class="apw-bulk-toolbar bsuw-hidden" id="bsuw-bulk-toolbar">
+                  <div class="apw-bulk-left">
+                    <i class="fas fa-magic"></i>
+                    <span class="apw-bulk-title">Bulk Edit</span>
+                    <span class="apw-bulk-hint">Fill common values across all units at once</span>
+                  </div>
+                  <button type="button" class="apw-bulk-toggle-btn" id="bsuw-bulk-toggle"><i class="fas fa-chevron-down"></i></button>
+                </div>
+                <div class="apw-bulk-panel" id="bsuw-bulk-panel">
+                  <div class="apw-bulk-fields">
+                    <div class="apw-bulk-field"><label class="apw-label">Bedroom</label><select class="apw-input apw-select" id="bsuw-bulk-beds"><option value="">—</option><option>Studio</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6+</option></select></div>
+                    <div class="apw-bulk-field"><label class="apw-label">Bathroom</label><select class="apw-input apw-select" id="bsuw-bulk-baths"><option value="">—</option><option>1</option><option>1.5</option><option>2</option><option>2.5</option><option>3</option><option>3+</option></select></div>
+                    <div class="apw-bulk-field"><label class="apw-label">Size (sq ft)</label><input class="apw-input" type="text" id="bsuw-bulk-size" placeholder="e.g. 850"></div>
+                    <div class="apw-bulk-field"><label class="apw-label">Address Strategy</label><select class="apw-input apw-select" id="bsuw-bulk-strat"><option value="">—</option><option>Unit number</option><option>Suite</option><option>Apt</option><option>Floor</option></select></div>
+                    <div class="apw-bulk-field"><label class="apw-label">Market Rent ($)</label><input class="apw-input" type="text" id="bsuw-bulk-rent" placeholder="$0.00"></div>
+                  </div>
+                  <div class="apw-bulk-actions">
+                    <button type="button" class="apw-bulk-apply-btn" id="bsuw-bulk-apply"><i class="fas fa-check-double"></i> Apply To All Empty</button>
+                    <button type="button" class="apw-bulk-overwrite-btn" id="bsuw-bulk-overwrite"><i class="fas fa-sync-alt"></i> Apply To All (Override)</button>
+                    <button type="button" class="apw-bulk-selected-btn" id="bsuw-bulk-selected" disabled><i class="fas fa-check-square"></i> Apply to Selected <span class="apw-bulk-sel-badge" id="bsuw-bulk-sel-badge">0</span></button>
+                    <button type="button" class="apw-bulk-clear-btn" id="bsuw-bulk-clear"><i class="fas fa-eraser"></i> Clear All</button>
+                  </div>
+                </div>
+                <div class="apw-ut-wrap bsuw-hidden" id="bsuw-ut-wrap">
+                  <table class="apw-ut-table">
+                    <thead>
+                      <tr>
+                        <th class="apw-ut-th-chk"><label class="apw-chk-wrap" title="Select all"><input type="checkbox" id="bsuw-chk-all"><span class="apw-chk-box"></span></label></th>
+                        <th class="apw-ut-th-num">#</th>
+                        <th>Unit Name</th><th>Bed</th><th>Bath</th><th>Size (sq ft)</th><th>Address Strategy</th><th>Market Rent ($)</th><th>Description</th>
+                      </tr>
+                    </thead>
+                    <tbody id="bsuw-ut-tbody"></tbody>
+                  </table>
+                </div>
+                <div class="apw-ut-pagination" id="bsuw-ut-pagination">
+                  <button type="button" class="apw-ut-page-btn" id="bsuw-ut-prev" disabled><i class="fas fa-chevron-left"></i></button>
+                  <span class="apw-ut-page-info" id="bsuw-ut-page-info"></span>
+                  <button type="button" class="apw-ut-page-btn" id="bsuw-ut-next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 2: Unit Amenities -->
+            <div class="apw-step-content" data-step="2">
+              <div class="apw-inner">
+                <div class="apw-section-title">Unit Amenities</div>
+                <p style="text-align:center;color:#718096;font-size:13px;margin-bottom:18px;">Select amenities then choose which units to apply them to.</p>
+                <div class="bsuw-am-applybar">
+                  <span class="bsuw-am-applylabel">Apply to:</span>
+                  <button type="button" class="bsuw-am-applybtn active" id="bsuw-am-allu-btn"><i class="fas fa-layer-group"></i> All Units</button>
+                  <button type="button" class="bsuw-am-applybtn" id="bsuw-am-selu-btn"><i class="fas fa-check-square"></i> Selected Units <span class="bsuw-am-sel-badge" id="bsuw-am-sel-badge">0</span></button>
+                </div>
+                <div class="bsuw-unit-checklist bsuw-hidden" id="bsuw-unit-checklist"></div>
+                <div class="apw-section-box" style="padding:0;overflow:hidden;margin-top:14px;">
+                  <div class="suw-am-sel-strip" id="bsuw-am-sel-strip">
+                    <span class="suw-am-sel-placeholder">No amenities selected yet</span>
+                  </div>
+                  <div style="padding:16px 20px 20px;"><div id="bsuw-am-grid-body"></div></div>
+                </div>
+                <button type="button" class="bsuw-am-save-btn" id="bsuw-am-save-btn"><i class="fas fa-check-circle"></i> Save Amenities to Units</button>
+                <div class="bsuw-am-saved-msg bsuw-hidden" id="bsuw-am-saved-msg"><i class="fas fa-check"></i> Amenities saved!</div>
+              </div>
+            </div>
+
+            <!-- STEP 3: Review -->
+            <div class="apw-step-content" data-step="3">
+              <div class="apw-inner">
+                <div class="apw-section-title">Review &amp; Submit</div>
+                <p style="text-align:center;color:#718096;font-size:13px;margin-bottom:24px;">Review all units and their amenities before submitting.</p>
+                <div id="bsuw-review-body"></div>
+                <div style="margin-top:24px;text-align:center;">
+                  <div id="bsuw-success-msg" style="display:none;background:#E6F8EE;border:1px solid #9AE6B4;border-radius:10px;padding:18px 24px;color:#22894A;font-size:14px;font-weight:600;">
+                    <i class="fas fa-check-circle" style="font-size:20px;margin-bottom:6px;display:block;"></i>
+                    Units set up successfully!
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /apw-body -->
+          <div class="apw-footer">
+            <span class="apw-footer-left" id="bsuw-step-label">Step 1 of 3</span>
+            <div style="display:flex;gap:12px;">
+              <button type="button" class="apw-btn-back" id="bsuw-btn-back">Back</button>
+              <button type="button" class="apw-btn-next" id="bsuw-btn-next">Next</button>
+            </div>
+          </div>
+        </div><!-- /apw-card -->
+      </div><!-- /apw-page -->
+    </div><!-- /bsuw-overlay -->
 
     <!-- ═══════════════════════════════════════════
          MODAL 2 — ADD APPLIANCE
@@ -6513,6 +6651,152 @@
             }
         });
     })();
+
+    /* ══ BULK SETUP UNIT WIZARD (Detail View) ══ */
+    (function() {
+        var overlay        = document.getElementById('bsuw-overlay');
+        if (!overlay) return;
+        var totalSteps     = 3, currentStep = 1;
+        var BSUW_PAGE_SIZE = 10, bsuwPage = 1;
+        var bsuwUnitData   = [], bsuwSelectedAmenities = new Set(), bsuwApplyToAll = true;
+
+        var BSUW_AMENITIES = {
+            'Interior':         ['Air Conditioning','Heating','Ceiling Fans','Hardwood Floors','Carpet','Tile Floors','Walk-in Closet','Linen Closet','In-Unit Washer/Dryer','Washer/Dryer Hookups','Dishwasher','Garbage Disposal','Microwave','Refrigerator','Stove/Range','Oven','Fireplace','Balcony/Patio','Private Yard','Storage Room'],
+            'Bathroom':         ['Walk-in Shower','Bathtub','Double Vanity','Soaking Tub','Bidet'],
+            'Kitchen':          ['Granite Countertops','Quartz Countertops','Kitchen Island','Breakfast Bar','Stainless Steel Appliances','Gas Range','Double Oven'],
+            'Tech & Utilities': ['High-Speed Internet','Cable Ready','Smart Thermostat','Smart Lock','EV Charging','Solar Panels'],
+            'Accessibility':    ['Wheelchair Accessible','Roll-in Shower','Grab Bars','First Floor Unit','Elevator Access']
+        };
+
+        function escA(s){return(s||'').replace(/"/g,'&quot;');} function escH(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+        function show(id){var e=document.getElementById(id);if(e)e.classList.remove('bsuw-hidden');}
+        function hide(id){var e=document.getElementById(id);if(e)e.classList.add('bsuw-hidden');}
+
+        function bsuwBuildTable() {
+            var tbody=document.getElementById('bsuw-ut-tbody'), total=bsuwUnitData.length;
+            var BED=['','Studio','1','2','3','4','5','6+'], BATH=['','1','1.5','2','2.5','3','3+'], STRAT=['','Unit number','Suite','Apt','Floor'];
+            var usePag=total>BSUW_PAGE_SIZE, s=usePag?(bsuwPage-1)*BSUW_PAGE_SIZE:0, e=usePag?Math.min(s+BSUW_PAGE_SIZE,total):total;
+            document.getElementById('bsuw-ut-count-label').textContent=total+' unit'+(total!==1?'s':'');
+            var pag=document.getElementById('bsuw-ut-pagination'); pag.classList.toggle('visible',usePag);
+            if(usePag){document.getElementById('bsuw-ut-page-info').textContent=(s+1)+' – '+e+' of '+total; document.getElementById('bsuw-ut-prev').disabled=bsuwPage<=1; document.getElementById('bsuw-ut-next').disabled=e>=total;}
+            tbody.innerHTML='';
+            for(var i=s;i<e;i++){(function(idx){
+                var d=bsuwUnitData[idx],tr=document.createElement('tr');
+                tr.dataset.unitIdx=idx;
+                if(d.name||d.beds||d.baths||d.rent)tr.classList.add('apw-ut-filled');
+                if(d._selected)tr.classList.add('apw-ut-selected');
+                tr.innerHTML='<td style="text-align:center;"><label class="apw-chk-wrap"><input type="checkbox" class="bsuw-ichk"'+(d._selected?' checked':'')+
+                    '><span class="apw-chk-box"></span></label></td>'+
+                    '<td style="text-align:center;"><div class="apw-ut-num">'+(idx+1)+'</div></td>'+
+                    '<td><input type="text" class="bsuw-iname" value="'+escA(d.name)+'" placeholder="Unit '+(idx+1)+'"></td>'+
+                    '<td><select class="bsuw-ibeds">'+BED.map(function(o){return'<option value="'+o+'"'+(o===d.beds?' selected':'')+'>'+(o||'Select')+'</option>';}).join('')+'</select></td>'+
+                    '<td><select class="bsuw-ibaths">'+BATH.map(function(o){return'<option value="'+o+'"'+(o===d.baths?' selected':'')+'>'+(o||'Select')+'</option>';}).join('')+'</select></td>'+
+                    '<td><input type="text" class="bsuw-isize" value="'+escA(d.size)+'" placeholder="e.g. 850"></td>'+
+                    '<td><select class="bsuw-istrat">'+STRAT.map(function(o){return'<option value="'+o+'"'+(o===d.strat?' selected':'')+'>'+(o||'Select')+'</option>';}).join('')+'</select></td>'+
+                    '<td><input type="text" class="bsuw-irent" value="'+escA(d.rent)+'" placeholder="$0.00"></td>'+
+                    '<td><textarea class="bsuw-idesc" rows="1" maxlength="500" placeholder="Optional…">'+escH(d.desc)+'</textarea></td>';
+                tr.querySelector('.bsuw-ichk').addEventListener('change',function(){bsuwUnitData[idx]._selected=this.checked;tr.classList.toggle('apw-ut-selected',this.checked);bsuwSyncAll();bsuwUpdateSelBadge();bsuwUpdateUnitChecklist();});
+                function bind(cls,key,evt){var el=tr.querySelector('.'+cls);if(!el)return;el.addEventListener(evt,function(){bsuwUnitData[idx][key]=this.value;tr.classList.toggle('apw-ut-filled',!!(bsuwUnitData[idx].name||bsuwUnitData[idx].beds||bsuwUnitData[idx].baths||bsuwUnitData[idx].rent));bsuwUpdateProgress();});}
+                bind('bsuw-iname','name','input');bind('bsuw-ibeds','beds','change');bind('bsuw-ibaths','baths','change');bind('bsuw-isize','size','input');bind('bsuw-istrat','strat','change');bind('bsuw-irent','rent','input');bind('bsuw-idesc','desc','input');
+                tbody.appendChild(tr);
+            })(i);}
+            bsuwSyncAll(); bsuwUpdateSelBadge();
+        }
+        function bsuwUpdateProgress(){var f=bsuwUnitData.filter(function(d){return d.name||d.beds||d.baths||d.rent;}).length,t=bsuwUnitData.length,p=t>0?Math.round(f/t*100):0;document.getElementById('bsuw-ut-progress-bar').style.width=p+'%';document.getElementById('bsuw-ut-progress-txt').textContent=f+' / '+t+' filled';}
+        function bsuwSyncAll(){var c=document.getElementById('bsuw-chk-all');if(!c)return;var a=bsuwUnitData.length>0&&bsuwUnitData.every(function(d){return d._selected;}),n=bsuwUnitData.some(function(d){return d._selected;});c.checked=a;c.indeterminate=!a&&n;}
+        function bsuwUpdateSelBadge(){var c=bsuwUnitData.filter(function(d){return d._selected;}).length;document.getElementById('bsuw-bulk-sel-badge').textContent=c;document.getElementById('bsuw-bulk-selected').disabled=c===0;}
+
+        function bsuwGenerate(){
+            var n=Math.max(1,Math.min(200,parseInt(document.getElementById('bsuw-num-units').value)||1));
+            bsuwUnitData=[];for(var i=0;i<n;i++)bsuwUnitData.push({name:'',beds:'',baths:'',size:'',strat:'',rent:'',desc:'',_selected:false,amenities:[]});
+            bsuwPage=1;bsuwBuildTable();bsuwUpdateProgress();show('bsuw-ut-toolbar');show('bsuw-ut-wrap');
+            if(n>1){document.getElementById('bsuw-bulk-toolbar').classList.remove('bsuw-hidden');document.getElementById('bsuw-bulk-toolbar').classList.add('visible');}
+        }
+        document.getElementById('bsuw-generate-btn').addEventListener('click',bsuwGenerate);
+        document.getElementById('bsuw-chk-all').addEventListener('change',function(){bsuwUnitData.forEach(function(d){d._selected=this.checked;}.bind(this));bsuwBuildTable();});
+        document.getElementById('bsuw-ut-prev').addEventListener('click',function(){if(bsuwPage>1){bsuwPage--;bsuwBuildTable();}});
+        document.getElementById('bsuw-ut-next').addEventListener('click',function(){if(bsuwPage*BSUW_PAGE_SIZE<bsuwUnitData.length){bsuwPage++;bsuwBuildTable();}});
+
+        function bsuwVals(){return{beds:document.getElementById('bsuw-bulk-beds').value,baths:document.getElementById('bsuw-bulk-baths').value,size:document.getElementById('bsuw-bulk-size').value.trim(),strat:document.getElementById('bsuw-bulk-strat').value,rent:document.getElementById('bsuw-bulk-rent').value.trim()};}
+        document.getElementById('bsuw-bulk-apply').addEventListener('click',function(){var v=bsuwVals();bsuwUnitData.forEach(function(d){if(v.beds&&!d.beds)d.beds=v.beds;if(v.baths&&!d.baths)d.baths=v.baths;if(v.size&&!d.size)d.size=v.size;if(v.strat&&!d.strat)d.strat=v.strat;if(v.rent&&!d.rent)d.rent=v.rent;});bsuwBuildTable();bsuwUpdateProgress();});
+        document.getElementById('bsuw-bulk-overwrite').addEventListener('click',function(){var v=bsuwVals();bsuwUnitData.forEach(function(d){if(v.beds)d.beds=v.beds;if(v.baths)d.baths=v.baths;if(v.size)d.size=v.size;if(v.strat)d.strat=v.strat;if(v.rent)d.rent=v.rent;});bsuwBuildTable();bsuwUpdateProgress();});
+        document.getElementById('bsuw-bulk-selected').addEventListener('click',function(){var v=bsuwVals();bsuwUnitData.forEach(function(d){if(!d._selected)return;if(v.beds)d.beds=v.beds;if(v.baths)d.baths=v.baths;if(v.size)d.size=v.size;if(v.strat)d.strat=v.strat;if(v.rent)d.rent=v.rent;});bsuwBuildTable();bsuwUpdateProgress();});
+        document.getElementById('bsuw-bulk-clear').addEventListener('click',function(){bsuwUnitData.forEach(function(d){d.name=d.beds=d.baths=d.size=d.strat=d.rent=d.desc='';d._selected=false;});bsuwPage=1;bsuwBuildTable();bsuwUpdateProgress();});
+
+        var bTgl=document.getElementById('bsuw-bulk-toggle'),bBar=document.getElementById('bsuw-bulk-toolbar'),bPnl=document.getElementById('bsuw-bulk-panel');
+        function toggleBulk(){var o=bPnl.classList.toggle('open');bTgl.classList.toggle('open',o);bBar.classList.toggle('panel-open',o);}
+        bTgl.addEventListener('click',toggleBulk);
+        bBar.addEventListener('click',function(e){if(e.target===bBar||e.target.closest('.apw-bulk-left'))toggleBulk();});
+
+        function bsuwRenderChips(){
+            var grid=document.getElementById('bsuw-am-grid-body'),html='';
+            Object.keys(BSUW_AMENITIES).forEach(function(cat){html+='<div class="suw-am-cat-title">'+cat+'</div><div class="suw-am-chip-row">';BSUW_AMENITIES[cat].forEach(function(item){html+='<button class="suw-am-chip'+(bsuwSelectedAmenities.has(item)?' selected':'')+'" data-am="'+item+'">'+item+'</button>';});html+='</div>';});
+            grid.innerHTML=html;
+            grid.querySelectorAll('.suw-am-chip').forEach(function(btn){btn.addEventListener('click',function(){var am=this.dataset.am;if(bsuwSelectedAmenities.has(am)){bsuwSelectedAmenities.delete(am);this.classList.remove('selected');}else{bsuwSelectedAmenities.add(am);this.classList.add('selected');}bsuwRenderStrip();});});
+        }
+        function bsuwRenderStrip(){
+            var strip=document.getElementById('bsuw-am-sel-strip');
+            if(bsuwSelectedAmenities.size===0){strip.innerHTML='<span class="suw-am-sel-placeholder">No amenities selected yet</span>';return;}
+            var html='';bsuwSelectedAmenities.forEach(function(am){html+='<span class="suw-am-sel-tag">'+am+'<button data-am="'+am+'" title="Remove">&#x2715;</button></span>';});
+            strip.innerHTML=html;
+            strip.querySelectorAll('button').forEach(function(btn){btn.addEventListener('click',function(){var am=this.dataset.am;bsuwSelectedAmenities.delete(am);var chip=document.querySelector('#bsuw-am-grid-body .suw-am-chip[data-am="'+am+'"]');if(chip)chip.classList.remove('selected');bsuwRenderStrip();});});
+        }
+        function bsuwUpdateUnitChecklist(){
+            var list=document.getElementById('bsuw-unit-checklist');list.innerHTML='';
+            bsuwUnitData.forEach(function(d,idx){var lbl=document.createElement('label');lbl.className='bsuw-unit-chk-item'+(d._selected?' checked':'');lbl.innerHTML='<input type="checkbox"'+(d._selected?' checked':'')+'><i class="fas fa-home" style="font-size:10px;"></i> '+(d.name||'Unit '+(idx+1));lbl.querySelector('input').addEventListener('change',function(){bsuwUnitData[idx]._selected=this.checked;lbl.classList.toggle('checked',this.checked);document.getElementById('bsuw-am-sel-badge').textContent=bsuwUnitData.filter(function(u){return u._selected;}).length;});list.appendChild(lbl);});
+            document.getElementById('bsuw-am-sel-badge').textContent=bsuwUnitData.filter(function(u){return u._selected;}).length;
+        }
+        document.getElementById('bsuw-am-allu-btn').addEventListener('click',function(){bsuwApplyToAll=true;this.classList.add('active');document.getElementById('bsuw-am-selu-btn').classList.remove('active');hide('bsuw-unit-checklist');});
+        document.getElementById('bsuw-am-selu-btn').addEventListener('click',function(){bsuwApplyToAll=false;this.classList.add('active');document.getElementById('bsuw-am-allu-btn').classList.remove('active');bsuwUpdateUnitChecklist();show('bsuw-unit-checklist');});
+        document.getElementById('bsuw-am-save-btn').addEventListener('click',function(){var ams=Array.from(bsuwSelectedAmenities);bsuwUnitData.forEach(function(d){if(bsuwApplyToAll||d._selected)d.amenities=ams.slice();});hide('bsuw-am-saved-msg');show('bsuw-am-saved-msg');setTimeout(function(){hide('bsuw-am-saved-msg');},2500);});
+
+        function bsuwBuildReview(){
+            var body=document.getElementById('bsuw-review-body'),total=bsuwUnitData.length;
+            var filled=bsuwUnitData.filter(function(d){return d.name||d.beds||d.baths||d.rent;}).length;
+            var amCount=bsuwSelectedAmenities.size,withAm=bsuwUnitData.filter(function(d){return d.amenities&&d.amenities.length>0;}).length;
+            var html='<div class="bsuw-review-summary">'+
+                '<div class="bsuw-review-stat"><div class="bsuw-review-stat-num">'+total+'</div><div class="bsuw-review-stat-lbl">Total Units</div></div>'+
+                '<div class="bsuw-review-stat"><div class="bsuw-review-stat-num">'+filled+'</div><div class="bsuw-review-stat-lbl">Units with Details</div></div>'+
+                '<div class="bsuw-review-stat"><div class="bsuw-review-stat-num">'+amCount+'</div><div class="bsuw-review-stat-lbl">Amenities Selected</div></div>'+
+                '<div class="bsuw-review-stat"><div class="bsuw-review-stat-num">'+withAm+'</div><div class="bsuw-review-stat-lbl">Units with Amenities</div></div></div>'+
+                '<div class="bsuw-review-section"><h4><i class="fas fa-table"></i> Unit Summary</h4>'+
+                '<table class="bsuw-review-table"><thead><tr><th>#</th><th>Unit Name</th><th>Bed</th><th>Bath</th><th>Size</th><th>Rent</th><th>Amenities</th></tr></thead><tbody>';
+            bsuwUnitData.forEach(function(d,idx){
+                var tags=d.amenities&&d.amenities.length?d.amenities.map(function(a){return'<span class="bsuw-review-am-tag">'+escH(a)+'</span>';}).join(''):'<span style="color:#C4CDD6;">—</span>';
+                html+='<tr><td>'+(idx+1)+'</td><td><strong>'+(d.name?escH(d.name):'<span style="color:#C4CDD6;">Unit '+(idx+1)+'</span>')+'</strong></td><td>'+(d.beds||'—')+'</td><td>'+(d.baths||'—')+'</td><td>'+(d.size?d.size+' sq ft':'—')+'</td><td>'+(d.rent?'$'+escH(d.rent):'—')+'</td><td>'+tags+'</td></tr>';
+            });
+            body.innerHTML=html+'</tbody></table></div>';
+        }
+
+        function bsuwOpen(){
+            currentStep=1;bsuwUnitData=[];bsuwSelectedAmenities.clear();bsuwApplyToAll=true;bsuwPage=1;
+            document.getElementById('bsuw-num-units').value='5';
+            document.getElementById('bsuw-success-msg').style.display='none';
+            hide('bsuw-ut-toolbar');hide('bsuw-ut-wrap');
+            var bt=document.getElementById('bsuw-bulk-toolbar');bt.classList.add('bsuw-hidden');bt.classList.remove('visible','panel-open');
+            document.getElementById('bsuw-bulk-panel').classList.remove('open');
+            document.getElementById('bsuw-am-allu-btn').classList.add('active');document.getElementById('bsuw-am-selu-btn').classList.remove('active');
+            hide('bsuw-unit-checklist');hide('bsuw-am-saved-msg');
+            bsuwRender();overlay.classList.add('open');overlay.scrollTop=0;document.body.style.overflow='hidden';
+        }
+        function bsuwClose(){overlay.classList.remove('open');document.body.style.overflow='';}
+
+        function bsuwRender(){
+            document.querySelectorAll('#bsuw-overlay .apw-step').forEach(function(el){var s=parseInt(el.dataset.step);el.classList.toggle('active',s===currentStep);el.classList.toggle('completed',s<currentStep);var c=el.querySelector('.apw-step-circle');if(s<currentStep)c.innerHTML='<i class="fas fa-check" style="font-size:11px;"></i>';else c.textContent=s;});
+            document.querySelectorAll('#bsuw-overlay .apw-step-content').forEach(function(el){el.classList.toggle('active',parseInt(el.dataset.step)===currentStep);});
+            document.getElementById('bsuw-step-label').textContent='Step '+currentStep+' of '+totalSteps;
+            var btn=document.getElementById('bsuw-btn-next');
+            if(currentStep===totalSteps){btn.textContent='Submit';btn.classList.add('finish');}else{btn.textContent='Next';btn.classList.remove('finish');}
+            document.getElementById('bsuw-btn-back').style.visibility=currentStep===1?'hidden':'visible';
+            if(currentStep===2){bsuwRenderChips();bsuwRenderStrip();}
+            if(currentStep===3)bsuwBuildReview();
+            overlay.scrollTop=0;
+        }
+        document.getElementById('bsuw-btn-back').addEventListener('click',function(){if(currentStep>1){currentStep--;bsuwRender();}else bsuwClose();});
+        document.getElementById('bsuw-btn-next').addEventListener('click',function(){if(currentStep<totalSteps){currentStep++;bsuwRender();}else{document.getElementById('bsuw-success-msg').style.display='block';var btn=document.getElementById('bsuw-btn-next');btn.textContent='Done';btn.classList.add('finish');setTimeout(function(){bsuwClose();},2500);}});
+        document.getElementById('bsuw-close-top').addEventListener('click',bsuwClose);
+        document.getElementById('btn-bulk-setup-unit-dv').addEventListener('click',bsuwOpen);
+    })();
     </script>
 
     <style>
@@ -6590,6 +6874,36 @@
         .suw-media-tag-select { flex: 1; border: 1px solid #D1D9E4; border-radius: 6px; font-size: 11px; padding: 3px 5px; font-family: inherit; color: #2D3748; outline: none; background: #fff; }
         .suw-media-remove { background: none; border: none; cursor: pointer; color: #E05252; font-size: 12px; padding: 0 2px; flex-shrink: 0; }
         .suw-media-remove:hover { color: #C0392B; }
+
+        /* ══ BULK SETUP UNIT WIZARD ══ */
+        .bsuw-hidden { display: none !important; }
+        .bsuw-count-row { display: flex; align-items: center; gap: 14px; background: #F0F8FF; border: 1.5px solid #BEE0F8; border-radius: 10px; padding: 14px 18px; margin-bottom: 18px; }
+        .bsuw-am-applybar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: #F8FAFB; border: 1px solid #E2E6EB; border-radius: 10px; padding: 12px 16px; }
+        .bsuw-am-applylabel { font-size: 12.5px; font-weight: 700; color: #4A5568; white-space: nowrap; }
+        .bsuw-am-applybtn { display: inline-flex; align-items: center; gap: 7px; padding: 7px 16px; border-radius: 8px; border: 1.5px solid #D1D9E4; background: #fff; font-size: 12.5px; font-weight: 600; color: #4A6FA5; cursor: pointer; font-family: inherit; transition: all 0.12s; }
+        .bsuw-am-applybtn:hover { border-color: #7B4FCF; color: #7B4FCF; }
+        .bsuw-am-applybtn.active { background: #7B4FCF; border-color: #7B4FCF; color: #fff; }
+        .bsuw-am-sel-badge { background: rgba(255,255,255,0.3); border-radius: 10px; font-size: 10px; font-weight: 700; padding: 1px 6px; min-width: 18px; text-align: center; }
+        .bsuw-am-applybtn:not(.active) .bsuw-am-sel-badge { background: #E8863A; color: #fff; }
+        .bsuw-unit-checklist { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px; background: #FAFBFC; border: 1px solid #E2E6EB; border-radius: 10px; margin-top: 10px; max-height: 160px; overflow-y: auto; }
+        .bsuw-unit-chk-item { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border: 1.5px solid #D1D9E4; border-radius: 20px; font-size: 12px; font-weight: 500; color: #4A5568; cursor: pointer; background: #fff; transition: all 0.12s; user-select: none; }
+        .bsuw-unit-chk-item.checked { background: #EDE5FF; border-color: #7B4FCF; color: #5B32A8; font-weight: 700; }
+        .bsuw-unit-chk-item input { display: none; }
+        .bsuw-am-save-btn { margin-top: 16px; display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; background: #7B4FCF; border: none; border-radius: 8px; color: #fff; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.12s; }
+        .bsuw-am-save-btn:hover { background: #6A3FBF; }
+        .bsuw-am-saved-msg { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 8px 16px; background: #E6F8EE; border: 1px solid #9AE6B4; border-radius: 8px; color: #22894A; font-size: 13px; font-weight: 600; }
+        .bsuw-review-summary { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+        .bsuw-review-stat { flex: 1; min-width: 130px; background: #FAFBFC; border: 1px solid #E2E6EB; border-radius: 10px; padding: 14px 18px; text-align: center; }
+        .bsuw-review-stat-num { font-size: 28px; font-weight: 800; color: #1B4B6E; line-height: 1; }
+        .bsuw-review-stat-lbl { font-size: 11px; color: #8896A6; font-weight: 600; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
+        .bsuw-review-section { margin-bottom: 20px; }
+        .bsuw-review-section h4 { font-size: 13px; font-weight: 700; color: #1B4B6E; margin: 0 0 10px; display: flex; align-items: center; gap: 7px; }
+        .bsuw-review-table { width: 100%; border-collapse: collapse; font-size: 12px; border: 1px solid #E2E6EB; border-radius: 10px; overflow: hidden; }
+        .bsuw-review-table thead th { background: #1B5068; color: #fff; padding: 9px 12px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+        .bsuw-review-table tbody tr:nth-child(even) { background: #F8FAFB; }
+        .bsuw-review-table tbody td { padding: 8px 12px; border-bottom: 1px solid #EDF2F7; color: #2D3748; vertical-align: middle; }
+        .bsuw-review-table tbody tr:last-child td { border-bottom: none; }
+        .bsuw-review-am-tag { display: inline-block; padding: 2px 8px; background: #EBF4FA; border: 1px solid #BDE0F5; border-radius: 12px; font-size: 11px; color: #2C6F9A; font-weight: 600; margin: 2px; }
     </style>
 
 </body>
