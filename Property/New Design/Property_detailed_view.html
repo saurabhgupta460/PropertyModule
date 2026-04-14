@@ -6484,8 +6484,24 @@
         });
         document.getElementById('suw-close-top').addEventListener('click', suwClose);
 
-        // Wire unit-tab dropdown buttons
+        // Toggle unit-tab 3-dot dropdowns
         document.addEventListener('click', function(e) {
+            var dotsBtn = e.target.closest('.unit-dots-btn');
+            if (dotsBtn) {
+                var wrap = dotsBtn.closest('.unit-dots-wrap');
+                var dd   = wrap && wrap.querySelector('.unit-dropdown');
+                var isOpen = dd && dd.classList.contains('open');
+                // Close all first
+                document.querySelectorAll('.unit-dropdown').forEach(function(d) { d.classList.remove('open'); });
+                if (dd && !isOpen) dd.classList.add('open');
+                e.stopPropagation();
+                return;
+            }
+            // Close on outside click
+            if (!e.target.closest('.unit-dots-wrap')) {
+                document.querySelectorAll('.unit-dropdown').forEach(function(d) { d.classList.remove('open'); });
+            }
+            // Wire dropdown actions
             if (e.target.closest('.unit-dd-new-listing')) {
                 document.querySelectorAll('.unit-dropdown').forEach(function(d) { d.classList.remove('open'); });
                 openWizard();
