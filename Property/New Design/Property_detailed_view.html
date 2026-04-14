@@ -1325,7 +1325,7 @@
         }
         .nlw-overlay.open { display: flex; animation: fadeIn 0.2s; }
         .nlw-container {
-            background: #E8ECF1; border-radius: 16px; width: 860px; max-width: 98vw;
+            background: #E8ECF1; border-radius: 16px; width: 1100px; max-width: 96vw;
             box-shadow: 0 24px 80px rgba(0,0,0,0.22);
             display: flex; flex-direction: column;
             animation: slideUp 0.28s ease-out; overflow: hidden;
@@ -1801,6 +1801,392 @@
         }
         .unit-dropdown-item:hover { background: #F0F4F8; color: #1B4B6E; }
         .unit-dropdown-item i { font-size: 12px; color: #718096; width: 14px; }
+
+        /* ══════════════════════════════════════════════════
+           AMENITIES & MEDIA — Summary Card
+           ══════════════════════════════════════════════════ */
+        .am-body {
+            display: flex; gap: 24px; align-items: flex-start;
+        }
+        .am-col { flex: 1; min-width: 0; }
+        .am-section-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .am-section-label {
+            font-size: 12.5px; font-weight: 600; color: #2D3748;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .am-section-label i { color: #3B8DBD; font-size: 12px; }
+        .am-count-badge {
+            background: #EBF4FA; color: #2E7AA5;
+            font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 10px;
+        }
+        .am-divider { width: 1px; background: #EDF2F7; flex-shrink: 0; align-self: stretch; min-height: 80px; }
+        .am-tags-preview {
+            display: flex; flex-wrap: wrap; gap: 6px;
+            max-height: 140px; overflow-y: auto;
+            align-content: flex-start; padding-right: 2px;
+        }
+        .am-tags-preview::-webkit-scrollbar { width: 4px; }
+        .am-tags-preview::-webkit-scrollbar-track { background: transparent; }
+        .am-tags-preview::-webkit-scrollbar-thumb { background: #C8D0D8; border-radius: 4px; }
+        .am-tag {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 4px 10px; background: #EBF4FA; color: #2E7AA5;
+            border-radius: 20px; font-size: 11.5px; font-weight: 500;
+        }
+        .am-tag-more { background: #F0F2F5; color: #718096; }
+        .am-empty-hint { font-size: 12px; color: #B0BAC8; font-style: italic; padding: 8px 0; }
+        .am-photos-preview { display: flex; gap: 8px; flex-wrap: wrap; min-height: 72px; align-content: flex-start; }
+        .am-photo-thumb {
+            width: 72px; height: 72px; border-radius: 8px; overflow: hidden;
+            background: #EDF2F7; position: relative; flex-shrink: 0;
+            border: 1px solid #D5DAE0;
+        }
+        .am-photo-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .am-photo-more-overlay {
+            position: absolute; inset: 0; background: rgba(27,75,110,0.72);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 14px; font-weight: 700; border-radius: 7px;
+        }
+        .am-photo-upload-hint {
+            width: 72px; height: 72px; border-radius: 8px;
+            border: 2px dashed #C8D0D8;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 4px; color: #A0AEC0; font-size: 10.5px; cursor: pointer;
+            background: #F8FAFB; transition: all 0.15s;
+        }
+        .am-photo-upload-hint:hover { border-color: #3B8DBD; color: #3B8DBD; background: #F0F8FF; }
+
+        /* ══════════════════════════════════════════════════
+           AMENITIES & MEDIA — Modal Overlay
+           ══════════════════════════════════════════════════ */
+        .am-modal-overlay {
+            position: fixed; inset: 0; background: rgba(15,25,40,0.52); z-index: 3200;
+            display: flex; align-items: flex-start; justify-content: center;
+            padding: 36px 20px; overflow-y: auto;
+            opacity: 0; pointer-events: none; transition: opacity 0.2s;
+        }
+        .am-modal-overlay.am-open { opacity: 1; pointer-events: auto; }
+        .am-modal {
+            background: #fff; border-radius: 16px;
+            box-shadow: 0 24px 72px rgba(0,0,0,0.22);
+            width: 100%; max-width: 880px;
+            display: flex; flex-direction: column;
+            max-height: calc(100vh - 72px);
+            transform: translateY(18px); transition: transform 0.22s;
+        }
+        .am-modal-overlay.am-open .am-modal { transform: translateY(0); }
+        .am-media-modal { max-width: 740px; }
+
+        /* Modal Header */
+        .am-modal-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 18px 24px; border-bottom: 1px solid #EDF2F7; flex-shrink: 0;
+        }
+        .am-modal-title {
+            font-size: 16px; font-weight: 700; color: #1A2B3D;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .am-modal-title i { color: #3B8DBD; font-size: 15px; }
+        .am-modal-close {
+            width: 30px; height: 30px; border: none; background: #F0F2F5;
+            border-radius: 7px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; color: #5A6B7E; transition: all 0.15s;
+        }
+        .am-modal-close:hover { background: #E2E6EB; color: #1A2B3D; }
+
+        /* Amenity Tabs */
+        .am-tab-bar {
+            display: flex; padding: 0 24px; gap: 4px;
+            border-bottom: 1px solid #EDF2F7; flex-shrink: 0;
+            background: #FAFBFC;
+        }
+        .am-tab-btn {
+            padding: 12px 18px; border: none; background: transparent;
+            font-size: 13px; font-weight: 600; color: #718096;
+            cursor: pointer; border-bottom: 2px solid transparent;
+            margin-bottom: -1px; transition: all 0.15s; font-family: inherit;
+        }
+        .am-tab-btn.active { color: #3B8DBD; border-bottom-color: #3B8DBD; }
+        .am-tab-btn:hover:not(.active) { color: #2D3748; }
+        .am-tab-count {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: #EDF2F7; color: #5A6B7E;
+            font-size: 10px; font-weight: 700;
+            min-width: 18px; height: 18px; border-radius: 9px; padding: 0 5px;
+            margin-left: 5px;
+        }
+        .am-tab-btn.active .am-tab-count { background: #3B8DBD; color: #fff; }
+
+        /* Search + Filter bar */
+        .am-controls {
+            padding: 14px 24px 12px; display: flex; flex-direction: column; gap: 10px;
+            flex-shrink: 0; border-bottom: 1px solid #EDF2F7; background: #FAFBFC;
+        }
+        .am-search-wrap { position: relative; }
+        .am-search {
+            width: 100%; padding: 9px 12px 9px 36px;
+            border: 1px solid #D5DAE0; border-radius: 8px;
+            font-size: 13px; color: #2D3748; font-family: inherit;
+            outline: none; transition: border-color 0.15s; box-sizing: border-box;
+            background: #fff;
+        }
+        .am-search:focus { border-color: #3B8DBD; box-shadow: 0 0 0 3px rgba(59,141,189,0.1); }
+        .am-search-icon {
+            position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+            color: #A0AEC0; font-size: 12px; pointer-events: none;
+        }
+        .am-filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+        .am-chip {
+            padding: 4px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 500;
+            border: 1px solid #D5DAE0; background: #fff; color: #5A6B7E;
+            cursor: pointer; transition: all 0.15s; font-family: inherit;
+        }
+        .am-chip:hover { border-color: #3B8DBD; color: #2E7AA5; }
+        .am-chip.active { background: #EBF4FA; border-color: #3B8DBD; color: #2E7AA5; font-weight: 600; }
+
+        /* Scrollable Amenity Body */
+        .am-scroll-body { overflow-y: auto; padding: 16px 24px; flex: 1; min-height: 0; }
+        .am-cat-section { margin-bottom: 22px; }
+        .am-cat-title {
+            font-size: 10.5px; font-weight: 700; color: #5A6B7E;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+        }
+        .am-cat-title i { font-size: 11px; color: #3B8DBD; }
+        .am-cat-badge {
+            background: #F0F2F5; color: #5A6B7E; font-size: 10px;
+            padding: 1px 7px; border-radius: 8px; font-weight: 600; font-style: normal;
+        }
+        .am-amenity-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(185px, 1fr)); gap: 7px;
+        }
+        .am-amenity-chip {
+            display: flex; align-items: center; gap: 8px;
+            padding: 8px 12px; border: 1.5px solid #D5DAE0; border-radius: 8px;
+            cursor: pointer; font-size: 12px; color: #3D4F63; font-weight: 500;
+            background: #fff; transition: all 0.15s; user-select: none;
+            font-family: inherit; text-align: left; line-height: 1.3;
+        }
+        .am-amenity-chip:hover { border-color: #3B8DBD; background: #F0F8FF; color: #2D3748; }
+        .am-amenity-chip.selected { background: #EBF4FA; border-color: #3B8DBD; color: #1B4B6E; }
+        .am-check-icon {
+            width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid #C8CDD4;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 9px; color: transparent; background: #fff;
+            flex-shrink: 0; transition: all 0.15s;
+        }
+        .am-amenity-chip.selected .am-check-icon { background: #3B8DBD; border-color: #3B8DBD; color: #fff; }
+        .am-no-results {
+            text-align: center; padding: 40px 20px; color: #A0AEC0; font-size: 13px;
+        }
+        .am-no-results i { font-size: 28px; display: block; margin-bottom: 10px; color: #D5DAE0; }
+
+        /* Selected Strip — inside amenities modal */
+        .am-selected-strip {
+            padding: 10px 24px 12px; border-bottom: 1px solid #EDF2F7;
+            background: #F8FAFB; flex-shrink: 0;
+        }
+        .am-selected-strip-label {
+            font-size: 10.5px; font-weight: 700; color: #718096;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+        }
+        .am-selected-strip-label span { color: #3B8DBD; font-size: 11px; }
+        .am-sel-tags { display: flex; flex-wrap: wrap; gap: 5px; max-height: 76px; overflow-y: auto; }
+        .am-sel-tags::-webkit-scrollbar { width: 4px; }
+        .am-sel-tags::-webkit-scrollbar-thumb { background: #C8D0D8; border-radius: 4px; }
+        .am-sel-tag {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 3px 5px 3px 9px; background: #EBF4FA; color: #1B4B6E;
+            border-radius: 20px; font-size: 11px; font-weight: 500; border: 1px solid #C5DDF0;
+        }
+        .am-sel-tag-remove {
+            width: 15px; height: 15px; border: none; background: #C5DDF0; color: #2E7AA5;
+            cursor: pointer; font-size: 8px; border-radius: 50%; padding: 0;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            transition: all 0.15s; font-family: inherit;
+        }
+        .am-sel-tag-remove:hover { background: #3B8DBD; color: #fff; }
+        .am-sel-empty { font-size: 11.5px; color: #B0BAC8; font-style: italic; }
+
+        /* Quad footer full-width button */
+        .am-quad-footer .ov-btn { width: 100%; justify-content: center; }
+
+        /* Modal Footer */
+        .am-modal-footer {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 24px; border-top: 1px solid #EDF2F7; flex-shrink: 0;
+        }
+        .am-footer-count { font-size: 12.5px; color: #718096; }
+        .am-footer-count strong { color: #1B4B6E; font-size: 13px; }
+        .am-footer-actions { display: flex; gap: 8px; }
+
+        /* Media Modal */
+        .am-drop-zone {
+            margin: 16px 24px; border: 2px dashed #C8D0D8; border-radius: 12px;
+            padding: 30px 20px; text-align: center; cursor: pointer;
+            transition: all 0.2s; background: #FAFBFC; flex-shrink: 0;
+        }
+        .am-drop-zone.drag-over { border-color: #3B8DBD; background: #F0F8FF; }
+        .am-drop-zone i { font-size: 30px; color: #B0BAC8; margin-bottom: 10px; display: block; }
+        .am-drop-zone p { font-size: 13.5px; color: #5A6B7E; margin: 0 0 4px; font-weight: 500; }
+        .am-drop-zone span { font-size: 11.5px; color: #A0AEC0; }
+        .am-drop-btn {
+            margin-top: 12px; padding: 8px 20px; background: #3B8DBD; color: #fff;
+            border: none; border-radius: 8px; font-size: 13px; font-weight: 600;
+            cursor: pointer; font-family: inherit; transition: all 0.15s;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .am-drop-btn:hover { background: #2E7AA5; transform: translateY(-1px); }
+        .am-media-grid-wrap { overflow-y: auto; flex: 1; min-height: 0; }
+        .am-media-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px; padding: 4px 24px 16px;
+        }
+        .am-media-item {
+            position: relative; border-radius: 10px; overflow: hidden;
+            background: #F0F2F5; aspect-ratio: 1; border: 1px solid #D5DAE0;
+        }
+        .am-media-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .am-media-del {
+            position: absolute; top: 6px; right: 6px; width: 22px; height: 22px;
+            border-radius: 50%; background: rgba(0,0,0,0.6); color: #fff;
+            border: none; cursor: pointer; font-size: 10px;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.15s;
+        }
+        .am-media-item:hover .am-media-del { opacity: 1; }
+        .am-primary-badge {
+            position: absolute; bottom: 6px; left: 6px;
+            background: rgba(59,141,189,0.92); color: #fff;
+            font-size: 9px; font-weight: 700; padding: 2px 6px;
+            border-radius: 4px; letter-spacing: 0.3px;
+        }
+        .am-set-primary-btn {
+            position: absolute; bottom: 6px; left: 6px;
+            font-size: 9px; background: rgba(0,0,0,0.52); color: #fff;
+            padding: 2px 6px; border-radius: 4px; cursor: pointer;
+            opacity: 0; transition: opacity 0.15s; border: none; font-family: inherit;
+        }
+        .am-media-item:hover .am-set-primary-btn { opacity: 1; }
+        .am-media-empty {
+            grid-column: 1 / -1; text-align: center; padding: 24px 20px;
+            font-size: 13px; color: #A0AEC0; font-style: italic;
+        }
+        .am-media-card {
+            border: 1.5px solid #E2E6EB; border-radius: 10px;
+            overflow: hidden; background: #F8FAFB;
+            display: flex; flex-direction: column;
+        }
+        .am-media-card .am-media-item {
+            border-radius: 0; border: none; aspect-ratio: 4/3; flex-shrink: 0;
+        }
+        .am-media-tag-row {
+            padding: 7px 9px; display: flex; align-items: center; gap: 6px;
+            border-top: 1px solid #EDF2F7;
+        }
+        .am-media-tag-row .tag-icon { color: #A0AEC0; font-size: 11px; flex-shrink: 0; }
+        .am-media-tag-select {
+            flex: 1; padding: 4px 7px; border: 1px solid #E2E6EB; border-radius: 6px;
+            font-size: 11.5px; font-family: inherit; color: #2D3748;
+            background: #fff; outline: none; cursor: pointer;
+        }
+        .am-media-tag-select:focus { border-color: #3B8DBD; }
+        .am-media-empty i { font-size: 32px; color: #D5DAE0; display: block; margin-bottom: 10px; }
+        .am-upload-info {
+            font-size: 11.5px; color: #A0AEC0; padding: 0 24px 12px;
+            display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+        }
+
+        /* ── 2 × 2 Quad Grid ── */
+        .am-quad-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+        }
+        .am-quad {
+            padding: 20px; display: flex; flex-direction: column; gap: 12px;
+        }
+        .am-quad:nth-child(1),
+        .am-quad:nth-child(2) { border-bottom: 1px solid #EDF2F7; }
+        .am-quad:nth-child(odd)  { border-right: 1px solid #EDF2F7; }
+        .am-quad-header { display: flex; align-items: flex-start; gap: 10px; }
+        .am-quad-icon {
+            width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; font-size: 14px;
+        }
+        .am-quad-meta { flex: 1; min-width: 0; }
+        .am-quad-title { font-size: 13.5px; font-weight: 700; color: #2D3748; }
+        .am-quad-sub   { font-size: 11px; color: #A0AEC0; margin-top: 1px; }
+        .am-quad-preview { flex: 1; }
+        .am-quad-footer { margin-top: 4px; }
+        @media (max-width: 680px) {
+            .am-quad-grid { grid-template-columns: 1fr; }
+            .am-quad:nth-child(odd)  { border-right: none; }
+            .am-quad:nth-child(1),
+            .am-quad:nth-child(2),
+            .am-quad:nth-child(3) { border-bottom: 1px solid #EDF2F7; }
+            .am-amenity-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+        }
+
+        /* ── Wizard Step 2: Amenities ── */
+        .nlw-am-tabs {
+            display: flex; border-bottom: 2px solid #EDF2F7; margin-bottom: 14px;
+        }
+        .nlw-am-tab-btn {
+            flex: 1; padding: 11px 14px; border: none; background: transparent;
+            font-size: 13px; font-weight: 600; color: #718096; cursor: pointer;
+            border-bottom: 3px solid transparent; margin-bottom: -2px;
+            transition: all 0.15s; font-family: inherit;
+            display: flex; align-items: center; justify-content: center; gap: 7px;
+        }
+        .nlw-am-tab-btn.active { color: #3B8DBD; border-bottom-color: #3B8DBD; background: #F8FAFD; }
+        .nlw-am-tab-btn:hover:not(.active) { color: #2D3748; background: #F8FAFB; }
+        .nlw-am-tab-count {
+            background: #EDF2F7; color: #5A6B7E; font-size: 10px; font-weight: 700;
+            min-width: 18px; height: 18px; border-radius: 9px; padding: 0 5px;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .nlw-am-tab-btn.active .nlw-am-tab-count { background: #3B8DBD; color: #fff; }
+        .nlw-am-sel-strip {
+            display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+            padding: 9px 13px; background: #F8FAFB; border-radius: 10px;
+            border: 1px solid #EDF2F7; margin-bottom: 16px; min-height: 38px;
+        }
+        .nlw-am-sel-label { font-size: 11.5px; color: #718096; white-space: nowrap; }
+        .nlw-am-sel-tags { display: flex; flex-wrap: wrap; gap: 5px; flex: 1; }
+        .nlw-am-sel-empty { font-size: 11.5px; color: #B0BAC8; font-style: italic; }
+        .nlw-am-sel-tag {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 2px 5px 2px 9px; background: #EBF4FA; color: #1B4B6E;
+            border-radius: 20px; font-size: 11px; font-weight: 500; border: 1px solid #C5DDF0;
+        }
+        .nlw-am-sel-tag-remove {
+            width: 14px; height: 14px; border: none; background: #C5DDF0; color: #2E7AA5;
+            cursor: pointer; font-size: 8px; border-radius: 50%; padding: 0;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            transition: all 0.15s; font-family: inherit;
+        }
+        .nlw-am-sel-tag-remove:hover { background: #3B8DBD; color: #fff; }
+        .nlw-am-grid-body { max-height: 340px; overflow-y: auto; padding-right: 4px; }
+        .nlw-am-grid-body::-webkit-scrollbar { width: 4px; }
+        .nlw-am-grid-body::-webkit-scrollbar-thumb { background: #C8D0D8; border-radius: 4px; }
+
+        /* ── Wizard Step 3: Photo Sections ── */
+        .nlw-photo-section {
+            border: 1px solid #EDF2F7; border-radius: 12px; padding: 18px; background: #FAFBFC;
+        }
+        .nlw-photo-section-header {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+        }
+        .nlw-photo-section-icon {
+            width: 38px; height: 38px; border-radius: 10px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; font-size: 16px;
+        }
+        .nlw-photo-section-title { font-size: 14px; font-weight: 700; color: #2D3748; }
+        .nlw-photo-section-sub { font-size: 11.5px; color: #A0AEC0; margin-top: 2px; }
     </style>
 </head>
 <body>
@@ -1942,56 +2328,65 @@
                             </div>
                         </div>
 
-                        <!-- Unit Table (rent roll style) -->
+                        <!-- Unit Table -->
                         <div style="flex:1; min-width:0; overflow-x:auto;">
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Unit</th>
-                                        <th>Resident / status</th>
-                                        <th style="text-align:right">Rent</th>
-                                        <th>Lease</th>
-                                        <th style="text-align:right">Ends</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>101 A</td>
-                                        <td><a href="#" class="link-blue">Sam Jackson</a></td>
-                                        <td style="text-align:right; font-weight:600;">$1,450</td>
-                                        <td><span class="sl-badge sl-badge--green">Active</span></td>
-                                        <td style="text-align:right">10/25/25</td>
-                                    </tr>
-                                    <tr>
-                                        <td>101 B</td>
-                                        <td>Vacant · <a href="#" class="link-orange">Post ad <i class="fas fa-external-link-alt" style="font-size:10px"></i></a></td>
-                                        <td style="text-align:right; color:#A0AEC0;">—</td>
-                                        <td><span class="sl-badge sl-badge--gray">Vacant</span></td>
-                                        <td style="text-align:right">—</td>
-                                    </tr>
-                                    <tr>
-                                        <td>101 C</td>
-                                        <td><span class="future-tenant">George J. (future)</span></td>
-                                        <td style="text-align:right; font-weight:600;">$1,500</td>
-                                        <td><span class="sl-badge sl-badge--orange">Pending</span></td>
-                                        <td style="text-align:right">10/25/26</td>
-                                    </tr>
-                                    <tr>
-                                        <td>101 D</td>
-                                        <td><a href="#" class="link-blue">Nina Sherapowa</a></td>
-                                        <td style="text-align:right; font-weight:600;">$1,600</td>
-                                        <td><span class="sl-badge sl-badge--green">Active</span></td>
-                                        <td style="text-align:right">10/25/25</td>
-                                    </tr>
-                                    <tr>
-                                        <td>101 E</td>
-                                        <td><a href="#" class="link-blue">John Smithson</a></td>
-                                        <td style="text-align:right; font-weight:600;">$1,550</td>
-                                        <td><span class="sl-badge sl-badge--blue">MTM</span></td>
-                                        <td style="text-align:right">—</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div style="max-height:308px; overflow-y:auto;">
+                                <table class="unit-table" style="font-size:12.5px;">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:26%;">Unit</th>
+                                            <th style="width:11%;">Status</th>
+                                            <th style="width:20%;">Tenant</th>
+                                            <th style="width:22%;">Lease Status</th>
+                                            <th style="width:14%; text-align:center;">Activate Listing</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><div class="unit-name">Unit 101 A</div><div class="unit-sub">(Bed 2, Bath 1)</div></td>
+                                            <td><span class="unit-badge unit-badge--occupied">Occupied</span></td>
+                                            <td><div><span class="unit-tenant-name">Sam Jackson</span></div><div class="unit-tenant-amount">$1,450/mo</div></td>
+                                            <td><span class="unit-lease-text">Expires on </span><span class="unit-date-orange">10/25/25</span></td>
+                                            <td style="text-align:center;"><div class="unit-activate-wrap"><button class="unit-activate-toggle on" type="button"></button><span class="unit-activate-label">On</span></div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><div class="unit-name">Unit 101 B</div><div class="unit-sub">(Bed 1, Bath 1)</div></td>
+                                            <td><span class="unit-badge unit-badge--vacant">Vacant</span></td>
+                                            <td><div style="color:#8896A6;">—</div></td>
+                                            <td><span class="unit-lease-text" style="color:#A0AEC0;">No active lease</span></td>
+                                            <td style="text-align:center;"><div class="unit-activate-wrap"><button class="unit-activate-toggle" type="button"></button><span class="unit-activate-label">Off</span></div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><div class="unit-name">Unit 101 C</div><div class="unit-sub">(Bed 2, Bath 2)</div></td>
+                                            <td><span class="unit-badge unit-badge--vacant">Vacant</span></td>
+                                            <td><div><span class="unit-tenant-name">George J.</span><span class="unit-future-tenant"> (Future)</span></div><div class="unit-tenant-amount">$1,500/mo</div></td>
+                                            <td><span class="unit-lease-text">Moves-in on </span><span class="unit-date-gray">10/25/26</span></td>
+                                            <td style="text-align:center;"><div class="unit-activate-wrap"><button class="unit-activate-toggle on" type="button"></button><span class="unit-activate-label">On</span></div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><div class="unit-name">Unit 101 D</div><div class="unit-sub">(Bed 3, Bath 2)</div></td>
+                                            <td><span class="unit-badge unit-badge--occupied">Occupied</span></td>
+                                            <td><div><span class="unit-tenant-name">Nina Sherapowa</span></div><div class="unit-tenant-amount">$1,600/mo</div></td>
+                                            <td><span class="unit-lease-text">Expires on </span><span class="unit-date-orange">10/25/25</span></td>
+                                            <td style="text-align:center;"><div class="unit-activate-wrap"><button class="unit-activate-toggle on" type="button"></button><span class="unit-activate-label">On</span></div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><div class="unit-name">Unit 101 E</div><div class="unit-sub">(Bed 2, Bath 1)</div></td>
+                                            <td><span class="unit-badge unit-badge--occupied">Occupied</span></td>
+                                            <td><div><span class="unit-tenant-name">John Smithson</span></div><div class="unit-tenant-amount">$1,550/mo</div></td>
+                                            <td><span class="unit-lease-text" style="color:#3BAA6E;">Month-to-Month</span></td>
+                                            <td style="text-align:center;"><div class="unit-activate-wrap"><button class="unit-activate-toggle" type="button"></button><span class="unit-activate-label">Off</span></div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><div class="unit-name">Unit 101 F</div><div class="unit-sub">(Bed 1, Bath 1)</div></td>
+                                            <td><span class="unit-badge unit-badge--occupied">Occupied</span></td>
+                                            <td><div><span class="unit-tenant-name">Maria Gonzalez</span></div><div class="unit-tenant-amount">$1,400/mo</div></td>
+                                            <td><span class="unit-lease-text">Expires on </span><span class="unit-date-gray">04/30/26</span></td>
+                                            <td style="text-align:center;"><div class="unit-activate-wrap"><button class="unit-activate-toggle" type="button"></button><span class="unit-activate-label">Off</span></div></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2229,6 +2624,117 @@
                         </div>
                     </div>
 
+                </div>
+
+                <!-- ── Amenities & Media Card ── -->
+                <div class="card" id="card-amenities-media" style="margin-top:18px; padding:0; overflow:hidden;">
+                    <!-- Card header -->
+                    <div class="card-header" style="padding:16px 20px; border-bottom:1px solid #EDF2F7; margin-bottom:0;">
+                        <div class="card-title">
+                            <div class="icon" style="background:#EBF4FA; color:#2E7AA5;">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            Amenities &amp; Photos
+                        </div>
+                    </div>
+                    <!-- 2 × 2 quadrant grid -->
+                    <div class="am-quad-grid">
+
+                        <!-- ① Property Amenities -->
+                        <div class="am-quad">
+                            <div class="am-quad-header">
+                                <div class="am-quad-icon" style="background:#EBF4FA; color:#2E7AA5;">
+                                    <i class="fas fa-building"></i>
+                                </div>
+                                <div class="am-quad-meta">
+                                    <div class="am-quad-title">Property Amenities</div>
+                                    <div class="am-quad-sub">Shared &amp; community features</div>
+                                </div>
+                                <span class="am-count-badge" id="am-count-prop-am">0 selected</span>
+                            </div>
+                            <div class="am-quad-preview am-tags-preview" id="am-tags-prop">
+                                <span class="am-empty-hint">No property amenities selected.</span>
+                            </div>
+                            <div class="am-quad-footer">
+                                <button class="ov-btn ov-btn--primary" id="btn-prop-amenities" style="font-size:12px;">
+                                    <i class="fas fa-plus"></i> Add Amenities
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- ② Property Photos -->
+                        <div class="am-quad">
+                            <div class="am-quad-header">
+                                <div class="am-quad-icon" style="background:#E6F8EE; color:#22894A;">
+                                    <i class="fas fa-images"></i>
+                                </div>
+                                <div class="am-quad-meta">
+                                    <div class="am-quad-title">Property Photos</div>
+                                    <div class="am-quad-sub">Exterior &amp; shared spaces</div>
+                                </div>
+                                <span class="am-count-badge" id="am-count-prop-ph" style="background:#E6F8EE; color:#22894A;">0 photos</span>
+                            </div>
+                            <div class="am-quad-preview am-photos-preview" id="am-photos-prop">
+                                <div class="am-photo-upload-hint" onclick="document.getElementById('btn-prop-photos').click()">
+                                    <i class="fas fa-cloud-upload-alt" style="font-size:16px;"></i>
+                                    <span>Upload</span>
+                                </div>
+                            </div>
+                            <div class="am-quad-footer">
+                                <button class="ov-btn ov-btn--success" id="btn-prop-photos" style="font-size:12px;">
+                                    <i class="fas fa-upload"></i> Upload Photo
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- ③ Unit Amenities -->
+                        <div class="am-quad">
+                            <div class="am-quad-header">
+                                <div class="am-quad-icon" style="background:#F0EBFA; color:#7C5CBF;">
+                                    <i class="fas fa-door-closed"></i>
+                                </div>
+                                <div class="am-quad-meta">
+                                    <div class="am-quad-title">Unit Amenities</div>
+                                    <div class="am-quad-sub">Features inside individual units</div>
+                                </div>
+                                <span class="am-count-badge" id="am-count-unit-am" style="background:#F0EBFA; color:#7C5CBF;">0 selected</span>
+                            </div>
+                            <div class="am-quad-preview am-tags-preview" id="am-tags-unit">
+                                <span class="am-empty-hint">No unit amenities selected.</span>
+                            </div>
+                            <div class="am-quad-footer">
+                                <button class="ov-btn" id="btn-unit-amenities" style="font-size:12px; background:#7C5CBF; color:#fff;">
+                                    <i class="fas fa-plus"></i> Add Amenities
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- ④ Unit Photos -->
+                        <div class="am-quad">
+                            <div class="am-quad-header">
+                                <div class="am-quad-icon" style="background:#FFF4E8; color:#E8843A;">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                                <div class="am-quad-meta">
+                                    <div class="am-quad-title">Unit Photos</div>
+                                    <div class="am-quad-sub">Interior &amp; unit-specific images</div>
+                                </div>
+                                <span class="am-count-badge" id="am-count-unit-ph" style="background:#FFF4E8; color:#E8843A;">0 photos</span>
+                            </div>
+                            <div class="am-quad-preview am-photos-preview" id="am-photos-unit">
+                                <div class="am-photo-upload-hint" onclick="document.getElementById('btn-unit-photos').click()">
+                                    <i class="fas fa-cloud-upload-alt" style="font-size:16px;"></i>
+                                    <span>Upload</span>
+                                </div>
+                            </div>
+                            <div class="am-quad-footer">
+                                <button class="ov-btn" id="btn-unit-photos" style="font-size:12px; background:#E8843A; color:#fff;">
+                                    <i class="fas fa-upload"></i> Upload Photo
+                                </button>
+                            </div>
+                        </div>
+
+                    </div><!-- /am-quad-grid -->
                 </div>
 
                 </div><!-- /panel-overview -->
@@ -3795,14 +4301,18 @@
             </div>
             <div class="nlw-step" data-step="2">
               <div class="nlw-step-circle">2</div>
-              <div class="nlw-step-label">Listing<br>Photos</div>
+              <div class="nlw-step-label">Amenities</div>
             </div>
             <div class="nlw-step" data-step="3">
               <div class="nlw-step-circle">3</div>
-              <div class="nlw-step-label">Lease &amp; Rental<br>Details</div>
+              <div class="nlw-step-label">Listing<br>Photos</div>
             </div>
             <div class="nlw-step" data-step="4">
               <div class="nlw-step-circle">4</div>
+              <div class="nlw-step-label">Lease &amp; Rental<br>Details</div>
+            </div>
+            <div class="nlw-step" data-step="5">
+              <div class="nlw-step-circle">5</div>
               <div class="nlw-step-label">Advertising &amp;<br>Syndication</div>
             </div>
           </div>
@@ -3820,11 +4330,7 @@
             <div class="nlw-two-col">
               <div class="form-group nlw-full">
                 <label class="form-label">Public Description</label>
-                <textarea class="form-textarea" id="nlw-desc" rows="4" placeholder='e.g. "Charming 2-Bed, 2-Bath Retreat with 1700 Sq Ft of Comfort…"'></textarea>
-              </div>
-              <div class="form-group nlw-full">
-                <label class="form-label">Amenities <span style="font-weight:400;color:#A0AEC0;">(one per line)</span></label>
-                <textarea class="form-textarea" id="nlw-amenities" rows="5" placeholder="Central A/C&#10;2-Car Garage&#10;Community Pool&#10;Pet Friendly&#10;In-Unit Laundry"></textarea>
+                <textarea class="form-textarea" id="nlw-desc" rows="5" placeholder='e.g. "Charming 2-Bed, 2-Bath Retreat with 1700 Sq Ft of Comfort…"'></textarea>
               </div>
             </div>
 
@@ -3860,33 +4366,89 @@
             </div>
           </div>
 
-          <!-- ── STEP 2: Listing Photos ── -->
+          <!-- ── STEP 2: Amenities ── -->
           <div class="nlw-step-content" data-step="2">
-            <div class="nlw-step-heading">Listing Photos</div>
-            <div class="nlw-step-sub">Upload photos and tag each one so buyers know exactly what they're looking at.</div>
+            <div class="nlw-step-heading">Amenities</div>
+            <div class="nlw-step-sub">Select the amenities available at the property and within individual units. Previously selected items are highlighted in blue.</div>
 
-            <div class="nlw-photo-drop" id="nlw-drop-zone">
-              <i class="fas fa-cloud-upload-alt"></i>
-              <div class="drop-title">Drag &amp; drop photos here</div>
-              <div class="drop-sub">Supports JPG, PNG, WEBP — max 10 MB per file</div>
-              <button class="drop-btn" type="button" onclick="document.getElementById('nlw-file-input').click()">
-                <i class="fas fa-folder-open"></i> Browse Files
+            <!-- Tab switcher -->
+            <div class="nlw-am-tabs">
+              <button class="nlw-am-tab-btn active" data-amtab="property" type="button">
+                <i class="fas fa-building"></i> Property Amenities
+                <span class="nlw-am-tab-count" id="nlw-am-count-prop">0</span>
               </button>
-              <input type="file" id="nlw-file-input" multiple accept="image/*" style="display:none;">
+              <button class="nlw-am-tab-btn" data-amtab="unit" type="button">
+                <i class="fas fa-door-closed"></i> Unit Amenities
+                <span class="nlw-am-tab-count" id="nlw-am-count-unit">0</span>
+              </button>
             </div>
 
-            <div class="nlw-section-title"><i class="fas fa-th"></i> Uploaded Photos</div>
-            <div class="nlw-uploaded-grid" id="nlw-uploaded-grid">
-              <!-- Populated dynamically by JS when files are chosen -->
-              <div class="nlw-upload-empty-hint">
-                <i class="fas fa-images"></i>
-                <span>No photos yet — use the area above to upload</span>
+            <!-- Selected strip -->
+            <div class="nlw-am-sel-strip" id="nlw-am-sel-strip">
+              <span class="nlw-am-sel-label"><i class="fas fa-check-circle" style="color:#3B8DBD;margin-right:4px;"></i>Selected: <strong id="nlw-am-sel-count">0</strong></span>
+              <div class="nlw-am-sel-tags" id="nlw-am-sel-tags">
+                <span class="nlw-am-sel-empty">No amenities selected yet.</span>
+              </div>
+            </div>
+
+            <!-- Amenity chips — populated by JS -->
+            <div class="nlw-am-grid-body" id="nlw-am-grid-body"></div>
+          </div>
+
+          <!-- ── STEP 3: Listing Photos ── -->
+          <div class="nlw-step-content" data-step="3">
+            <div class="nlw-step-heading">Listing Photos</div>
+            <div class="nlw-step-sub">Upload and tag photos for the property and individual units.</div>
+
+            <!-- Property Photos -->
+            <div class="nlw-photo-section">
+              <div class="nlw-photo-section-header">
+                <div class="nlw-photo-section-icon" style="background:#EBF4FA;color:#2E7AA5;"><i class="fas fa-building"></i></div>
+                <div>
+                  <div class="nlw-photo-section-title">Property Photos</div>
+                  <div class="nlw-photo-section-sub">Exterior, common areas &amp; shared spaces</div>
+                </div>
+              </div>
+              <div class="nlw-photo-drop" id="nlw-prop-drop-zone">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <div class="drop-title">Drag &amp; drop photos here</div>
+                <div class="drop-sub">Supports JPG, PNG, WEBP — max 10 MB per file</div>
+                <button class="drop-btn" type="button" onclick="document.getElementById('nlw-prop-file-input').click()">
+                  <i class="fas fa-folder-open"></i> Browse Files
+                </button>
+                <input type="file" id="nlw-prop-file-input" multiple accept="image/*" style="display:none;">
+              </div>
+              <div class="nlw-uploaded-grid" id="nlw-prop-uploaded-grid">
+                <div class="nlw-upload-empty-hint"><i class="fas fa-images"></i><span>No photos yet — use the area above to upload</span></div>
+              </div>
+            </div>
+
+            <!-- Unit Photos -->
+            <div class="nlw-photo-section" style="margin-top:24px;">
+              <div class="nlw-photo-section-header">
+                <div class="nlw-photo-section-icon" style="background:#FFF4E8;color:#E8843A;"><i class="fas fa-camera"></i></div>
+                <div>
+                  <div class="nlw-photo-section-title">Unit Photos</div>
+                  <div class="nlw-photo-section-sub">Interior rooms &amp; unit-specific images</div>
+                </div>
+              </div>
+              <div class="nlw-photo-drop" id="nlw-unit-drop-zone">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <div class="drop-title">Drag &amp; drop photos here</div>
+                <div class="drop-sub">Supports JPG, PNG, WEBP — max 10 MB per file</div>
+                <button class="drop-btn" type="button" onclick="document.getElementById('nlw-unit-file-input').click()">
+                  <i class="fas fa-folder-open"></i> Browse Files
+                </button>
+                <input type="file" id="nlw-unit-file-input" multiple accept="image/*" style="display:none;">
+              </div>
+              <div class="nlw-uploaded-grid" id="nlw-unit-uploaded-grid">
+                <div class="nlw-upload-empty-hint"><i class="fas fa-images"></i><span>No photos yet — use the area above to upload</span></div>
               </div>
             </div>
           </div>
 
-          <!-- ── STEP 3: Lease & Rental Details ── -->
-          <div class="nlw-step-content" data-step="3">
+          <!-- ── STEP 4: Lease & Rental Details ── -->
+          <div class="nlw-step-content" data-step="4">
             <div class="nlw-step-heading">Lease &amp; Rental Details</div>
             <div class="nlw-step-sub">Set the lease terms, rent amount, deposit, and unit specifications for this listing.</div>
 
@@ -4004,8 +4566,8 @@
             </div>
           </div>
 
-          <!-- ── STEP 4: Advertising & Syndication ── -->
-          <div class="nlw-step-content" data-step="4">
+          <!-- ── STEP 5: Advertising & Syndication ── -->
+          <div class="nlw-step-content" data-step="5">
             <div class="nlw-step-heading">Advertising &amp; Syndication</div>
             <div class="nlw-step-sub">Choose where to advertise your listing and set the go-live date.</div>
 
@@ -4057,7 +4619,7 @@
 
         <!-- Wizard Footer -->
         <div class="nlw-footer">
-          <div class="nlw-footer-left" id="nlw-step-label">Step 1 of 4</div>
+          <div class="nlw-footer-left" id="nlw-step-label">Step 1 of 5</div>
           <div class="nlw-footer-right">
             <button class="nlw-btn-back" id="nlw-btn-back" type="button">Back</button>
             <button class="nlw-btn-next" id="nlw-btn-next" type="button">Next</button>
@@ -4434,7 +4996,7 @@
         /* ── NEW LISTING WIZARD ── */
         (function() {
             var currentStep = 1;
-            var totalSteps  = 4;
+            var totalSteps  = 5;
             var overlay     = document.getElementById('nlw-overlay');
 
             function openWizard() {
@@ -4482,6 +5044,12 @@
                 document.getElementById('nlw-btn-back').style.visibility = currentStep === 1 ? 'hidden' : 'visible';
                 // Scroll body to top on step change
                 overlay.scrollTop = 0;
+                // Render amenity chips when arriving at step 2
+                if (currentStep === 2) {
+                    nlwRenderAmenityChips();
+                    nlwRenderSelStrip();
+                    nlwUpdateAmCounts();
+                }
             }
 
             function publishToAdTab() {
@@ -4492,21 +5060,23 @@
                 if (descEl && val('nlw-desc')) descEl.textContent = val('nlw-desc');
 
                 var amenEl = document.getElementById('ad-view-amenities');
-                if (amenEl && val('nlw-amenities')) {
-                    var iconMap = {
-                        'a/c':'fa-snowflake','air':'fa-snowflake','garage':'fa-car','pool':'fa-swimming-pool',
-                        'pet':'fa-paw','laundry':'fa-tshirt','fitness':'fa-dumbbell','gym':'fa-dumbbell',
-                        'furnished':'fa-couch','internet':'fa-wifi','wifi':'fa-wifi','parking':'fa-car',
-                        'balcony':'fa-door-open','washer':'fa-tshirt','dryer':'fa-tshirt',
-                        'dishwasher':'fa-utensils','hardwood':'fa-chess-board','fireplace':'fa-fire'
-                    };
-                    var lines = val('nlw-amenities').split('\n').map(function(l){return l.trim();}).filter(Boolean);
-                    amenEl.innerHTML = lines.map(function(line) {
-                        var icon = 'fa-check';
-                        var lc = line.toLowerCase();
-                        Object.keys(iconMap).forEach(function(k){ if(lc.indexOf(k) !== -1) icon = iconMap[k]; });
-                        return '<span class="ad-amenity-tag"><i class="fas ' + icon + '"></i> ' + line + '</span>';
-                    }).join('');
+                if (amenEl) {
+                    var allSelected = Array.from(nlwAmenities.property).concat(Array.from(nlwAmenities.unit));
+                    if (allSelected.length > 0) {
+                        var iconMap = {
+                            'a/c':'fa-snowflake','air':'fa-snowflake','garage':'fa-car','pool':'fa-swimming-pool',
+                            'pet':'fa-paw','laundry':'fa-tshirt','fitness':'fa-dumbbell','gym':'fa-dumbbell',
+                            'furnished':'fa-couch','internet':'fa-wifi','wifi':'fa-wifi','parking':'fa-car',
+                            'balcony':'fa-door-open','washer':'fa-tshirt','dryer':'fa-tshirt',
+                            'dishwasher':'fa-utensils','hardwood':'fa-chess-board','fireplace':'fa-fire'
+                        };
+                        amenEl.innerHTML = allSelected.map(function(line) {
+                            var icon = 'fa-check';
+                            var lc = line.toLowerCase();
+                            Object.keys(iconMap).forEach(function(k){ if(lc.indexOf(k) !== -1) icon = iconMap[k]; });
+                            return '<span class="ad-amenity-tag"><i class="fas ' + icon + '"></i> ' + line + '</span>';
+                        }).join('');
+                    }
                 }
 
                 var furnEl = document.getElementById('ad-view-prop-furnished');
@@ -4666,65 +5236,163 @@
             })();
 
             // Photo upload with tagging
-            var photoTagOptions = ['Primary','Living Room','Kitchen','Bedroom','Bathroom','Exterior','Floor Plan','Dining Room','Balcony','Other'];
-            document.getElementById('nlw-file-input').addEventListener('change', function() {
-                var grid = document.getElementById('nlw-uploaded-grid');
-                var files = Array.from(this.files);
-                if (!files.length) return;
-                // Clear empty hint on first upload
-                var hint = grid.querySelector('.nlw-upload-empty-hint');
-                if (hint) hint.remove();
+            // ── Step 2: Amenities ─────────────────────────────────────────────────
+            var NLW_AMENITIES = {
+                property: [
+                    { icon:'fa-dumbbell',       label:'Recreation & Fitness',   items:['Swimming Pool','Spa / Hot Tub','Fitness Center / Gym','Tennis Court','Basketball Court','Playground / Tot Lot','Rooftop Deck / Lounge'] },
+                    { icon:'fa-tree',           label:'Outdoor & Landscaping',  items:['BBQ / Grilling Stations','Courtyard','Outdoor Seating Areas','Gated Entry','Rooftop Garden','Lush Landscaping'] },
+                    { icon:'fa-car',            label:'Parking & Transport',    items:['On-Site Parking','Covered Parking / Carport','Parking Garage','Assigned Parking','EV Charging Stations','Bike Parking','Guest Parking'] },
+                    { icon:'fa-door-open',      label:'Common Spaces',          items:['Clubhouse / Resident Lounge','Business Center','Package Lockers','On-Site Laundry Room','Lobby / Controlled Access','Elevator','Coffee Bar'] },
+                    { icon:'fa-shield-alt',     label:'Security & Safety',      items:['Gated / Controlled Access','On-Site Security','Security Cameras / CCTV','Key Fob / Card Access','Video Intercom','Well-Lit Pathways'] },
+                    { icon:'fa-paw',            label:'Pet Amenities',          items:['Dog Park / Dog Run','Pet Washing Station','Pet-Friendly Areas','Pet Waste Stations'] },
+                    { icon:'fa-wifi',           label:'Technology',             items:['High-Speed Internet (Common)','Online Resident Portal','Smart Building Access','Online Rent Payment'] }
+                ],
+                unit: [
+                    { icon:'fa-utensils',       label:'Kitchen Features',       items:['Dishwasher','Refrigerator','Range / Oven','Microwave (Built-in)','Garbage Disposal','Stainless Steel Appliances','Granite / Quartz Countertops','Island / Breakfast Bar'] },
+                    { icon:'fa-tshirt',         label:'Laundry',                items:['In-Unit Washer & Dryer','Washer / Dryer Hookups','Washer / Dryer (Stackable)'] },
+                    { icon:'fa-thermometer-half',label:'Climate Control',       items:['Central Air Conditioning','Central Heating','Ceiling Fans','Smart Thermostat','HVAC System'] },
+                    { icon:'fa-grip-lines',     label:'Flooring',               items:['Hardwood Floors','Laminate / Vinyl Plank (LVP)','Tile Flooring','Carpet (New)','Luxury Vinyl Tile (LVT)'] },
+                    { icon:'fa-home',           label:'Rooms & Interior',       items:['Walk-In Closet(s)','Fireplace','High / Vaulted Ceilings','Large Windows / Natural Light','Window Coverings / Blinds','Built-in Shelving'] },
+                    { icon:'fa-leaf',           label:'Outdoor (Unit)',         items:['Private Balcony / Patio','Covered Porch','Private Yard / Fenced Yard','Deck','Attached Private Garage'] },
+                    { icon:'fa-mobile-alt',     label:'Smart Home / Tech',      items:['Smart Lock / Keyless Entry','Video Doorbell','Smart Thermostat','USB Outlets'] }
+                ]
+            };
+            var nlwAmenities = { property: new Set(), unit: new Set() };
+            var nlwActiveAmTab = 'property';
 
-                files.forEach(function(file, idx) {
-                    var card = document.createElement('div');
-                    card.className = 'nlw-uploaded-photo';
-
-                    // Thumb
-                    var thumb = document.createElement('div');
-                    thumb.className = 'photo-thumb';
-                    var img = document.createElement('img');
-                    var reader = new FileReader();
-                    reader.onload = function(e) { img.src = e.target.result; };
-                    reader.readAsDataURL(file);
-                    thumb.appendChild(img);
-
-                    // Tag row
-                    var tagRow = document.createElement('div');
-                    tagRow.className = 'nlw-photo-tag-row';
-                    tagRow.innerHTML = '<i class="fas fa-tag tag-icon"></i>';
-
-                    var sel = document.createElement('select');
-                    sel.className = 'nlw-photo-tag-select';
-                    photoTagOptions.forEach(function(opt, oi) {
-                        var o = document.createElement('option');
-                        o.value = opt; o.textContent = opt;
-                        if (oi === 0 && grid.querySelectorAll('.nlw-uploaded-photo').length === 0 && idx === 0) o.selected = true;
-                        sel.appendChild(o);
+            function nlwRenderAmenityChips() {
+                var body = document.getElementById('nlw-am-grid-body');
+                if (!body) return;
+                body.innerHTML = '';
+                NLW_AMENITIES[nlwActiveAmTab].forEach(function(cat) {
+                    var section = document.createElement('div');
+                    section.className = 'am-cat-section';
+                    section.innerHTML = '<div class="am-cat-title"><i class="fas ' + cat.icon + '"></i>' + cat.label + '<span class="am-cat-badge">' + cat.items.length + '</span></div><div class="am-amenity-grid"></div>';
+                    var grid = section.querySelector('.am-amenity-grid');
+                    cat.items.forEach(function(item) {
+                        var isSel = nlwAmenities[nlwActiveAmTab].has(item);
+                        var chip = document.createElement('button');
+                        chip.type = 'button';
+                        chip.className = 'am-amenity-chip' + (isSel ? ' selected' : '');
+                        chip.innerHTML = '<span class="am-check-icon"><i class="fas fa-check" style="font-size:9px;pointer-events:none;"></i></span>' + item;
+                        chip.addEventListener('click', function() {
+                            if (nlwAmenities[nlwActiveAmTab].has(item)) {
+                                nlwAmenities[nlwActiveAmTab].delete(item);
+                                chip.classList.remove('selected');
+                            } else {
+                                nlwAmenities[nlwActiveAmTab].add(item);
+                                chip.classList.add('selected');
+                            }
+                            nlwUpdateAmCounts();
+                            nlwRenderSelStrip();
+                        });
+                        grid.appendChild(chip);
                     });
-
-                    var removeBtn = document.createElement('button');
-                    removeBtn.className = 'nlw-photo-remove';
-                    removeBtn.type = 'button';
-                    removeBtn.innerHTML = '<i class="fas fa-times"></i>';
-                    removeBtn.addEventListener('click', function() {
-                        card.remove();
-                        if (!grid.querySelector('.nlw-uploaded-photo')) {
-                            var emptyHint = document.createElement('div');
-                            emptyHint.className = 'nlw-upload-empty-hint';
-                            emptyHint.innerHTML = '<i class="fas fa-images"></i><span>No photos yet — use the area above to upload</span>';
-                            grid.appendChild(emptyHint);
-                        }
-                    });
-
-                    tagRow.appendChild(sel);
-                    tagRow.appendChild(removeBtn);
-                    card.appendChild(thumb);
-                    card.appendChild(tagRow);
-                    grid.appendChild(card);
+                    body.appendChild(section);
                 });
-                // Reset input so same files can be re-added
-                this.value = '';
+            }
+
+            function nlwUpdateAmCounts() {
+                var pEl = document.getElementById('nlw-am-count-prop');
+                var uEl = document.getElementById('nlw-am-count-unit');
+                if (pEl) pEl.textContent = nlwAmenities.property.size;
+                if (uEl) uEl.textContent = nlwAmenities.unit.size;
+            }
+
+            function nlwRenderSelStrip() {
+                var items = Array.from(nlwAmenities[nlwActiveAmTab]);
+                var countEl = document.getElementById('nlw-am-sel-count');
+                var tagsEl  = document.getElementById('nlw-am-sel-tags');
+                if (!countEl || !tagsEl) return;
+                countEl.textContent = items.length;
+                if (items.length === 0) {
+                    tagsEl.innerHTML = '<span class="nlw-am-sel-empty">No amenities selected yet.</span>';
+                    return;
+                }
+                tagsEl.innerHTML = '';
+                items.forEach(function(item) {
+                    var tag = document.createElement('span');
+                    tag.className = 'nlw-am-sel-tag';
+                    tag.innerHTML = item + '<button class="nlw-am-sel-tag-remove" type="button"><i class="fas fa-times" style="pointer-events:none;"></i></button>';
+                    tag.querySelector('.nlw-am-sel-tag-remove').addEventListener('click', function() {
+                        nlwAmenities[nlwActiveAmTab].delete(item);
+                        nlwUpdateAmCounts();
+                        nlwRenderAmenityChips();
+                        nlwRenderSelStrip();
+                    });
+                    tagsEl.appendChild(tag);
+                });
+            }
+
+            // Tab switching
+            document.querySelectorAll('.nlw-am-tab-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    nlwActiveAmTab = btn.dataset.amtab;
+                    document.querySelectorAll('.nlw-am-tab-btn').forEach(function(b) {
+                        b.classList.toggle('active', b === btn);
+                    });
+                    nlwRenderAmenityChips();
+                    nlwRenderSelStrip();
+                });
             });
+
+            // ── Step 3: Photo upload (Property + Unit) ────────────────────────────
+            var photoTagOptions = ['Primary','Living Room','Kitchen','Bedroom','Bathroom','Exterior','Floor Plan','Dining Room','Balcony','Other'];
+
+            function nlwMakePhotoUploader(inputId, gridId) {
+                var input = document.getElementById(inputId);
+                if (!input) return;
+                input.addEventListener('change', function() {
+                    var grid = document.getElementById(gridId);
+                    var files = Array.from(this.files);
+                    if (!files.length) return;
+                    var hint = grid.querySelector('.nlw-upload-empty-hint');
+                    if (hint) hint.remove();
+                    files.forEach(function(file, idx) {
+                        var card = document.createElement('div');
+                        card.className = 'nlw-uploaded-photo';
+                        var thumb = document.createElement('div');
+                        thumb.className = 'photo-thumb';
+                        var img = document.createElement('img');
+                        var reader = new FileReader();
+                        reader.onload = function(e) { img.src = e.target.result; };
+                        reader.readAsDataURL(file);
+                        thumb.appendChild(img);
+                        var tagRow = document.createElement('div');
+                        tagRow.className = 'nlw-photo-tag-row';
+                        tagRow.innerHTML = '<i class="fas fa-tag tag-icon"></i>';
+                        var sel = document.createElement('select');
+                        sel.className = 'nlw-photo-tag-select';
+                        photoTagOptions.forEach(function(opt, oi) {
+                            var o = document.createElement('option');
+                            o.value = opt; o.textContent = opt;
+                            if (oi === 0 && grid.querySelectorAll('.nlw-uploaded-photo').length === 0 && idx === 0) o.selected = true;
+                            sel.appendChild(o);
+                        });
+                        var removeBtn = document.createElement('button');
+                        removeBtn.className = 'nlw-photo-remove';
+                        removeBtn.type = 'button';
+                        removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                        removeBtn.addEventListener('click', function() {
+                            card.remove();
+                            if (!grid.querySelector('.nlw-uploaded-photo')) {
+                                var emptyHint = document.createElement('div');
+                                emptyHint.className = 'nlw-upload-empty-hint';
+                                emptyHint.innerHTML = '<i class="fas fa-images"></i><span>No photos yet — use the area above to upload</span>';
+                                grid.appendChild(emptyHint);
+                            }
+                        });
+                        tagRow.appendChild(sel);
+                        tagRow.appendChild(removeBtn);
+                        card.appendChild(thumb);
+                        card.appendChild(tagRow);
+                        grid.appendChild(card);
+                    });
+                    this.value = '';
+                });
+            }
+            nlwMakePhotoUploader('nlw-prop-file-input', 'nlw-prop-uploaded-grid');
+            nlwMakePhotoUploader('nlw-unit-file-input', 'nlw-unit-uploaded-grid');
 
             // Open wizard
             document.getElementById('btn-new-listing').addEventListener('click', openWizard);
@@ -4853,6 +5521,600 @@
                 closeModal('modal-add-appliance');
                 closeModal('modal-add-loan');
             }
+        });
+    })();
+    </script>
+
+
+    <!-- ══════════════════════════════════════════════════════
+         AMENITIES MODAL (shared — context-aware title & tab)
+         ══════════════════════════════════════════════════════ -->
+    <div class="am-modal-overlay" id="am-modal-amenities">
+        <div class="am-modal">
+            <div class="am-modal-header">
+                <div class="am-modal-title">
+                    <i class="fas fa-tags" id="am-modal-am-icon"></i>
+                    <span id="am-modal-am-title">Property Amenities</span>
+                </div>
+                <button class="am-modal-close" id="am-close-amenities" title="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <!-- Tabs (hidden when opened from a locked context) -->
+            <div class="am-tab-bar" id="am-tab-bar">
+                <button class="am-tab-btn active" data-tab="property">
+                    Property Amenities <span class="am-tab-count" id="am-tab-count-property">0</span>
+                </button>
+                <button class="am-tab-btn" data-tab="unit">
+                    Unit Amenities <span class="am-tab-count" id="am-tab-count-unit">0</span>
+                </button>
+            </div>
+            <!-- Selected strip -->
+            <div class="am-selected-strip" id="am-selected-strip">
+                <div class="am-selected-strip-label">
+                    <i class="fas fa-check-circle" style="color:#3B8DBD;"></i>
+                    Selected &nbsp;<span id="am-sel-count">0</span>
+                </div>
+                <div class="am-sel-tags" id="am-sel-tags">
+                    <span class="am-sel-empty">Nothing selected yet — pick amenities below.</span>
+                </div>
+            </div>
+            <div class="am-controls">
+                <div class="am-search-wrap">
+                    <i class="fas fa-search am-search-icon"></i>
+                    <input class="am-search" id="am-amenity-search" type="text" placeholder="Search amenities…" autocomplete="off">
+                </div>
+                <div class="am-filter-chips" id="am-cat-chips"></div>
+            </div>
+            <div class="am-scroll-body" id="am-amenity-body"></div>
+            <div class="am-modal-footer">
+                <span class="am-footer-count" id="am-footer-count"><strong>0</strong> selected</span>
+                <div class="am-footer-actions">
+                    <button class="ov-btn ov-btn--outline" id="am-cancel-amenities">Cancel</button>
+                    <button class="ov-btn ov-btn--primary" id="am-save-amenities">
+                        <i class="fas fa-check"></i> Save Amenities
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         MEDIA / PHOTOS MODAL (context-aware title)
+         ══════════════════════════════════════════════════════ -->
+    <div class="am-modal-overlay" id="am-modal-media">
+        <div class="am-modal am-media-modal">
+            <div class="am-modal-header">
+                <div class="am-modal-title">
+                    <i class="fas fa-images"></i>
+                    <span id="am-modal-media-title">Property Photos</span>
+                </div>
+                <button class="am-modal-close" id="am-close-media" title="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="am-drop-zone" id="am-drop-zone">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Drag &amp; drop photos here</p>
+                <span>JPG, PNG, WEBP — select multiple at once</span><br>
+                <button class="am-drop-btn" id="am-browse-btn" type="button">
+                    <i class="fas fa-folder-open"></i> Browse Files
+                </button>
+                <input type="file" id="am-file-input" multiple accept="image/*" style="display:none;">
+            </div>
+            <div class="am-upload-info">
+                <i class="fas fa-info-circle" style="color:#3B8DBD;"></i>
+                <span>First photo is the <strong>primary</strong>. Hover to set a different primary or remove.</span>
+            </div>
+            <div class="am-media-grid-wrap">
+                <div class="am-media-grid" id="am-media-grid">
+                    <div class="am-media-empty"><i class="fas fa-images"></i>No photos uploaded yet.</div>
+                </div>
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-footer-count" id="am-media-count"><strong>0</strong> photos uploaded</span>
+                <div class="am-footer-actions">
+                    <button class="ov-btn ov-btn--outline" id="am-cancel-media">Cancel</button>
+                    <button class="ov-btn ov-btn--primary" id="am-save-media">
+                        <i class="fas fa-check"></i> Save Photos
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         AMENITIES & MEDIA — JavaScript
+         ══════════════════════════════════════════════════════ -->
+    <script>
+    (function () {
+        'use strict';
+
+        // ── Amenities Master Data ─────────────────────────────────────────────────
+        var AMENITIES = {
+            property: [
+                { id:'rec',      label:'Recreation & Fitness',     icon:'fa-dumbbell',
+                  items:['Swimming Pool','Spa / Hot Tub','Fitness Center / Gym','Yoga / Aerobics Room',
+                         'Tennis Court','Basketball Court','Playground / Tot Lot',
+                         'Walking / Jogging Trails','Rooftop Deck / Lounge','Bike Paths'] },
+                { id:'pet_prop', label:'Pet Amenities',            icon:'fa-paw',
+                  items:['Dog Park / Dog Run','Pet Washing Station / Grooming',
+                         'Pet-Friendly Designated Areas','Pet Waste Stations'] },
+                { id:'outdoor',  label:'Outdoor & Landscaping',    icon:'fa-tree',
+                  items:['Community Garden / Green Space','BBQ / Grilling Stations','Courtyard',
+                         'Outdoor Seating Areas / Patio','Gazebo / Picnic Area',
+                         'Fenced Property / Gated Entry','Lush Landscaping / Flowerbeds','Rooftop Garden'] },
+                { id:'parking',  label:'Parking & Transport',      icon:'fa-car',
+                  items:['On-Site Parking (Surface Lot)','Covered Parking / Carport','Parking Garage',
+                         'Assigned Parking Spaces','EV Charging Stations',
+                         'Bike Parking / Bike Storage','Guest Parking'] },
+                { id:'common',   label:'Common Spaces',            icon:'fa-door-open',
+                  items:['Clubhouse / Resident Lounge','Business Center / Co-Working',
+                         'Conference / Meeting Room','Package Lockers / Package Room','Mailroom',
+                         'Laundry Room / On-Site Laundry','Lobby / Controlled-Access Entry',
+                         'Elevator','Coffee Bar / Complimentary Coffee'] },
+                { id:'security', label:'Security & Safety',        icon:'fa-shield-alt',
+                  items:['Gated / Controlled Access Entry','On-Site Security / 24-Hr Security',
+                         'Security Cameras / CCTV','Key Fob / Card Access',
+                         'Video Intercom System','Well-Lit Parking & Pathways'] },
+                { id:'services', label:'Services & Conveniences',  icon:'fa-concierge-bell',
+                  items:['24-Hour Emergency Maintenance','On-Site Management Office',
+                         'Concierge Service','Trash / Recycling Service','Valet Trash',
+                         'On-Site Dry Cleaners','Storage Units / Facilities','Common Area WiFi'] },
+                { id:'tech_prop',label:'Technology',               icon:'fa-wifi',
+                  items:['High-Speed Internet / Fiber (Common)','Online Resident Portal / App',
+                         'Smart Building Access System','Online Rent Payment'] }
+            ],
+            unit: [
+                { id:'kitchen',      label:'Kitchen Features',       icon:'fa-utensils',
+                  items:['Dishwasher','Refrigerator','Range / Oven (Gas or Electric)',
+                         'Microwave (Built-in)','Garbage Disposal','Stainless Steel Appliances',
+                         'Granite / Quartz Countertops','Island / Breakfast Bar','Pantry',
+                         'Gas Stove / Cooktop','Wine Refrigerator','Open Floor Plan'] },
+                { id:'laundry',      label:'Laundry',               icon:'fa-tshirt',
+                  items:['In-Unit Washer & Dryer','Washer / Dryer Hookups','Washer / Dryer (Stackable)'] },
+                { id:'climate',      label:'Climate Control',        icon:'fa-thermometer-half',
+                  items:['Central Air Conditioning (A/C)','Central Heating / Forced Air',
+                         'HVAC System','Ceiling Fans','Radiant / Baseboard Heat','Smart Thermostat'] },
+                { id:'flooring',     label:'Flooring',              icon:'fa-grip-lines',
+                  items:['Hardwood Floors','Laminate / Vinyl Plank (LVP)','Tile Flooring',
+                         'Carpet (New)','Luxury Vinyl Tile (LVT)','Concrete / Polished Floors'] },
+                { id:'rooms',        label:'Rooms & Interior',       icon:'fa-home',
+                  items:['Walk-In Closet(s)','Extra Storage Space','Fireplace (Gas or Wood)',
+                         'Loft / Extra Room','Den / Office Space','High / Vaulted Ceilings',
+                         'Large Windows / Natural Light','Window Coverings / Blinds',
+                         'Built-in Shelving','Wet Bar'] },
+                { id:'outdoor_unit', label:'Outdoor (Unit)',         icon:'fa-leaf',
+                  items:['Private Balcony / Patio','Covered Porch','Private Yard / Fenced Yard',
+                         'Deck','Attached Private Garage','Garden Area / Planting Box'] },
+                { id:'smart',        label:'Smart Home / Tech',      icon:'fa-mobile-alt',
+                  items:['Smart Lock / Keyless Entry','Video Doorbell',
+                         'Smart Thermostat (Unit-Level)','Smart Lighting / Motion Sensors',
+                         'High-Speed Internet / Fiber Ready','Cable TV / Satellite Ready',
+                         'USB Outlets / Modern Electrical'] },
+                { id:'pet_unit',     label:'Pet-Friendly (Unit)',    icon:'fa-paw',
+                  items:['Pets Allowed (Cats / Dogs)','Easy-Clean Flooring (Pet-Safe)',
+                         'Ground-Floor / Yard Access'] }
+            ]
+        };
+
+        // ── State (separate for Property vs Unit) ────────────────────────────────
+        var saved = {
+            propAmenities: new Set(),
+            unitAmenities: new Set(),
+            propPhotos: [],      // [{id, src, name, isPrimary}]
+            unitPhotos: []
+        };
+
+        // Working copies (modified in modal, committed on Save)
+        var working    = { property: new Set(), unit: new Set() };
+        var workingPhotos = [];
+        var photoIdCounter = 0;
+
+        // Modal context
+        var activeTab    = 'property';   // 'property' | 'unit'
+        var activeFilter = 'all';
+        var searchQuery  = '';
+        var mediaCtx     = 'property';   // 'property' | 'unit'
+
+        // ── Utility ───────────────────────────────────────────────────────────────
+        function esc(s) {
+            return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+                            .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+        function openModal(id)  { var el=document.getElementById(id); if(el){el.classList.add('am-open');    document.body.style.overflow='hidden';} }
+        function closeModal(id) { var el=document.getElementById(id); if(el){el.classList.remove('am-open'); document.body.style.overflow='';} }
+
+        // ── Quad-section preview helpers ─────────────────────────────────────────
+        function renderTagsPreview(containerEl, items, btnId) {
+            if (items.length === 0) {
+                containerEl.innerHTML = '<span class="am-empty-hint">None selected yet.</span>';
+                return;
+            }
+            var html = items.map(function(a) {
+                return '<span class="am-tag"><i class="fas fa-check" style="font-size:8px;opacity:0.65;"></i>' + esc(a) + '</span>';
+            }).join('');
+            containerEl.innerHTML = html;
+        }
+
+        function renderSelectedStrip() {
+            var items = Array.from(working[activeTab]);
+            var countEl = document.getElementById('am-sel-count');
+            var tagsEl  = document.getElementById('am-sel-tags');
+            if (!countEl || !tagsEl) return;
+            countEl.textContent = items.length;
+            if (items.length === 0) {
+                tagsEl.innerHTML = '<span class="am-sel-empty">Nothing selected yet — pick amenities below.</span>';
+                return;
+            }
+            tagsEl.innerHTML = '';
+            items.forEach(function(amenity) {
+                var tag = document.createElement('span');
+                tag.className = 'am-sel-tag';
+                tag.innerHTML = esc(amenity)
+                    + '<button class="am-sel-tag-remove" type="button" title="Remove"><i class="fas fa-times" style="pointer-events:none;"></i></button>';
+                tag.querySelector('.am-sel-tag-remove').addEventListener('click', function() {
+                    working[activeTab].delete(amenity);
+                    renderSelectedStrip();
+                    renderAmenities();
+                    refreshAmenityCount();
+                });
+                tagsEl.appendChild(tag);
+            });
+        }
+
+        function renderPhotosPreview(containerEl, photos, btnId) {
+            var max = 6, extra = photos.length - max;
+            var html = '';
+            photos.slice(0, max).forEach(function(ph, i) {
+                var isLastMore = (i === max - 1 && extra > 0);
+                html += '<div class="am-photo-thumb">'
+                    + '<img src="' + esc(ph.src) + '" alt="' + esc(ph.name) + '">'
+                    + (isLastMore ? '<div class="am-photo-more-overlay">+' + (extra + 1) + '</div>' : '')
+                    + (ph.isPrimary && !isLastMore ? '<div style="position:absolute;bottom:3px;left:3px;background:rgba(59,141,189,0.88);color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">PRIMARY</div>' : '')
+                    + '</div>';
+            });
+            html += '<div class="am-photo-upload-hint" onclick="document.getElementById(\'' + btnId + '\').click()">'
+                  + '<i class="fas fa-cloud-upload-alt" style="font-size:15px;"></i><span>Upload</span></div>';
+            containerEl.innerHTML = html;
+        }
+
+        function updateAllPreviews() {
+            // ① Property Amenities
+            var pAm = Array.from(saved.propAmenities);
+            document.getElementById('am-count-prop-am').textContent = pAm.length + ' selected';
+            renderTagsPreview(document.getElementById('am-tags-prop'), pAm, 'btn-prop-amenities');
+
+            // ② Property Photos
+            var pPh = saved.propPhotos;
+            document.getElementById('am-count-prop-ph').textContent =
+                pPh.length === 0 ? '0 photos' : pPh.length + (pPh.length === 1 ? ' photo' : ' photos');
+            renderPhotosPreview(document.getElementById('am-photos-prop'), pPh, 'btn-prop-photos');
+
+            // ③ Unit Amenities
+            var uAm = Array.from(saved.unitAmenities);
+            document.getElementById('am-count-unit-am').textContent = uAm.length + ' selected';
+            renderTagsPreview(document.getElementById('am-tags-unit'), uAm, 'btn-unit-amenities');
+
+            // ④ Unit Photos
+            var uPh = saved.unitPhotos;
+            document.getElementById('am-count-unit-ph').textContent =
+                uPh.length === 0 ? '0 photos' : uPh.length + (uPh.length === 1 ? ' photo' : ' photos');
+            renderPhotosPreview(document.getElementById('am-photos-unit'), uPh, 'btn-unit-photos');
+        }
+
+        // ── Amenities Modal ───────────────────────────────────────────────────────
+        function openAmenitiesModal(tab) {
+            activeTab    = tab;
+            activeFilter = 'all';
+            searchQuery  = '';
+            working = {
+                property: new Set(saved.propAmenities),
+                unit:     new Set(saved.unitAmenities)
+            };
+            // Title & icon
+            document.getElementById('am-modal-am-title').textContent =
+                tab === 'property' ? 'Property Amenities' : 'Unit Amenities';
+            // Activate correct tab
+            document.querySelectorAll('.am-tab-btn').forEach(function(b) {
+                b.classList.toggle('active', b.dataset.tab === tab);
+            });
+            document.getElementById('am-amenity-search').value = '';
+            renderCategoryChips();
+            renderAmenities();
+            renderSelectedStrip();
+            openModal('am-modal-amenities');
+        }
+
+        function renderAmenities() {
+            var container = document.getElementById('am-amenity-body');
+            var cats = AMENITIES[activeTab];
+            var q = searchQuery.toLowerCase();
+            container.innerHTML = '';
+            var anyVisible = false;
+
+            cats.forEach(function(cat) {
+                if (activeFilter !== 'all' && activeFilter !== cat.id) return;
+                var items = q === '' ? cat.items : cat.items.filter(function(i) {
+                    return i.toLowerCase().indexOf(q) !== -1;
+                });
+                if (items.length === 0) return;
+                anyVisible = true;
+
+                var section = document.createElement('div');
+                section.className = 'am-cat-section';
+                section.innerHTML =
+                    '<div class="am-cat-title"><i class="fas ' + cat.icon + '"></i>'
+                    + esc(cat.label) + '<span class="am-cat-badge">' + items.length + '</span></div>'
+                    + '<div class="am-amenity-grid" id="amgrid-' + cat.id + '"></div>';
+                container.appendChild(section);
+
+                var grid = section.querySelector('.am-amenity-grid');
+                items.forEach(function(amenity) {
+                    var isSel = working[activeTab].has(amenity);
+                    var chip = document.createElement('button');
+                    chip.type = 'button';
+                    chip.className = 'am-amenity-chip' + (isSel ? ' selected' : '');
+                    chip.innerHTML =
+                        '<span class="am-check-icon"><i class="fas fa-check" style="font-size:9px;pointer-events:none;"></i></span>'
+                        + esc(amenity);
+                    chip.addEventListener('click', function() {
+                        if (working[activeTab].has(amenity)) {
+                            working[activeTab].delete(amenity);
+                            chip.classList.remove('selected');
+                        } else {
+                            working[activeTab].add(amenity);
+                            chip.classList.add('selected');
+                        }
+                        refreshAmenityCount();
+                        renderSelectedStrip();
+                    });
+                    grid.appendChild(chip);
+                });
+            });
+
+            if (!anyVisible) {
+                container.innerHTML = '<div class="am-no-results"><i class="fas fa-search"></i>No amenities match your search.</div>';
+            }
+            refreshAmenityCount();
+        }
+
+        function refreshAmenityCount() {
+            var pCount = working.property.size;
+            var uCount = working.unit.size;
+            var fc = document.getElementById('am-footer-count');
+            if (fc) fc.innerHTML = '<strong>' + (pCount + uCount) + '</strong> selected'
+                + ' <span style="color:#A0AEC0;">(' + pCount + ' property · ' + uCount + ' unit)</span>';
+            var tc1 = document.getElementById('am-tab-count-property');
+            var tc2 = document.getElementById('am-tab-count-unit');
+            if (tc1) tc1.textContent = pCount;
+            if (tc2) tc2.textContent = uCount;
+        }
+
+        function renderCategoryChips() {
+            var cats = AMENITIES[activeTab];
+            var el = document.getElementById('am-cat-chips');
+            var html = '<button class="am-chip' + (activeFilter === 'all' ? ' active' : '') + '" data-filter="all">All Categories</button>';
+            cats.forEach(function(cat) {
+                html += '<button class="am-chip' + (activeFilter === cat.id ? ' active' : '') + '" data-filter="' + cat.id + '">' + esc(cat.label) + '</button>';
+            });
+            el.innerHTML = html;
+            el.querySelectorAll('.am-chip').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    activeFilter = btn.dataset.filter;
+                    renderCategoryChips();
+                    renderAmenities();
+                });
+            });
+        }
+
+        // ── Media Modal ───────────────────────────────────────────────────────────
+        function openMediaModal(ctx) {
+            mediaCtx = ctx;
+            var sourcePhotos = ctx === 'property' ? saved.propPhotos : saved.unitPhotos;
+            workingPhotos = sourcePhotos.map(function(p) { return Object.assign({}, p); });
+            document.getElementById('am-modal-media-title').textContent =
+                ctx === 'property' ? 'Property Photos' : 'Unit Photos';
+            renderMediaGrid();
+            openModal('am-modal-media');
+        }
+
+        function renderMediaGrid() {
+            var grid     = document.getElementById('am-media-grid');
+            var countEl  = document.getElementById('am-media-count');
+            if (!grid) return;
+
+            if (workingPhotos.length === 0) {
+                grid.innerHTML = '<div class="am-media-empty"><i class="fas fa-images"></i>No photos uploaded yet.</div>';
+                if (countEl) countEl.innerHTML = '<strong>0</strong> photos uploaded';
+                return;
+            }
+            if (countEl) countEl.innerHTML =
+                '<strong>' + workingPhotos.length + '</strong> photo'
+                + (workingPhotos.length !== 1 ? 's' : '') + ' uploaded';
+
+            var tagOptions = ['Primary','Living Room','Kitchen','Bedroom','Bathroom','Exterior','Floor Plan','Dining Room','Balcony','Other'];
+            grid.innerHTML = '';
+            workingPhotos.forEach(function(ph) {
+                var card = document.createElement('div');
+                card.className = 'am-media-card';
+
+                var item = document.createElement('div');
+                item.className = 'am-media-item';
+                item.innerHTML =
+                    '<img src="' + esc(ph.src) + '" alt="' + esc(ph.name) + '">'
+                    + (ph.isPrimary
+                        ? '<span class="am-primary-badge">PRIMARY</span>'
+                        : '<button class="am-set-primary-btn" data-id="' + ph.id + '">Set Primary</button>')
+                    + '<button class="am-media-del" data-id="' + ph.id + '" title="Remove"><i class="fas fa-times"></i></button>';
+
+                var tagRow = document.createElement('div');
+                tagRow.className = 'am-media-tag-row';
+                tagRow.innerHTML = '<i class="fas fa-tag tag-icon"></i>';
+
+                var sel = document.createElement('select');
+                sel.className = 'am-media-tag-select';
+                tagOptions.forEach(function(opt) {
+                    var o = document.createElement('option');
+                    o.value = opt; o.textContent = opt;
+                    if (opt === (ph.tag || (ph.isPrimary ? 'Primary' : 'Living Room'))) o.selected = true;
+                    sel.appendChild(o);
+                });
+                sel.addEventListener('change', function() { ph.tag = sel.value; });
+
+                tagRow.appendChild(sel);
+                card.appendChild(item);
+                card.appendChild(tagRow);
+                grid.appendChild(card);
+            });
+
+            grid.querySelectorAll('.am-media-del').forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    var id = btn.dataset.id;
+                    var wasPrimary = workingPhotos.some(function(p) { return p.id === id && p.isPrimary; });
+                    workingPhotos = workingPhotos.filter(function(p) { return p.id !== id; });
+                    if (wasPrimary && workingPhotos.length > 0) workingPhotos[0].isPrimary = true;
+                    renderMediaGrid();
+                });
+            });
+            grid.querySelectorAll('.am-set-primary-btn').forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    var id = btn.dataset.id;
+                    workingPhotos.forEach(function(p) { p.isPrimary = (p.id === id); });
+                    renderMediaGrid();
+                });
+            });
+            // Sync tag selects to photo objects after re-render
+            grid.querySelectorAll('.am-media-tag-select').forEach(function(sel, i) {
+                sel.addEventListener('change', function() {
+                    if (workingPhotos[i]) workingPhotos[i].tag = sel.value;
+                });
+            });
+        }
+
+        function handleFiles(files) {
+            Array.from(files).forEach(function(file) {
+                if (!file.type.startsWith('image/')) return;
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    photoIdCounter++;
+                    workingPhotos.push({
+                        id: 'ph_' + photoIdCounter,
+                        src: e.target.result,
+                        name: file.name,
+                        isPrimary: workingPhotos.length === 0,
+                        tag: workingPhotos.length === 0 ? 'Primary' : 'Living Room'
+                    });
+                    renderMediaGrid();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // ── Wire everything up ────────────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // Property Amenities button
+            document.getElementById('btn-prop-amenities').addEventListener('click', function() {
+                openAmenitiesModal('property');
+            });
+            // Unit Amenities button
+            document.getElementById('btn-unit-amenities').addEventListener('click', function() {
+                openAmenitiesModal('unit');
+            });
+
+            // Tab switching inside modal
+            document.querySelectorAll('.am-tab-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    activeTab    = btn.dataset.tab;
+                    activeFilter = 'all';
+                    searchQuery  = '';
+                    document.getElementById('am-amenity-search').value = '';
+                    document.querySelectorAll('.am-tab-btn').forEach(function(b) {
+                        b.classList.toggle('active', b === btn);
+                    });
+                    document.getElementById('am-modal-am-title').textContent =
+                        activeTab === 'property' ? 'Property Amenities' : 'Unit Amenities';
+                    renderCategoryChips();
+                    renderAmenities();
+                    renderSelectedStrip();
+                });
+            });
+
+            // Search
+            document.getElementById('am-amenity-search').addEventListener('input', function(e) {
+                searchQuery  = e.target.value;
+                activeFilter = 'all';
+                renderCategoryChips();
+                renderAmenities();
+            });
+
+            // Save Amenities — commits both tabs
+            document.getElementById('am-save-amenities').addEventListener('click', function() {
+                saved.propAmenities = new Set(working.property);
+                saved.unitAmenities = new Set(working.unit);
+                updateAllPreviews();
+                closeModal('am-modal-amenities');
+            });
+
+            // Close amenities modal
+            document.getElementById('am-close-amenities').addEventListener('click', function() { closeModal('am-modal-amenities'); });
+            document.getElementById('am-cancel-amenities').addEventListener('click', function() { closeModal('am-modal-amenities'); });
+            document.getElementById('am-modal-amenities').addEventListener('click', function(e) {
+                if (e.target.id === 'am-modal-amenities') closeModal('am-modal-amenities');
+            });
+
+            // Property Photos button
+            document.getElementById('btn-prop-photos').addEventListener('click', function() {
+                openMediaModal('property');
+            });
+            // Unit Photos button
+            document.getElementById('btn-unit-photos').addEventListener('click', function() {
+                openMediaModal('unit');
+            });
+
+            // Save Photos — commits to correct context
+            document.getElementById('am-save-media').addEventListener('click', function() {
+                if (mediaCtx === 'property') {
+                    saved.propPhotos = workingPhotos.map(function(p) { return Object.assign({}, p); });
+                } else {
+                    saved.unitPhotos = workingPhotos.map(function(p) { return Object.assign({}, p); });
+                }
+                updateAllPreviews();
+                closeModal('am-modal-media');
+            });
+
+            // Close media modal
+            document.getElementById('am-close-media').addEventListener('click', function() { closeModal('am-modal-media'); });
+            document.getElementById('am-cancel-media').addEventListener('click', function() { closeModal('am-modal-media'); });
+            document.getElementById('am-modal-media').addEventListener('click', function(e) {
+                if (e.target.id === 'am-modal-media') closeModal('am-modal-media');
+            });
+
+            // Drag & Drop
+            var dropZone  = document.getElementById('am-drop-zone');
+            var fileInput = document.getElementById('am-file-input');
+            document.getElementById('am-browse-btn').addEventListener('click', function() { fileInput.click(); });
+            fileInput.addEventListener('change', function() { handleFiles(fileInput.files); fileInput.value = ''; });
+            dropZone.addEventListener('dragover',  function(e) { e.preventDefault(); dropZone.classList.add('drag-over'); });
+            dropZone.addEventListener('dragleave', function()  { dropZone.classList.remove('drag-over'); });
+            dropZone.addEventListener('drop', function(e) {
+                e.preventDefault(); dropZone.classList.remove('drag-over');
+                handleFiles(e.dataTransfer.files);
+            });
+
+            // ESC to close any open modal
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeModal('am-modal-amenities');
+                    closeModal('am-modal-media');
+                }
+            });
+
+            // Initial preview render
+            updateAllPreviews();
         });
     })();
     </script>
