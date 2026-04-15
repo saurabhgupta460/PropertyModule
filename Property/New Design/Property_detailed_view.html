@@ -3675,10 +3675,7 @@
                             </div>
                         </div>
 
-                        <button class="filter-dd" id="btn-add-unit-dv" style="background:#4A6FA5; color:#fff; border-color:#4A6FA5; margin-left:auto;">
-                            <i class="fas fa-plus"></i> Add Unit
-                        </button>
-                        <button class="filter-dd" id="btn-bulk-setup-unit-dv" style="background:#7B4FCF; color:#fff; border-color:#7B4FCF;">
+                        <button class="filter-dd" id="btn-bulk-setup-unit-dv" style="background:#7B4FCF; color:#fff; border-color:#7B4FCF; margin-left:auto;">
                             <i class="fas fa-layer-group"></i> Bulk Setup Unit
                         </button>
                     </div>
@@ -6884,6 +6881,8 @@
         window.suwClose    = suwClose;
 
         function suwRender() {
+            // Toggle edit-mode class to show/hide Step 1 pill
+            overlay.classList.toggle('edit-mode', suwEditMode);
             // Swap topbar title based on mode
             var titleEl = document.querySelector('#suw-overlay .apw-topbar-title h1');
             var subtitleEl = document.querySelector('#suw-overlay .apw-topbar-title p');
@@ -7250,7 +7249,6 @@
         document.getElementById('bsuw-btn-next').addEventListener('click',function(){if(currentStep<totalSteps){currentStep++;bsuwRender();}else{document.getElementById('bsuw-success-msg').style.display='block';var btn=document.getElementById('bsuw-btn-next');btn.textContent='Done';btn.classList.add('finish');setTimeout(function(){bsuwClose();},2500);}});
         document.getElementById('bsuw-close-top').addEventListener('click',bsuwClose);
         document.getElementById('btn-bulk-setup-unit-dv').addEventListener('click',bsuwOpen);
-        document.getElementById('btn-add-unit-dv').addEventListener('click', function() { window.suwOpen && window.suwOpen(); });
     })();
     </script>
 
@@ -7268,6 +7266,9 @@
         .apw-search { margin-left: auto; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); border-radius: 8px; display: flex; align-items: center; gap: 8px; padding: 7px 14px; color: rgba(255,255,255,0.6); font-size: 13px; width: 340px; }
         .apw-card { background: #fff; border-radius: 14px; margin: 0 24px 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.18); display: flex; flex-direction: column; flex: 1; }
         .apw-steps-bar { display: flex; align-items: center; justify-content: center; gap: 0; padding: 24px 40px 20px; border-bottom: 1px solid #EDF2F7; background: #FAFBFC; border-radius: 14px 14px 0 0; }
+        /* Hide Step 1 pill when wizard is opened in Edit Unit mode */
+        #suw-overlay.edit-mode .apw-step[data-step="1"],
+        #suw-overlay.edit-mode .apw-step[data-step="1"] + .apw-step-line { display: none; }
         .apw-step { display: flex; flex-direction: column; align-items: center; flex: 1; position: relative; cursor: default; }
         .apw-step:not(:last-child)::after { content: ''; position: absolute; top: 18px; left: 55%; right: -45%; height: 2px; background: #D5DAE0; z-index: 0; }
         .apw-step.completed:not(:last-child)::after { background: #1B4B6E; }
