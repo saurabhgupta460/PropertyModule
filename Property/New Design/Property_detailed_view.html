@@ -5024,9 +5024,11 @@
                     <div style="font-size:11.5px; color:#9AA5B4; margin-top:5px;">This unit will be added to the current property</div>
                   </div>
                   <div class="apw-form-group">
-                    <label class="apw-label">Unit Name <span style="color:#E53E3E;">*</span></label>
-                    <input class="apw-input" type="text" id="suw-unit-name" placeholder="e.g. Unit 101, Suite A, Apt 2B">
-                    <div style="font-size:11.5px; color:#9AA5B4; margin-top:5px;">Enter a unique name or number for this unit</div>
+                    <label class="apw-label">Unit <span style="color:#E53E3E;">*</span></label>
+                    <select class="apw-input apw-select" id="suw-unit-select">
+                      <option value="">— Select a unit —</option>
+                    </select>
+                    <div style="font-size:11.5px; color:#9AA5B4; margin-top:5px;">Choose the unit you want to set up or configure</div>
                   </div>
                 </div>
               </div>
@@ -5038,6 +5040,11 @@
                 <div class="apw-section-title">Unit Details</div>
                 <div class="apw-section-box">
                   <div class="apw-section-box-title">Enter Unit Details</div>
+                  <div class="apw-form-group" style="margin-bottom:14px;">
+                    <label class="apw-label">Unit Name <span style="color:#E53E3E;">*</span></label>
+                    <input class="apw-input" type="text" id="suw-edit-unit-name" placeholder="e.g. Unit 101, Suite A, Apt 2B">
+                    <div style="font-size:11.5px; color:#9AA5B4; margin-top:5px;">Defaults to your selection — you can rename it here</div>
+                  </div>
                   <div style="display:flex; gap:12px; margin-bottom:14px;">
                     <div class="apw-form-group">
                       <label class="apw-label">Bedroom</label>
@@ -6714,6 +6721,18 @@
         if (!overlay) return;
         var totalSteps  = 5;
         var currentStep = 1;
+        var suwEditMode = false;
+
+        /* Units per property – mirrors the unit table rows */
+        var SUW_PROPERTY_UNITS = {
+            '5553 A Janson Avenue': [
+                'Aptt 5553 A Janson Avenue','Aptt 433 B Nathan Square',
+                'Aptt 9343 C City Gardens','Aptt 8930 D Dorjee Jackson',
+                'Aptt 2244 Abraham Square','Aptt 4224 A Queens Philip',
+                'Appt 101 A Jackson Ville','Aptt 0200 A Garden Williams Estate',
+                'Aptt 1001 A Nancy Avenue','Aptt 3003 A Bishopville','Aptt 4033 A Sunnyvalle'
+            ]
+        };
 
         var SUW_AMENITIES = {
             'Interior': ['Air Conditioning','Heating','Ceiling Fans','Hardwood Floors','Carpet','Tile Floors','Walk-in Closet','Linen Closet','In-Unit Washer/Dryer','Washer/Dryer Hookups','Dishwasher','Garbage Disposal','Microwave','Refrigerator','Stove/Range','Oven','Fireplace','Balcony/Patio','Private Yard','Storage Room'],
@@ -6814,14 +6833,40 @@
         }
 
         function suwOpen() {
+            suwEditMode = false;
             currentStep = 1;
             suwSelectedAmenities.clear();
             suwPhotos = [];
             document.getElementById('suw-success-msg').style.display = 'none';
             document.getElementById('suw-btn-next').classList.remove('finish');
             document.getElementById('suw-btn-next').textContent = 'Next';
-            var unitNameEl = document.getElementById('suw-unit-name');
-            if (unitNameEl) { unitNameEl.value = ''; unitNameEl.style.borderColor = ''; }
+            // Populate unit dropdown from the current property
+            var propName = (document.getElementById('suw-property-select') || {}).value || '5553 A Janson Avenue';
+            var unitSel = document.getElementById('suw-unit-select');
+            if (unitSel) {
+                var units = SUW_PROPERTY_UNITS[propName] || [];
+                unitSel.innerHTML = '<option value="">— Select a unit —</option>'
+                    + units.map(function(u) { return '<option>' + u + '</option>'; }).join('');
+                unitSel.style.borderColor = '';
+            }
+            var editNameEl = document.getElementById('suw-edit-unit-name');
+            if (editNameEl) { editNameEl.value = ''; editNameEl.style.borderColor = ''; }
+            suwRender();
+            overlay.classList.add('open');
+            overlay.scrollTop = 0;
+            document.body.style.overflow = 'hidden';
+        }
+        /* Opens wizard at Step 2, pre-filled with the unit's name — used by Edit Unit 3-dot */
+        function suwOpenEdit(unitName) {
+            suwEditMode = true;
+            currentStep = 2;
+            suwSelectedAmenities.clear();
+            suwPhotos = [];
+            document.getElementById('suw-success-msg').style.display = 'none';
+            document.getElementById('suw-btn-next').classList.remove('finish');
+            document.getElementById('suw-btn-next').textContent = 'Next';
+            var editNameEl = document.getElementById('suw-edit-unit-name');
+            if (editNameEl) { editNameEl.value = unitName || ''; editNameEl.style.borderColor = ''; }
             suwRender();
             overlay.classList.add('open');
             overlay.scrollTop = 0;
@@ -6831,10 +6876,18 @@
             overlay.classList.remove('open');
             document.body.style.overflow = '';
         }
-        window.suwOpen  = suwOpen;
-        window.suwClose = suwClose;
+        window.suwOpen     = suwOpen;
+        window.suwOpenEdit = suwOpenEdit;
+        window.suwClose    = suwClose;
 
         function suwRender() {
+            // Swap topbar title based on mode
+            var titleEl = document.querySelector('#suw-overlay .apw-topbar-title h1');
+            var subtitleEl = document.querySelector('#suw-overlay .apw-topbar-title p');
+            if (titleEl) titleEl.textContent = suwEditMode ? 'Edit Unit' : 'Set Up Unit';
+            if (subtitleEl) subtitleEl.textContent = suwEditMode
+                ? 'Update unit details, amenities and photos'
+                : 'Add a new unit with details, amenities and photos';
             document.querySelectorAll('#suw-overlay .apw-step').forEach(function(el) {
                 var s = parseInt(el.dataset.step);
                 el.classList.toggle('active',    s === currentStep);
@@ -6859,7 +6912,7 @@
         function suwPopulateReview() {
             function v(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
             document.getElementById('suw-rv-property').textContent  = v('suw-property-select') || '—';
-            document.getElementById('suw-rv-name').textContent      = v('suw-unit-name') || '—';
+            document.getElementById('suw-rv-name').textContent      = v('suw-edit-unit-name') || '—';
             document.getElementById('suw-rv-beds').textContent      = v('suw-beds')      || '—';
             document.getElementById('suw-rv-baths').textContent     = v('suw-baths')     || '—';
             document.getElementById('suw-rv-size').textContent      = v('suw-size') ? v('suw-size') + ' sq ft' : '—';
@@ -6897,19 +6950,23 @@
         if (photoInput) photoInput.addEventListener('change', function() { suwHandleFiles(this.files); this.value = ''; });
 
         document.getElementById('suw-btn-back').addEventListener('click', function() {
-            if (currentStep > 1) { currentStep--; suwRender(); }
+            // In edit mode step 2 is the first visible step — Back closes
+            if (currentStep > 1 && !(suwEditMode && currentStep === 2)) { currentStep--; suwRender(); }
             else suwClose();
         });
         document.getElementById('suw-btn-next').addEventListener('click', function() {
             if (currentStep < totalSteps) {
-                // Step 1 validation: unit name required
+                // Step 1 validation: a unit must be selected
                 if (currentStep === 1) {
-                    var unitNameEl = document.getElementById('suw-unit-name');
-                    if (!unitNameEl || !unitNameEl.value.trim()) {
-                        if (unitNameEl) { unitNameEl.style.borderColor = '#E53E3E'; unitNameEl.focus(); }
+                    var unitSel = document.getElementById('suw-unit-select');
+                    if (!unitSel || !unitSel.value) {
+                        if (unitSel) { unitSel.style.borderColor = '#E53E3E'; unitSel.focus(); }
                         return;
                     }
-                    if (unitNameEl) unitNameEl.style.borderColor = '';
+                    unitSel.style.borderColor = '';
+                    // Pre-fill the editable unit name in Step 2 from the dropdown selection
+                    var editNameEl = document.getElementById('suw-edit-unit-name');
+                    if (editNameEl) editNameEl.value = unitSel.value;
                 }
                 if (currentStep === totalSteps - 1) suwPopulateReview();
                 currentStep++;
@@ -6947,7 +7004,9 @@
             }
             if (e.target.closest('.unit-dd-edit-unit')) {
                 document.querySelectorAll('.unit-dropdown').forEach(function(d) { d.classList.remove('open'); });
-                suwOpen();
+                var row = e.target.closest('tr');
+                var nameEl = row && row.querySelector('.unit-name');
+                suwOpenEdit(nameEl ? nameEl.textContent.trim() : '');
             }
         });
 
