@@ -5191,17 +5191,7 @@
             <div class="apw-step-content active" data-step="1">
               <div class="apw-inner">
                 <div class="apw-section-title">Unit Details</div>
-                <p style="text-align:center;color:#718096;font-size:13px;margin-bottom:20px;">Specify how many units to set up, then fill in the details below.</p>
-                <div class="bsuw-count-row">
-                  <i class="fas fa-layer-group" style="color:#7B4FCF;font-size:16px;"></i>
-                  <div class="apw-form-group" style="flex-direction:row;align-items:center;gap:10px;">
-                    <label class="apw-label" style="white-space:nowrap;margin:0;">Number of Units</label>
-                    <input class="apw-input" type="number" id="bsuw-num-units" min="1" max="200" value="5" style="width:90px;">
-                  </div>
-                  <button type="button" class="apw-btn-next" id="bsuw-generate-btn" style="padding:9px 22px;font-size:13px;margin-left:auto;">
-                    <i class="fas fa-table"></i> Generate Table
-                  </button>
-                </div>
+                <p style="text-align:center;color:#718096;font-size:13px;margin-bottom:20px;">150 units for this property are loaded below. Bulk-edit or update each row individually.</p>
                 <div class="apw-ut-toolbar bsuw-hidden" id="bsuw-ut-toolbar">
                   <div class="apw-ut-info"><i class="fas fa-layer-group"></i><span id="bsuw-ut-count-label">0 units</span></div>
                   <div class="apw-ut-progress-wrap"><div class="apw-ut-progress-bar" id="bsuw-ut-progress-bar"></div></div>
@@ -7158,13 +7148,18 @@
         function bsuwSyncAll(){var c=document.getElementById('bsuw-chk-all');if(!c)return;var a=bsuwUnitData.length>0&&bsuwUnitData.every(function(d){return d._selected;}),n=bsuwUnitData.some(function(d){return d._selected;});c.checked=a;c.indeterminate=!a&&n;}
         function bsuwUpdateSelBadge(){var c=bsuwUnitData.filter(function(d){return d._selected;}).length;document.getElementById('bsuw-bulk-sel-badge').textContent=c;document.getElementById('bsuw-bulk-selected').disabled=c===0;}
 
+        /* Generate 150 units: 10 floors × 15 units (Unit 101 … Unit 1015) */
         function bsuwGenerate(){
-            var n=Math.max(1,Math.min(200,parseInt(document.getElementById('bsuw-num-units').value)||1));
-            bsuwUnitData=[];for(var i=0;i<n;i++)bsuwUnitData.push({name:'',beds:'',baths:'',size:'',strat:'',rent:'',desc:'',_selected:false,amenities:[]});
-            bsuwPage=1;bsuwBuildTable();bsuwUpdateProgress();show('bsuw-ut-toolbar');show('bsuw-ut-wrap');
-            if(n>1){document.getElementById('bsuw-bulk-toolbar').classList.remove('bsuw-hidden');document.getElementById('bsuw-bulk-toolbar').classList.add('visible');}
+            function pad(n){return n<10?'0'+n:''+n;}
+            bsuwUnitData=[];
+            for(var f=1;f<=10;f++)
+                for(var u=1;u<=15;u++)
+                    bsuwUnitData.push({name:'Unit '+f+pad(u),beds:'',baths:'',size:'',strat:'',rent:'',desc:'',_selected:false,amenities:[]});
+            bsuwPage=1;bsuwBuildTable();bsuwUpdateProgress();
+            show('bsuw-ut-toolbar');show('bsuw-ut-wrap');
+            document.getElementById('bsuw-bulk-toolbar').classList.remove('bsuw-hidden');
+            document.getElementById('bsuw-bulk-toolbar').classList.add('visible');
         }
-        document.getElementById('bsuw-generate-btn').addEventListener('click',bsuwGenerate);
         document.getElementById('bsuw-chk-all').addEventListener('change',function(){bsuwUnitData.forEach(function(d){d._selected=this.checked;}.bind(this));bsuwBuildTable();});
         document.getElementById('bsuw-ut-prev').addEventListener('click',function(){if(bsuwPage>1){bsuwPage--;bsuwBuildTable();}});
         document.getElementById('bsuw-ut-next').addEventListener('click',function(){if(bsuwPage*BSUW_PAGE_SIZE<bsuwUnitData.length){bsuwPage++;bsuwBuildTable();}});
@@ -7222,13 +7217,12 @@
 
         function bsuwOpen(){
             currentStep=1;bsuwUnitData=[];bsuwSelectedAmenities.clear();bsuwApplyToAll=true;bsuwPage=1;
-            document.getElementById('bsuw-num-units').value='5';
             document.getElementById('bsuw-success-msg').style.display='none';
-            hide('bsuw-ut-toolbar');hide('bsuw-ut-wrap');
             var bt=document.getElementById('bsuw-bulk-toolbar');bt.classList.add('bsuw-hidden');bt.classList.remove('visible','panel-open');
             document.getElementById('bsuw-bulk-panel').classList.remove('open');
             document.getElementById('bsuw-am-allu-btn').classList.add('active');document.getElementById('bsuw-am-selu-btn').classList.remove('active');
             hide('bsuw-unit-checklist');hide('bsuw-am-saved-msg');
+            bsuwGenerate(); /* auto-load 150 units immediately */
             bsuwRender();overlay.classList.add('open');overlay.scrollTop=0;document.body.style.overflow='hidden';
         }
         function bsuwClose(){overlay.classList.remove('open');document.body.style.overflow='';}
