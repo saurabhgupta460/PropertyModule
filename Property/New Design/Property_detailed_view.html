@@ -5460,25 +5460,6 @@
                       <input class="apw-input" type="text" id="suw-size" placeholder="e.g. 850">
                     </div>
                   </div>
-                  <div class="apw-form-group" style="margin-bottom:14px;">
-                    <label class="apw-label">Street Address Strategy</label>
-                    <select class="apw-input apw-select" id="suw-addr-strategy">
-                      <option value="">Select</option>
-                      <option>Unit number</option><option>Suite</option>
-                      <option>Apt</option><option>Floor</option>
-                    </select>
-                  </div>
-                  <div class="apw-form-group" style="margin-bottom:14px;">
-                    <label class="apw-label">Market Rent ($)</label>
-                    <input class="apw-input" type="text" id="suw-market-rent" placeholder="$0.00">
-                  </div>
-                  <div class="apw-form-group">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-                      <label class="apw-label">Description for your unit <span style="color:#9AA5B4; font-weight:400;">(Can be used in Listing)</span></label>
-                      <span id="suw-notes-count" style="font-size:11px; color:#9AA5B4;">0/1000</span>
-                    </div>
-                    <textarea class="apw-textarea" id="suw-notes" maxlength="1000" placeholder="Describe the unit — this text can be reused when creating a listing advertisement." rows="5"></textarea>
-                  </div>
                 </div>
               </div>
             </div>
@@ -5524,9 +5505,6 @@
                     <div class="apw-review-row"><span class="apw-review-label">Bedroom</span><span class="apw-review-val" id="suw-rv-beds">—</span></div>
                     <div class="apw-review-row"><span class="apw-review-label">Bathroom</span><span class="apw-review-val" id="suw-rv-baths">—</span></div>
                     <div class="apw-review-row"><span class="apw-review-label">Size</span><span class="apw-review-val" id="suw-rv-size">—</span></div>
-                    <div class="apw-review-row"><span class="apw-review-label">Address Strategy</span><span class="apw-review-val" id="suw-rv-strategy">—</span></div>
-                    <div class="apw-review-row"><span class="apw-review-label">Market Rent</span><span class="apw-review-val" id="suw-rv-market-rent">—</span></div>
-                    <div class="apw-review-row"><span class="apw-review-label">Description</span><span class="apw-review-val" id="suw-rv-notes">—</span></div>
                   </div>
                   <div class="apw-review-section">
                     <h4><i class="fas fa-star" style="margin-right:6px;"></i> Unit Amenities</h4>
@@ -5603,8 +5581,6 @@
                     <div class="apw-bulk-field"><label class="apw-label">Bedroom</label><select class="apw-input apw-select" id="bsuw-bulk-beds"><option value="">—</option><option>Studio</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6+</option></select></div>
                     <div class="apw-bulk-field"><label class="apw-label">Bathroom</label><select class="apw-input apw-select" id="bsuw-bulk-baths"><option value="">—</option><option>1</option><option>1.5</option><option>2</option><option>2.5</option><option>3</option><option>3+</option></select></div>
                     <div class="apw-bulk-field"><label class="apw-label">Size (sq ft)</label><input class="apw-input" type="text" id="bsuw-bulk-size" placeholder="e.g. 850"></div>
-                    <div class="apw-bulk-field"><label class="apw-label">Address Strategy</label><select class="apw-input apw-select" id="bsuw-bulk-strat"><option value="">—</option><option>Unit number</option><option>Suite</option><option>Apt</option><option>Floor</option></select></div>
-                    <div class="apw-bulk-field"><label class="apw-label">Market Rent ($)</label><input class="apw-input" type="text" id="bsuw-bulk-rent" placeholder="$0.00"></div>
                   </div>
                   <div class="apw-bulk-actions">
                     <button type="button" class="apw-bulk-apply-btn" id="bsuw-bulk-apply"><i class="fas fa-check-double"></i> Apply To All Empty</button>
@@ -5619,7 +5595,7 @@
                       <tr>
                         <th class="apw-ut-th-chk"><label class="apw-chk-wrap" title="Select all"><input type="checkbox" id="bsuw-chk-all"><span class="apw-chk-box"></span></label></th>
                         <th class="apw-ut-th-num">#</th>
-                        <th>Unit Name</th><th>Bed</th><th>Bath</th><th>Size (sq ft)</th><th>Address Strategy</th><th>Market Rent ($)</th><th>Description</th>
+                        <th>Unit Name</th><th>Bed</th><th>Bath</th><th>Size (sq ft)</th>
                       </tr>
                     </thead>
                     <tbody id="bsuw-ut-tbody"></tbody>
@@ -7406,27 +7382,10 @@
             document.getElementById('suw-rv-beds').textContent      = v('suw-beds')      || '—';
             document.getElementById('suw-rv-baths').textContent     = v('suw-baths')     || '—';
             document.getElementById('suw-rv-size').textContent      = v('suw-size') ? v('suw-size') + ' sq ft' : '—';
-            var stratSel = document.getElementById('suw-addr-strategy');
-            var stratTxt = '—';
-            if (stratSel && stratSel.value && stratSel.selectedOptions[0]) stratTxt = stratSel.selectedOptions[0].textContent.trim();
-            document.getElementById('suw-rv-strategy').textContent  = stratTxt;
-            var rent = v('suw-market-rent');
-            document.getElementById('suw-rv-market-rent').textContent = rent ? '$' + rent : '—';
-            var notes = v('suw-notes');
-            if (notes.length > 140) notes = notes.slice(0, 137) + '…';
-            document.getElementById('suw-rv-notes').textContent     = notes || '—';
             var amCount = suwSelectedAmenities.size;
             document.getElementById('suw-rv-amenities').textContent = amCount > 0 ? amCount + ' amenit' + (amCount === 1 ? 'y' : 'ies') + ' selected' : '—';
             var phCount = suwPhotos.length;
             document.getElementById('suw-rv-photos').textContent    = phCount > 0 ? phCount + ' photo' + (phCount === 1 ? '' : 's') + ' uploaded' : '—';
-        }
-
-        var notesTA = document.getElementById('suw-notes');
-        if (notesTA) {
-            notesTA.addEventListener('input', function() {
-                var count = document.getElementById('suw-notes-count');
-                if (count) count.textContent = this.value.length + '/1000';
-            });
         }
 
         var dropZone   = document.getElementById('suw-photo-drop');
@@ -7615,7 +7574,7 @@
 
         function bsuwBuildTable() {
             var tbody=document.getElementById('bsuw-ut-tbody'), total=bsuwUnitData.length;
-            var BED=['','Studio','1','2','3','4','5','6+'], BATH=['','1','1.5','2','2.5','3','3+'], STRAT=['','Unit number','Suite','Apt','Floor'];
+            var BED=['','Studio','1','2','3','4','5','6+'], BATH=['','1','1.5','2','2.5','3','3+'];
             var usePag=total>BSUW_PAGE_SIZE, s=usePag?(bsuwPage-1)*BSUW_PAGE_SIZE:0, e=usePag?Math.min(s+BSUW_PAGE_SIZE,total):total;
             document.getElementById('bsuw-ut-count-label').textContent=total+' unit'+(total!==1?'s':'');
             var pag=document.getElementById('bsuw-ut-pagination'); pag.classList.toggle('visible',usePag);
@@ -7624,7 +7583,7 @@
             for(var i=s;i<e;i++){(function(idx){
                 var d=bsuwUnitData[idx],tr=document.createElement('tr');
                 tr.dataset.unitIdx=idx;
-                if(d.name||d.beds||d.baths||d.rent)tr.classList.add('apw-ut-filled');
+                if(d.name||d.beds||d.baths)tr.classList.add('apw-ut-filled');
                 if(d._selected)tr.classList.add('apw-ut-selected');
                 tr.innerHTML='<td style="text-align:center;"><label class="apw-chk-wrap"><input type="checkbox" class="bsuw-ichk"'+(d._selected?' checked':'')+
                     '><span class="apw-chk-box"></span></label></td>'+
@@ -7632,18 +7591,15 @@
                     '<td><input type="text" class="bsuw-iname" value="'+escA(d.name)+'" placeholder="Unit '+(idx+1)+'"></td>'+
                     '<td><select class="bsuw-ibeds">'+BED.map(function(o){return'<option value="'+o+'"'+(o===d.beds?' selected':'')+'>'+(o||'Select')+'</option>';}).join('')+'</select></td>'+
                     '<td><select class="bsuw-ibaths">'+BATH.map(function(o){return'<option value="'+o+'"'+(o===d.baths?' selected':'')+'>'+(o||'Select')+'</option>';}).join('')+'</select></td>'+
-                    '<td><input type="text" class="bsuw-isize" value="'+escA(d.size)+'" placeholder="e.g. 850"></td>'+
-                    '<td><select class="bsuw-istrat">'+STRAT.map(function(o){return'<option value="'+o+'"'+(o===d.strat?' selected':'')+'>'+(o||'Select')+'</option>';}).join('')+'</select></td>'+
-                    '<td><input type="text" class="bsuw-irent" value="'+escA(d.rent)+'" placeholder="$0.00"></td>'+
-                    '<td><textarea class="bsuw-idesc" rows="1" maxlength="500" placeholder="Optional…">'+escH(d.desc)+'</textarea></td>';
+                    '<td><input type="text" class="bsuw-isize" value="'+escA(d.size)+'" placeholder="e.g. 850"></td>';
                 tr.querySelector('.bsuw-ichk').addEventListener('change',function(){bsuwUnitData[idx]._selected=this.checked;tr.classList.toggle('apw-ut-selected',this.checked);bsuwSyncAll();bsuwUpdateSelBadge();bsuwUpdateUnitChecklist();});
-                function bind(cls,key,evt){var el=tr.querySelector('.'+cls);if(!el)return;el.addEventListener(evt,function(){bsuwUnitData[idx][key]=this.value;tr.classList.toggle('apw-ut-filled',!!(bsuwUnitData[idx].name||bsuwUnitData[idx].beds||bsuwUnitData[idx].baths||bsuwUnitData[idx].rent));bsuwUpdateProgress();});}
-                bind('bsuw-iname','name','input');bind('bsuw-ibeds','beds','change');bind('bsuw-ibaths','baths','change');bind('bsuw-isize','size','input');bind('bsuw-istrat','strat','change');bind('bsuw-irent','rent','input');bind('bsuw-idesc','desc','input');
+                function bind(cls,key,evt){var el=tr.querySelector('.'+cls);if(!el)return;el.addEventListener(evt,function(){bsuwUnitData[idx][key]=this.value;tr.classList.toggle('apw-ut-filled',!!(bsuwUnitData[idx].name||bsuwUnitData[idx].beds||bsuwUnitData[idx].baths));bsuwUpdateProgress();});}
+                bind('bsuw-iname','name','input');bind('bsuw-ibeds','beds','change');bind('bsuw-ibaths','baths','change');bind('bsuw-isize','size','input');
                 tbody.appendChild(tr);
             })(i);}
             bsuwSyncAll(); bsuwUpdateSelBadge();
         }
-        function bsuwUpdateProgress(){var f=bsuwUnitData.filter(function(d){return d.name||d.beds||d.baths||d.rent;}).length,t=bsuwUnitData.length,p=t>0?Math.round(f/t*100):0;document.getElementById('bsuw-ut-progress-bar').style.width=p+'%';document.getElementById('bsuw-ut-progress-txt').textContent=f+' / '+t+' filled';}
+        function bsuwUpdateProgress(){var f=bsuwUnitData.filter(function(d){return d.name||d.beds||d.baths;}).length,t=bsuwUnitData.length,p=t>0?Math.round(f/t*100):0;document.getElementById('bsuw-ut-progress-bar').style.width=p+'%';document.getElementById('bsuw-ut-progress-txt').textContent=f+' / '+t+' filled';}
         function bsuwSyncAll(){var c=document.getElementById('bsuw-chk-all');if(!c)return;var a=bsuwUnitData.length>0&&bsuwUnitData.every(function(d){return d._selected;}),n=bsuwUnitData.some(function(d){return d._selected;});c.checked=a;c.indeterminate=!a&&n;}
         function bsuwUpdateSelBadge(){var c=bsuwUnitData.filter(function(d){return d._selected;}).length;document.getElementById('bsuw-bulk-sel-badge').textContent=c;document.getElementById('bsuw-bulk-selected').disabled=c===0;}
 
@@ -7653,7 +7609,7 @@
             bsuwUnitData=[];
             for(var f=1;f<=10;f++)
                 for(var u=1;u<=15;u++)
-                    bsuwUnitData.push({name:'Unit '+f+pad(u),beds:'',baths:'',size:'',strat:'',rent:'',desc:'',_selected:false,amenities:[]});
+                    bsuwUnitData.push({name:'Unit '+f+pad(u),beds:'',baths:'',size:'',_selected:false,amenities:[]});
             bsuwPage=1;bsuwBuildTable();bsuwUpdateProgress();
             show('bsuw-ut-toolbar');show('bsuw-ut-wrap');
             document.getElementById('bsuw-bulk-toolbar').classList.remove('bsuw-hidden');
@@ -7663,11 +7619,11 @@
         document.getElementById('bsuw-ut-prev').addEventListener('click',function(){if(bsuwPage>1){bsuwPage--;bsuwBuildTable();}});
         document.getElementById('bsuw-ut-next').addEventListener('click',function(){if(bsuwPage*BSUW_PAGE_SIZE<bsuwUnitData.length){bsuwPage++;bsuwBuildTable();}});
 
-        function bsuwVals(){return{beds:document.getElementById('bsuw-bulk-beds').value,baths:document.getElementById('bsuw-bulk-baths').value,size:document.getElementById('bsuw-bulk-size').value.trim(),strat:document.getElementById('bsuw-bulk-strat').value,rent:document.getElementById('bsuw-bulk-rent').value.trim()};}
-        document.getElementById('bsuw-bulk-apply').addEventListener('click',function(){var v=bsuwVals();bsuwUnitData.forEach(function(d){if(v.beds&&!d.beds)d.beds=v.beds;if(v.baths&&!d.baths)d.baths=v.baths;if(v.size&&!d.size)d.size=v.size;if(v.strat&&!d.strat)d.strat=v.strat;if(v.rent&&!d.rent)d.rent=v.rent;});bsuwBuildTable();bsuwUpdateProgress();});
-        document.getElementById('bsuw-bulk-overwrite').addEventListener('click',function(){var v=bsuwVals();bsuwUnitData.forEach(function(d){if(v.beds)d.beds=v.beds;if(v.baths)d.baths=v.baths;if(v.size)d.size=v.size;if(v.strat)d.strat=v.strat;if(v.rent)d.rent=v.rent;});bsuwBuildTable();bsuwUpdateProgress();});
-        document.getElementById('bsuw-bulk-selected').addEventListener('click',function(){var v=bsuwVals();bsuwUnitData.forEach(function(d){if(!d._selected)return;if(v.beds)d.beds=v.beds;if(v.baths)d.baths=v.baths;if(v.size)d.size=v.size;if(v.strat)d.strat=v.strat;if(v.rent)d.rent=v.rent;});bsuwBuildTable();bsuwUpdateProgress();});
-        document.getElementById('bsuw-bulk-clear').addEventListener('click',function(){bsuwUnitData.forEach(function(d){d.name=d.beds=d.baths=d.size=d.strat=d.rent=d.desc='';d._selected=false;});bsuwPage=1;bsuwBuildTable();bsuwUpdateProgress();});
+        function bsuwVals(){return{beds:document.getElementById('bsuw-bulk-beds').value,baths:document.getElementById('bsuw-bulk-baths').value,size:document.getElementById('bsuw-bulk-size').value.trim()};}
+        document.getElementById('bsuw-bulk-apply').addEventListener('click',function(){var v=bsuwVals();bsuwUnitData.forEach(function(d){if(v.beds&&!d.beds)d.beds=v.beds;if(v.baths&&!d.baths)d.baths=v.baths;if(v.size&&!d.size)d.size=v.size;});bsuwBuildTable();bsuwUpdateProgress();});
+        document.getElementById('bsuw-bulk-overwrite').addEventListener('click',function(){var v=bsuwVals();bsuwUnitData.forEach(function(d){if(v.beds)d.beds=v.beds;if(v.baths)d.baths=v.baths;if(v.size)d.size=v.size;});bsuwBuildTable();bsuwUpdateProgress();});
+        document.getElementById('bsuw-bulk-selected').addEventListener('click',function(){var v=bsuwVals();bsuwUnitData.forEach(function(d){if(!d._selected)return;if(v.beds)d.beds=v.beds;if(v.baths)d.baths=v.baths;if(v.size)d.size=v.size;});bsuwBuildTable();bsuwUpdateProgress();});
+        document.getElementById('bsuw-bulk-clear').addEventListener('click',function(){bsuwUnitData.forEach(function(d){d.name=d.beds=d.baths=d.size='';d._selected=false;});bsuwPage=1;bsuwBuildTable();bsuwUpdateProgress();});
 
         var bTgl=document.getElementById('bsuw-bulk-toggle'),bBar=document.getElementById('bsuw-bulk-toolbar'),bPnl=document.getElementById('bsuw-bulk-panel');
         function toggleBulk(){var o=bPnl.classList.toggle('open');bTgl.classList.toggle('open',o);bBar.classList.toggle('panel-open',o);}
@@ -7698,7 +7654,7 @@
 
         function bsuwBuildReview(){
             var body=document.getElementById('bsuw-review-body'),total=bsuwUnitData.length;
-            var filled=bsuwUnitData.filter(function(d){return d.name||d.beds||d.baths||d.rent;}).length;
+            var filled=bsuwUnitData.filter(function(d){return d.name||d.beds||d.baths;}).length;
             var amCount=bsuwSelectedAmenities.size,withAm=bsuwUnitData.filter(function(d){return d.amenities&&d.amenities.length>0;}).length;
             var html='<div class="bsuw-review-summary">'+
                 '<div class="bsuw-review-stat"><div class="bsuw-review-stat-num">'+total+'</div><div class="bsuw-review-stat-lbl">Total Units</div></div>'+
@@ -7706,10 +7662,10 @@
                 '<div class="bsuw-review-stat"><div class="bsuw-review-stat-num">'+amCount+'</div><div class="bsuw-review-stat-lbl">Amenities Selected</div></div>'+
                 '<div class="bsuw-review-stat"><div class="bsuw-review-stat-num">'+withAm+'</div><div class="bsuw-review-stat-lbl">Units with Amenities</div></div></div>'+
                 '<div class="bsuw-review-section"><h4><i class="fas fa-table"></i> Unit Summary</h4>'+
-                '<table class="bsuw-review-table"><thead><tr><th>#</th><th>Unit Name</th><th>Bed</th><th>Bath</th><th>Size</th><th>Rent</th><th>Amenities</th></tr></thead><tbody>';
+                '<table class="bsuw-review-table"><thead><tr><th>#</th><th>Unit Name</th><th>Bed</th><th>Bath</th><th>Size</th><th>Amenities</th></tr></thead><tbody>';
             bsuwUnitData.forEach(function(d,idx){
                 var tags=d.amenities&&d.amenities.length?d.amenities.map(function(a){return'<span class="bsuw-review-am-tag">'+escH(a)+'</span>';}).join(''):'<span style="color:#C4CDD6;">—</span>';
-                html+='<tr><td>'+(idx+1)+'</td><td><strong>'+(d.name?escH(d.name):'<span style="color:#C4CDD6;">Unit '+(idx+1)+'</span>')+'</strong></td><td>'+(d.beds||'—')+'</td><td>'+(d.baths||'—')+'</td><td>'+(d.size?d.size+' sq ft':'—')+'</td><td>'+(d.rent?'$'+escH(d.rent):'—')+'</td><td>'+tags+'</td></tr>';
+                html+='<tr><td>'+(idx+1)+'</td><td><strong>'+(d.name?escH(d.name):'<span style="color:#C4CDD6;">Unit '+(idx+1)+'</span>')+'</strong></td><td>'+(d.beds||'—')+'</td><td>'+(d.baths||'—')+'</td><td>'+(d.size?d.size+' sq ft':'—')+'</td><td>'+tags+'</td></tr>';
             });
             body.innerHTML=html+'</tbody></table></div>';
         }
