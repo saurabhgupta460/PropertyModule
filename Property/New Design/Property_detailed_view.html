@@ -4991,32 +4991,53 @@
           <div class="apw-steps-bar">
             <div class="apw-step active" data-step="1">
               <div class="apw-step-circle">1</div>
-              <div class="apw-step-label">Unit Details</div>
+              <div class="apw-step-label">Property &amp;<br>Unit</div>
             </div>
             <div class="apw-step" data-step="2">
               <div class="apw-step-circle">2</div>
-              <div class="apw-step-label">Unit Amenities</div>
+              <div class="apw-step-label">Unit Details</div>
             </div>
             <div class="apw-step" data-step="3">
               <div class="apw-step-circle">3</div>
-              <div class="apw-step-label">Unit Photos</div>
+              <div class="apw-step-label">Unit Amenities</div>
             </div>
             <div class="apw-step" data-step="4">
               <div class="apw-step-circle">4</div>
+              <div class="apw-step-label">Unit Photos</div>
+            </div>
+            <div class="apw-step" data-step="5">
+              <div class="apw-step-circle">5</div>
               <div class="apw-step-label">Review &amp; Finish</div>
             </div>
           </div>
           <div class="apw-body">
-            <!-- STEP 1: Unit Details -->
+
+            <!-- STEP 1: Property & Unit Selection -->
             <div class="apw-step-content active" data-step="1">
+              <div class="apw-inner">
+                <div class="apw-section-title">Property &amp; Unit Selection</div>
+                <div class="apw-section-box">
+                  <div class="apw-section-box-title">Confirm the property and name this unit</div>
+                  <div class="apw-form-group" style="margin-bottom:20px;">
+                    <label class="apw-label">Property <span style="color:#E53E3E;">*</span></label>
+                    <input class="apw-input" type="text" id="suw-property-select" value="5553 A Janson Avenue" readonly style="background:#F7FAFC; color:#4A6B8A; cursor:default;">
+                    <div style="font-size:11.5px; color:#9AA5B4; margin-top:5px;">This unit will be added to the current property</div>
+                  </div>
+                  <div class="apw-form-group">
+                    <label class="apw-label">Unit Name <span style="color:#E53E3E;">*</span></label>
+                    <input class="apw-input" type="text" id="suw-unit-name" placeholder="e.g. Unit 101, Suite A, Apt 2B">
+                    <div style="font-size:11.5px; color:#9AA5B4; margin-top:5px;">Enter a unique name or number for this unit</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 2: Unit Details -->
+            <div class="apw-step-content" data-step="2">
               <div class="apw-inner">
                 <div class="apw-section-title">Unit Details</div>
                 <div class="apw-section-box">
                   <div class="apw-section-box-title">Enter Unit Details</div>
-                  <div class="apw-form-group" style="margin-bottom:14px;">
-                    <label class="apw-label">Unit Name</label>
-                    <input class="apw-input" type="text" id="suw-unit-name" placeholder="e.g. Unit 101, Suite A">
-                  </div>
                   <div style="display:flex; gap:12px; margin-bottom:14px;">
                     <div class="apw-form-group">
                       <label class="apw-label">Bedroom</label>
@@ -5061,8 +5082,8 @@
                 </div>
               </div>
             </div>
-            <!-- STEP 2: Unit Amenities -->
-            <div class="apw-step-content" data-step="2">
+            <!-- STEP 3: Unit Amenities -->
+            <div class="apw-step-content" data-step="3">
               <div class="apw-inner">
                 <div class="apw-section-title">Unit Amenities</div>
                 <div class="apw-section-box" style="padding:0; overflow:hidden;">
@@ -5075,8 +5096,8 @@
                 </div>
               </div>
             </div>
-            <!-- STEP 3: Unit Photos -->
-            <div class="apw-step-content" data-step="3">
+            <!-- STEP 4: Unit Photos -->
+            <div class="apw-step-content" data-step="4">
               <div class="apw-inner">
                 <div class="apw-section-title">Unit Photos</div>
                 <div class="apw-section-box">
@@ -5090,14 +5111,15 @@
                 </div>
               </div>
             </div>
-            <!-- STEP 4: Review & Finish -->
-            <div class="apw-step-content" data-step="4">
+            <!-- STEP 5: Review & Finish -->
+            <div class="apw-step-content" data-step="5">
               <div class="apw-inner">
                 <div class="apw-section-title">Review &amp; Finish</div>
                 <p style="text-align:center; color:#718096; font-size:13px; margin-bottom:24px;">Please review all the details below before saving.</p>
                 <div class="apw-review-grid">
                   <div class="apw-review-section">
                     <h4><i class="fas fa-home" style="margin-right:6px;"></i> Unit Details</h4>
+                    <div class="apw-review-row"><span class="apw-review-label">Property</span><span class="apw-review-val" id="suw-rv-property">—</span></div>
                     <div class="apw-review-row"><span class="apw-review-label">Unit Name</span><span class="apw-review-val" id="suw-rv-name">—</span></div>
                     <div class="apw-review-row"><span class="apw-review-label">Bedroom</span><span class="apw-review-val" id="suw-rv-beds">—</span></div>
                     <div class="apw-review-row"><span class="apw-review-label">Bathroom</span><span class="apw-review-val" id="suw-rv-baths">—</span></div>
@@ -5125,7 +5147,7 @@
             </div>
           </div><!-- /apw-body -->
           <div class="apw-footer">
-            <span class="apw-footer-left" id="suw-step-label">Step 1 of 4</span>
+            <span class="apw-footer-left" id="suw-step-label">Step 1 of 5</span>
             <div style="display:flex; gap:12px;">
               <button type="button" class="apw-btn-back" id="suw-btn-back">Back</button>
               <button type="button" class="apw-btn-next" id="suw-btn-next">Next</button>
@@ -6690,7 +6712,7 @@
     (function() {
         var overlay     = document.getElementById('suw-overlay');
         if (!overlay) return;
-        var totalSteps  = 4;
+        var totalSteps  = 5;
         var currentStep = 1;
 
         var SUW_AMENITIES = {
@@ -6798,6 +6820,8 @@
             document.getElementById('suw-success-msg').style.display = 'none';
             document.getElementById('suw-btn-next').classList.remove('finish');
             document.getElementById('suw-btn-next').textContent = 'Next';
+            var unitNameEl = document.getElementById('suw-unit-name');
+            if (unitNameEl) { unitNameEl.value = ''; unitNameEl.style.borderColor = ''; }
             suwRender();
             overlay.classList.add('open');
             overlay.scrollTop = 0;
@@ -6827,13 +6851,14 @@
             if (currentStep === totalSteps) { btnNext.textContent = 'Save'; btnNext.classList.add('finish'); }
             else { btnNext.textContent = 'Next'; btnNext.classList.remove('finish'); }
             document.getElementById('suw-btn-back').style.visibility = currentStep === 1 ? 'hidden' : 'visible';
-            if (currentStep === 2) { suwRenderAmenityChips(); suwRenderSelStrip(); }
-            if (currentStep === 3) suwRenderPhotoGrid();
+            if (currentStep === 3) { suwRenderAmenityChips(); suwRenderSelStrip(); }
+            if (currentStep === 4) suwRenderPhotoGrid();
             overlay.scrollTop = 0;
         }
 
         function suwPopulateReview() {
             function v(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+            document.getElementById('suw-rv-property').textContent  = v('suw-property-select') || '—';
             document.getElementById('suw-rv-name').textContent      = v('suw-unit-name') || '—';
             document.getElementById('suw-rv-beds').textContent      = v('suw-beds')      || '—';
             document.getElementById('suw-rv-baths').textContent     = v('suw-baths')     || '—';
@@ -6877,6 +6902,15 @@
         });
         document.getElementById('suw-btn-next').addEventListener('click', function() {
             if (currentStep < totalSteps) {
+                // Step 1 validation: unit name required
+                if (currentStep === 1) {
+                    var unitNameEl = document.getElementById('suw-unit-name');
+                    if (!unitNameEl || !unitNameEl.value.trim()) {
+                        if (unitNameEl) { unitNameEl.style.borderColor = '#E53E3E'; unitNameEl.focus(); }
+                        return;
+                    }
+                    if (unitNameEl) unitNameEl.style.borderColor = '';
+                }
                 if (currentStep === totalSteps - 1) suwPopulateReview();
                 currentStep++;
                 suwRender();
