@@ -482,6 +482,356 @@
             .overview-cards-grid { grid-template-columns: 1fr; }
         }
 
+        /* ═══════════════════════════════════════════════════════════
+           MODERN OVERVIEW CARDS (Appliance & Mortgage refresh)
+           ═══════════════════════════════════════════════════════════ */
+        .ov-card.ov-card--modern {
+            padding: 0; overflow: hidden; position: relative;
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+            transition: box-shadow 0.25s, transform 0.25s;
+        }
+        .ov-card.ov-card--modern:hover { box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08); }
+        .ov-card.ov-card--modern::before {
+            content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+        }
+        .ov-card--modern.ov-card--teal::before  { background: linear-gradient(90deg, #2B9A6E 0%, #3BAA8A 100%); }
+        .ov-card--modern.ov-card--indigo::before{ background: linear-gradient(90deg, #4A6BBF 0%, #6B8FE0 100%); }
+
+        .ovm-head {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 22px 24px 16px; gap: 12px;
+        }
+        .ovm-head-title {
+            display: flex; align-items: center; gap: 12px;
+            font-size: 16px; font-weight: 700; color: #1A2B3D; letter-spacing: -0.1px;
+        }
+        .ovm-head-title .ovm-ic {
+            width: 42px; height: 42px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 17px; flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        .ovm-ic--teal   { background: linear-gradient(135deg, #E6F8F1 0%, #C9F0DE 100%); color: #2B9A6E; }
+        .ovm-ic--indigo { background: linear-gradient(135deg, #EBF0FA 0%, #D8E2F5 100%); color: #4A6BBF; }
+        .ovm-head-sub { font-size: 11.5px; color: #94A3B8; font-weight: 500; margin-top: 2px; }
+
+        .ovm-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 5px 12px; border-radius: 999px; font-size: 11.5px; font-weight: 600;
+            letter-spacing: 0.1px;
+        }
+        .ovm-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+        .ovm-badge--green { background: #E6F8EE; color: #22894A; }
+        .ovm-badge--blue  { background: #EBF4FA; color: #2E7AA5; }
+
+        .ovm-body { padding: 4px 24px 20px; }
+
+        /* KPI strip — 3 tiles */
+        .ovm-kpi-strip {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+            margin-bottom: 16px;
+        }
+        .ovm-kpi {
+            position: relative; overflow: hidden;
+            padding: 14px 12px 13px; border-radius: 12px;
+            border: 1px solid #EDF2F7; background: #FAFBFD;
+        }
+        .ovm-kpi::after {
+            content: ""; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+        }
+        .ovm-kpi--total::after { background: linear-gradient(180deg, #3BAA6E, #2B9A6E); }
+        .ovm-kpi--warn::after  { background: linear-gradient(180deg, #E8843A, #D97706); }
+        .ovm-kpi--info::after  { background: linear-gradient(180deg, #7C5CBF, #6B4EB3); }
+        .ovm-kpi-val {
+            font-size: 22px; font-weight: 700; color: #0F172A; line-height: 1;
+            letter-spacing: -0.4px;
+        }
+        .ovm-kpi-lbl {
+            font-size: 11px; color: #64748B; font-weight: 500; margin-top: 6px;
+            display: flex; align-items: center; gap: 5px; text-transform: uppercase;
+            letter-spacing: 0.25px;
+        }
+        .ovm-kpi-lbl i { font-size: 10px; }
+
+        /* Hero "service due" block */
+        .ovm-hero {
+            display: flex; align-items: stretch; gap: 14px;
+            padding: 16px 18px; border-radius: 12px;
+            background: linear-gradient(135deg, #FFFBF5 0%, #FFF4E3 100%);
+            border: 1px solid #F4D9B0;
+            margin-bottom: 14px;
+            position: relative; overflow: hidden;
+        }
+        .ovm-hero::before {
+            content: ""; position: absolute; top: 0; left: 0; bottom: 0; width: 4px;
+            background: linear-gradient(180deg, #E8843A, #D97706);
+        }
+        .ovm-hero-ic {
+            width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+            background: linear-gradient(135deg, #E8843A 0%, #D97706 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 17px;
+            box-shadow: 0 4px 12px rgba(232, 132, 58, 0.35);
+        }
+        .ovm-hero-main { flex: 1; min-width: 0; }
+        .ovm-hero-kicker {
+            font-size: 10.5px; font-weight: 700; color: #B86E1F;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .ovm-hero-title {
+            font-size: 15px; font-weight: 700; color: #1A2B3D;
+            margin-top: 3px; letter-spacing: -0.1px;
+        }
+        .ovm-hero-sub {
+            font-size: 12px; color: #64748B; margin-top: 4px; line-height: 1.5;
+        }
+        .ovm-hero-sub strong { color: #334155; font-weight: 600; }
+        .ovm-hero-meta {
+            text-align: center; padding-left: 14px; flex-shrink: 0;
+            border-left: 1px dashed rgba(232, 132, 58, 0.3);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            min-width: 76px;
+        }
+        .ovm-hero-meta .cnt {
+            font-size: 26px; font-weight: 700; color: #C05621; line-height: 1;
+            letter-spacing: -0.5px;
+        }
+        .ovm-hero-meta .lbl {
+            font-size: 10px; color: #94A3B8; font-weight: 500; margin-top: 6px;
+            line-height: 1.25; max-width: 76px; text-align: center;
+            text-transform: uppercase; letter-spacing: 0.3px;
+        }
+
+        /* Alerts (modernized) */
+        .ovm-alerts { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
+        .ovm-alert {
+            display: flex; align-items: center; gap: 12px;
+            padding: 11px 14px; border-radius: 10px; font-size: 12.5px;
+            background: #F8FAFC; border: 1px solid #EDF2F7;
+            position: relative; overflow: hidden;
+        }
+        .ovm-alert::before {
+            content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+        }
+        .ovm-alert-ic {
+            width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; font-size: 12px;
+        }
+        .ovm-alert-txt { flex: 1; color: #334155; line-height: 1.45; }
+        .ovm-alert-txt strong { color: #0F172A; font-weight: 600; }
+        .ovm-alert--danger::before { background: #E53E3E; }
+        .ovm-alert--danger .ovm-alert-ic { background: #FEE8E8; color: #E53E3E; }
+        .ovm-alert--warn::before   { background: #E8843A; }
+        .ovm-alert--warn .ovm-alert-ic   { background: #FFF4E8; color: #B86E1F; }
+        .ovm-alert--info::before   { background: #3B8DBD; }
+        .ovm-alert--info .ovm-alert-ic   { background: #EBF4FA; color: #2B6CB0; }
+
+        /* Mortgage: PITI Hero */
+        .ovm-piti {
+            border-radius: 14px;
+            background: linear-gradient(135deg, #1E3A5F 0%, #2B5A8F 60%, #3B7CBD 100%);
+            color: #fff; padding: 18px 20px; margin-bottom: 14px;
+            position: relative; overflow: hidden;
+            box-shadow: 0 6px 18px rgba(30, 58, 95, 0.25);
+        }
+        .ovm-piti::after {
+            content: ""; position: absolute; top: -40%; right: -20%;
+            width: 240px; height: 240px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%);
+            pointer-events: none;
+        }
+        .ovm-piti-top {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 10px; position: relative;
+        }
+        .ovm-piti-top .lbl {
+            font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.5px; opacity: 0.85;
+        }
+        .ovm-piti-top .chip {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 4px 10px; border-radius: 999px;
+            background: rgba(255,255,255,0.16); font-size: 11px; font-weight: 600;
+            backdrop-filter: blur(6px);
+        }
+        .ovm-piti-amount {
+            font-size: 30px; font-weight: 700; letter-spacing: -0.8px; line-height: 1;
+            display: flex; align-items: baseline; gap: 8px; position: relative;
+        }
+        .ovm-piti-amount .mo { font-size: 13px; font-weight: 500; opacity: 0.8; }
+        .ovm-piti-breakdown {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+            margin-top: 14px; position: relative;
+        }
+        .ovm-piti-seg {
+            padding: 8px 10px; border-radius: 8px;
+            background: rgba(255,255,255,0.10);
+            backdrop-filter: blur(4px);
+        }
+        .ovm-piti-seg .sv { font-size: 14px; font-weight: 700; letter-spacing: -0.2px; }
+        .ovm-piti-seg .sl { font-size: 10px; opacity: 0.8; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.3px; }
+
+        /* Mortgage: Next payment chip */
+        .ovm-nextpay {
+            display: flex; align-items: center; gap: 12px;
+            padding: 11px 14px; margin-bottom: 14px;
+            background: #F0F8FF; border: 1px solid #C6DEF5; border-radius: 10px;
+        }
+        .ovm-nextpay-ic {
+            width: 32px; height: 32px; border-radius: 10px; flex-shrink: 0;
+            background: linear-gradient(135deg, #3B8DBD, #2B6CB0);
+            color: #fff; font-size: 13px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .ovm-nextpay-lbl { font-size: 11px; color: #64748B; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+        .ovm-nextpay-date { font-size: 14px; font-weight: 700; color: #1A2B3D; margin-top: 1px; }
+        .ovm-nextpay-days {
+            margin-left: auto; display: inline-flex; align-items: center; gap: 5px;
+            padding: 4px 10px; border-radius: 999px;
+            background: #3B8DBD; color: #fff; font-size: 11px; font-weight: 600;
+        }
+
+        /* Mortgage: Paid progress */
+        .ovm-paid {
+            padding: 12px 14px; border-radius: 10px;
+            background: #F8FAFC; border: 1px solid #EDF2F7; margin-bottom: 14px;
+        }
+        .ovm-paid-head {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 12px; color: #64748B; margin-bottom: 8px; font-weight: 500;
+        }
+        .ovm-paid-head strong { color: #1A2B3D; font-weight: 700; }
+        .ovm-paid-bar {
+            height: 8px; background: #E2E8F0; border-radius: 4px; overflow: hidden;
+        }
+        .ovm-paid-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2B9A6E 0%, #3BAA6E 50%, #4A6BBF 100%);
+            border-radius: 4px; transition: width 0.4s;
+        }
+        .ovm-paid-foot {
+            display: flex; justify-content: space-between; margin-top: 6px;
+            font-size: 10.5px; color: #94A3B8; font-weight: 500;
+        }
+
+        /* Mortgage: Detail grid */
+        .ovm-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
+            margin-bottom: 14px;
+        }
+        .ovm-cell {
+            padding: 10px 12px; border-radius: 10px;
+            background: #FAFBFD; border: 1px solid #EDF2F7;
+            display: flex; flex-direction: column; gap: 3px; min-width: 0;
+        }
+        .ovm-cell .lbl {
+            font-size: 10.5px; color: #94A3B8; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.3px;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .ovm-cell .lbl i { font-size: 10px; color: #CBD5E0; }
+        .ovm-cell .val {
+            font-size: 13.5px; font-weight: 700; color: #0F172A;
+            letter-spacing: -0.1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .ovm-cell .val.accent { color: #2B6CB0; }
+
+        /* Footer buttons */
+        .ovm-footer {
+            display: flex; gap: 10px; padding: 14px 20px 18px;
+            border-top: 1px solid #EDF2F7; background: #FAFBFD;
+        }
+        .ovm-footer .ov-btn { flex: 1; justify-content: center; }
+
+        /* Info note (mortgage small print) */
+        .ovm-note {
+            font-size: 11.5px; color: #64748B; padding: 10px 12px;
+            background: #F8FAFC; border-radius: 8px; border-left: 3px solid #3B8DBD;
+            line-height: 1.5; margin-bottom: 6px;
+        }
+        .ovm-note strong { color: #334155; }
+
+        /* ── Wide modal variant for Add Appliance / Add Loan ── */
+        .modal-box.modal-box--wide {
+            width: 760px; max-width: 96vw;
+            border-radius: 18px;
+            box-shadow: 0 24px 70px rgba(15, 23, 42, 0.22);
+        }
+        .modal-header.modal-header--hero {
+            padding: 22px 28px; gap: 14px;
+            background: linear-gradient(135deg, #FAFBFD 0%, #F0F4F9 100%);
+            border-bottom: 1px solid #E2E8F0; position: relative;
+        }
+        .modal-header--hero::before {
+            content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px;
+            background: linear-gradient(90deg, #3B8DBD, #2B9A6E);
+        }
+        .modal-header--hero .mh-hero-ic {
+            width: 44px; height: 44px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; color: #fff; flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(59, 141, 189, 0.3);
+        }
+        .modal-header--hero .mh-hero-ic--teal   { background: linear-gradient(135deg, #3BAA6E, #2B9A6E); box-shadow: 0 4px 12px rgba(59, 170, 110, 0.32); }
+        .modal-header--hero .mh-hero-ic--indigo { background: linear-gradient(135deg, #4A6BBF, #2B6CB0); box-shadow: 0 4px 12px rgba(74, 107, 191, 0.3); }
+        .modal-header--hero .mh-title-group { flex: 1; min-width: 0; }
+        .modal-header--hero h2 { font-size: 18px; color: #0F172A; margin: 0; }
+        .modal-header--hero h2 i { display: none; }
+        .modal-header--hero .mh-sub {
+            font-size: 12px; color: #64748B; font-weight: 500; margin-top: 2px;
+        }
+        .modal-header--hero .modal-close { background: #fff; border: 1px solid #E2E8F0; }
+
+        .modal-body.modal-body--wide { padding: 22px 28px; background: #fff; }
+
+        /* Section card inside wide modal */
+        .modal-section {
+            padding: 16px 18px; border-radius: 12px;
+            background: #FAFBFD; border: 1px solid #EDF2F7;
+            margin-bottom: 14px;
+        }
+        .modal-section:last-child { margin-bottom: 0; }
+        .modal-section-title {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 11.5px; font-weight: 700; color: #3B8DBD;
+            text-transform: uppercase; letter-spacing: 0.45px;
+            margin-bottom: 14px; padding-bottom: 10px;
+            border-bottom: 1px dashed #D6E0EC;
+        }
+        .modal-section-title i {
+            width: 24px; height: 24px; border-radius: 7px;
+            background: #EBF4FA; display: inline-flex; align-items: center; justify-content: center;
+            font-size: 11px; color: #3B8DBD;
+        }
+        .modal-section-title--teal { color: #2B9A6E; }
+        .modal-section-title--teal i { background: #E6F8F1; color: #2B9A6E; }
+        .modal-section-title--indigo { color: #4A6BBF; }
+        .modal-section-title--indigo i { background: #EBF0FA; color: #4A6BBF; }
+        .modal-section-title--orange { color: #D97706; }
+        .modal-section-title--orange i { background: #FFF4E8; color: #D97706; }
+
+        /* 3-column form row for wide modal */
+        .form-row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        @media (max-width: 700px) { .form-row-3 { grid-template-columns: 1fr; } }
+
+        .modal-footer.modal-footer--wide {
+            padding: 16px 28px; background: #FAFBFD;
+            border-top: 1px solid #EDF2F7;
+        }
+
+        /* Modern toggle-style checkbox row */
+        .modal-toggle-row {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 14px; border-radius: 10px;
+            background: #F0F8F4; border: 1px solid #CDEADB;
+            font-size: 13px; color: #22894A; font-weight: 500;
+            cursor: pointer; user-select: none;
+        }
+        .modal-toggle-row input { accent-color: #3BAA6E; width: 17px; height: 17px; flex-shrink: 0; }
+        .modal-toggle-row strong { color: #1A6933; font-weight: 700; }
+        .modal-toggle-row .tr-hint { font-size: 11.5px; color: #5A6B7D; font-weight: 400; margin-top: 2px; }
+
         /* ── Modal & Slideout System ── */
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(15,23,42,0.45);
@@ -2629,129 +2979,172 @@
                 <!-- ── Appliance & Home Loan Cards ── -->
                 <div class="overview-cards-grid">
 
-                    <!-- Appliance Overview Card -->
-                    <div class="ov-card">
-                        <div class="ov-card-head">
-                            <div class="ov-card-title">
-                                <div class="ov-icon ov-icon--teal"><i class="fas fa-blender"></i></div>
-                                Appliance Overview
-                            </div>
-                            <span class="ov-card-badge ov-card-badge--green">18 Total</span>
-                        </div>
-
-                        <div class="ov-metrics">
-                            <div class="ov-metric">
-                                <div class="m-icon m-icon--orange"><i class="fas fa-tools"></i></div>
+                    <!-- Appliance Overview Card (modernized) -->
+                    <div class="ov-card ov-card--modern ov-card--teal">
+                        <div class="ovm-head">
+                            <div class="ovm-head-title">
+                                <div class="ovm-ic ovm-ic--teal"><i class="fas fa-blender"></i></div>
                                 <div>
-                                    <div class="m-val">2</div>
-                                    <div class="m-label">Needs Repair</div>
+                                    <div>Appliance Overview</div>
+                                    <div class="ovm-head-sub">Service, warranty & repair tracking</div>
                                 </div>
                             </div>
-                            <div class="ov-metric">
-                                <div class="m-icon m-icon--purple"><i class="fas fa-hourglass-half"></i></div>
-                                <div>
-                                    <div class="m-val">2</div>
-                                    <div class="m-label">Warranty Expiring</div>
+                            <span class="ovm-badge ovm-badge--green"><span class="dot"></span> All tracked</span>
+                        </div>
+
+                        <div class="ovm-body">
+                            <!-- KPI Strip -->
+                            <div class="ovm-kpi-strip">
+                                <div class="ovm-kpi ovm-kpi--total">
+                                    <div class="ovm-kpi-val">18</div>
+                                    <div class="ovm-kpi-lbl"><i class="fas fa-box-archive"></i> Total units</div>
+                                </div>
+                                <div class="ovm-kpi ovm-kpi--warn">
+                                    <div class="ovm-kpi-val">2</div>
+                                    <div class="ovm-kpi-lbl"><i class="fas fa-tools"></i> Needs repair</div>
+                                </div>
+                                <div class="ovm-kpi ovm-kpi--info">
+                                    <div class="ovm-kpi-val">2</div>
+                                    <div class="ovm-kpi-lbl"><i class="fas fa-hourglass-half"></i> Warranty end</div>
+                                </div>
+                            </div>
+
+                            <!-- Hero: next service due -->
+                            <div class="ovm-hero">
+                                <div class="ovm-hero-ic"><i class="fas fa-screwdriver-wrench"></i></div>
+                                <div class="ovm-hero-main">
+                                    <div class="ovm-hero-kicker">Next service due</div>
+                                    <div class="ovm-hero-title">Tuesday, Apr 28, 2026</div>
+                                    <div class="ovm-hero-sub"><strong>HVAC tune-up</strong> — Unit 101D · Cool Air Pros · Annual maintenance plan</div>
+                                </div>
+                                <div class="ovm-hero-meta">
+                                    <div class="cnt">3</div>
+                                    <div class="lbl">Due in 60 days</div>
+                                </div>
+                            </div>
+
+                            <!-- Modern alert rows -->
+                            <div class="ovm-alerts">
+                                <div class="ovm-alert ovm-alert--danger">
+                                    <div class="ovm-alert-ic"><i class="fas fa-calendar-xmark"></i></div>
+                                    <div class="ovm-alert-txt"><strong>Water heater (Common)</strong> — service was due Mar 15, 2026 (overdue)</div>
+                                </div>
+                                <div class="ovm-alert ovm-alert--warn">
+                                    <div class="ovm-alert-ic"><i class="fas fa-exclamation-triangle"></i></div>
+                                    <div class="ovm-alert-txt"><strong>Dishwasher (Unit 101A)</strong> — reported not draining, repair pending</div>
+                                </div>
+                                <div class="ovm-alert ovm-alert--info">
+                                    <div class="ovm-alert-ic"><i class="fas fa-clock"></i></div>
+                                    <div class="ovm-alert-txt"><strong>HVAC (Unit 101D)</strong> — warranty expires in 45 days</div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="ov-service-due">
-                            <div class="sd-icon"><i class="fas fa-screwdriver-wrench"></i></div>
-                            <div class="sd-main">
-                                <div class="sd-label">Next service due</div>
-                                <div class="sd-date">Tuesday, Apr 28, 2026</div>
-                                <div class="sd-detail"><strong>HVAC tune-up</strong> — Unit 101D · Cool Air Pros · Annual maintenance plan</div>
-                            </div>
-                            <div class="sd-meta">
-                                <div class="sd-count">3</div>
-                                <div class="sd-count-lbl">services due in 60 days</div>
-                            </div>
-                        </div>
-
-                        <div class="ov-alert-strip">
-                            <div class="ov-alert ov-alert--danger">
-                                <i class="fas fa-calendar-xmark"></i>
-                                <span><strong>Water heater (Common)</strong> — service was due Mar 15, 2026 (overdue)</span>
-                            </div>
-                            <div class="ov-alert ov-alert--warn">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <span><strong>Dishwasher (Unit 101A)</strong> — reported not draining, repair pending</span>
-                            </div>
-                            <div class="ov-alert ov-alert--info">
-                                <i class="fas fa-clock"></i>
-                                <span><strong>HVAC (Unit 101D)</strong> — warranty expires in 45 days</span>
-                            </div>
-                        </div>
-
-                        <div class="ov-card-footer">
-                            <button id="btn-view-appliances" class="ov-btn ov-btn--primary"><i class="fas fa-list"></i> View All</button>
+                        <div class="ovm-footer">
+                            <button id="btn-view-appliances" class="ov-btn ov-btn--outline"><i class="fas fa-list"></i> View All</button>
                             <button id="btn-add-appliance" class="ov-btn ov-btn--success"><i class="fas fa-plus"></i> Add Appliance</button>
                         </div>
                     </div>
 
-                    <!-- Home Loan (PMS-style: PITI + escrow summary) -->
-                    <div class="ov-card">
-                        <div class="ov-card-head">
-                            <div class="ov-card-title">
-                                <div class="ov-icon ov-icon--indigo"><i class="fas fa-university"></i></div>
-                                Mortgage / loan
+                    <!-- Home Loan — Modernized PITI + escrow summary -->
+                    <div class="ov-card ov-card--modern ov-card--indigo">
+                        <div class="ovm-head">
+                            <div class="ovm-head-title">
+                                <div class="ovm-ic ovm-ic--indigo"><i class="fas fa-university"></i></div>
+                                <div>
+                                    <div>Mortgage / Loan</div>
+                                    <div class="ovm-head-sub">Chase Bank · Account ••••4521</div>
+                                </div>
                             </div>
-                            <span class="ov-card-badge ov-card-badge--blue">1st lien · Active</span>
+                            <span class="ovm-badge ovm-badge--blue"><span class="dot"></span> 1st lien · Active</span>
                         </div>
 
-                        <div class="ov-next-payment">
-                            <div class="np-icon"><i class="fas fa-calendar-check"></i></div>
-                            <div>
-                                <div class="np-label">Next payment due</div>
-                                <div class="np-date">May 1, 2026</div>
+                        <div class="ovm-body">
+                            <!-- PITI Hero block -->
+                            <div class="ovm-piti">
+                                <div class="ovm-piti-top">
+                                    <span class="lbl">Monthly payment (PITI)</span>
+                                    <span class="chip"><i class="fas fa-lock" style="font-size:9px;"></i> Fixed · 5.250%</span>
+                                </div>
+                                <div class="ovm-piti-amount">$1,850<span class="mo">/ month</span></div>
+                                <div class="ovm-piti-breakdown">
+                                    <div class="ovm-piti-seg">
+                                        <div class="sv">$1,482</div>
+                                        <div class="sl">Principal &amp; int.</div>
+                                    </div>
+                                    <div class="ovm-piti-seg">
+                                        <div class="sv">$330</div>
+                                        <div class="sl">Tax + Ins.</div>
+                                    </div>
+                                    <div class="ovm-piti-seg">
+                                        <div class="sv">$38</div>
+                                        <div class="sl">PMI</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Next payment chip -->
+                            <div class="ovm-nextpay">
+                                <div class="ovm-nextpay-ic"><i class="fas fa-calendar-check"></i></div>
+                                <div>
+                                    <div class="ovm-nextpay-lbl">Next payment due</div>
+                                    <div class="ovm-nextpay-date">May 1, 2026</div>
+                                </div>
+                                <span class="ovm-nextpay-days"><i class="fas fa-clock" style="font-size:9px;"></i> 16 days</span>
+                            </div>
+
+                            <!-- Paid-down progress -->
+                            <div class="ovm-paid">
+                                <div class="ovm-paid-head">
+                                    <span>Principal paid down</span>
+                                    <span><strong>51%</strong> · $255,000 of $500,000</span>
+                                </div>
+                                <div class="ovm-paid-bar">
+                                    <div class="ovm-paid-fill" style="width: 51%;"></div>
+                                </div>
+                                <div class="ovm-paid-foot">
+                                    <span>Origination · Feb 2011</span>
+                                    <span>Maturity · Jan 2041</span>
+                                </div>
+                            </div>
+
+                            <!-- Detail grid -->
+                            <div class="ovm-grid">
+                                <div class="ovm-cell">
+                                    <div class="lbl"><i class="fas fa-tag"></i> Loan type</div>
+                                    <div class="val">30-yr fixed</div>
+                                </div>
+                                <div class="ovm-cell">
+                                    <div class="lbl"><i class="fas fa-percentage"></i> Interest rate</div>
+                                    <div class="val accent">5.250%</div>
+                                </div>
+                                <div class="ovm-cell">
+                                    <div class="lbl"><i class="fas fa-wallet"></i> Remaining balance</div>
+                                    <div class="val">$245,000</div>
+                                </div>
+                                <div class="ovm-cell">
+                                    <div class="lbl"><i class="fas fa-landmark"></i> Escrow / mo</div>
+                                    <div class="val">$368</div>
+                                </div>
+                                <div class="ovm-cell">
+                                    <div class="lbl"><i class="fas fa-flag-checkered"></i> Maturity</div>
+                                    <div class="val">Jan 2041</div>
+                                </div>
+                                <div class="ovm-cell">
+                                    <div class="lbl"><i class="fas fa-hashtag"></i> Loan account</div>
+                                    <div class="val" style="letter-spacing:0.05em;">••••4521</div>
+                                </div>
+                            </div>
+
+                            <!-- Note -->
+                            <div class="ovm-note">
+                                Escrow covers property taxes and hazard insurance rolled into the monthly payment. Open <strong>View loan detail</strong> for YTD principal, escrow balance, and documents.
                             </div>
                         </div>
 
-                        <div class="ov-loan-row">
-                            <span class="ov-loan-label"><i class="fas fa-building"></i> Lender</span>
-                            <span class="ov-loan-val" style="font-size:13px;">Chase Bank</span>
-                        </div>
-                        <div class="ov-loan-row">
-                            <span class="ov-loan-label"><i class="fas fa-tag"></i> Loan type</span>
-                            <span class="ov-loan-val" style="font-size:13px;">30-yr fixed conventional</span>
-                        </div>
-                        <div class="ov-loan-row">
-                            <span class="ov-loan-label"><i class="fas fa-percentage"></i> Interest rate</span>
-                            <span class="ov-loan-val ov-loan-val--highlight">5.250%</span>
-                        </div>
-                        <div class="ov-loan-row">
-                            <span class="ov-loan-label"><i class="fas fa-wallet"></i> Remaining balance</span>
-                            <span class="ov-loan-val">$245,000</span>
-                        </div>
-                        <div class="ov-loan-row">
-                            <span class="ov-loan-label"><i class="fas fa-money-bill-wave"></i> Monthly P&amp;I</span>
-                            <span class="ov-loan-val">$1,482</span>
-                        </div>
-                        <div class="ov-loan-row">
-                            <span class="ov-loan-label"><i class="fas fa-landmark"></i> Escrow (tax + ins.)</span>
-                            <span class="ov-loan-val">$368 / mo</span>
-                        </div>
-                        <div class="ov-loan-row">
-                            <span class="ov-loan-label"><i class="fas fa-calculator"></i> Total payment (PITI)</span>
-                            <span class="ov-loan-val">$1,850</span>
-                        </div>
-                        <div class="ov-loan-row">
-                            <span class="ov-loan-label"><i class="fas fa-flag-checkered"></i> Maturity</span>
-                            <span class="ov-loan-val" style="font-size:13px;">Jan 2041</span>
-                        </div>
-                        <div class="ov-loan-row">
-                            <span class="ov-loan-label"><i class="fas fa-hashtag"></i> Loan account</span>
-                            <span class="ov-loan-val" style="font-size:13px; letter-spacing:0.05em;">••••4521</span>
-                        </div>
-
-                        <div class="loan-piti-note">
-                            Escrow covers property taxes and hazard insurance rolled into the monthly payment (PITI). Open <strong>View loan detail</strong> for YTD principal, escrow balance, and linked loan documents.
-                        </div>
-
-                        <div class="ov-card-footer">
-                            <button type="button" id="btn-view-loan" class="ov-btn ov-btn--outline" style="flex:1; justify-content:center;"><i class="fas fa-file-lines"></i> View loan detail</button>
-                            <button type="button" id="btn-add-loan" class="ov-btn ov-btn--success" style="flex:1; justify-content:center;"><i class="fas fa-plus"></i> Add loan</button>
+                        <div class="ovm-footer">
+                            <button type="button" id="btn-view-loan" class="ov-btn ov-btn--outline"><i class="fas fa-file-lines"></i> View loan detail</button>
+                            <button type="button" id="btn-add-loan" class="ov-btn ov-btn--success"><i class="fas fa-plus"></i> Add loan</button>
                         </div>
                     </div>
 
@@ -5293,136 +5686,163 @@
          MODAL 2 — ADD APPLIANCE
          ═══════════════════════════════════════════ -->
     <div id="modal-add-appliance" class="modal-overlay">
-        <div class="modal-box">
-            <div class="modal-header">
-                <h2><i class="fas fa-plus-circle"></i> Add Appliance</h2>
+        <div class="modal-box modal-box--wide">
+            <div class="modal-header modal-header--hero">
+                <div class="mh-hero-ic mh-hero-ic--teal"><i class="fas fa-blender"></i></div>
+                <div class="mh-title-group">
+                    <h2>Add Appliance</h2>
+                    <div class="mh-sub">Track brand, warranty, and service schedule for this unit</div>
+                </div>
                 <button class="modal-close" id="close-add-appliance"><i class="fas fa-times"></i></button>
             </div>
-            <div class="modal-body">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Appliance Type</label>
-                        <select class="form-select">
-                            <option value="">Select type...</option>
-                            <option>Refrigerator</option>
-                            <option>Dishwasher</option>
-                            <option>Washer</option>
-                            <option>Dryer</option>
-                            <option>Oven / Range</option>
-                            <option>Microwave</option>
-                            <option>HVAC System</option>
-                            <option>Water Heater</option>
-                            <option>Garbage Disposal</option>
-                            <option>Ceiling Fan</option>
-                            <option>Smoke Detector</option>
-                            <option>A/C Window Unit</option>
-                            <option>Other</option>
-                        </select>
+            <div class="modal-body modal-body--wide">
+
+                <!-- Section 1: Identity -->
+                <div class="modal-section">
+                    <div class="modal-section-title modal-section-title--teal">
+                        <i class="fas fa-tag"></i> Appliance details
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Unit</label>
-                        <select class="form-select">
-                            <option value="">Select unit...</option>
-                            <option>Unit 101A</option>
-                            <option>Unit 101B</option>
-                            <option>Unit 101C</option>
-                            <option>Unit 101D</option>
-                            <option>Unit 101E</option>
-                            <option>Common Area</option>
-                        </select>
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label class="form-label">Appliance Type</label>
+                            <select class="form-select">
+                                <option value="">Select type...</option>
+                                <option>Refrigerator</option>
+                                <option>Dishwasher</option>
+                                <option>Washer</option>
+                                <option>Dryer</option>
+                                <option>Oven / Range</option>
+                                <option>Microwave</option>
+                                <option>HVAC System</option>
+                                <option>Water Heater</option>
+                                <option>Garbage Disposal</option>
+                                <option>Ceiling Fan</option>
+                                <option>Smoke Detector</option>
+                                <option>A/C Window Unit</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Unit</label>
+                            <select class="form-select">
+                                <option value="">Select unit...</option>
+                                <option>Unit 101A</option>
+                                <option>Unit 101B</option>
+                                <option>Unit 101C</option>
+                                <option>Unit 101D</option>
+                                <option>Unit 101E</option>
+                                <option>Common Area</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Status</label>
+                            <select class="form-select">
+                                <option selected>Working</option>
+                                <option>Needs Repair</option>
+                                <option>Replaced</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Brand</label>
-                        <input class="form-input" type="text" placeholder="e.g. Samsung, LG, Bosch...">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Model Number</label>
-                        <input class="form-input" type="text" placeholder="e.g. RF28R7351SR">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Purchase / Install Date</label>
-                        <input class="form-input" type="date">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Warranty Expiry Date</label>
-                        <input class="form-input" type="date">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Status</label>
-                        <select class="form-select">
-                            <option selected>Working</option>
-                            <option>Needs Repair</option>
-                            <option>Replaced</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Serial Number <span style="font-weight:400; color:#A0AEC0;">(optional)</span></label>
-                        <input class="form-input" type="text" placeholder="S/N">
+                    <div class="form-row-3" style="margin-top:-4px;">
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Brand</label>
+                            <input class="form-input" type="text" placeholder="e.g. Samsung, LG, Bosch...">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Model Number</label>
+                            <input class="form-input" type="text" placeholder="e.g. RF28R7351SR">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Serial Number <span style="font-weight:400; color:#A0AEC0;">(optional)</span></label>
+                            <input class="form-input" type="text" placeholder="S/N">
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-section-title"><i class="fas fa-screwdriver-wrench"></i> Service</div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Service provider</label>
-                        <input class="form-input" type="text" placeholder="Vendor, technician, or company">
+                <!-- Section 2: Purchase & Warranty -->
+                <div class="modal-section">
+                    <div class="modal-section-title modal-section-title--indigo">
+                        <i class="fas fa-calendar-check"></i> Purchase &amp; warranty
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Service contract</label>
-                        <select class="form-select">
-                            <option value="">None</option>
-                            <option>Manufacturer warranty</option>
-                            <option>Extended warranty</option>
-                            <option>Maintenance agreement</option>
-                            <option>Landlord service plan</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Last service date <span style="font-weight:400; color:#A0AEC0;">(optional)</span></label>
-                        <input class="form-input" type="date">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Next service due</label>
-                        <input class="form-input" type="date">
+                    <div class="form-row">
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Purchase / Install Date</label>
+                            <input class="form-input" type="date">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Warranty Expiry Date</label>
+                            <input class="form-input" type="date">
+                        </div>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Service interval</label>
-                        <select class="form-select">
-                            <option>As needed</option>
-                            <option>Monthly</option>
-                            <option>Quarterly</option>
-                            <option>Semi-annual</option>
-                            <option>Annual</option>
-                        </select>
+
+                <!-- Section 3: Service -->
+                <div class="modal-section">
+                    <div class="modal-section-title modal-section-title--orange">
+                        <i class="fas fa-screwdriver-wrench"></i> Service &amp; maintenance
                     </div>
-                    <div class="form-group">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Service provider</label>
+                            <input class="form-input" type="text" placeholder="Vendor, technician, or company">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Service contract</label>
+                            <select class="form-select">
+                                <option value="">None</option>
+                                <option>Manufacturer warranty</option>
+                                <option>Extended warranty</option>
+                                <option>Maintenance agreement</option>
+                                <option>Landlord service plan</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label class="form-label">Last service <span style="font-weight:400; color:#A0AEC0;">(optional)</span></label>
+                            <input class="form-input" type="date">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Next service due</label>
+                            <input class="form-input" type="date">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Service interval</label>
+                            <select class="form-select">
+                                <option>As needed</option>
+                                <option>Monthly</option>
+                                <option>Quarterly</option>
+                                <option>Semi-annual</option>
+                                <option>Annual</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 12px;">
                         <label class="form-label">Service notes <span style="font-weight:400; color:#A0AEC0;">(optional)</span></label>
                         <input class="form-input" type="text" placeholder="e.g. Filter size, refrigerant type...">
                     </div>
-                </div>
-                <div class="form-group" style="margin-bottom: 8px;">
-                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; font-weight: 500; color: #3D4F63; user-select: none;">
-                        <input type="checkbox" id="appliance-service-reminders" checked style="width: 17px; height: 17px; accent-color: #3BAA6E; flex-shrink: 0;">
-                        <span>Enable service reminders for this appliance</span>
+                    <label class="modal-toggle-row">
+                        <input type="checkbox" id="appliance-service-reminders" checked>
+                        <div>
+                            <div><strong>Enable service reminders</strong> for this appliance</div>
+                            <div class="tr-hint">You'll receive email alerts 14 days before each scheduled service.</div>
+                        </div>
                     </label>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Notes <span style="font-weight:400; color:#A0AEC0;">(optional)</span></label>
-                    <textarea class="form-textarea" placeholder="Any additional details about this appliance..."></textarea>
+                <!-- Section 4: Notes -->
+                <div class="modal-section">
+                    <div class="modal-section-title">
+                        <i class="fas fa-note-sticky"></i> Additional notes
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">Notes <span style="font-weight:400; color:#A0AEC0;">(optional)</span></label>
+                        <textarea class="form-textarea" placeholder="Any additional details about this appliance..."></textarea>
+                    </div>
                 </div>
+
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer modal-footer--wide">
                 <button class="ov-btn ov-btn--outline" id="cancel-add-appliance">Cancel</button>
                 <button class="ov-btn ov-btn--success"><i class="fas fa-check"></i> Save Appliance</button>
             </div>
@@ -5492,32 +5912,44 @@
          MODAL 4 — ADD LOAN
          ═══════════════════════════════════════════ -->
     <div id="modal-add-loan" class="modal-overlay">
-        <div class="modal-box">
-            <div class="modal-header">
-                <h2><i class="fas fa-plus-circle"></i> Add loan</h2>
+        <div class="modal-box modal-box--wide">
+            <div class="modal-header modal-header--hero">
+                <div class="mh-hero-ic mh-hero-ic--indigo"><i class="fas fa-university"></i></div>
+                <div class="mh-title-group">
+                    <h2>Add Loan</h2>
+                    <div class="mh-sub">Mortgage, refi, or secondary lien — track payment &amp; escrow</div>
+                </div>
                 <button class="modal-close" id="close-add-loan"><i class="fas fa-times"></i></button>
             </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">Lender</label>
-                    <input class="form-input" type="text" placeholder="Bank or lender name">
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Loan type</label>
-                        <select class="form-select" id="add-loan-type" name="loan_type">
-                            <option value="30-fixed">30-year fixed</option>
-                            <option value="15-fixed">15-year fixed</option>
-                            <option value="ARM">ARM (adjustable)</option>
-                            <option value="other">Other</option>
-                        </select>
+            <div class="modal-body modal-body--wide">
+
+                <!-- Section 1: Loan basics -->
+                <div class="modal-section">
+                    <div class="modal-section-title modal-section-title--indigo">
+                        <i class="fas fa-building-columns"></i> Loan basics
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" id="add-loan-rate-label">Interest rate (%) <span class="add-loan-rate-label-note" id="add-loan-rate-hint"></span></label>
-                        <input class="form-input" type="text" id="add-loan-rate-input" placeholder="e.g. 5.25" inputmode="decimal">
+                    <div class="form-row-3">
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Lender</label>
+                            <input class="form-input" type="text" placeholder="Bank or lender name">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Loan type</label>
+                            <select class="form-select" id="add-loan-type" name="loan_type">
+                                <option value="30-fixed">30-year fixed</option>
+                                <option value="15-fixed">15-year fixed</option>
+                                <option value="ARM">ARM (adjustable)</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label" id="add-loan-rate-label">Interest rate (%) <span class="add-loan-rate-label-note" id="add-loan-rate-hint"></span></label>
+                            <input class="form-input" type="text" id="add-loan-rate-input" placeholder="e.g. 5.25" inputmode="decimal">
+                        </div>
                     </div>
                 </div>
 
+                <!-- Section 2: ARM panel (conditional) -->
                 <div id="add-loan-arm-panel" class="add-loan-arm-panel" aria-hidden="true">
                     <div class="arm-panel-title"><i class="fas fa-chart-line"></i> Adjustable rate (ARM) terms</div>
                     <div class="form-row">
@@ -5589,40 +6021,62 @@
                         <span id="arm-fully-indexed-text">Select index and enter margin to estimate index + margin.</span>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Remaining balance ($)</label>
-                        <input class="form-input" type="text" placeholder="e.g. 245,000">
+
+                <!-- Section 3: Balance & term -->
+                <div class="modal-section">
+                    <div class="modal-section-title modal-section-title--teal">
+                        <i class="fas fa-wallet"></i> Balance &amp; term
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Maturity date</label>
-                        <input class="form-input" type="date">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Monthly P&amp;I ($)</label>
-                        <input class="form-input" type="text" placeholder="Principal + interest">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Monthly escrow ($)</label>
-                        <input class="form-input" type="text" placeholder="Tax + insurance (optional)">
+                    <div class="form-row">
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Remaining balance ($)</label>
+                            <input class="form-input" type="text" placeholder="e.g. 245,000">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Maturity date</label>
+                            <input class="form-input" type="date">
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Total monthly payment ($)</label>
-                    <input class="form-input" type="text" placeholder="PITI total, e.g. 1,850">
+
+                <!-- Section 4: Monthly payment -->
+                <div class="modal-section">
+                    <div class="modal-section-title modal-section-title--orange">
+                        <i class="fas fa-calculator"></i> Monthly payment (PITI)
+                    </div>
+                    <div class="form-row-3">
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Monthly P&amp;I ($)</label>
+                            <input class="form-input" type="text" placeholder="Principal + interest">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Monthly escrow ($)</label>
+                            <input class="form-input" type="text" placeholder="Tax + insurance">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Total PITI ($)</label>
+                            <input class="form-input" type="text" placeholder="e.g. 1,850">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:14px; margin-bottom:0;">
+                        <label class="form-label">Next payment due</label>
+                        <input class="form-input" type="date" style="max-width:280px;">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Next payment due</label>
-                    <input class="form-input" type="date">
+
+                <!-- Section 5: Notes -->
+                <div class="modal-section">
+                    <div class="modal-section-title">
+                        <i class="fas fa-note-sticky"></i> Notes
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">Notes <span style="font-weight:400; color:#A0AEC0;">(optional)</span></label>
+                        <textarea class="form-textarea" style="min-height:72px;" placeholder="Optional note..."></textarea>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Notes <span style="font-weight:400; color:#A0AEC0;">(optional)</span></label>
-                    <textarea class="form-textarea" style="min-height:72px;" placeholder="Optional note..."></textarea>
-                </div>
+
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer modal-footer--wide">
                 <button class="ov-btn ov-btn--outline" id="cancel-add-loan">Cancel</button>
                 <button class="ov-btn ov-btn--success"><i class="fas fa-check"></i> Save</button>
             </div>
