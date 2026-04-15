@@ -1325,18 +1325,26 @@
             <div class="apw-step-content active" data-step="1">
               <div class="apw-inner">
                 <div class="apw-section-title">Unit Details</div>
-                <p style="text-align:center;color:#718096;font-size:13px;margin-bottom:20px;">Specify how many units to set up, then fill in the details below.</p>
+                <p style="text-align:center;color:#718096;font-size:13px;margin-bottom:20px;">Select a property to load its units, then bulk-edit the details below.</p>
 
-                <!-- Unit count row -->
+                <!-- Property selection row -->
                 <div class="bsuw-count-row">
-                  <i class="fas fa-layer-group" style="color:#7B4FCF;font-size:16px;"></i>
-                  <div class="apw-form-group" style="flex-direction:row;align-items:center;gap:10px;">
-                    <label class="apw-label" style="white-space:nowrap;margin:0;">Number of Units</label>
-                    <input class="apw-input" type="number" id="bsuw-num-units" min="1" max="200" value="5" style="width:90px;">
+                  <i class="fas fa-building" style="color:#7B4FCF;font-size:20px; flex-shrink:0;"></i>
+                  <div class="apw-form-group" style="flex:1; margin:0;">
+                    <label class="apw-label" style="margin-bottom:5px;">Select Property <span style="color:#E53E3E;">*</span></label>
+                    <select class="apw-input apw-select" id="bsuw-property-select">
+                      <option value="">— Select a property to load its units —</option>
+                      <option>5553 A Janson Avenue</option>
+                      <option>433 B Nathan Square</option>
+                      <option>9343 C City Gardens</option>
+                      <option>7821 D Oak Boulevard</option>
+                      <option>2210 E Pine Street</option>
+                      <option>1045 F Maple Court</option>
+                      <option>3380 G River Road</option>
+                      <option>6612 H Sunset Drive</option>
+                    </select>
+                    <div style="font-size:11.5px;color:#9AA5B4;margin-top:5px;">Units for the selected property will load automatically</div>
                   </div>
-                  <button type="button" class="apw-btn-next" id="bsuw-generate-btn" style="padding:9px 22px;font-size:13px;margin-left:auto;">
-                    <i class="fas fa-table"></i> Generate Table
-                  </button>
                 </div>
 
                 <!-- Progress toolbar -->
@@ -2502,6 +2510,18 @@
         var bsuwSelectedAmenities = new Set();
         var bsuwApplyToAll = true;      // true = all units, false = selected units
 
+        /* ─── Units per property ─── */
+        var BSUW_PROPERTY_UNITS = {
+            '5553 A Janson Avenue': ['Unit 101','Unit 102','Unit 103','Unit 201','Unit 202','Unit 301','Unit 302'],
+            '433 B Nathan Square':  ['Apt A','Apt B','Apt C','Apt D'],
+            '9343 C City Gardens':  ['Suite 1','Suite 2','Suite 3','Suite 4','Suite 5'],
+            '7821 D Oak Boulevard': ['Unit 1A','Unit 1B','Unit 2A','Unit 2B','Unit 3A'],
+            '2210 E Pine Street':   ['Floor 1','Floor 2','Floor 3'],
+            '1045 F Maple Court':   ['Cottage A','Cottage B','Cottage C'],
+            '3380 G River Road':    ['Unit 100','Unit 200','Unit 300','Unit 400'],
+            '6612 H Sunset Drive':  ['Studio 1','Studio 2','One Bed A','One Bed B','Two Bed A']
+        };
+
         /* ─── Amenity data ─── */
         var BSUW_AMENITIES = {
             'Interior':          ['Air Conditioning','Heating','Ceiling Fans','Hardwood Floors','Carpet','Tile Floors','Walk-in Closet','Linen Closet','In-Unit Washer/Dryer','Washer/Dryer Hookups','Dishwasher','Garbage Disposal','Microwave','Refrigerator','Stove/Range','Oven','Fireplace','Balcony/Patio','Private Yard','Storage Room'],
@@ -2612,22 +2632,20 @@
             document.getElementById('bsuw-bulk-selected').disabled = count === 0;
         }
 
-        /* ─── Generate table ─── */
-        function bsuwGenerate() {
-            var n = Math.max(1, Math.min(200, parseInt(document.getElementById('bsuw-num-units').value)||1));
-            bsuwUnitData = [];
-            for (var i = 0; i < n; i++) {
-                bsuwUnitData.push({name:'',beds:'',baths:'',size:'',strat:'',rent:'',desc:'',_selected:false,amenities:[]});
-            }
+        /* ─── Load units for selected property ─── */
+        function bsuwGenerate(propName) {
+            var unitNames = BSUW_PROPERTY_UNITS[propName] || [];
+            bsuwUnitData = unitNames.map(function(name) {
+                return { name: name, beds:'', baths:'', size:'', strat:'', rent:'', desc:'', _selected:false, amenities:[] };
+            });
+            if (bsuwUnitData.length === 0) return;
             bsuwCurrentPage = 1;
             bsuwBuildTable();
             bsuwUpdateProgress();
             show('bsuw-ut-toolbar');
             show('bsuw-ut-wrap');
-            if (n > 1) {
-                document.getElementById('bsuw-bulk-toolbar').classList.remove('bsuw-hidden');
-                document.getElementById('bsuw-bulk-toolbar').classList.add('visible');
-            }
+            document.getElementById('bsuw-bulk-toolbar').classList.remove('bsuw-hidden');
+            document.getElementById('bsuw-bulk-toolbar').classList.add('visible');
         }
 
         /* ─── Bulk edit actions ─── */
@@ -2709,8 +2727,20 @@
             if ((bsuwCurrentPage*BSUW_PAGE_SIZE) < bsuwUnitData.length) { bsuwCurrentPage++; bsuwBuildTable(); }
         });
 
-        /* Generate button */
-        document.getElementById('bsuw-generate-btn').addEventListener('click', bsuwGenerate);
+        /* Auto-load units when a property is selected */
+        document.getElementById('bsuw-property-select').addEventListener('change', function() {
+            var propName = this.value;
+            // Reset table & bulk panel before loading
+            bsuwUnitData = [];
+            bsuwSelectedAmenities.clear();
+            bsuwCurrentPage = 1;
+            hide('bsuw-ut-toolbar'); hide('bsuw-ut-wrap');
+            document.getElementById('bsuw-bulk-toolbar').classList.add('bsuw-hidden');
+            document.getElementById('bsuw-bulk-toolbar').classList.remove('visible','panel-open');
+            document.getElementById('bsuw-bulk-panel').classList.remove('open');
+            this.style.borderColor = propName ? '' : '#E53E3E';
+            if (propName) bsuwGenerate(propName);
+        });
 
         /* ─── Amenity step ─── */
         function bsuwRenderChips() {
@@ -2851,7 +2881,8 @@
             bsuwSelectedAmenities.clear();
             bsuwApplyToAll = true;
             bsuwCurrentPage = 1;
-            document.getElementById('bsuw-num-units').value = '5';
+            var propSel = document.getElementById('bsuw-property-select');
+            if (propSel) { propSel.value = ''; propSel.style.borderColor = ''; }
             document.getElementById('bsuw-success-msg').style.display = 'none';
             hide('bsuw-ut-toolbar'); hide('bsuw-ut-wrap');
             document.getElementById('bsuw-bulk-toolbar').classList.add('bsuw-hidden');
@@ -2898,8 +2929,22 @@
             else bsuwClose();
         });
         document.getElementById('bsuw-btn-next').addEventListener('click', function() {
-            if (currentStep < totalSteps) { currentStep++; bsuwRender(); }
-            else {
+            if (currentStep < totalSteps) {
+                // Step 1: must select a property and have at least one unit loaded
+                if (currentStep === 1) {
+                    var propSel = document.getElementById('bsuw-property-select');
+                    if (!propSel || !propSel.value) {
+                        if (propSel) { propSel.style.borderColor = '#E53E3E'; propSel.focus(); }
+                        return;
+                    }
+                    if (bsuwUnitData.length === 0) {
+                        if (propSel) { propSel.style.borderColor = '#E53E3E'; }
+                        return;
+                    }
+                    if (propSel) propSel.style.borderColor = '';
+                }
+                currentStep++; bsuwRender();
+            } else {
                 document.getElementById('bsuw-success-msg').style.display = 'block';
                 var btn = document.getElementById('bsuw-btn-next');
                 btn.textContent = 'Done'; btn.classList.add('finish');
