@@ -5865,13 +5865,13 @@
                 <div><dt>Original amount</dt><dd>$500,000</dd></div>
                 <div><dt>Remaining balance</dt><dd>$245,000</dd></div>
                 <div><dt>Interest rate</dt><dd>5.250% (fixed)</dd></div>
-                <div><dt>First payment date</dt><dd>Feb 1, 2011</dd></div>
                 <div><dt>Maturity date</dt><dd>Jan 1, 2041</dd></div>
                 <div><dt>Loan account</dt><dd>••••4521</dd></div>
             </dl>
 
             <div class="slideout-subhead">Monthly payment breakdown (PITI)</div>
             <dl class="loan-detail-dl">
+                <div><dt>Next payment due</dt><dd><strong style="color:#2B6CB0;">May 1, 2026</strong></dd></div>
                 <div><dt>Principal &amp; interest</dt><dd>$1,482.00</dd></div>
                 <div><dt>Property tax (escrow)</dt><dd>$218.00</dd></div>
                 <div><dt>Insurance (escrow)</dt><dd>$112.00</dd></div>
@@ -5903,7 +5903,6 @@
 
             <div style="margin-top:24px; display:flex; gap:10px; flex-wrap:wrap;">
                 <button type="button" class="ov-btn ov-btn--primary"><i class="fas fa-pen"></i> Edit loan</button>
-                <button type="button" class="ov-btn ov-btn--outline"><i class="fas fa-link"></i> Lender portal</button>
             </div>
         </div>
     </div>
@@ -6064,7 +6063,53 @@
                     </div>
                 </div>
 
-                <!-- Section 5: Notes -->
+                <!-- Section 5: Documents -->
+                <div class="modal-section">
+                    <div class="modal-section-title modal-section-title--indigo">
+                        <i class="fas fa-folder-open"></i> Attach documents <span style="font-weight:400; color:#94A3B8; text-transform:none; letter-spacing:0; font-size:11px;">(optional)</span>
+                    </div>
+                    <!-- Drop zone -->
+                    <div id="loan-doc-dropzone" style="
+                        border: 2px dashed #C6DEF5; border-radius: 10px;
+                        padding: 22px 16px; text-align: center; cursor: pointer;
+                        background: linear-gradient(135deg, #F7FBFF 0%, #EBF4FA 100%);
+                        transition: all 0.2s; margin-bottom: 12px;"
+                        onclick="document.getElementById('loan-doc-file').click()"
+                        ondragover="event.preventDefault(); this.style.borderColor='#3B8DBD'; this.style.background='#D6EAF5';"
+                        ondragleave="this.style.borderColor='#C6DEF5'; this.style.background='linear-gradient(135deg,#F7FBFF,#EBF4FA)';"
+                        ondrop="event.preventDefault(); this.style.borderColor='#C6DEF5'; this.style.background='linear-gradient(135deg,#F7FBFF,#EBF4FA)'; window.handleLoanDocs(event.dataTransfer.files);">
+                        <i class="fas fa-cloud-upload-alt" style="font-size:26px; color:#3B8DBD; display:block; margin-bottom:8px;"></i>
+                        <div style="font-size:13px; font-weight:700; color:#2E7AA5; margin-bottom:4px;">Drop files here or click to browse</div>
+                        <div style="font-size:11px; color:#64748B;">PDF, JPG, PNG, DOCX — up to 10 MB each</div>
+                        <input type="file" id="loan-doc-file" multiple accept=".pdf,.jpg,.jpeg,.png,.docx" style="display:none"
+                            onchange="window.handleLoanDocs(this.files)">
+                    </div>
+                    <!-- Attached files list -->
+                    <div id="loan-doc-list" style="display:flex; flex-direction:column; gap:8px;"></div>
+                    <script>
+                    window.handleLoanDocs = function(files) {
+                        var list = document.getElementById('loan-doc-list');
+                        if (!files || !files.length) return;
+                        Array.from(files).forEach(function(file) {
+                            var row = document.createElement('div');
+                            row.style.cssText = 'display:flex;align-items:center;gap:10px;padding:10px 12px;background:#fff;border:1px solid #EDF2F7;border-radius:10px;';
+                            var ext = file.name.split('.').pop().toLowerCase();
+                            var icColor = ext === 'pdf' ? '#C53030' : ext === 'docx' ? '#2B6CB0' : '#22894A';
+                            var icClass = ext === 'pdf' ? 'fa-file-pdf' : ext === 'docx' ? 'fa-file-word' : 'fa-file-image';
+                            var sizeMB = (file.size / 1048576).toFixed(1);
+                            row.innerHTML = '<div style="width:34px;height:34px;border-radius:9px;background:#FEE8E8;color:' + icColor + ';display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">'
+                                + '<i class="fas ' + icClass + '"></i></div>'
+                                + '<div style="flex:1;min-width:0;">'
+                                + '<div style="font-size:12.5px;font-weight:600;color:#0F172A;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + file.name + '</div>'
+                                + '<div style="font-size:11px;color:#94A3B8;margin-top:1px;">' + sizeMB + ' MB</div></div>'
+                                + '<button onclick="this.closest(\'div[style]\').remove();" style="width:26px;height:26px;border:none;background:#F0F2F5;border-radius:7px;cursor:pointer;color:#718096;font-size:12px;display:flex;align-items:center;justify-content:center;" title="Remove"><i class="fas fa-times"></i></button>';
+                            list.appendChild(row);
+                        });
+                    };
+                    </script>
+                </div>
+
+                <!-- Section 6: Notes -->
                 <div class="modal-section">
                     <div class="modal-section-title">
                         <i class="fas fa-note-sticky"></i> Notes
