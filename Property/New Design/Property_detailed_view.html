@@ -625,6 +625,52 @@
         .tab-panel { display: none; }
         .tab-panel.active { display: block; }
 
+        /* ── SETTINGS TAB STYLES ── */
+        .stg-toolbar { display:flex; justify-content:flex-end; margin-bottom:16px; }
+        .stg-expand-btn {
+            display:inline-flex; align-items:center; gap:7px;
+            padding:7px 18px; border:1.5px solid #D1D9E4; border-radius:8px;
+            background:#fff; font-size:13px; font-weight:600; color:#2D3748;
+            cursor:pointer; font-family:inherit; transition:all 0.15s;
+        }
+        .stg-expand-btn:hover { border-color:#3B8DBD; color:#3B8DBD; }
+        .stg-expand-icon { font-size:11px; transition:transform 0.25s; }
+        .stg-expand-icon.rotated { transform:rotate(180deg); }
+        .stg-section {
+            background:#fff; border:1px solid #E2E8F0; border-radius:12px;
+            margin-bottom:14px; overflow:hidden;
+        }
+        .stg-section-header {
+            display:flex; align-items:center; gap:10px;
+            padding:14px 20px; cursor:pointer; user-select:none;
+            border-bottom:1px solid #EDF2F7; background:#FAFBFC;
+            transition:background 0.15s;
+        }
+        .stg-section-header:hover { background:#F0F4F8; }
+        .stg-section-chevron { font-size:11px; color:#718096; transition:transform 0.25s; flex-shrink:0; }
+        .stg-section.collapsed .stg-section-chevron { transform:rotate(180deg); }
+        .stg-section-title { font-size:14px; font-weight:700; color:#1A2B3D; }
+        .stg-section-body { padding:16px 20px; }
+        .stg-section.collapsed .stg-section-body { display:none; }
+        .stg-cards-grid {
+            display:grid; grid-template-columns:repeat(3,1fr); gap:12px;
+        }
+        .stg-card {
+            display:flex; align-items:flex-start; gap:14px;
+            padding:16px 18px; border:1px solid #E2E8F0; border-radius:10px;
+            background:#fff; cursor:pointer; transition:all 0.15s;
+        }
+        .stg-card:hover { border-color:#3B8DBD; box-shadow:0 2px 10px rgba(59,141,189,0.12); }
+        .stg-card-icon {
+            width:40px; height:40px; border-radius:10px; flex-shrink:0;
+            background:#EBF4FA; border:1.5px solid #C5DFF0;
+            display:flex; align-items:center; justify-content:center;
+            color:#3B8DBD; font-size:16px;
+        }
+        .stg-card-content { flex:1; }
+        .stg-card-title { font-size:13px; font-weight:600; color:#3B8DBD; margin-bottom:4px; line-height:1.3; }
+        .stg-card-desc { font-size:11.5px; color:#718096; line-height:1.4; }
+
         /* ── ADVERTISEMENT TAB STYLES ── */
 
         .ad-metrics {
@@ -1716,8 +1762,49 @@
 
         /* ══ UNIT TAB ══ */
         .unit-filters-bar {
-            display: flex; align-items: center; gap: 10px;
-            margin-bottom: 16px;
+            display: flex; align-items: center; gap: 8px;
+            margin-bottom: 16px; flex-wrap: wrap;
+        }
+        .unit-filter-group { position: relative; display: inline-block; }
+        .unit-filter-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 12px; border: 1.5px solid #D5DAE0; border-radius: 7px;
+            background: #fff; font-size: 12.5px; font-weight: 600; color: #4A5568;
+            cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap;
+        }
+        .unit-filter-btn:hover { border-color: #3B8DBD; color: #1B4B6E; background: #F0F8FF; }
+        .unit-filter-btn.active { border-color: #3B8DBD; color: #1B4B6E; background: #EBF4FA; }
+        .unit-filter-btn i.chevron { font-size: 9px; transition: transform 0.2s; }
+        .unit-filter-btn.open i.chevron { transform: rotate(180deg); }
+        .unit-filter-label { font-size: 10px; font-weight: 500; color: #A0AEC0; margin-right: 2px; }
+        .unit-filter-val { font-weight: 700; color: #1B4B6E; }
+        .unit-filter-menu {
+            display: none; position: absolute; top: calc(100% + 5px); left: 0; z-index: 300;
+            background: #fff; border: 1px solid #E2E8EF; border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12); min-width: 180px; overflow: hidden;
+        }
+        .unit-filter-menu.open { display: block; }
+        .unit-filter-menu-header {
+            padding: 8px 14px 6px; font-size: 10px; font-weight: 700;
+            color: #A0AEC0; text-transform: uppercase; letter-spacing: 0.4px;
+            border-bottom: 1px solid #F0F2F5;
+        }
+        .unit-filter-option {
+            display: flex; align-items: center; gap: 8px;
+            padding: 9px 14px; font-size: 13px; font-weight: 500; color: #2D3748;
+            cursor: pointer; transition: background 0.12s; border: none;
+            background: none; width: 100%; text-align: left; font-family: inherit;
+        }
+        .unit-filter-option:hover { background: #F5FAFE; color: #1B4B6E; }
+        .unit-filter-option.selected { background: #EBF4FA; color: #1B4B6E; font-weight: 700; }
+        .unit-filter-option .opt-dot {
+            width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+        }
+        .unit-filter-count {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: #3B8DBD; color: #fff; border-radius: 10px;
+            font-size: 10px; font-weight: 700; min-width: 18px; height: 18px;
+            padding: 0 5px; margin-left: 2px;
         }
         .unit-table { width: 100%; border-collapse: collapse; font-size: 13px; }
         .unit-table thead th {
@@ -1801,6 +1888,12 @@
         }
         .unit-dropdown-item:hover { background: #F0F4F8; color: #1B4B6E; }
         .unit-dropdown-item i { font-size: 12px; color: #718096; width: 14px; }
+        .unit-dropdown-item:hover i { color: #3B8DBD; }
+        .unit-dd-sep { height: 1px; background: #F0F2F5; margin: 3px 0; }
+        .unit-dd-danger { color: #E53E3E; }
+        .unit-dd-danger i { color: #E53E3E; }
+        .unit-dd-danger:hover { background: #FFF5F5; color: #C53030; }
+        .unit-dd-danger:hover i { color: #C53030; }
 
         /* ══════════════════════════════════════════════════
            AMENITIES & MEDIA — Summary Card
@@ -2013,6 +2106,46 @@
         .am-sel-tag-remove:hover { background: #3B8DBD; color: #fff; }
         .am-sel-empty { font-size: 11.5px; color: #B0BAC8; font-style: italic; }
 
+        /* Apply-to bar — Unit Amenities context */
+        .am-apply-bar {
+            display: none; align-items: center; gap: 10px; flex-wrap: wrap;
+            padding: 10px 24px; background: #F3EEFF;
+            border-bottom: 1px solid #E2D5F8; flex-shrink: 0;
+        }
+        .am-apply-bar.visible { display: flex; }
+        .am-apply-label {
+            font-size: 12px; font-weight: 700; color: #5B32A8;
+            white-space: nowrap; display: flex; align-items: center; gap: 6px;
+        }
+        .am-apply-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 14px; border-radius: 8px; border: 1.5px solid #C9B3EF;
+            background: #fff; font-size: 12px; font-weight: 600; color: #7B4FCF;
+            cursor: pointer; font-family: inherit; transition: all 0.12s;
+        }
+        .am-apply-btn:hover { border-color: #7B4FCF; background: #EDE5FF; }
+        .am-apply-btn.active { background: #7B4FCF; border-color: #7B4FCF; color: #fff; }
+        .am-apply-sel-count {
+            background: rgba(255,255,255,0.3); border-radius: 10px;
+            font-size: 10px; font-weight: 700; padding: 1px 6px;
+            min-width: 18px; text-align: center;
+        }
+        .am-apply-btn:not(.active) .am-apply-sel-count { background: #E8863A; color: #fff; }
+        .am-unit-checklist {
+            display: none; flex-wrap: wrap; gap: 8px; padding: 10px 24px;
+            background: #FAF8FF; border-bottom: 1px solid #E2D5F8;
+            max-height: 130px; overflow-y: auto; flex-shrink: 0;
+        }
+        .am-unit-checklist.visible { display: flex; }
+        .am-unit-chk-item {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 4px 10px; border: 1.5px solid #D1D9E4; border-radius: 20px;
+            font-size: 12px; font-weight: 500; color: #4A5568;
+            cursor: pointer; background: #fff; transition: all 0.12s; user-select: none;
+        }
+        .am-unit-chk-item.checked { background: #EDE5FF; border-color: #7B4FCF; color: #5B32A8; font-weight: 700; }
+        .am-unit-chk-item input { display: none; }
+
         /* Quad footer full-width button */
         .am-quad-footer .ov-btn { width: 100%; justify-content: center; }
 
@@ -2102,15 +2235,13 @@
             display: flex; align-items: center; gap: 6px; flex-shrink: 0;
         }
 
-        /* ── 2 × 2 Quad Grid ── */
+        /* ── 1 × 2 Quad Grid (Property Amenities + Property Photos only) ── */
         .am-quad-grid {
             display: grid; grid-template-columns: 1fr 1fr;
         }
         .am-quad {
-            padding: 20px; display: flex; flex-direction: column; gap: 12px;
+            padding: 24px; display: flex; flex-direction: column; gap: 14px;
         }
-        .am-quad:nth-child(1),
-        .am-quad:nth-child(2) { border-bottom: 1px solid #EDF2F7; }
         .am-quad:nth-child(odd)  { border-right: 1px solid #EDF2F7; }
         .am-quad-header { display: flex; align-items: flex-start; gap: 10px; }
         .am-quad-icon {
@@ -2275,7 +2406,7 @@
                         <button class="qa-btn">Receive Other Income</button>
                         <button class="qa-btn">Record Expenses</button>
                         <button class="qa-btn">New task</button>
-                        <button class="qa-btn">New Listing</button>
+                        <button class="qa-btn">Create Ad</button>
                         <button class="qa-btn">Owner Statement</button>
                     </div>
                 </div>
@@ -2338,7 +2469,7 @@
                                             <th style="width:11%;">Status</th>
                                             <th style="width:20%;">Tenant</th>
                                             <th style="width:22%;">Lease Status</th>
-                                            <th style="width:14%; text-align:center;">Activate Listing</th>
+                                            <th style="width:14%; text-align:center;">Activate Ad</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -2687,53 +2818,6 @@
                             </div>
                         </div>
 
-                        <!-- ③ Unit Amenities -->
-                        <div class="am-quad">
-                            <div class="am-quad-header">
-                                <div class="am-quad-icon" style="background:#F0EBFA; color:#7C5CBF;">
-                                    <i class="fas fa-door-closed"></i>
-                                </div>
-                                <div class="am-quad-meta">
-                                    <div class="am-quad-title">Unit Amenities</div>
-                                    <div class="am-quad-sub">Features inside individual units</div>
-                                </div>
-                                <span class="am-count-badge" id="am-count-unit-am" style="background:#F0EBFA; color:#7C5CBF;">0 selected</span>
-                            </div>
-                            <div class="am-quad-preview am-tags-preview" id="am-tags-unit">
-                                <span class="am-empty-hint">No unit amenities selected.</span>
-                            </div>
-                            <div class="am-quad-footer">
-                                <button class="ov-btn" id="btn-unit-amenities" style="font-size:12px; background:#7C5CBF; color:#fff;">
-                                    <i class="fas fa-plus"></i> Add Amenities
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- ④ Unit Photos -->
-                        <div class="am-quad">
-                            <div class="am-quad-header">
-                                <div class="am-quad-icon" style="background:#FFF4E8; color:#E8843A;">
-                                    <i class="fas fa-camera"></i>
-                                </div>
-                                <div class="am-quad-meta">
-                                    <div class="am-quad-title">Unit Photos</div>
-                                    <div class="am-quad-sub">Interior &amp; unit-specific images</div>
-                                </div>
-                                <span class="am-count-badge" id="am-count-unit-ph" style="background:#FFF4E8; color:#E8843A;">0 photos</span>
-                            </div>
-                            <div class="am-quad-preview am-photos-preview" id="am-photos-unit">
-                                <div class="am-photo-upload-hint" onclick="document.getElementById('btn-unit-photos').click()">
-                                    <i class="fas fa-cloud-upload-alt" style="font-size:16px;"></i>
-                                    <span>Upload</span>
-                                </div>
-                            </div>
-                            <div class="am-quad-footer">
-                                <button class="ov-btn" id="btn-unit-photos" style="font-size:12px; background:#E8843A; color:#fff;">
-                                    <i class="fas fa-upload"></i> Upload Photo
-                                </button>
-                            </div>
-                        </div>
-
                     </div><!-- /am-quad-grid -->
                 </div>
 
@@ -2745,7 +2829,7 @@
                 <!-- Ad Tab Toolbar -->
                 <div style="display:flex; justify-content:flex-end; margin-bottom:16px;">
                     <button id="btn-new-listing" class="ov-btn ov-btn--primary" style="gap:8px; padding:10px 22px; font-size:13.5px;">
-                        <i class="fas fa-plus-circle"></i> New Listing
+                        <i class="fas fa-bullhorn"></i> Create Ad
                     </button>
                 </div>
 
@@ -3540,10 +3624,57 @@
 
                     <!-- Filters Bar -->
                     <div class="unit-filters-bar">
-                        <button class="filter-dd">
-                            <i class="fas fa-sliders-h"></i> Filters
-                            <i class="fas fa-chevron-down" style="font-size:10px; margin-left:2px;"></i>
-                        </button>
+
+                        <!-- Status filter -->
+                        <div class="unit-filter-group">
+                            <button class="unit-filter-btn" id="uf-status-btn" type="button">
+                                <i class="fas fa-circle" style="font-size:8px; color:#3BAA6E;"></i>
+                                <span class="unit-filter-label">Status:</span>
+                                <span class="unit-filter-val" id="uf-status-val">All</span>
+                                <i class="fas fa-chevron-down chevron"></i>
+                            </button>
+                            <div class="unit-filter-menu" id="uf-status-menu">
+                                <div class="unit-filter-menu-header">Filter by Status</div>
+                                <button class="unit-filter-option selected" data-filter="status" data-val="All"><span class="opt-dot" style="background:#CBD5E0;"></span> All Units</button>
+                                <button class="unit-filter-option" data-filter="status" data-val="Occupied"><span class="opt-dot" style="background:#3BAA6E;"></span> Occupied</button>
+                                <button class="unit-filter-option" data-filter="status" data-val="Vacant"><span class="opt-dot" style="background:#E8843A;"></span> Vacant</button>
+                            </div>
+                        </div>
+
+                        <!-- Lease Status filter -->
+                        <div class="unit-filter-group">
+                            <button class="unit-filter-btn" id="uf-lease-btn" type="button">
+                                <i class="fas fa-file-contract" style="font-size:11px; color:#3B8DBD;"></i>
+                                <span class="unit-filter-label">Lease:</span>
+                                <span class="unit-filter-val" id="uf-lease-val">All</span>
+                                <i class="fas fa-chevron-down chevron"></i>
+                            </button>
+                            <div class="unit-filter-menu" id="uf-lease-menu">
+                                <div class="unit-filter-menu-header">Filter by Lease Status</div>
+                                <button class="unit-filter-option selected" data-filter="lease" data-val="All"><span class="opt-dot" style="background:#CBD5E0;"></span> All</button>
+                                <button class="unit-filter-option" data-filter="lease" data-val="Active"><span class="opt-dot" style="background:#3BAA6E;"></span> Active Lease</button>
+                                <button class="unit-filter-option" data-filter="lease" data-val="Expired"><span class="opt-dot" style="background:#E53E3E;"></span> Expired</button>
+                                <button class="unit-filter-option" data-filter="lease" data-val="Moving In"><span class="opt-dot" style="background:#3B8DBD;"></span> Moving In</button>
+                                <button class="unit-filter-option" data-filter="lease" data-val="Moved Out"><span class="opt-dot" style="background:#A0AEC0;"></span> Moved Out</button>
+                            </div>
+                        </div>
+
+                        <!-- Activate Ad filter -->
+                        <div class="unit-filter-group">
+                            <button class="unit-filter-btn" id="uf-ad-btn" type="button">
+                                <i class="fas fa-bullhorn" style="font-size:11px; color:#7B4FCF;"></i>
+                                <span class="unit-filter-label">Ad:</span>
+                                <span class="unit-filter-val" id="uf-ad-val">All</span>
+                                <i class="fas fa-chevron-down chevron"></i>
+                            </button>
+                            <div class="unit-filter-menu" id="uf-ad-menu">
+                                <div class="unit-filter-menu-header">Filter by Ad Status</div>
+                                <button class="unit-filter-option selected" data-filter="ad" data-val="All"><span class="opt-dot" style="background:#CBD5E0;"></span> All</button>
+                                <button class="unit-filter-option" data-filter="ad" data-val="Active"><span class="opt-dot" style="background:#3BAA6E;"></span> Ad Active</button>
+                                <button class="unit-filter-option" data-filter="ad" data-val="Inactive"><span class="opt-dot" style="background:#A0AEC0;"></span> Ad Inactive</button>
+                            </div>
+                        </div>
+
                         <button class="filter-dd" id="btn-bulk-setup-unit-dv" style="background:#7B4FCF; color:#fff; border-color:#7B4FCF; margin-left:auto;">
                             <i class="fas fa-layer-group"></i> Bulk Setup Unit
                         </button>
@@ -3558,7 +3689,7 @@
                                     <th style="width:10%;">Status</th>
                                     <th style="width:22%;">Tenant</th>
                                     <th style="width:20%;">Lease Status</th>
-                                    <th style="width:14%; text-align:center;">Activate Listing</th>
+                                    <th style="width:14%; text-align:center;">Activate Ad</th>
                                     <th style="width:8%;"></th>
                                 </tr>
                             </thead>
@@ -3579,8 +3710,12 @@
                                         <div class="unit-dots-wrap">
                                             <button class="unit-dots-btn" type="button"><i class="fas fa-ellipsis-v"></i></button>
                                             <div class="unit-dropdown">
-                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-plus-circle"></i> New Listing</button>
+                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3601,8 +3736,12 @@
                                         <div class="unit-dots-wrap">
                                             <button class="unit-dots-btn" type="button"><i class="fas fa-ellipsis-v"></i></button>
                                             <div class="unit-dropdown">
-                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-plus-circle"></i> New Listing</button>
+                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3623,8 +3762,12 @@
                                         <div class="unit-dots-wrap">
                                             <button class="unit-dots-btn" type="button"><i class="fas fa-ellipsis-v"></i></button>
                                             <div class="unit-dropdown">
-                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-plus-circle"></i> New Listing</button>
+                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3645,8 +3788,12 @@
                                         <div class="unit-dots-wrap">
                                             <button class="unit-dots-btn" type="button"><i class="fas fa-ellipsis-v"></i></button>
                                             <div class="unit-dropdown">
-                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-plus-circle"></i> New Listing</button>
+                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3667,8 +3814,12 @@
                                         <div class="unit-dots-wrap">
                                             <button class="unit-dots-btn" type="button"><i class="fas fa-ellipsis-v"></i></button>
                                             <div class="unit-dropdown">
-                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-plus-circle"></i> New Listing</button>
+                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3689,8 +3840,12 @@
                                         <div class="unit-dots-wrap">
                                             <button class="unit-dots-btn" type="button"><i class="fas fa-ellipsis-v"></i></button>
                                             <div class="unit-dropdown">
-                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-plus-circle"></i> New Listing</button>
+                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3711,8 +3866,12 @@
                                         <div class="unit-dots-wrap">
                                             <button class="unit-dots-btn" type="button"><i class="fas fa-ellipsis-v"></i></button>
                                             <div class="unit-dropdown">
-                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-plus-circle"></i> New Listing</button>
+                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3733,8 +3892,12 @@
                                         <div class="unit-dots-wrap">
                                             <button class="unit-dots-btn" type="button"><i class="fas fa-ellipsis-v"></i></button>
                                             <div class="unit-dropdown">
-                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-plus-circle"></i> New Listing</button>
+                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3755,8 +3918,12 @@
                                         <div class="unit-dots-wrap">
                                             <button class="unit-dots-btn" type="button"><i class="fas fa-ellipsis-v"></i></button>
                                             <div class="unit-dropdown">
-                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-plus-circle"></i> New Listing</button>
+                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3777,8 +3944,12 @@
                                         <div class="unit-dots-wrap">
                                             <button class="unit-dots-btn" type="button"><i class="fas fa-ellipsis-v"></i></button>
                                             <div class="unit-dropdown">
-                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-plus-circle"></i> New Listing</button>
+                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3799,8 +3970,12 @@
                                         <div class="unit-dots-wrap">
                                             <button class="unit-dots-btn" type="button"><i class="fas fa-ellipsis-v"></i></button>
                                             <div class="unit-dropdown">
-                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-plus-circle"></i> New Listing</button>
+                                                <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3810,6 +3985,139 @@
                     </div>
 
                 </div><!-- /panel-unit -->
+
+                <!-- COMMUNICATIONS TAB PANEL -->
+                <div id="panel-communications" class="tab-panel">
+                    <div style="padding:40px;text-align:center;color:#A0AEC0;">
+                        <i class="fas fa-comments" style="font-size:48px;margin-bottom:16px;display:block;"></i>
+                        <div style="font-size:16px;font-weight:600;">Communications</div>
+                        <div style="font-size:13px;margin-top:8px;">Coming soon</div>
+                    </div>
+                </div>
+
+                <!-- TASKS TAB PANEL -->
+                <div id="panel-tasks" class="tab-panel">
+                    <div style="padding:40px;text-align:center;color:#A0AEC0;">
+                        <i class="fas fa-tasks" style="font-size:48px;margin-bottom:16px;display:block;"></i>
+                        <div style="font-size:16px;font-weight:600;">Tasks</div>
+                        <div style="font-size:13px;margin-top:8px;">Coming soon</div>
+                    </div>
+                </div>
+
+                <!-- SETTINGS TAB PANEL -->
+                <div id="panel-settings" class="tab-panel">
+
+                    <div class="stg-toolbar">
+                        <button class="stg-expand-btn" id="stg-expand-all-btn">
+                            Expand All <i class="fas fa-chevron-down stg-expand-icon" id="stg-expand-icon"></i>
+                        </button>
+                    </div>
+
+                    <!-- Tenant Payments -->
+                    <div class="stg-section">
+                        <div class="stg-section-header">
+                            <i class="fas fa-chevron-up stg-section-chevron"></i>
+                            <span class="stg-section-title">Tenant Payments</span>
+                        </div>
+                        <div class="stg-section-body">
+                            <div class="stg-cards-grid">
+                                <div class="stg-card">
+                                    <div class="stg-card-icon"><i class="fas fa-credit-card"></i></div>
+                                    <div class="stg-card-content">
+                                        <div class="stg-card-title">Online Payment Preferences</div>
+                                        <div class="stg-card-desc">Configure limits, processing, retries, bank setup</div>
+                                    </div>
+                                </div>
+                                <div class="stg-card">
+                                    <div class="stg-card-icon"><i class="fas fa-sitemap"></i></div>
+                                    <div class="stg-card-content">
+                                        <div class="stg-card-title">Allocation Strategy</div>
+                                        <div class="stg-card-desc">Define payments auto allocated to outstanding charges</div>
+                                    </div>
+                                </div>
+                                <div class="stg-card">
+                                    <div class="stg-card-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                                    <div class="stg-card-content">
+                                        <div class="stg-card-title">Fee &amp; Charges</div>
+                                        <div class="stg-card-desc">Manage charges, returned payments, etc</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Communications -->
+                    <div class="stg-section">
+                        <div class="stg-section-header">
+                            <i class="fas fa-chevron-up stg-section-chevron"></i>
+                            <span class="stg-section-title">Communications</span>
+                        </div>
+                        <div class="stg-section-body">
+                            <div class="stg-cards-grid">
+                                <div class="stg-card">
+                                    <div class="stg-card-icon"><i class="fas fa-comments"></i></div>
+                                    <div class="stg-card-content">
+                                        <div class="stg-card-title">Tenant Communication</div>
+                                        <div class="stg-card-desc">Manage triggers, recipients, delivery methods, messages</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Banking -->
+                    <div class="stg-section">
+                        <div class="stg-section-header">
+                            <i class="fas fa-chevron-up stg-section-chevron"></i>
+                            <span class="stg-section-title">Banking</span>
+                        </div>
+                        <div class="stg-section-body">
+                            <div class="stg-cards-grid">
+                                <div class="stg-card">
+                                    <div class="stg-card-icon"><i class="fas fa-university"></i></div>
+                                    <div class="stg-card-content">
+                                        <div class="stg-card-title">Default Bank Account</div>
+                                        <div class="stg-card-desc">Select bank for income, expense &amp; deposits</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recurring Payments -->
+                    <div class="stg-section">
+                        <div class="stg-section-header">
+                            <i class="fas fa-chevron-up stg-section-chevron"></i>
+                            <span class="stg-section-title">Recurring Payments</span>
+                        </div>
+                        <div class="stg-section-body">
+                            <div class="stg-cards-grid">
+                                <div class="stg-card">
+                                    <div class="stg-card-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                                    <div class="stg-card-content">
+                                        <div class="stg-card-title">Recurring Rent Received</div>
+                                        <div class="stg-card-desc">Manage recurring rent received here</div>
+                                    </div>
+                                </div>
+                                <div class="stg-card">
+                                    <div class="stg-card-icon"><i class="fas fa-coins"></i></div>
+                                    <div class="stg-card-content">
+                                        <div class="stg-card-title">Recurring Other Income</div>
+                                        <div class="stg-card-desc">Manage recurring income other here</div>
+                                    </div>
+                                </div>
+                                <div class="stg-card">
+                                    <div class="stg-card-icon"><i class="fas fa-receipt"></i></div>
+                                    <div class="stg-card-content">
+                                        <div class="stg-card-title">Recurring Expense</div>
+                                        <div class="stg-card-desc">Manage recurring expense here</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /panel-settings -->
 
             </div>
         </div>
@@ -3823,6 +4131,9 @@
             'Advertisement': document.getElementById('panel-advertisement'),
             'Worksheet': document.getElementById('panel-worksheet'),
             'Unit': document.getElementById('panel-unit'),
+            'Communications': document.getElementById('panel-communications'),
+            'Tasks': document.getElementById('panel-tasks'),
+            'Settings': document.getElementById('panel-settings'),
         };
 
         // Post Ad master toggle — controls all syndication channels in the Ad tab
@@ -4011,6 +4322,35 @@
             });
         });
 
+        // Settings accordion
+        (function() {
+            var expanded = true;
+            document.querySelectorAll('.stg-section-header').forEach(function(hdr) {
+                hdr.addEventListener('click', function() {
+                    hdr.closest('.stg-section').classList.toggle('collapsed');
+                    var anyCollapsed = document.querySelectorAll('.stg-section.collapsed').length > 0;
+                    expanded = !anyCollapsed;
+                    syncBtn();
+                });
+            });
+            function syncBtn() {
+                var btn  = document.getElementById('stg-expand-all-btn');
+                var icon = document.getElementById('stg-expand-icon');
+                if (!btn) return;
+                btn.childNodes[0].textContent = expanded ? 'Collapse All ' : 'Expand All ';
+                icon.classList.toggle('rotated', expanded);
+            }
+            var expandBtn = document.getElementById('stg-expand-all-btn');
+            if (expandBtn) {
+                expandBtn.addEventListener('click', function() {
+                    expanded = !expanded;
+                    document.querySelectorAll('.stg-section').forEach(function(s) {
+                        s.classList.toggle('collapsed', !expanded);
+                    });
+                    syncBtn();
+                });
+            }
+        })();
 
         document.querySelectorAll('[data-dropdown]').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -4291,7 +4631,7 @@
           <button class="nlw-header-back" id="nlw-close-top">
             <i class="fas fa-arrow-left"></i> Back to Advertisement
           </button>
-          <h2>New Listing</h2>
+          <h2>Create Ad</h2>
           <p>Complete each step to create and publish your property listing</p>
         </div>
 
@@ -4300,7 +4640,7 @@
           <div class="nlw-steps">
             <div class="nlw-step active" data-step="1">
               <div class="nlw-step-circle">1</div>
-              <div class="nlw-step-label">Listing<br>Description</div>
+              <div class="nlw-step-label">Advertising<br>Description</div>
             </div>
             <div class="nlw-step" data-step="2">
               <div class="nlw-step-circle">2</div>
@@ -4308,7 +4648,7 @@
             </div>
             <div class="nlw-step" data-step="3">
               <div class="nlw-step-circle">3</div>
-              <div class="nlw-step-label">Listing<br>Photos</div>
+              <div class="nlw-step-label">Advertising<br>Photos</div>
             </div>
             <div class="nlw-step" data-step="4">
               <div class="nlw-step-circle">4</div>
@@ -4324,9 +4664,9 @@
         <!-- Wizard Body -->
         <div class="nlw-body">
 
-          <!-- ── STEP 1: Listing Description ── -->
+          <!-- ── STEP 1: Advertising Description ── -->
           <div class="nlw-step-content active" data-step="1">
-            <div class="nlw-step-heading">Listing Description</div>
+            <div class="nlw-step-heading">Advertising Description</div>
             <div class="nlw-step-sub">Describe your property and fill in key details that will appear on your listing.</div>
 
             <div class="nlw-section-title"><i class="fas fa-heading"></i> Description</div>
@@ -4398,9 +4738,9 @@
             <div class="nlw-am-grid-body" id="nlw-am-grid-body"></div>
           </div>
 
-          <!-- ── STEP 3: Listing Photos ── -->
+          <!-- ── STEP 3: Advertising Photos ── -->
           <div class="nlw-step-content" data-step="3">
-            <div class="nlw-step-heading">Listing Photos</div>
+            <div class="nlw-step-heading">Advertising Photos</div>
             <div class="nlw-step-sub">Upload and tag photos for the property and individual units.</div>
 
             <!-- Property Photos -->
@@ -4602,7 +4942,7 @@
               </div>
             </div>
 
-            <div class="nlw-section-title" style="margin-top:22px;"><i class="fas fa-calendar-day"></i> Listing Schedule</div>
+            <div class="nlw-section-title" style="margin-top:22px;"><i class="fas fa-calendar-day"></i> Advertising Schedule</div>
             <div class="nlw-two-col">
               <div class="form-group">
                 <label class="form-label">Date to Advertise</label>
@@ -4651,31 +4991,59 @@
           <div class="apw-steps-bar">
             <div class="apw-step active" data-step="1">
               <div class="apw-step-circle">1</div>
-              <div class="apw-step-label">Unit Details</div>
+              <div class="apw-step-label">Property &amp;<br>Unit</div>
             </div>
             <div class="apw-step" data-step="2">
               <div class="apw-step-circle">2</div>
-              <div class="apw-step-label">Unit Amenities</div>
+              <div class="apw-step-label">Unit Details</div>
             </div>
             <div class="apw-step" data-step="3">
               <div class="apw-step-circle">3</div>
-              <div class="apw-step-label">Unit Photos</div>
+              <div class="apw-step-label">Unit Amenities</div>
             </div>
             <div class="apw-step" data-step="4">
               <div class="apw-step-circle">4</div>
+              <div class="apw-step-label">Unit Photos</div>
+            </div>
+            <div class="apw-step" data-step="5">
+              <div class="apw-step-circle">5</div>
               <div class="apw-step-label">Review &amp; Finish</div>
             </div>
           </div>
           <div class="apw-body">
-            <!-- STEP 1: Unit Details -->
+
+            <!-- STEP 1: Property & Unit Selection -->
             <div class="apw-step-content active" data-step="1">
+              <div class="apw-inner">
+                <div class="apw-section-title">Property &amp; Unit Selection</div>
+                <div class="apw-section-box">
+                  <div class="apw-section-box-title">Confirm the property and name this unit</div>
+                  <div class="apw-form-group" style="margin-bottom:20px;">
+                    <label class="apw-label">Property <span style="color:#E53E3E;">*</span></label>
+                    <input class="apw-input" type="text" id="suw-property-select" value="5553 A Janson Avenue" readonly style="background:#F7FAFC; color:#4A6B8A; cursor:default;">
+                    <div style="font-size:11.5px; color:#9AA5B4; margin-top:5px;">This unit will be added to the current property</div>
+                  </div>
+                  <div class="apw-form-group">
+                    <label class="apw-label">Unit <span style="color:#E53E3E;">*</span></label>
+                    <select class="apw-input apw-select" id="suw-unit-select">
+                      <option value="">— Select a unit —</option>
+                    </select>
+                    <div style="font-size:11.5px; color:#9AA5B4; margin-top:5px;">Choose the unit you want to set up or configure</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 2: Unit Details -->
+            <div class="apw-step-content" data-step="2">
               <div class="apw-inner">
                 <div class="apw-section-title">Unit Details</div>
                 <div class="apw-section-box">
                   <div class="apw-section-box-title">Enter Unit Details</div>
                   <div class="apw-form-group" style="margin-bottom:14px;">
-                    <label class="apw-label">Unit Name</label>
-                    <input class="apw-input" type="text" id="suw-unit-name" placeholder="e.g. Unit 101, Suite A">
+                    <label class="apw-label">Unit Name <span style="color:#E53E3E;">*</span></label>
+                    <input class="apw-input" type="text" id="suw-edit-unit-name" placeholder="e.g. Unit 101, Suite A, Apt 2B">
+                    <div style="font-size:11.5px; color:#9AA5B4; margin-top:5px;">Defaults to your selection — you can rename it here</div>
                   </div>
                   <div style="display:flex; gap:12px; margin-bottom:14px;">
                     <div class="apw-form-group">
@@ -4721,8 +5089,8 @@
                 </div>
               </div>
             </div>
-            <!-- STEP 2: Unit Amenities -->
-            <div class="apw-step-content" data-step="2">
+            <!-- STEP 3: Unit Amenities -->
+            <div class="apw-step-content" data-step="3">
               <div class="apw-inner">
                 <div class="apw-section-title">Unit Amenities</div>
                 <div class="apw-section-box" style="padding:0; overflow:hidden;">
@@ -4735,8 +5103,8 @@
                 </div>
               </div>
             </div>
-            <!-- STEP 3: Unit Photos -->
-            <div class="apw-step-content" data-step="3">
+            <!-- STEP 4: Unit Photos -->
+            <div class="apw-step-content" data-step="4">
               <div class="apw-inner">
                 <div class="apw-section-title">Unit Photos</div>
                 <div class="apw-section-box">
@@ -4750,14 +5118,15 @@
                 </div>
               </div>
             </div>
-            <!-- STEP 4: Review & Finish -->
-            <div class="apw-step-content" data-step="4">
+            <!-- STEP 5: Review & Finish -->
+            <div class="apw-step-content" data-step="5">
               <div class="apw-inner">
                 <div class="apw-section-title">Review &amp; Finish</div>
                 <p style="text-align:center; color:#718096; font-size:13px; margin-bottom:24px;">Please review all the details below before saving.</p>
                 <div class="apw-review-grid">
                   <div class="apw-review-section">
                     <h4><i class="fas fa-home" style="margin-right:6px;"></i> Unit Details</h4>
+                    <div class="apw-review-row"><span class="apw-review-label">Property</span><span class="apw-review-val" id="suw-rv-property">—</span></div>
                     <div class="apw-review-row"><span class="apw-review-label">Unit Name</span><span class="apw-review-val" id="suw-rv-name">—</span></div>
                     <div class="apw-review-row"><span class="apw-review-label">Bedroom</span><span class="apw-review-val" id="suw-rv-beds">—</span></div>
                     <div class="apw-review-row"><span class="apw-review-label">Bathroom</span><span class="apw-review-val" id="suw-rv-baths">—</span></div>
@@ -4785,7 +5154,7 @@
             </div>
           </div><!-- /apw-body -->
           <div class="apw-footer">
-            <span class="apw-footer-left" id="suw-step-label">Step 1 of 4</span>
+            <span class="apw-footer-left" id="suw-step-label">Step 1 of 5</span>
             <div style="display:flex; gap:12px;">
               <button type="button" class="apw-btn-back" id="suw-btn-back">Back</button>
               <button type="button" class="apw-btn-next" id="suw-btn-next">Next</button>
@@ -5842,15 +6211,6 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <!-- Tabs (hidden when opened from a locked context) -->
-            <div class="am-tab-bar" id="am-tab-bar">
-                <button class="am-tab-btn active" data-tab="property">
-                    Property Amenities <span class="am-tab-count" id="am-tab-count-property">0</span>
-                </button>
-                <button class="am-tab-btn" data-tab="unit">
-                    Unit Amenities <span class="am-tab-count" id="am-tab-count-unit">0</span>
-                </button>
-            </div>
             <!-- Selected strip -->
             <div class="am-selected-strip" id="am-selected-strip">
                 <div class="am-selected-strip-label">
@@ -6000,24 +6360,20 @@
             ]
         };
 
-        // ── State (separate for Property vs Unit) ────────────────────────────────
+        // ── State ────────────────────────────────────────────────────────────────
         var saved = {
             propAmenities: new Set(),
-            unitAmenities: new Set(),
-            propPhotos: [],      // [{id, src, name, isPrimary}]
-            unitPhotos: []
+            propPhotos: []      // [{id, src, name, isPrimary}]
         };
 
         // Working copies (modified in modal, committed on Save)
-        var working    = { property: new Set(), unit: new Set() };
+        var working       = new Set();
         var workingPhotos = [];
         var photoIdCounter = 0;
 
         // Modal context
-        var activeTab    = 'property';   // 'property' | 'unit'
         var activeFilter = 'all';
         var searchQuery  = '';
-        var mediaCtx     = 'property';   // 'property' | 'unit'
 
         // ── Utility ───────────────────────────────────────────────────────────────
         function esc(s) {
@@ -6040,7 +6396,7 @@
         }
 
         function renderSelectedStrip() {
-            var items = Array.from(working[activeTab]);
+            var items = Array.from(working);
             var countEl = document.getElementById('am-sel-count');
             var tagsEl  = document.getElementById('am-sel-tags');
             if (!countEl || !tagsEl) return;
@@ -6056,7 +6412,7 @@
                 tag.innerHTML = esc(amenity)
                     + '<button class="am-sel-tag-remove" type="button" title="Remove"><i class="fas fa-times" style="pointer-events:none;"></i></button>';
                 tag.querySelector('.am-sel-tag-remove').addEventListener('click', function() {
-                    working[activeTab].delete(amenity);
+                    working.delete(amenity);
                     renderSelectedStrip();
                     renderAmenities();
                     refreshAmenityCount();
@@ -6082,45 +6438,23 @@
         }
 
         function updateAllPreviews() {
-            // ① Property Amenities
+            // Property Amenities
             var pAm = Array.from(saved.propAmenities);
             document.getElementById('am-count-prop-am').textContent = pAm.length + ' selected';
             renderTagsPreview(document.getElementById('am-tags-prop'), pAm, 'btn-prop-amenities');
 
-            // ② Property Photos
+            // Property Photos
             var pPh = saved.propPhotos;
             document.getElementById('am-count-prop-ph').textContent =
                 pPh.length === 0 ? '0 photos' : pPh.length + (pPh.length === 1 ? ' photo' : ' photos');
             renderPhotosPreview(document.getElementById('am-photos-prop'), pPh, 'btn-prop-photos');
-
-            // ③ Unit Amenities
-            var uAm = Array.from(saved.unitAmenities);
-            document.getElementById('am-count-unit-am').textContent = uAm.length + ' selected';
-            renderTagsPreview(document.getElementById('am-tags-unit'), uAm, 'btn-unit-amenities');
-
-            // ④ Unit Photos
-            var uPh = saved.unitPhotos;
-            document.getElementById('am-count-unit-ph').textContent =
-                uPh.length === 0 ? '0 photos' : uPh.length + (uPh.length === 1 ? ' photo' : ' photos');
-            renderPhotosPreview(document.getElementById('am-photos-unit'), uPh, 'btn-unit-photos');
         }
 
         // ── Amenities Modal ───────────────────────────────────────────────────────
-        function openAmenitiesModal(tab) {
-            activeTab    = tab;
+        function openAmenitiesModal() {
             activeFilter = 'all';
             searchQuery  = '';
-            working = {
-                property: new Set(saved.propAmenities),
-                unit:     new Set(saved.unitAmenities)
-            };
-            // Title & icon
-            document.getElementById('am-modal-am-title').textContent =
-                tab === 'property' ? 'Property Amenities' : 'Unit Amenities';
-            // Activate correct tab
-            document.querySelectorAll('.am-tab-btn').forEach(function(b) {
-                b.classList.toggle('active', b.dataset.tab === tab);
-            });
+            working = new Set(saved.propAmenities);
             document.getElementById('am-amenity-search').value = '';
             renderCategoryChips();
             renderAmenities();
@@ -6130,7 +6464,7 @@
 
         function renderAmenities() {
             var container = document.getElementById('am-amenity-body');
-            var cats = AMENITIES[activeTab];
+            var cats = AMENITIES['property'];
             var q = searchQuery.toLowerCase();
             container.innerHTML = '';
             var anyVisible = false;
@@ -6153,7 +6487,7 @@
 
                 var grid = section.querySelector('.am-amenity-grid');
                 items.forEach(function(amenity) {
-                    var isSel = working[activeTab].has(amenity);
+                    var isSel = working.has(amenity);
                     var chip = document.createElement('button');
                     chip.type = 'button';
                     chip.className = 'am-amenity-chip' + (isSel ? ' selected' : '');
@@ -6161,11 +6495,11 @@
                         '<span class="am-check-icon"><i class="fas fa-check" style="font-size:9px;pointer-events:none;"></i></span>'
                         + esc(amenity);
                     chip.addEventListener('click', function() {
-                        if (working[activeTab].has(amenity)) {
-                            working[activeTab].delete(amenity);
+                        if (working.has(amenity)) {
+                            working.delete(amenity);
                             chip.classList.remove('selected');
                         } else {
-                            working[activeTab].add(amenity);
+                            working.add(amenity);
                             chip.classList.add('selected');
                         }
                         refreshAmenityCount();
@@ -6182,19 +6516,13 @@
         }
 
         function refreshAmenityCount() {
-            var pCount = working.property.size;
-            var uCount = working.unit.size;
+            var count = working.size;
             var fc = document.getElementById('am-footer-count');
-            if (fc) fc.innerHTML = '<strong>' + (pCount + uCount) + '</strong> selected'
-                + ' <span style="color:#A0AEC0;">(' + pCount + ' property · ' + uCount + ' unit)</span>';
-            var tc1 = document.getElementById('am-tab-count-property');
-            var tc2 = document.getElementById('am-tab-count-unit');
-            if (tc1) tc1.textContent = pCount;
-            if (tc2) tc2.textContent = uCount;
+            if (fc) fc.innerHTML = '<strong>' + count + '</strong> amenities selected';
         }
 
         function renderCategoryChips() {
-            var cats = AMENITIES[activeTab];
+            var cats = AMENITIES['property'];
             var el = document.getElementById('am-cat-chips');
             var html = '<button class="am-chip' + (activeFilter === 'all' ? ' active' : '') + '" data-filter="all">All Categories</button>';
             cats.forEach(function(cat) {
@@ -6211,12 +6539,9 @@
         }
 
         // ── Media Modal ───────────────────────────────────────────────────────────
-        function openMediaModal(ctx) {
-            mediaCtx = ctx;
-            var sourcePhotos = ctx === 'property' ? saved.propPhotos : saved.unitPhotos;
-            workingPhotos = sourcePhotos.map(function(p) { return Object.assign({}, p); });
-            document.getElementById('am-modal-media-title').textContent =
-                ctx === 'property' ? 'Property Photos' : 'Unit Photos';
+        function openMediaModal() {
+            workingPhotos = saved.propPhotos.map(function(p) { return Object.assign({}, p); });
+            document.getElementById('am-modal-media-title').textContent = 'Property Photos';
             renderMediaGrid();
             openModal('am-modal-media');
         }
@@ -6319,30 +6644,9 @@
         document.addEventListener('DOMContentLoaded', function() {
 
             // Property Amenities button
+            // Property Amenities button
             document.getElementById('btn-prop-amenities').addEventListener('click', function() {
-                openAmenitiesModal('property');
-            });
-            // Unit Amenities button
-            document.getElementById('btn-unit-amenities').addEventListener('click', function() {
-                openAmenitiesModal('unit');
-            });
-
-            // Tab switching inside modal
-            document.querySelectorAll('.am-tab-btn').forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    activeTab    = btn.dataset.tab;
-                    activeFilter = 'all';
-                    searchQuery  = '';
-                    document.getElementById('am-amenity-search').value = '';
-                    document.querySelectorAll('.am-tab-btn').forEach(function(b) {
-                        b.classList.toggle('active', b === btn);
-                    });
-                    document.getElementById('am-modal-am-title').textContent =
-                        activeTab === 'property' ? 'Property Amenities' : 'Unit Amenities';
-                    renderCategoryChips();
-                    renderAmenities();
-                    renderSelectedStrip();
-                });
+                openAmenitiesModal();
             });
 
             // Search
@@ -6353,10 +6657,9 @@
                 renderAmenities();
             });
 
-            // Save Amenities — commits both tabs
+            // Save Amenities
             document.getElementById('am-save-amenities').addEventListener('click', function() {
-                saved.propAmenities = new Set(working.property);
-                saved.unitAmenities = new Set(working.unit);
+                saved.propAmenities = new Set(working);
                 updateAllPreviews();
                 closeModal('am-modal-amenities');
             });
@@ -6370,20 +6673,12 @@
 
             // Property Photos button
             document.getElementById('btn-prop-photos').addEventListener('click', function() {
-                openMediaModal('property');
-            });
-            // Unit Photos button
-            document.getElementById('btn-unit-photos').addEventListener('click', function() {
-                openMediaModal('unit');
+                openMediaModal();
             });
 
-            // Save Photos — commits to correct context
+            // Save Photos
             document.getElementById('am-save-media').addEventListener('click', function() {
-                if (mediaCtx === 'property') {
-                    saved.propPhotos = workingPhotos.map(function(p) { return Object.assign({}, p); });
-                } else {
-                    saved.unitPhotos = workingPhotos.map(function(p) { return Object.assign({}, p); });
-                }
+                saved.propPhotos = workingPhotos.map(function(p) { return Object.assign({}, p); });
                 updateAllPreviews();
                 closeModal('am-modal-media');
             });
@@ -6424,8 +6719,20 @@
     (function() {
         var overlay     = document.getElementById('suw-overlay');
         if (!overlay) return;
-        var totalSteps  = 4;
+        var totalSteps  = 5;
         var currentStep = 1;
+        var suwEditMode = false;
+
+        /* Units per property – mirrors the unit table rows */
+        var SUW_PROPERTY_UNITS = {
+            '5553 A Janson Avenue': [
+                'Aptt 5553 A Janson Avenue','Aptt 433 B Nathan Square',
+                'Aptt 9343 C City Gardens','Aptt 8930 D Dorjee Jackson',
+                'Aptt 2244 Abraham Square','Aptt 4224 A Queens Philip',
+                'Appt 101 A Jackson Ville','Aptt 0200 A Garden Williams Estate',
+                'Aptt 1001 A Nancy Avenue','Aptt 3003 A Bishopville','Aptt 4033 A Sunnyvalle'
+            ]
+        };
 
         var SUW_AMENITIES = {
             'Interior': ['Air Conditioning','Heating','Ceiling Fans','Hardwood Floors','Carpet','Tile Floors','Walk-in Closet','Linen Closet','In-Unit Washer/Dryer','Washer/Dryer Hookups','Dishwasher','Garbage Disposal','Microwave','Refrigerator','Stove/Range','Oven','Fireplace','Balcony/Patio','Private Yard','Storage Room'],
@@ -6526,12 +6833,40 @@
         }
 
         function suwOpen() {
+            suwEditMode = false;
             currentStep = 1;
             suwSelectedAmenities.clear();
             suwPhotos = [];
             document.getElementById('suw-success-msg').style.display = 'none';
             document.getElementById('suw-btn-next').classList.remove('finish');
             document.getElementById('suw-btn-next').textContent = 'Next';
+            // Populate unit dropdown from the current property
+            var propName = (document.getElementById('suw-property-select') || {}).value || '5553 A Janson Avenue';
+            var unitSel = document.getElementById('suw-unit-select');
+            if (unitSel) {
+                var units = SUW_PROPERTY_UNITS[propName] || [];
+                unitSel.innerHTML = '<option value="">— Select a unit —</option>'
+                    + units.map(function(u) { return '<option>' + u + '</option>'; }).join('');
+                unitSel.style.borderColor = '';
+            }
+            var editNameEl = document.getElementById('suw-edit-unit-name');
+            if (editNameEl) { editNameEl.value = ''; editNameEl.style.borderColor = ''; }
+            suwRender();
+            overlay.classList.add('open');
+            overlay.scrollTop = 0;
+            document.body.style.overflow = 'hidden';
+        }
+        /* Opens wizard at Step 2, pre-filled with the unit's name — used by Edit Unit 3-dot */
+        function suwOpenEdit(unitName) {
+            suwEditMode = true;
+            currentStep = 2;
+            suwSelectedAmenities.clear();
+            suwPhotos = [];
+            document.getElementById('suw-success-msg').style.display = 'none';
+            document.getElementById('suw-btn-next').classList.remove('finish');
+            document.getElementById('suw-btn-next').textContent = 'Next';
+            var editNameEl = document.getElementById('suw-edit-unit-name');
+            if (editNameEl) { editNameEl.value = unitName || ''; editNameEl.style.borderColor = ''; }
             suwRender();
             overlay.classList.add('open');
             overlay.scrollTop = 0;
@@ -6541,10 +6876,20 @@
             overlay.classList.remove('open');
             document.body.style.overflow = '';
         }
-        window.suwOpen  = suwOpen;
-        window.suwClose = suwClose;
+        window.suwOpen     = suwOpen;
+        window.suwOpenEdit = suwOpenEdit;
+        window.suwClose    = suwClose;
 
         function suwRender() {
+            // Toggle edit-mode class to show/hide Step 1 pill
+            overlay.classList.toggle('edit-mode', suwEditMode);
+            // Swap topbar title based on mode
+            var titleEl = document.querySelector('#suw-overlay .apw-topbar-title h1');
+            var subtitleEl = document.querySelector('#suw-overlay .apw-topbar-title p');
+            if (titleEl) titleEl.textContent = suwEditMode ? 'Edit Unit' : 'Set Up Unit';
+            if (subtitleEl) subtitleEl.textContent = suwEditMode
+                ? 'Update unit details, amenities and photos'
+                : 'Add a new unit with details, amenities and photos';
             document.querySelectorAll('#suw-overlay .apw-step').forEach(function(el) {
                 var s = parseInt(el.dataset.step);
                 el.classList.toggle('active',    s === currentStep);
@@ -6561,14 +6906,15 @@
             if (currentStep === totalSteps) { btnNext.textContent = 'Save'; btnNext.classList.add('finish'); }
             else { btnNext.textContent = 'Next'; btnNext.classList.remove('finish'); }
             document.getElementById('suw-btn-back').style.visibility = currentStep === 1 ? 'hidden' : 'visible';
-            if (currentStep === 2) { suwRenderAmenityChips(); suwRenderSelStrip(); }
-            if (currentStep === 3) suwRenderPhotoGrid();
+            if (currentStep === 3) { suwRenderAmenityChips(); suwRenderSelStrip(); }
+            if (currentStep === 4) suwRenderPhotoGrid();
             overlay.scrollTop = 0;
         }
 
         function suwPopulateReview() {
             function v(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
-            document.getElementById('suw-rv-name').textContent      = v('suw-unit-name') || '—';
+            document.getElementById('suw-rv-property').textContent  = v('suw-property-select') || '—';
+            document.getElementById('suw-rv-name').textContent      = v('suw-edit-unit-name') || '—';
             document.getElementById('suw-rv-beds').textContent      = v('suw-beds')      || '—';
             document.getElementById('suw-rv-baths').textContent     = v('suw-baths')     || '—';
             document.getElementById('suw-rv-size').textContent      = v('suw-size') ? v('suw-size') + ' sq ft' : '—';
@@ -6606,11 +6952,24 @@
         if (photoInput) photoInput.addEventListener('change', function() { suwHandleFiles(this.files); this.value = ''; });
 
         document.getElementById('suw-btn-back').addEventListener('click', function() {
-            if (currentStep > 1) { currentStep--; suwRender(); }
+            // In edit mode step 2 is the first visible step — Back closes
+            if (currentStep > 1 && !(suwEditMode && currentStep === 2)) { currentStep--; suwRender(); }
             else suwClose();
         });
         document.getElementById('suw-btn-next').addEventListener('click', function() {
             if (currentStep < totalSteps) {
+                // Step 1 validation: a unit must be selected
+                if (currentStep === 1) {
+                    var unitSel = document.getElementById('suw-unit-select');
+                    if (!unitSel || !unitSel.value) {
+                        if (unitSel) { unitSel.style.borderColor = '#E53E3E'; unitSel.focus(); }
+                        return;
+                    }
+                    unitSel.style.borderColor = '';
+                    // Pre-fill the editable unit name in Step 2 from the dropdown selection
+                    var editNameEl = document.getElementById('suw-edit-unit-name');
+                    if (editNameEl) editNameEl.value = unitSel.value;
+                }
                 if (currentStep === totalSteps - 1) suwPopulateReview();
                 currentStep++;
                 suwRender();
@@ -6647,9 +7006,103 @@
             }
             if (e.target.closest('.unit-dd-edit-unit')) {
                 document.querySelectorAll('.unit-dropdown').forEach(function(d) { d.classList.remove('open'); });
-                suwOpen();
+                var row = e.target.closest('tr');
+                var nameEl = row && row.querySelector('.unit-name');
+                suwOpenEdit(nameEl ? nameEl.textContent.trim() : '');
             }
         });
+
+        // ── Unit Tab Filter Dropdowns ─────────────────────────────────────────────
+        (function() {
+            var filters = { status: 'All', lease: 'All', ad: 'All' };
+
+            function toggleMenu(btnId, menuId) {
+                var btn  = document.getElementById(btnId);
+                var menu = document.getElementById(menuId);
+                if (!btn || !menu) return;
+                var isOpen = menu.classList.contains('open');
+                // Close all first
+                document.querySelectorAll('.unit-filter-menu.open').forEach(function(m) { m.classList.remove('open'); });
+                document.querySelectorAll('.unit-filter-btn.open').forEach(function(b) { b.classList.remove('open'); });
+                if (!isOpen) {
+                    menu.classList.add('open');
+                    btn.classList.add('open');
+                }
+            }
+
+            document.getElementById('uf-status-btn') && document.getElementById('uf-status-btn').addEventListener('click', function(e) {
+                e.stopPropagation(); toggleMenu('uf-status-btn', 'uf-status-menu');
+            });
+            document.getElementById('uf-lease-btn') && document.getElementById('uf-lease-btn').addEventListener('click', function(e) {
+                e.stopPropagation(); toggleMenu('uf-lease-btn', 'uf-lease-menu');
+            });
+            document.getElementById('uf-ad-btn') && document.getElementById('uf-ad-btn').addEventListener('click', function(e) {
+                e.stopPropagation(); toggleMenu('uf-ad-btn', 'uf-ad-menu');
+            });
+
+            // Option selection
+            document.querySelectorAll('.unit-filter-option').forEach(function(opt) {
+                opt.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    var filterKey = opt.dataset.filter;
+                    var val       = opt.dataset.val;
+                    filters[filterKey] = val;
+
+                    // Update val label
+                    var valEl = document.getElementById('uf-' + filterKey + '-val');
+                    if (valEl) valEl.textContent = val;
+
+                    // Mark selected in menu
+                    opt.closest('.unit-filter-menu').querySelectorAll('.unit-filter-option').forEach(function(o) {
+                        o.classList.toggle('selected', o === opt);
+                    });
+
+                    // Toggle active state on button
+                    var btn = document.getElementById('uf-' + filterKey + '-btn');
+                    if (btn) btn.classList.toggle('active', val !== 'All');
+
+                    // Close menus
+                    document.querySelectorAll('.unit-filter-menu.open').forEach(function(m) { m.classList.remove('open'); });
+                    document.querySelectorAll('.unit-filter-btn.open').forEach(function(b) { b.classList.remove('open'); });
+
+                    applyFilters();
+                });
+            });
+
+            function applyFilters() {
+                var rows = document.querySelectorAll('.unit-table tbody tr');
+                rows.forEach(function(row) {
+                    var statusBadge = row.querySelector('.unit-badge');
+                    var leaseCell   = row.cells[3] ? row.cells[3].textContent.trim() : '';
+                    var adToggle    = row.querySelector('.unit-activate-toggle');
+
+                    var statusOk = filters.status === 'All' || (statusBadge && statusBadge.textContent.trim() === filters.status);
+
+                    var leaseOk = filters.lease === 'All';
+                    if (!leaseOk) {
+                        var lc = leaseCell.toLowerCase();
+                        if (filters.lease === 'Active')    leaseOk = lc.indexOf('active') !== -1;
+                        else if (filters.lease === 'Expired')   leaseOk = lc.indexOf('expired') !== -1;
+                        else if (filters.lease === 'Moving In') leaseOk = lc.indexOf('moves-in') !== -1 || lc.indexOf('moving in') !== -1;
+                        else if (filters.lease === 'Moved Out') leaseOk = lc.indexOf('moved-out') !== -1 || lc.indexOf('moved out') !== -1;
+                    }
+
+                    var adOk = filters.ad === 'All';
+                    if (!adOk) {
+                        var isOn = adToggle && adToggle.classList.contains('on');
+                        adOk = (filters.ad === 'Active' && isOn) || (filters.ad === 'Inactive' && !isOn);
+                    }
+
+                    row.style.display = (statusOk && leaseOk && adOk) ? '' : 'none';
+                });
+            }
+
+            // Close menus on outside click
+            document.addEventListener('click', function() {
+                document.querySelectorAll('.unit-filter-menu.open').forEach(function(m) { m.classList.remove('open'); });
+                document.querySelectorAll('.unit-filter-btn.open').forEach(function(b) { b.classList.remove('open'); });
+            });
+        })();
     })();
 
     /* ══ BULK SETUP UNIT WIZARD (Detail View) ══ */
@@ -6813,6 +7266,9 @@
         .apw-search { margin-left: auto; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); border-radius: 8px; display: flex; align-items: center; gap: 8px; padding: 7px 14px; color: rgba(255,255,255,0.6); font-size: 13px; width: 340px; }
         .apw-card { background: #fff; border-radius: 14px; margin: 0 24px 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.18); display: flex; flex-direction: column; flex: 1; }
         .apw-steps-bar { display: flex; align-items: center; justify-content: center; gap: 0; padding: 24px 40px 20px; border-bottom: 1px solid #EDF2F7; background: #FAFBFC; border-radius: 14px 14px 0 0; }
+        /* Hide Step 1 pill when wizard is opened in Edit Unit mode */
+        #suw-overlay.edit-mode .apw-step[data-step="1"],
+        #suw-overlay.edit-mode .apw-step[data-step="1"] + .apw-step-line { display: none; }
         .apw-step { display: flex; flex-direction: column; align-items: center; flex: 1; position: relative; cursor: default; }
         .apw-step:not(:last-child)::after { content: ''; position: absolute; top: 18px; left: 55%; right: -45%; height: 2px; background: #D5DAE0; z-index: 0; }
         .apw-step.completed:not(:last-child)::after { background: #1B4B6E; }
@@ -6874,6 +7330,81 @@
         .suw-media-tag-select { flex: 1; border: 1px solid #D1D9E4; border-radius: 6px; font-size: 11px; padding: 3px 5px; font-family: inherit; color: #2D3748; outline: none; background: #fff; }
         .suw-media-remove { background: none; border: none; cursor: pointer; color: #E05252; font-size: 12px; padding: 0 2px; flex-shrink: 0; }
         .suw-media-remove:hover { color: #C0392B; }
+
+        /* ══ BULK SETUP UNIT — UNIT TABLE STYLES ══ */
+        .apw-ut-toolbar { display: flex; align-items: center; gap: 14px; background: #F0F8FF; border: 1.5px solid #BEE0F8; border-radius: 10px; padding: 10px 16px; margin-bottom: 14px; }
+        .apw-ut-info { display: flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 700; color: #1B4B6E; white-space: nowrap; }
+        .apw-ut-info i { color: #3B8DBD; }
+        .apw-ut-progress-wrap { flex: 1; height: 6px; background: #D1ECF8; border-radius: 3px; overflow: hidden; }
+        .apw-ut-progress-bar { height: 100%; background: #3B8DBD; border-radius: 3px; width: 0%; transition: width 0.3s; }
+        .apw-ut-progress-txt { font-size: 11px; font-weight: 600; color: #4A6B8A; white-space: nowrap; }
+        .apw-ut-wrap { border: 1.5px solid #E2E6EB; border-radius: 10px; overflow: auto; background: #fff; max-height: 520px; margin-bottom: 14px; }
+        .apw-ut-table { width: 100%; border-collapse: collapse; font-size: 12.5px; table-layout: fixed; }
+        .apw-ut-table thead th { background: #1B5068; color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 10px 8px; text-align: left; position: sticky; top: 0; z-index: 2; border-right: 1px solid rgba(255,255,255,0.1); }
+        .apw-ut-table thead th:last-child { border-right: none; }
+        .apw-ut-th-chk { width: 36px; text-align: center !important; }
+        .apw-ut-th-num { width: 36px; text-align: center !important; }
+        .apw-ut-table tbody tr { transition: background 0.1s; }
+        .apw-ut-table tbody tr:nth-child(even) { background: #F8FAFB; }
+        .apw-ut-table tbody tr:hover { background: #EDF6FF; }
+        .apw-ut-table tbody td { padding: 6px; vertical-align: middle; border-bottom: 1px solid #EDF2F7; border-right: 1px solid #F0F4F8; }
+        .apw-ut-table tbody td:last-child { border-right: none; }
+        .apw-ut-num { width: 24px; height: 24px; border-radius: 50%; background: #E2E8F0; color: #4A6B8A; font-size: 10px; font-weight: 700; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
+        .apw-ut-filled .apw-ut-num { background: #3BAA6E; color: #fff; }
+        .apw-ut-table tbody input[type="text"], .apw-ut-table tbody textarea { width: 100%; padding: 6px 8px; border: 1.5px solid transparent; border-radius: 6px; font-size: 12px; font-family: inherit; color: #2D3748; background: transparent; outline: none; transition: border-color 0.12s, background 0.12s; box-sizing: border-box; }
+        .apw-ut-table tbody input[type="text"]:focus, .apw-ut-table tbody textarea:focus { border-color: #3B8DBD; background: #fff; box-shadow: 0 0 0 2px rgba(59,141,189,0.12); }
+        .apw-ut-table tbody select { width: 100%; padding: 5px 6px; border: 1.5px solid transparent; border-radius: 6px; font-size: 12px; font-family: inherit; color: #2D3748; background: transparent; outline: none; cursor: pointer; }
+        .apw-ut-table tbody select:focus { border-color: #3B8DBD; background: #fff; }
+        .apw-ut-table tbody textarea { resize: vertical; min-height: 32px; }
+        .apw-ut-table tbody tr.apw-ut-filled { }
+        .apw-ut-table tbody tr.apw-ut-selected { background: #F5F0FF !important; }
+        .apw-ut-table tbody tr.apw-ut-selected:hover { background: #EDE5FF !important; }
+        /* Bulk toolbar */
+        .apw-bulk-toolbar { display: none; align-items: center; justify-content: space-between; background: linear-gradient(135deg,#F0F4FF 0%,#E8F0FE 100%); border: 1.5px solid #C2D5F0; border-radius: 10px; padding: 10px 16px; margin-bottom: 0; cursor: pointer; transition: all 0.15s; }
+        .apw-bulk-toolbar.visible { display: flex; }
+        .apw-bulk-toolbar.visible:not(.panel-open) { margin-bottom: 14px; }
+        .apw-bulk-toolbar:hover { border-color: #8BAADB; }
+        .apw-bulk-left { display: flex; align-items: center; gap: 8px; }
+        .apw-bulk-left i { color: #4A7FC1; font-size: 14px; }
+        .apw-bulk-title { font-size: 13px; font-weight: 700; color: #1B3A5C; }
+        .apw-bulk-hint { font-size: 11.5px; color: #6B89A8; margin-left: 4px; }
+        .apw-bulk-toggle-btn { background: none; border: none; cursor: pointer; color: #4A7FC1; font-size: 12px; padding: 4px 8px; border-radius: 6px; transition: all 0.15s; }
+        .apw-bulk-toggle-btn.open i { transform: rotate(180deg); }
+        .apw-bulk-panel { display: none; background: #F8FAFF; border: 1.5px solid #C2D5F0; border-top: none; border-radius: 0 0 10px 10px; padding: 16px 18px 14px; margin-bottom: 14px; }
+        .apw-bulk-panel.open { display: block; }
+        .apw-bulk-toolbar.panel-open { border-radius: 10px 10px 0 0; margin-bottom: 0; border-bottom-color: transparent; }
+        .apw-bulk-fields { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+        .apw-bulk-field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 130px; }
+        .apw-bulk-field .apw-label { font-size: 11px; }
+        .apw-bulk-field .apw-input, .apw-bulk-field .apw-select { padding: 7px 10px; font-size: 12px; }
+        .apw-bulk-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        .apw-bulk-apply-btn, .apw-bulk-overwrite-btn, .apw-bulk-selected-btn, .apw-bulk-clear-btn { padding: 7px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s; white-space: nowrap; }
+        .apw-bulk-apply-btn { background: #3BAA6E; color: #fff; }
+        .apw-bulk-apply-btn:hover { background: #2E9A5F; }
+        .apw-bulk-overwrite-btn { background: #3B8DBD; color: #fff; }
+        .apw-bulk-overwrite-btn:hover { background: #2D7AAD; }
+        .apw-bulk-selected-btn { background: #7B4FCF; color: #fff; }
+        .apw-bulk-selected-btn:hover { background: #6A3FBF; }
+        .apw-bulk-selected-btn:disabled { background: #BEA8E8; cursor: not-allowed; }
+        .apw-bulk-sel-badge { background: rgba(255,255,255,0.3); border-radius: 10px; font-size: 10px; font-weight: 700; padding: 1px 6px; margin-left: 2px; min-width: 18px; text-align: center; }
+        .apw-bulk-clear-btn { background: #F0F4F8; color: #4A6B8A; border: 1px solid #D1D9E4; }
+        .apw-bulk-clear-btn:hover { background: #E2E8F0; }
+        /* Checkboxes */
+        .apw-chk-wrap { display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 2px; }
+        .apw-chk-wrap input[type="checkbox"] { display: none; }
+        .apw-chk-box { width: 16px; height: 16px; border-radius: 4px; border: 2px solid rgba(255,255,255,0.5); background: transparent; display: inline-block; position: relative; transition: all 0.15s; flex-shrink: 0; }
+        .apw-chk-wrap input:checked + .apw-chk-box { background: #fff; border-color: #fff; }
+        .apw-chk-wrap input:checked + .apw-chk-box::after { content: ''; position: absolute; left: 3px; top: 0px; width: 5px; height: 9px; border: 2px solid #1B4B6E; border-top: none; border-left: none; transform: rotate(45deg); }
+        .apw-ut-table tbody .apw-chk-wrap .apw-chk-box { border-color: #C0CCDA; }
+        .apw-ut-table tbody .apw-chk-wrap input:checked + .apw-chk-box { background: #7B4FCF; border-color: #7B4FCF; }
+        .apw-ut-table tbody .apw-chk-wrap input:checked + .apw-chk-box::after { border-color: #fff; }
+        /* Pagination */
+        .apw-ut-pagination { display: none; align-items: center; justify-content: center; gap: 14px; padding: 12px 0 4px; margin-top: 8px; }
+        .apw-ut-pagination.visible { display: flex; }
+        .apw-ut-page-btn { width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid #D1D9E4; background: #fff; color: #4A6B8A; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+        .apw-ut-page-btn:hover:not(:disabled) { background: #EDF6FF; border-color: #3B8DBD; color: #3B8DBD; }
+        .apw-ut-page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .apw-ut-page-info { font-size: 12.5px; font-weight: 600; color: #4A6B8A; }
 
         /* ══ BULK SETUP UNIT WIZARD ══ */
         .bsuw-hidden { display: none !important; }
