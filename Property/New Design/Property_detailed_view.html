@@ -1762,8 +1762,49 @@
 
         /* ══ UNIT TAB ══ */
         .unit-filters-bar {
-            display: flex; align-items: center; gap: 10px;
-            margin-bottom: 16px;
+            display: flex; align-items: center; gap: 8px;
+            margin-bottom: 16px; flex-wrap: wrap;
+        }
+        .unit-filter-group { position: relative; display: inline-block; }
+        .unit-filter-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 12px; border: 1.5px solid #D5DAE0; border-radius: 7px;
+            background: #fff; font-size: 12.5px; font-weight: 600; color: #4A5568;
+            cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap;
+        }
+        .unit-filter-btn:hover { border-color: #3B8DBD; color: #1B4B6E; background: #F0F8FF; }
+        .unit-filter-btn.active { border-color: #3B8DBD; color: #1B4B6E; background: #EBF4FA; }
+        .unit-filter-btn i.chevron { font-size: 9px; transition: transform 0.2s; }
+        .unit-filter-btn.open i.chevron { transform: rotate(180deg); }
+        .unit-filter-label { font-size: 10px; font-weight: 500; color: #A0AEC0; margin-right: 2px; }
+        .unit-filter-val { font-weight: 700; color: #1B4B6E; }
+        .unit-filter-menu {
+            display: none; position: absolute; top: calc(100% + 5px); left: 0; z-index: 300;
+            background: #fff; border: 1px solid #E2E8EF; border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12); min-width: 180px; overflow: hidden;
+        }
+        .unit-filter-menu.open { display: block; }
+        .unit-filter-menu-header {
+            padding: 8px 14px 6px; font-size: 10px; font-weight: 700;
+            color: #A0AEC0; text-transform: uppercase; letter-spacing: 0.4px;
+            border-bottom: 1px solid #F0F2F5;
+        }
+        .unit-filter-option {
+            display: flex; align-items: center; gap: 8px;
+            padding: 9px 14px; font-size: 13px; font-weight: 500; color: #2D3748;
+            cursor: pointer; transition: background 0.12s; border: none;
+            background: none; width: 100%; text-align: left; font-family: inherit;
+        }
+        .unit-filter-option:hover { background: #F5FAFE; color: #1B4B6E; }
+        .unit-filter-option.selected { background: #EBF4FA; color: #1B4B6E; font-weight: 700; }
+        .unit-filter-option .opt-dot {
+            width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+        }
+        .unit-filter-count {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: #3B8DBD; color: #fff; border-radius: 10px;
+            font-size: 10px; font-weight: 700; min-width: 18px; height: 18px;
+            padding: 0 5px; margin-left: 2px;
         }
         .unit-table { width: 100%; border-collapse: collapse; font-size: 13px; }
         .unit-table thead th {
@@ -1847,6 +1888,12 @@
         }
         .unit-dropdown-item:hover { background: #F0F4F8; color: #1B4B6E; }
         .unit-dropdown-item i { font-size: 12px; color: #718096; width: 14px; }
+        .unit-dropdown-item:hover i { color: #3B8DBD; }
+        .unit-dd-sep { height: 1px; background: #F0F2F5; margin: 3px 0; }
+        .unit-dd-danger { color: #E53E3E; }
+        .unit-dd-danger i { color: #E53E3E; }
+        .unit-dd-danger:hover { background: #FFF5F5; color: #C53030; }
+        .unit-dd-danger:hover i { color: #C53030; }
 
         /* ══════════════════════════════════════════════════
            AMENITIES & MEDIA — Summary Card
@@ -2188,15 +2235,13 @@
             display: flex; align-items: center; gap: 6px; flex-shrink: 0;
         }
 
-        /* ── 2 × 2 Quad Grid ── */
+        /* ── 1 × 2 Quad Grid (Property Amenities + Property Photos only) ── */
         .am-quad-grid {
             display: grid; grid-template-columns: 1fr 1fr;
         }
         .am-quad {
-            padding: 20px; display: flex; flex-direction: column; gap: 12px;
+            padding: 24px; display: flex; flex-direction: column; gap: 14px;
         }
-        .am-quad:nth-child(1),
-        .am-quad:nth-child(2) { border-bottom: 1px solid #EDF2F7; }
         .am-quad:nth-child(odd)  { border-right: 1px solid #EDF2F7; }
         .am-quad-header { display: flex; align-items: flex-start; gap: 10px; }
         .am-quad-icon {
@@ -2424,7 +2469,7 @@
                                             <th style="width:11%;">Status</th>
                                             <th style="width:20%;">Tenant</th>
                                             <th style="width:22%;">Lease Status</th>
-                                            <th style="width:14%; text-align:center;">Activate Listing</th>
+                                            <th style="width:14%; text-align:center;">Activate Ad</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -2768,53 +2813,6 @@
                             </div>
                             <div class="am-quad-footer">
                                 <button class="ov-btn ov-btn--success" id="btn-prop-photos" style="font-size:12px;">
-                                    <i class="fas fa-upload"></i> Upload Photo
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- ③ Unit Amenities -->
-                        <div class="am-quad">
-                            <div class="am-quad-header">
-                                <div class="am-quad-icon" style="background:#F0EBFA; color:#7C5CBF;">
-                                    <i class="fas fa-door-closed"></i>
-                                </div>
-                                <div class="am-quad-meta">
-                                    <div class="am-quad-title">Unit Amenities</div>
-                                    <div class="am-quad-sub">Features inside individual units</div>
-                                </div>
-                                <span class="am-count-badge" id="am-count-unit-am" style="background:#F0EBFA; color:#7C5CBF;">0 selected</span>
-                            </div>
-                            <div class="am-quad-preview am-tags-preview" id="am-tags-unit">
-                                <span class="am-empty-hint">No unit amenities selected.</span>
-                            </div>
-                            <div class="am-quad-footer">
-                                <button class="ov-btn" id="btn-unit-amenities" style="font-size:12px; background:#7C5CBF; color:#fff;">
-                                    <i class="fas fa-plus"></i> Add Amenities
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- ④ Unit Photos -->
-                        <div class="am-quad">
-                            <div class="am-quad-header">
-                                <div class="am-quad-icon" style="background:#FFF4E8; color:#E8843A;">
-                                    <i class="fas fa-camera"></i>
-                                </div>
-                                <div class="am-quad-meta">
-                                    <div class="am-quad-title">Unit Photos</div>
-                                    <div class="am-quad-sub">Interior &amp; unit-specific images</div>
-                                </div>
-                                <span class="am-count-badge" id="am-count-unit-ph" style="background:#FFF4E8; color:#E8843A;">0 photos</span>
-                            </div>
-                            <div class="am-quad-preview am-photos-preview" id="am-photos-unit">
-                                <div class="am-photo-upload-hint" onclick="document.getElementById('btn-unit-photos').click()">
-                                    <i class="fas fa-cloud-upload-alt" style="font-size:16px;"></i>
-                                    <span>Upload</span>
-                                </div>
-                            </div>
-                            <div class="am-quad-footer">
-                                <button class="ov-btn" id="btn-unit-photos" style="font-size:12px; background:#E8843A; color:#fff;">
                                     <i class="fas fa-upload"></i> Upload Photo
                                 </button>
                             </div>
@@ -3626,10 +3624,57 @@
 
                     <!-- Filters Bar -->
                     <div class="unit-filters-bar">
-                        <button class="filter-dd">
-                            <i class="fas fa-sliders-h"></i> Filters
-                            <i class="fas fa-chevron-down" style="font-size:10px; margin-left:2px;"></i>
-                        </button>
+
+                        <!-- Status filter -->
+                        <div class="unit-filter-group">
+                            <button class="unit-filter-btn" id="uf-status-btn" type="button">
+                                <i class="fas fa-circle" style="font-size:8px; color:#3BAA6E;"></i>
+                                <span class="unit-filter-label">Status:</span>
+                                <span class="unit-filter-val" id="uf-status-val">All</span>
+                                <i class="fas fa-chevron-down chevron"></i>
+                            </button>
+                            <div class="unit-filter-menu" id="uf-status-menu">
+                                <div class="unit-filter-menu-header">Filter by Status</div>
+                                <button class="unit-filter-option selected" data-filter="status" data-val="All"><span class="opt-dot" style="background:#CBD5E0;"></span> All Units</button>
+                                <button class="unit-filter-option" data-filter="status" data-val="Occupied"><span class="opt-dot" style="background:#3BAA6E;"></span> Occupied</button>
+                                <button class="unit-filter-option" data-filter="status" data-val="Vacant"><span class="opt-dot" style="background:#E8843A;"></span> Vacant</button>
+                            </div>
+                        </div>
+
+                        <!-- Lease Status filter -->
+                        <div class="unit-filter-group">
+                            <button class="unit-filter-btn" id="uf-lease-btn" type="button">
+                                <i class="fas fa-file-contract" style="font-size:11px; color:#3B8DBD;"></i>
+                                <span class="unit-filter-label">Lease:</span>
+                                <span class="unit-filter-val" id="uf-lease-val">All</span>
+                                <i class="fas fa-chevron-down chevron"></i>
+                            </button>
+                            <div class="unit-filter-menu" id="uf-lease-menu">
+                                <div class="unit-filter-menu-header">Filter by Lease Status</div>
+                                <button class="unit-filter-option selected" data-filter="lease" data-val="All"><span class="opt-dot" style="background:#CBD5E0;"></span> All</button>
+                                <button class="unit-filter-option" data-filter="lease" data-val="Active"><span class="opt-dot" style="background:#3BAA6E;"></span> Active Lease</button>
+                                <button class="unit-filter-option" data-filter="lease" data-val="Expired"><span class="opt-dot" style="background:#E53E3E;"></span> Expired</button>
+                                <button class="unit-filter-option" data-filter="lease" data-val="Moving In"><span class="opt-dot" style="background:#3B8DBD;"></span> Moving In</button>
+                                <button class="unit-filter-option" data-filter="lease" data-val="Moved Out"><span class="opt-dot" style="background:#A0AEC0;"></span> Moved Out</button>
+                            </div>
+                        </div>
+
+                        <!-- Activate Ad filter -->
+                        <div class="unit-filter-group">
+                            <button class="unit-filter-btn" id="uf-ad-btn" type="button">
+                                <i class="fas fa-bullhorn" style="font-size:11px; color:#7B4FCF;"></i>
+                                <span class="unit-filter-label">Ad:</span>
+                                <span class="unit-filter-val" id="uf-ad-val">All</span>
+                                <i class="fas fa-chevron-down chevron"></i>
+                            </button>
+                            <div class="unit-filter-menu" id="uf-ad-menu">
+                                <div class="unit-filter-menu-header">Filter by Ad Status</div>
+                                <button class="unit-filter-option selected" data-filter="ad" data-val="All"><span class="opt-dot" style="background:#CBD5E0;"></span> All</button>
+                                <button class="unit-filter-option" data-filter="ad" data-val="Active"><span class="opt-dot" style="background:#3BAA6E;"></span> Ad Active</button>
+                                <button class="unit-filter-option" data-filter="ad" data-val="Inactive"><span class="opt-dot" style="background:#A0AEC0;"></span> Ad Inactive</button>
+                            </div>
+                        </div>
+
                         <button class="filter-dd" id="btn-bulk-setup-unit-dv" style="background:#7B4FCF; color:#fff; border-color:#7B4FCF; margin-left:auto;">
                             <i class="fas fa-layer-group"></i> Bulk Setup Unit
                         </button>
@@ -3644,7 +3689,7 @@
                                     <th style="width:10%;">Status</th>
                                     <th style="width:22%;">Tenant</th>
                                     <th style="width:20%;">Lease Status</th>
-                                    <th style="width:14%; text-align:center;">Activate Listing</th>
+                                    <th style="width:14%; text-align:center;">Activate Ad</th>
                                     <th style="width:8%;"></th>
                                 </tr>
                             </thead>
@@ -3667,6 +3712,12 @@
                                             <div class="unit-dropdown">
                                                 <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-file-contract"></i> View Lease</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-comment-dots"></i> Contact Tenant</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3689,6 +3740,12 @@
                                             <div class="unit-dropdown">
                                                 <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-file-contract"></i> View Lease</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-comment-dots"></i> Contact Tenant</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3711,6 +3768,12 @@
                                             <div class="unit-dropdown">
                                                 <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-file-contract"></i> View Lease</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-comment-dots"></i> Contact Tenant</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3733,6 +3796,12 @@
                                             <div class="unit-dropdown">
                                                 <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-file-contract"></i> View Lease</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-comment-dots"></i> Contact Tenant</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3755,6 +3824,12 @@
                                             <div class="unit-dropdown">
                                                 <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-file-contract"></i> View Lease</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-comment-dots"></i> Contact Tenant</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3777,6 +3852,12 @@
                                             <div class="unit-dropdown">
                                                 <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-file-contract"></i> View Lease</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-comment-dots"></i> Contact Tenant</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3799,6 +3880,12 @@
                                             <div class="unit-dropdown">
                                                 <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-file-contract"></i> View Lease</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-comment-dots"></i> Contact Tenant</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3821,6 +3908,12 @@
                                             <div class="unit-dropdown">
                                                 <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-file-contract"></i> View Lease</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-comment-dots"></i> Contact Tenant</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3843,6 +3936,12 @@
                                             <div class="unit-dropdown">
                                                 <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-file-contract"></i> View Lease</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-comment-dots"></i> Contact Tenant</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3865,6 +3964,12 @@
                                             <div class="unit-dropdown">
                                                 <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-file-contract"></i> View Lease</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-comment-dots"></i> Contact Tenant</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -3887,6 +3992,12 @@
                                             <div class="unit-dropdown">
                                                 <button class="unit-dropdown-item unit-dd-new-listing"><i class="fas fa-bullhorn"></i> Create Ad</button>
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item"><i class="fas fa-file-contract"></i> View Lease</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-comment-dots"></i> Contact Tenant</button>
+                                                <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
+                                                <div class="unit-dd-sep"></div>
+                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -6093,15 +6204,6 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <!-- Tabs (hidden when opened from a locked context) -->
-            <div class="am-tab-bar" id="am-tab-bar">
-                <button class="am-tab-btn active" data-tab="property">
-                    Property Amenities <span class="am-tab-count" id="am-tab-count-property">0</span>
-                </button>
-                <button class="am-tab-btn" data-tab="unit">
-                    Unit Amenities <span class="am-tab-count" id="am-tab-count-unit">0</span>
-                </button>
-            </div>
             <!-- Selected strip -->
             <div class="am-selected-strip" id="am-selected-strip">
                 <div class="am-selected-strip-label">
@@ -6112,18 +6214,6 @@
                     <span class="am-sel-empty">Nothing selected yet — pick amenities below.</span>
                 </div>
             </div>
-            <!-- Apply-to bar (Unit Amenities only) -->
-            <div class="am-apply-bar" id="am-apply-bar">
-                <span class="am-apply-label"><i class="fas fa-bullseye" style="color:#7B4FCF;"></i> Apply to:</span>
-                <button type="button" class="am-apply-btn active" id="am-apply-all-btn">
-                    <i class="fas fa-layer-group"></i> All Units
-                </button>
-                <button type="button" class="am-apply-btn" id="am-apply-sel-btn">
-                    <i class="fas fa-check-square"></i> Selected Units
-                    <span class="am-apply-sel-count" id="am-apply-sel-count">0</span>
-                </button>
-            </div>
-            <div class="am-unit-checklist" id="am-unit-checklist"></div>
             <div class="am-controls">
                 <div class="am-search-wrap">
                     <i class="fas fa-search am-search-icon"></i>
@@ -6263,28 +6353,20 @@
             ]
         };
 
-        // ── State (separate for Property vs Unit) ────────────────────────────────
+        // ── State ────────────────────────────────────────────────────────────────
         var saved = {
             propAmenities: new Set(),
-            unitAmenities: new Set(),
-            propPhotos: [],      // [{id, src, name, isPrimary}]
-            unitPhotos: []
+            propPhotos: []      // [{id, src, name, isPrimary}]
         };
 
         // Working copies (modified in modal, committed on Save)
-        var working    = { property: new Set(), unit: new Set() };
+        var working       = new Set();
         var workingPhotos = [];
         var photoIdCounter = 0;
 
         // Modal context
-        var activeTab    = 'property';   // 'property' | 'unit'
         var activeFilter = 'all';
         var searchQuery  = '';
-        var mediaCtx     = 'property';   // 'property' | 'unit'
-
-        // Apply-to state (Unit Amenities)
-        var amApplyToAll     = true;
-        var amSelectedUnits  = new Set();
 
         // ── Utility ───────────────────────────────────────────────────────────────
         function esc(s) {
@@ -6307,7 +6389,7 @@
         }
 
         function renderSelectedStrip() {
-            var items = Array.from(working[activeTab]);
+            var items = Array.from(working);
             var countEl = document.getElementById('am-sel-count');
             var tagsEl  = document.getElementById('am-sel-tags');
             if (!countEl || !tagsEl) return;
@@ -6323,7 +6405,7 @@
                 tag.innerHTML = esc(amenity)
                     + '<button class="am-sel-tag-remove" type="button" title="Remove"><i class="fas fa-times" style="pointer-events:none;"></i></button>';
                 tag.querySelector('.am-sel-tag-remove').addEventListener('click', function() {
-                    working[activeTab].delete(amenity);
+                    working.delete(amenity);
                     renderSelectedStrip();
                     renderAmenities();
                     refreshAmenityCount();
@@ -6349,110 +6431,33 @@
         }
 
         function updateAllPreviews() {
-            // ① Property Amenities
+            // Property Amenities
             var pAm = Array.from(saved.propAmenities);
             document.getElementById('am-count-prop-am').textContent = pAm.length + ' selected';
             renderTagsPreview(document.getElementById('am-tags-prop'), pAm, 'btn-prop-amenities');
 
-            // ② Property Photos
+            // Property Photos
             var pPh = saved.propPhotos;
             document.getElementById('am-count-prop-ph').textContent =
                 pPh.length === 0 ? '0 photos' : pPh.length + (pPh.length === 1 ? ' photo' : ' photos');
             renderPhotosPreview(document.getElementById('am-photos-prop'), pPh, 'btn-prop-photos');
-
-            // ③ Unit Amenities
-            var uAm = Array.from(saved.unitAmenities);
-            document.getElementById('am-count-unit-am').textContent = uAm.length + ' selected';
-            renderTagsPreview(document.getElementById('am-tags-unit'), uAm, 'btn-unit-amenities');
-
-            // ④ Unit Photos
-            var uPh = saved.unitPhotos;
-            document.getElementById('am-count-unit-ph').textContent =
-                uPh.length === 0 ? '0 photos' : uPh.length + (uPh.length === 1 ? ' photo' : ' photos');
-            renderPhotosPreview(document.getElementById('am-photos-unit'), uPh, 'btn-unit-photos');
         }
 
         // ── Amenities Modal ───────────────────────────────────────────────────────
-        function openAmenitiesModal(tab) {
-            activeTab    = tab;
+        function openAmenitiesModal() {
             activeFilter = 'all';
             searchQuery  = '';
-            working = {
-                property: new Set(saved.propAmenities),
-                unit:     new Set(saved.unitAmenities)
-            };
-            // Title & icon
-            document.getElementById('am-modal-am-title').textContent =
-                tab === 'property' ? 'Property Amenities' : 'Unit Amenities';
-            // Activate correct tab
-            document.querySelectorAll('.am-tab-btn').forEach(function(b) {
-                b.classList.toggle('active', b.dataset.tab === tab);
-            });
+            working = new Set(saved.propAmenities);
             document.getElementById('am-amenity-search').value = '';
             renderCategoryChips();
             renderAmenities();
             renderSelectedStrip();
-            populateUnitChecklist();
-            syncApplyBar();
             openModal('am-modal-amenities');
-        }
-
-        // ── Apply-to bar helpers ──────────────────────────────────────────────────
-        function syncApplyBar() {
-            var bar       = document.getElementById('am-apply-bar');
-            var checklist = document.getElementById('am-unit-checklist');
-            if (!bar) return;
-            if (activeTab === 'unit') {
-                bar.classList.add('visible');
-                if (!amApplyToAll) {
-                    checklist.classList.add('visible');
-                } else {
-                    checklist.classList.remove('visible');
-                }
-            } else {
-                bar.classList.remove('visible');
-                checklist.classList.remove('visible');
-            }
-        }
-
-        function populateUnitChecklist() {
-            var checklist = document.getElementById('am-unit-checklist');
-            if (!checklist) return;
-            // Gather unit names from the unit rows in the page
-            var unitNames = [];
-            document.querySelectorAll('.unit-name').forEach(function(el) {
-                var name = el.textContent.trim();
-                if (name && unitNames.indexOf(name) === -1) unitNames.push(name);
-            });
-            if (unitNames.length === 0) {
-                // Fallback: generic unit labels
-                unitNames = ['Unit 101','Unit 102','Unit 201','Unit 202','Unit 301'];
-            }
-            checklist.innerHTML = '';
-            unitNames.forEach(function(name) {
-                var item = document.createElement('label');
-                item.className = 'am-unit-chk-item' + (amSelectedUnits.has(name) ? ' checked' : '');
-                item.innerHTML = '<input type="checkbox"' + (amSelectedUnits.has(name) ? ' checked' : '') + '>'
-                    + '<i class="fas fa-door-closed" style="font-size:10px;opacity:0.7;"></i>'
-                    + esc(name);
-                item.addEventListener('click', function() {
-                    if (amSelectedUnits.has(name)) {
-                        amSelectedUnits.delete(name);
-                        item.classList.remove('checked');
-                    } else {
-                        amSelectedUnits.add(name);
-                        item.classList.add('checked');
-                    }
-                    document.getElementById('am-apply-sel-count').textContent = amSelectedUnits.size;
-                });
-                checklist.appendChild(item);
-            });
-            document.getElementById('am-apply-sel-count').textContent = amSelectedUnits.size;
         }
 
         function renderAmenities() {
             var container = document.getElementById('am-amenity-body');
-            var cats = AMENITIES[activeTab];
+            var cats = AMENITIES['property'];
             var q = searchQuery.toLowerCase();
             container.innerHTML = '';
             var anyVisible = false;
@@ -6475,7 +6480,7 @@
 
                 var grid = section.querySelector('.am-amenity-grid');
                 items.forEach(function(amenity) {
-                    var isSel = working[activeTab].has(amenity);
+                    var isSel = working.has(amenity);
                     var chip = document.createElement('button');
                     chip.type = 'button';
                     chip.className = 'am-amenity-chip' + (isSel ? ' selected' : '');
@@ -6483,11 +6488,11 @@
                         '<span class="am-check-icon"><i class="fas fa-check" style="font-size:9px;pointer-events:none;"></i></span>'
                         + esc(amenity);
                     chip.addEventListener('click', function() {
-                        if (working[activeTab].has(amenity)) {
-                            working[activeTab].delete(amenity);
+                        if (working.has(amenity)) {
+                            working.delete(amenity);
                             chip.classList.remove('selected');
                         } else {
-                            working[activeTab].add(amenity);
+                            working.add(amenity);
                             chip.classList.add('selected');
                         }
                         refreshAmenityCount();
@@ -6504,19 +6509,13 @@
         }
 
         function refreshAmenityCount() {
-            var pCount = working.property.size;
-            var uCount = working.unit.size;
+            var count = working.size;
             var fc = document.getElementById('am-footer-count');
-            if (fc) fc.innerHTML = '<strong>' + (pCount + uCount) + '</strong> selected'
-                + ' <span style="color:#A0AEC0;">(' + pCount + ' property · ' + uCount + ' unit)</span>';
-            var tc1 = document.getElementById('am-tab-count-property');
-            var tc2 = document.getElementById('am-tab-count-unit');
-            if (tc1) tc1.textContent = pCount;
-            if (tc2) tc2.textContent = uCount;
+            if (fc) fc.innerHTML = '<strong>' + count + '</strong> amenities selected';
         }
 
         function renderCategoryChips() {
-            var cats = AMENITIES[activeTab];
+            var cats = AMENITIES['property'];
             var el = document.getElementById('am-cat-chips');
             var html = '<button class="am-chip' + (activeFilter === 'all' ? ' active' : '') + '" data-filter="all">All Categories</button>';
             cats.forEach(function(cat) {
@@ -6533,12 +6532,9 @@
         }
 
         // ── Media Modal ───────────────────────────────────────────────────────────
-        function openMediaModal(ctx) {
-            mediaCtx = ctx;
-            var sourcePhotos = ctx === 'property' ? saved.propPhotos : saved.unitPhotos;
-            workingPhotos = sourcePhotos.map(function(p) { return Object.assign({}, p); });
-            document.getElementById('am-modal-media-title').textContent =
-                ctx === 'property' ? 'Property Photos' : 'Unit Photos';
+        function openMediaModal() {
+            workingPhotos = saved.propPhotos.map(function(p) { return Object.assign({}, p); });
+            document.getElementById('am-modal-media-title').textContent = 'Property Photos';
             renderMediaGrid();
             openModal('am-modal-media');
         }
@@ -6641,45 +6637,9 @@
         document.addEventListener('DOMContentLoaded', function() {
 
             // Property Amenities button
+            // Property Amenities button
             document.getElementById('btn-prop-amenities').addEventListener('click', function() {
-                openAmenitiesModal('property');
-            });
-            // Unit Amenities button
-            document.getElementById('btn-unit-amenities').addEventListener('click', function() {
-                openAmenitiesModal('unit');
-            });
-
-            // Tab switching inside modal
-            document.querySelectorAll('.am-tab-btn').forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    activeTab    = btn.dataset.tab;
-                    activeFilter = 'all';
-                    searchQuery  = '';
-                    document.getElementById('am-amenity-search').value = '';
-                    document.querySelectorAll('.am-tab-btn').forEach(function(b) {
-                        b.classList.toggle('active', b === btn);
-                    });
-                    document.getElementById('am-modal-am-title').textContent =
-                        activeTab === 'property' ? 'Property Amenities' : 'Unit Amenities';
-                    renderCategoryChips();
-                    renderAmenities();
-                    renderSelectedStrip();
-                    syncApplyBar();
-                });
-            });
-
-            // Apply-to toggle buttons
-            document.getElementById('am-apply-all-btn').addEventListener('click', function() {
-                amApplyToAll = true;
-                document.getElementById('am-apply-all-btn').classList.add('active');
-                document.getElementById('am-apply-sel-btn').classList.remove('active');
-                document.getElementById('am-unit-checklist').classList.remove('visible');
-            });
-            document.getElementById('am-apply-sel-btn').addEventListener('click', function() {
-                amApplyToAll = false;
-                document.getElementById('am-apply-sel-btn').classList.add('active');
-                document.getElementById('am-apply-all-btn').classList.remove('active');
-                document.getElementById('am-unit-checklist').classList.add('visible');
+                openAmenitiesModal();
             });
 
             // Search
@@ -6690,10 +6650,9 @@
                 renderAmenities();
             });
 
-            // Save Amenities — commits both tabs
+            // Save Amenities
             document.getElementById('am-save-amenities').addEventListener('click', function() {
-                saved.propAmenities = new Set(working.property);
-                saved.unitAmenities = new Set(working.unit);
+                saved.propAmenities = new Set(working);
                 updateAllPreviews();
                 closeModal('am-modal-amenities');
             });
@@ -6707,20 +6666,12 @@
 
             // Property Photos button
             document.getElementById('btn-prop-photos').addEventListener('click', function() {
-                openMediaModal('property');
-            });
-            // Unit Photos button
-            document.getElementById('btn-unit-photos').addEventListener('click', function() {
-                openMediaModal('unit');
+                openMediaModal();
             });
 
-            // Save Photos — commits to correct context
+            // Save Photos
             document.getElementById('am-save-media').addEventListener('click', function() {
-                if (mediaCtx === 'property') {
-                    saved.propPhotos = workingPhotos.map(function(p) { return Object.assign({}, p); });
-                } else {
-                    saved.unitPhotos = workingPhotos.map(function(p) { return Object.assign({}, p); });
-                }
+                saved.propPhotos = workingPhotos.map(function(p) { return Object.assign({}, p); });
                 updateAllPreviews();
                 closeModal('am-modal-media');
             });
@@ -6987,6 +6938,98 @@
                 suwOpen();
             }
         });
+
+        // ── Unit Tab Filter Dropdowns ─────────────────────────────────────────────
+        (function() {
+            var filters = { status: 'All', lease: 'All', ad: 'All' };
+
+            function toggleMenu(btnId, menuId) {
+                var btn  = document.getElementById(btnId);
+                var menu = document.getElementById(menuId);
+                if (!btn || !menu) return;
+                var isOpen = menu.classList.contains('open');
+                // Close all first
+                document.querySelectorAll('.unit-filter-menu.open').forEach(function(m) { m.classList.remove('open'); });
+                document.querySelectorAll('.unit-filter-btn.open').forEach(function(b) { b.classList.remove('open'); });
+                if (!isOpen) {
+                    menu.classList.add('open');
+                    btn.classList.add('open');
+                }
+            }
+
+            document.getElementById('uf-status-btn') && document.getElementById('uf-status-btn').addEventListener('click', function(e) {
+                e.stopPropagation(); toggleMenu('uf-status-btn', 'uf-status-menu');
+            });
+            document.getElementById('uf-lease-btn') && document.getElementById('uf-lease-btn').addEventListener('click', function(e) {
+                e.stopPropagation(); toggleMenu('uf-lease-btn', 'uf-lease-menu');
+            });
+            document.getElementById('uf-ad-btn') && document.getElementById('uf-ad-btn').addEventListener('click', function(e) {
+                e.stopPropagation(); toggleMenu('uf-ad-btn', 'uf-ad-menu');
+            });
+
+            // Option selection
+            document.querySelectorAll('.unit-filter-option').forEach(function(opt) {
+                opt.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    var filterKey = opt.dataset.filter;
+                    var val       = opt.dataset.val;
+                    filters[filterKey] = val;
+
+                    // Update val label
+                    var valEl = document.getElementById('uf-' + filterKey + '-val');
+                    if (valEl) valEl.textContent = val;
+
+                    // Mark selected in menu
+                    opt.closest('.unit-filter-menu').querySelectorAll('.unit-filter-option').forEach(function(o) {
+                        o.classList.toggle('selected', o === opt);
+                    });
+
+                    // Toggle active state on button
+                    var btn = document.getElementById('uf-' + filterKey + '-btn');
+                    if (btn) btn.classList.toggle('active', val !== 'All');
+
+                    // Close menus
+                    document.querySelectorAll('.unit-filter-menu.open').forEach(function(m) { m.classList.remove('open'); });
+                    document.querySelectorAll('.unit-filter-btn.open').forEach(function(b) { b.classList.remove('open'); });
+
+                    applyFilters();
+                });
+            });
+
+            function applyFilters() {
+                var rows = document.querySelectorAll('.unit-table tbody tr');
+                rows.forEach(function(row) {
+                    var statusBadge = row.querySelector('.unit-badge');
+                    var leaseCell   = row.cells[3] ? row.cells[3].textContent.trim() : '';
+                    var adToggle    = row.querySelector('.unit-activate-toggle');
+
+                    var statusOk = filters.status === 'All' || (statusBadge && statusBadge.textContent.trim() === filters.status);
+
+                    var leaseOk = filters.lease === 'All';
+                    if (!leaseOk) {
+                        var lc = leaseCell.toLowerCase();
+                        if (filters.lease === 'Active')    leaseOk = lc.indexOf('active') !== -1;
+                        else if (filters.lease === 'Expired')   leaseOk = lc.indexOf('expired') !== -1;
+                        else if (filters.lease === 'Moving In') leaseOk = lc.indexOf('moves-in') !== -1 || lc.indexOf('moving in') !== -1;
+                        else if (filters.lease === 'Moved Out') leaseOk = lc.indexOf('moved-out') !== -1 || lc.indexOf('moved out') !== -1;
+                    }
+
+                    var adOk = filters.ad === 'All';
+                    if (!adOk) {
+                        var isOn = adToggle && adToggle.classList.contains('on');
+                        adOk = (filters.ad === 'Active' && isOn) || (filters.ad === 'Inactive' && !isOn);
+                    }
+
+                    row.style.display = (statusOk && leaseOk && adOk) ? '' : 'none';
+                });
+            }
+
+            // Close menus on outside click
+            document.addEventListener('click', function() {
+                document.querySelectorAll('.unit-filter-menu.open').forEach(function(m) { m.classList.remove('open'); });
+                document.querySelectorAll('.unit-filter-btn.open').forEach(function(b) { b.classList.remove('open'); });
+            });
+        })();
     })();
 
     /* ══ BULK SETUP UNIT WIZARD (Detail View) ══ */
