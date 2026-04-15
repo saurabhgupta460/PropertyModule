@@ -6723,16 +6723,15 @@
         var currentStep = 1;
         var suwEditMode = false;
 
-        /* Units per property – mirrors the unit table rows */
-        var SUW_PROPERTY_UNITS = {
-            '5553 A Janson Avenue': [
-                'Aptt 5553 A Janson Avenue','Aptt 433 B Nathan Square',
-                'Aptt 9343 C City Gardens','Aptt 8930 D Dorjee Jackson',
-                'Aptt 2244 Abraham Square','Aptt 4224 A Queens Philip',
-                'Appt 101 A Jackson Ville','Aptt 0200 A Garden Williams Estate',
-                'Aptt 1001 A Nancy Avenue','Aptt 3003 A Bishopville','Aptt 4033 A Sunnyvalle'
-            ]
-        };
+        /* Units per property – 150 units generated for 5553 A Janson Avenue */
+        var SUW_PROPERTY_UNITS = (function() {
+            function pad(n) { return n < 10 ? '0' + n : '' + n; }
+            var units = [];
+            for (var f = 1; f <= 10; f++)
+                for (var u = 1; u <= 15; u++)
+                    units.push('Unit ' + f + pad(u));
+            return { '5553 A Janson Avenue': units };
+        })();
 
         var SUW_AMENITIES = {
             'Interior': ['Air Conditioning','Heating','Ceiling Fans','Hardwood Floors','Carpet','Tile Floors','Walk-in Closet','Linen Closet','In-Unit Washer/Dryer','Washer/Dryer Hookups','Dishwasher','Garbage Disposal','Microwave','Refrigerator','Stove/Range','Oven','Fireplace','Balcony/Patio','Private Yard','Storage Room'],

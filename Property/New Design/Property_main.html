@@ -2239,17 +2239,35 @@
         var totalSteps  = 5;
         var currentStep = 1;
 
-        /* ── Units per property ── */
-        var SUW_PROPERTY_UNITS = {
-            '5553 A Janson Avenue': ['Unit 101','Unit 102','Unit 103','Unit 201','Unit 202','Unit 301','Unit 302'],
-            '433 B Nathan Square':  ['Apt A','Apt B','Apt C','Apt D'],
-            '9343 C City Gardens':  ['Suite 1','Suite 2','Suite 3','Suite 4','Suite 5'],
-            '7821 D Oak Boulevard': ['Unit 1A','Unit 1B','Unit 2A','Unit 2B','Unit 3A'],
-            '2210 E Pine Street':   ['Floor 1','Floor 2','Floor 3'],
-            '1045 F Maple Court':   ['Cottage A','Cottage B','Cottage C'],
-            '3380 G River Road':    ['Unit 100','Unit 200','Unit 300','Unit 400'],
-            '6612 H Sunset Drive':  ['Studio 1','Studio 2','One Bed A','One Bed B','Two Bed A']
-        };
+        /* ── Units per property (generated) ── */
+        var SUW_PROPERTY_UNITS = (function() {
+            function pad(n) { return n < 10 ? '0' + n : '' + n; }
+            var p1 = [];
+            for (var f1 = 1; f1 <= 10; f1++)
+                for (var u1 = 1; u1 <= 15; u1++)
+                    p1.push('Unit ' + f1 + pad(u1));
+            var p2 = [];
+            ['A','B','C','D'].forEach(function(b) {
+                for (var u2 = 101; u2 <= 150; u2++) p2.push('Bldg ' + b + '-' + u2);
+            });
+            var p3 = [];
+            for (var s = 100; s <= 219; s++) p3.push('Suite ' + s);
+            var p4 = [];
+            for (var f4 = 1; f4 <= 30; f4++)
+                ['A','B','C','D','E','F'].forEach(function(u) { p4.push('Unit ' + f4 + u); });
+            var p5 = [];
+            for (var u5 = 101; u5 <= 200; u5++) p5.push('Apt ' + u5);
+            return {
+                '5553 A Janson Avenue': p1,
+                '433 B Nathan Square':  p2,
+                '9343 C City Gardens':  p3,
+                '7821 D Oak Boulevard': p4,
+                '2210 E Pine Street':   p5,
+                '1045 F Maple Court':   ['Cottage A','Cottage B','Cottage C','Cottage D','Cottage E'],
+                '3380 G River Road':    ['Unit 100','Unit 101','Unit 102','Unit 200','Unit 201','Unit 202','Unit 300'],
+                '6612 H Sunset Drive':  ['Studio 1','Studio 2','Studio 3','One Bed A','One Bed B','Two Bed A','Two Bed B']
+            };
+        })();
 
         /* ── Amenity data ── */
         var SUW_AMENITIES = {
@@ -2510,17 +2528,40 @@
         var bsuwSelectedAmenities = new Set();
         var bsuwApplyToAll = true;      // true = all units, false = selected units
 
-        /* ─── Units per property ─── */
-        var BSUW_PROPERTY_UNITS = {
-            '5553 A Janson Avenue': ['Unit 101','Unit 102','Unit 103','Unit 201','Unit 202','Unit 301','Unit 302'],
-            '433 B Nathan Square':  ['Apt A','Apt B','Apt C','Apt D'],
-            '9343 C City Gardens':  ['Suite 1','Suite 2','Suite 3','Suite 4','Suite 5'],
-            '7821 D Oak Boulevard': ['Unit 1A','Unit 1B','Unit 2A','Unit 2B','Unit 3A'],
-            '2210 E Pine Street':   ['Floor 1','Floor 2','Floor 3'],
-            '1045 F Maple Court':   ['Cottage A','Cottage B','Cottage C'],
-            '3380 G River Road':    ['Unit 100','Unit 200','Unit 300','Unit 400'],
-            '6612 H Sunset Drive':  ['Studio 1','Studio 2','One Bed A','One Bed B','Two Bed A']
-        };
+        /* ─── Units per property (generated) ─── */
+        var BSUW_PROPERTY_UNITS = (function() {
+            function pad(n) { return n < 10 ? '0' + n : '' + n; }
+            // 5553 A Janson Avenue – 150 units: 10 floors × 15 units per floor
+            var p1 = [];
+            for (var f1 = 1; f1 <= 10; f1++)
+                for (var u1 = 1; u1 <= 15; u1++)
+                    p1.push('Unit ' + f1 + pad(u1));
+            // 433 B Nathan Square – 200 units: 4 buildings (A–D) × 50 units each
+            var p2 = [];
+            ['A','B','C','D'].forEach(function(b) {
+                for (var u2 = 101; u2 <= 150; u2++) p2.push('Bldg ' + b + '-' + u2);
+            });
+            // 9343 C City Gardens – 120 units: Suite 100–219
+            var p3 = [];
+            for (var s = 100; s <= 219; s++) p3.push('Suite ' + s);
+            // 7821 D Oak Boulevard – 180 units: 30 floors × 6 units per floor (A–F)
+            var p4 = [];
+            for (var f4 = 1; f4 <= 30; f4++)
+                ['A','B','C','D','E','F'].forEach(function(u) { p4.push('Unit ' + f4 + u); });
+            // 2210 E Pine Street – 100 units: Apt 101–200
+            var p5 = [];
+            for (var u5 = 101; u5 <= 200; u5++) p5.push('Apt ' + u5);
+            return {
+                '5553 A Janson Avenue': p1,  // 150 units
+                '433 B Nathan Square':  p2,  // 200 units
+                '9343 C City Gardens':  p3,  // 120 units
+                '7821 D Oak Boulevard': p4,  // 180 units
+                '2210 E Pine Street':   p5,  // 100 units
+                '1045 F Maple Court':   ['Cottage A','Cottage B','Cottage C','Cottage D','Cottage E'],
+                '3380 G River Road':    ['Unit 100','Unit 101','Unit 102','Unit 200','Unit 201','Unit 202','Unit 300'],
+                '6612 H Sunset Drive':  ['Studio 1','Studio 2','Studio 3','One Bed A','One Bed B','Two Bed A','Two Bed B']
+            };
+        })();
 
         /* ─── Amenity data ─── */
         var BSUW_AMENITIES = {
