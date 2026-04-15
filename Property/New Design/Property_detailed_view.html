@@ -3675,7 +3675,10 @@
                             </div>
                         </div>
 
-                        <button class="filter-dd" id="btn-bulk-setup-unit-dv" style="background:#7B4FCF; color:#fff; border-color:#7B4FCF; margin-left:auto;">
+                        <button class="filter-dd" id="btn-add-unit-dv" style="background:#4A6FA5; color:#fff; border-color:#4A6FA5; margin-left:auto;">
+                            <i class="fas fa-plus"></i> Add Unit
+                        </button>
+                        <button class="filter-dd" id="btn-bulk-setup-unit-dv" style="background:#7B4FCF; color:#fff; border-color:#7B4FCF;">
                             <i class="fas fa-layer-group"></i> Bulk Setup Unit
                         </button>
                     </div>
@@ -7247,6 +7250,7 @@
         document.getElementById('bsuw-btn-next').addEventListener('click',function(){if(currentStep<totalSteps){currentStep++;bsuwRender();}else{document.getElementById('bsuw-success-msg').style.display='block';var btn=document.getElementById('bsuw-btn-next');btn.textContent='Done';btn.classList.add('finish');setTimeout(function(){bsuwClose();},2500);}});
         document.getElementById('bsuw-close-top').addEventListener('click',bsuwClose);
         document.getElementById('btn-bulk-setup-unit-dv').addEventListener('click',bsuwOpen);
+        document.getElementById('btn-add-unit-dv').addEventListener('click', function() { window.suwOpen && window.suwOpen(); });
     })();
     </script>
 
