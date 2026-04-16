@@ -959,6 +959,29 @@
         .sl-action-btn:hover { border-color: #3B8DBD; color: #3B8DBD; background: #F0F8FF; }
         .sl-action-btn--danger:hover { border-color: #E53E3E; color: #E53E3E; background: #FFF5F5; }
 
+        /* Unit-grouped appliance table */
+        .sl-unit-row { cursor: pointer; transition: background 0.15s; }
+        .sl-unit-row:hover { background: #F5F3FF !important; }
+        .sl-expand-icon { font-size: 10px; color: #A0AEC0; transition: transform 0.2s ease; display: inline-block; }
+        .sl-unit-row.expanded .sl-expand-icon { transform: rotate(90deg); color: #6B46C1; }
+        .sl-unit-row.expanded { background: #FAFBFF; }
+        .sl-count-zero { color: #CBD5E0; font-weight: 400; }
+        .sl-count-pill { display: inline-flex; align-items: center; justify-content: center;
+            min-width: 26px; height: 24px; border-radius: 20px; font-size: 12px; font-weight: 700; padding: 0 6px; }
+        .sl-count-pill--warn { background: #FFF4E8; color: #B86E1F; }
+        .sl-count-pill--danger { background: #FEE8E8; color: #C53030; }
+        .sl-count-pill--purple { background: #F0EBFA; color: #7C5CBF; }
+        .sl-count-pill--blue { background: #EBF4FA; color: #2E7AA5; }
+        .sl-detail-cell { padding: 0 !important; background: #FAFBFF; border-bottom: 2px solid #E9E3F8 !important; }
+        .sl-nested-wrap { padding: 4px 12px 12px 40px; }
+        .sl-table--nested { margin: 0; font-size: 12px; }
+        .sl-table--nested thead th { background: #EDF2F7; font-size: 10.5px; padding: 7px 10px; }
+        .sl-table--nested tbody td { padding: 7px 10px; font-size: 12px; }
+        .sl-unit-label { display: flex; align-items: center; gap: 8px; }
+        .sl-unit-label i { color: #6B46C1; font-size: 14px; }
+        .sl-unit-label span { font-weight: 600; color: #2D3748; }
+        .sl-total-row td { font-weight: 700; background: #F7F8FA; border-top: 2px solid #E2E6EB; }
+
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
@@ -4765,199 +4788,342 @@
                 </div>
             </div>
 
-            <div style="display:flex; gap:10px; margin-bottom:16px;">
-                <input class="form-input" style="flex:1;" placeholder="Search appliances...">
-                <select class="form-select" style="width:140px;">
-                    <option>All Status</option>
-                    <option>Working</option>
-                    <option>Needs Repair</option>
-                    <option>Warranty Expiring</option>
-                    <option>Replaced</option>
+            <!-- Filter row -->
+            <div style="display:flex; gap:10px; margin-bottom:16px; align-items:center;">
+                <input class="form-input" id="sl-appl-search" style="flex:1;" placeholder="Search units or appliances..." oninput="slFilterApplianceRows(this.value)">
+                <select class="form-select" id="sl-appl-filter" style="width:160px;" onchange="slFilterApplianceRows(document.getElementById('sl-appl-search').value)">
+                    <option value="">All Units</option>
+                    <option value="101A">Unit 101A</option>
+                    <option value="101B">Unit 101B</option>
+                    <option value="101C">Unit 101C</option>
+                    <option value="101D">Unit 101D</option>
+                    <option value="101E">Unit 101E</option>
+                    <option value="common">Common</option>
                 </select>
-                <select class="form-select" style="width:130px;">
-                    <option>All Units</option>
-                    <option>Unit 101A</option>
-                    <option>Unit 101B</option>
-                    <option>Unit 101C</option>
-                    <option>Unit 101D</option>
-                    <option>Unit 101E</option>
-                </select>
+                <span style="font-size:12px; color:#718096;">6 units &middot; 18 appliances</span>
             </div>
 
-            <table class="sl-table">
+            <!-- Unit-grouped summary table -->
+            <table class="sl-table" id="sl-appl-table">
                 <thead>
                     <tr>
-                        <th>Appliance</th>
+                        <th style="width:28px; padding-left:12px;"></th>
                         <th>Unit</th>
-                        <th>Brand / Model</th>
-                        <th>Status</th>
-                        <th>Warranty</th>
-                        <th>Service due</th>
-                        <th></th>
+                        <th style="text-align:center;">Appliances</th>
+                        <th style="text-align:center;">Warranty Expiring</th>
+                        <th style="text-align:center;">Need Service</th>
+                        <th style="text-align:center;">Need Repair</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><strong>Refrigerator</strong></td>
-                        <td>Unit 101A</td>
-                        <td>Samsung RF28 / RF28R7351SR</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Dec 2027</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">Aug 12, 2026</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+                    <!-- ── Unit 101A  (4 appliances, 0 warranty exp, 0 service, 1 repair) ── -->
+                    <tr class="sl-unit-row" data-unit="101A" onclick="slToggleUnit(this)">
+                        <td style="padding-left:12px;"><i class="fas fa-chevron-right sl-expand-icon"></i></td>
+                        <td>
+                            <div class="sl-unit-label">
+                                <i class="fas fa-building"></i>
+                                <span>Unit 101A</span>
+                            </div>
+                        </td>
+                        <td style="text-align:center; font-weight:600;">4</td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
+                        <td style="text-align:center;"><span class="sl-count-pill sl-count-pill--warn">1</span></td>
                     </tr>
-                    <tr>
-                        <td><strong>Dishwasher</strong></td>
-                        <td>Unit 101A</td>
-                        <td>Bosch 500 / SHPM88Z75N</td>
-                        <td><span class="sl-badge sl-badge--orange">Needs Repair</span></td>
-                        <td>Mar 2026</td>
-                        <td><span style="font-size:12px; color:#A0AEC0;">—</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+                    <tr class="sl-detail-row" data-unit="101A" style="display:none;">
+                        <td colspan="6" class="sl-detail-cell">
+                            <div class="sl-nested-wrap">
+                                <table class="sl-table sl-table--nested">
+                                    <thead><tr><th>Appliance</th><th>Brand / Model</th><th>Status</th><th>Warranty</th><th>Service Due</th><th></th></tr></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Refrigerator</strong></td>
+                                            <td>Samsung RF28 / RF28R7351SR</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Dec 2027</td>
+                                            <td><span style="color:#5A6B7E;">Aug 12, 2026</span></td>
+                                            <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Dishwasher</strong></td>
+                                            <td>Bosch 500 / SHPM88Z75N</td>
+                                            <td><span class="sl-badge sl-badge--orange">Needs Repair</span></td>
+                                            <td>Mar 2026</td>
+                                            <td><span style="color:#A0AEC0;">—</span></td>
+                                            <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Washer</strong></td>
+                                            <td>LG WM4000HWA</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Aug 2027</td>
+                                            <td><span style="color:#5A6B7E;">Sep 3, 2026</span></td>
+                                            <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Dryer</strong></td>
+                                            <td>LG DLEX4000W</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Aug 2027</td>
+                                            <td><span style="color:#5A6B7E;">Sep 3, 2026</span></td>
+                                            <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><strong>Washer</strong></td>
-                        <td>Unit 101A</td>
-                        <td>LG WM4000HWA</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Aug 2027</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">Sep 3, 2026</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+
+                    <!-- ── Unit 101B  (3 appliances, 0 warranty exp, 0 service, 0 repair) ── -->
+                    <tr class="sl-unit-row" data-unit="101B" onclick="slToggleUnit(this)">
+                        <td style="padding-left:12px;"><i class="fas fa-chevron-right sl-expand-icon"></i></td>
+                        <td>
+                            <div class="sl-unit-label">
+                                <i class="fas fa-building"></i>
+                                <span>Unit 101B</span>
+                            </div>
+                        </td>
+                        <td style="text-align:center; font-weight:600;">3</td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
                     </tr>
-                    <tr>
-                        <td><strong>Dryer</strong></td>
-                        <td>Unit 101A</td>
-                        <td>LG DLEX4000W</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Aug 2027</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">Sep 3, 2026</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+                    <tr class="sl-detail-row" data-unit="101B" style="display:none;">
+                        <td colspan="6" class="sl-detail-cell">
+                            <div class="sl-nested-wrap">
+                                <table class="sl-table sl-table--nested">
+                                    <thead><tr><th>Appliance</th><th>Brand / Model</th><th>Status</th><th>Warranty</th><th>Service Due</th><th></th></tr></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Microwave</strong></td>
+                                            <td>GE JVM6175DKWW</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Jan 2028</td>
+                                            <td><span style="color:#A0AEC0;">—</span></td>
+                                            <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Garbage Disposal</strong></td>
+                                            <td>InSinkErator Evolution</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Jul 2028</td>
+                                            <td><span style="color:#5A6B7E;">Nov 1, 2026</span></td>
+                                            <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>A/C Window Unit</strong></td>
+                                            <td>Frigidaire FFRA051WAE</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Jun 2026</td>
+                                            <td><span style="color:#5A6B7E;">May 1, 2026</span></td>
+                                            <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><strong>HVAC System</strong></td>
-                        <td>Unit 101D</td>
-                        <td>Carrier 24ACC636A003</td>
-                        <td><span class="sl-badge sl-badge--blue">Warranty Expiring</span></td>
-                        <td style="color:#B86E1F; font-weight:600;">May 22, 2026</td>
-                        <td><span style="font-size:12px; font-weight:700; color:#2B6CB0;">Apr 28, 2026</span> <span class="sl-badge sl-badge--blue" style="font-size:9px; padding:2px 6px;">Next</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+
+                    <!-- ── Unit 101C  (3 appliances, 0 warranty exp, 0 service, 1 repair) ── -->
+                    <tr class="sl-unit-row" data-unit="101C" onclick="slToggleUnit(this)">
+                        <td style="padding-left:12px;"><i class="fas fa-chevron-right sl-expand-icon"></i></td>
+                        <td>
+                            <div class="sl-unit-label">
+                                <i class="fas fa-building"></i>
+                                <span>Unit 101C</span>
+                            </div>
+                        </td>
+                        <td style="text-align:center; font-weight:600;">3</td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
+                        <td style="text-align:center;"><span class="sl-count-pill sl-count-pill--warn">1</span></td>
                     </tr>
-                    <tr>
-                        <td><strong>Microwave</strong></td>
-                        <td>Unit 101B</td>
-                        <td>GE JVM6175DKWW</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Jan 2028</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">—</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+                    <tr class="sl-detail-row" data-unit="101C" style="display:none;">
+                        <td colspan="6" class="sl-detail-cell">
+                            <div class="sl-nested-wrap">
+                                <table class="sl-table sl-table--nested">
+                                    <thead><tr><th>Appliance</th><th>Brand / Model</th><th>Status</th><th>Warranty</th><th>Service Due</th><th></th></tr></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Oven / Range</strong></td>
+                                            <td>Whirlpool WFG525S0JZ</td>
+                                            <td><span class="sl-badge sl-badge--orange">Needs Repair</span></td>
+                                            <td>Sep 2025</td>
+                                            <td><span style="color:#A0AEC0;">—</span></td>
+                                            <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Refrigerator</strong></td>
+                                            <td>LG LRMVS3006S</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Nov 2028</td>
+                                            <td><span style="color:#5A6B7E;">May 20, 2026</span></td>
+                                            <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Washer</strong></td>
+                                            <td>Samsung WF45R6100AW</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Apr 2027</td>
+                                            <td><span style="color:#5A6B7E;">Jun 30, 2026</span></td>
+                                            <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><strong>Oven / Range</strong></td>
-                        <td>Unit 101C</td>
-                        <td>Whirlpool WFG525S0JZ</td>
-                        <td><span class="sl-badge sl-badge--orange">Needs Repair</span></td>
-                        <td>Sep 2025</td>
-                        <td><span style="font-size:12px; color:#A0AEC0;">—</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+
+                    <!-- ── Unit 101D  (3 appliances, 1 warranty exp, 1 service, 0 repair) ── -->
+                    <tr class="sl-unit-row" data-unit="101D" onclick="slToggleUnit(this)">
+                        <td style="padding-left:12px;"><i class="fas fa-chevron-right sl-expand-icon"></i></td>
+                        <td>
+                            <div class="sl-unit-label">
+                                <i class="fas fa-building"></i>
+                                <span>Unit 101D</span>
+                            </div>
+                        </td>
+                        <td style="text-align:center; font-weight:600;">3</td>
+                        <td style="text-align:center;"><span class="sl-count-pill sl-count-pill--purple">1</span></td>
+                        <td style="text-align:center;"><span class="sl-count-pill sl-count-pill--blue">1</span></td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
                     </tr>
-                    <tr>
-                        <td><strong>Garbage Disposal</strong></td>
-                        <td>Unit 101B</td>
-                        <td>InSinkErator Evolution</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Jul 2028</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">Nov 1, 2026</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+                    <tr class="sl-detail-row" data-unit="101D" style="display:none;">
+                        <td colspan="6" class="sl-detail-cell">
+                            <div class="sl-nested-wrap">
+                                <table class="sl-table sl-table--nested">
+                                    <thead><tr><th>Appliance</th><th>Brand / Model</th><th>Status</th><th>Warranty</th><th>Service Due</th><th></th></tr></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>HVAC System</strong></td>
+                                            <td>Carrier 24ACC636A003</td>
+                                            <td><span class="sl-badge sl-badge--blue">Warranty Expiring</span></td>
+                                            <td style="color:#B86E1F; font-weight:600;">May 22, 2026</td>
+                                            <td><span style="font-weight:700; color:#2B6CB0;">Apr 28, 2026</span> <span class="sl-badge sl-badge--blue" style="font-size:9px; padding:2px 6px;">Next</span></td>
+                                            <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Dishwasher</strong></td>
+                                            <td>KitchenAid KDTM404KPS</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Feb 2028</td>
+                                            <td><span style="color:#5A6B7E;">Jul 8, 2026</span></td>
+                                            <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Dryer</strong></td>
+                                            <td>Samsung DVE45R6100W</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Apr 2027</td>
+                                            <td><span style="color:#5A6B7E;">Jun 30, 2026</span></td>
+                                            <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><strong>Water Heater</strong></td>
-                        <td>Common</td>
-                        <td>Rheem PROG50-36N</td>
-                        <td><span class="sl-badge sl-badge--blue">Warranty Expiring</span></td>
-                        <td style="color:#B86E1F; font-weight:600;">Jun 5, 2026</td>
-                        <td><span style="font-size:12px; font-weight:700; color:#C53030;">Mar 15, 2026</span> <span class="sl-badge sl-badge--red" style="font-size:9px; padding:2px 6px;">Overdue</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+
+                    <!-- ── Unit 101E  (3 appliances, 0 warranty exp, 0 service, 0 repair) ── -->
+                    <tr class="sl-unit-row" data-unit="101E" onclick="slToggleUnit(this)">
+                        <td style="padding-left:12px;"><i class="fas fa-chevron-right sl-expand-icon"></i></td>
+                        <td>
+                            <div class="sl-unit-label">
+                                <i class="fas fa-building"></i>
+                                <span>Unit 101E</span>
+                            </div>
+                        </td>
+                        <td style="text-align:center; font-weight:600;">3</td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
                     </tr>
-                    <tr>
-                        <td><strong>Refrigerator</strong></td>
-                        <td>Unit 101C</td>
-                        <td>LG LRMVS3006S</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Nov 2028</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">May 20, 2026</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+                    <tr class="sl-detail-row" data-unit="101E" style="display:none;">
+                        <td colspan="6" class="sl-detail-cell">
+                            <div class="sl-nested-wrap">
+                                <table class="sl-table sl-table--nested">
+                                    <thead><tr><th>Appliance</th><th>Brand / Model</th><th>Status</th><th>Warranty</th><th>Service Due</th><th></th></tr></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Ceiling Fan</strong></td>
+                                            <td>Hunter Dempsey 52"</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Lifetime</td>
+                                            <td><span style="color:#A0AEC0;">—</span></td>
+                                            <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Refrigerator</strong></td>
+                                            <td>Whirlpool WRS325SDHZ</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Oct 2027</td>
+                                            <td><span style="color:#5A6B7E;">Jan 14, 2027</span></td>
+                                            <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Microwave</strong></td>
+                                            <td>Panasonic NN-SN966S</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Mar 2028</td>
+                                            <td><span style="color:#A0AEC0;">—</span></td>
+                                            <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><strong>Dishwasher</strong></td>
-                        <td>Unit 101D</td>
-                        <td>KitchenAid KDTM404KPS</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Feb 2028</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">Jul 8, 2026</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+
+                    <!-- ── Common  (2 appliances, 1 warranty exp, 1 service overdue, 0 repair) ── -->
+                    <tr class="sl-unit-row" data-unit="common" onclick="slToggleUnit(this)">
+                        <td style="padding-left:12px;"><i class="fas fa-chevron-right sl-expand-icon"></i></td>
+                        <td>
+                            <div class="sl-unit-label">
+                                <i class="fas fa-home" style="color:#2E7AA5;"></i>
+                                <span>Common Areas</span>
+                            </div>
+                        </td>
+                        <td style="text-align:center; font-weight:600;">2</td>
+                        <td style="text-align:center;"><span class="sl-count-pill sl-count-pill--purple">1</span></td>
+                        <td style="text-align:center;"><span class="sl-count-pill sl-count-pill--danger">1</span></td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
                     </tr>
-                    <tr>
-                        <td><strong>Washer</strong></td>
-                        <td>Unit 101C</td>
-                        <td>Samsung WF45R6100AW</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Apr 2027</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">Jun 30, 2026</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+                    <tr class="sl-detail-row" data-unit="common" style="display:none;">
+                        <td colspan="6" class="sl-detail-cell">
+                            <div class="sl-nested-wrap">
+                                <table class="sl-table sl-table--nested">
+                                    <thead><tr><th>Appliance</th><th>Brand / Model</th><th>Status</th><th>Warranty</th><th>Service Due</th><th></th></tr></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Water Heater</strong></td>
+                                            <td>Rheem PROG50-36N</td>
+                                            <td><span class="sl-badge sl-badge--blue">Warranty Expiring</span></td>
+                                            <td style="color:#B86E1F; font-weight:600;">Jun 5, 2026</td>
+                                            <td><span style="font-weight:700; color:#C53030;">Mar 15, 2026</span> <span class="sl-badge sl-badge--red" style="font-size:9px; padding:2px 6px;">Overdue</span></td>
+                                            <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Smoke Detector</strong></td>
+                                            <td>Kidde i12060</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>—</td>
+                                            <td><span style="color:#5A6B7E;">Oct 1, 2026</span></td>
+                                            <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><strong>Dryer</strong></td>
-                        <td>Unit 101D</td>
-                        <td>Samsung DVE45R6100W</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Apr 2027</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">Jun 30, 2026</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Smoke Detector</strong></td>
-                        <td>Common</td>
-                        <td>Kidde i12060</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>—</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">Oct 1, 2026</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Ceiling Fan</strong></td>
-                        <td>Unit 101E</td>
-                        <td>Hunter Dempsey 52"</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Lifetime</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">—</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Refrigerator</strong></td>
-                        <td>Unit 101E</td>
-                        <td>Whirlpool WRS325SDHZ</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Oct 2027</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">Jan 14, 2027</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td><strong>A/C Window Unit</strong></td>
-                        <td>Unit 101B</td>
-                        <td>Frigidaire FFRA051WAE</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Jun 2026</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">May 1, 2026</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Microwave</strong></td>
-                        <td>Unit 101E</td>
-                        <td>Panasonic NN-SN966S</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Mar 2028</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">—</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+
+                    <!-- ── Totals row ── -->
+                    <tr class="sl-total-row">
+                        <td></td>
+                        <td style="color:#5A6B7D;">Total</td>
+                        <td style="text-align:center;">18</td>
+                        <td style="text-align:center;">2</td>
+                        <td style="text-align:center;">2</td>
+                        <td style="text-align:center;">2</td>
                     </tr>
                 </tbody>
             </table>
@@ -6617,6 +6783,51 @@
             document.getElementById('nlw-btn-back').style.visibility = 'hidden';
         })();
 
+
+        /* ── Appliance slideout: unit-grouped expand/collapse + filter ── */
+        function slToggleUnit(row) {
+            var unit = row.getAttribute('data-unit');
+            var detail = document.querySelector('.sl-detail-row[data-unit="' + unit + '"]');
+            if (!detail) return;
+            var isOpen = row.classList.contains('expanded');
+            if (isOpen) {
+                row.classList.remove('expanded');
+                detail.style.display = 'none';
+            } else {
+                row.classList.add('expanded');
+                detail.style.display = '';
+            }
+        }
+
+        function slFilterApplianceRows(query) {
+            var q = (query || '').toLowerCase().trim();
+            var unitFilter = document.getElementById('sl-appl-filter').value;
+            var unitRows = document.querySelectorAll('#sl-appl-table .sl-unit-row');
+            unitRows.forEach(function(row) {
+                var unit = row.getAttribute('data-unit');
+                var detail = document.querySelector('.sl-detail-row[data-unit="' + unit + '"]');
+                var unitName = row.querySelector('.sl-unit-label span').textContent.toLowerCase();
+
+                // Check unit filter dropdown
+                var unitMatch = !unitFilter || unit === unitFilter;
+                // Check text search — match against unit name or any appliance name in the detail
+                var textMatch = !q || unitName.indexOf(q) !== -1;
+                if (!textMatch && detail) {
+                    var appNames = detail.querySelectorAll('strong');
+                    for (var i = 0; i < appNames.length; i++) {
+                        if (appNames[i].textContent.toLowerCase().indexOf(q) !== -1) {
+                            textMatch = true; break;
+                        }
+                    }
+                }
+                var show = unitMatch && textMatch;
+                row.style.display = show ? '' : 'none';
+                if (detail) detail.style.display = (show && row.classList.contains('expanded')) ? '' : 'none';
+            });
+            // Also hide/show total row based on whether any units are visible
+            var totalRow = document.querySelector('#sl-appl-table .sl-total-row');
+            if (totalRow) totalRow.style.display = (unitFilter || q) ? 'none' : '';
+        }
 
         document.getElementById('btn-view-appliances').addEventListener('click', () => openSlideout('slideout-appliances-bg', 'slideout-appliances'));
         document.getElementById('close-appliances').addEventListener('click', () => closeSlideout('slideout-appliances-bg', 'slideout-appliances'));
