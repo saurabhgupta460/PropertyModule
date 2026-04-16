@@ -6791,7 +6791,8 @@
 
 
         /* ── Appliance slideout: unit-grouped expand/collapse + filter ── */
-        function slToggleUnit(row) {
+        /* Exposed on window so inline onclick handlers can reach them */
+        window.slToggleUnit = function(row) {
             var unit = row.getAttribute('data-unit');
             var detail = document.querySelector('.sl-detail-row[data-unit="' + unit + '"]');
             if (!detail) return;
@@ -6803,17 +6804,17 @@
                 row.classList.add('expanded');
                 detail.style.display = 'table-row';
             }
-        }
+        };
 
         /* Edit appliance — open modal with "Edit Appliance" title */
-        function slEditAppliance(btn, e) {
+        window.slEditAppliance = function(btn, e) {
             if (e) e.stopPropagation();
             var modalH2 = document.querySelector('#modal-add-appliance .mh-title-group h2');
             var modalSub = document.querySelector('#modal-add-appliance .mh-title-group .mh-sub');
             if (modalH2) modalH2.textContent = 'Edit Appliance';
             if (modalSub) modalSub.textContent = 'Update brand, warranty, and service schedule for this appliance';
             openModal('modal-add-appliance');
-        }
+        };
 
         /* Reset title when "Add Appliance" button is used */
         var origAddBtn = document.getElementById('btn-add-appliance');
@@ -6826,7 +6827,7 @@
             });
         }
 
-        function slFilterApplianceRows(query) {
+        window.slFilterApplianceRows = function(query) {
             var q = (query || '').toLowerCase().trim();
             var unitFilter = document.getElementById('sl-appl-filter').value;
             var unitRows = document.querySelectorAll('#sl-appl-table .sl-unit-row');
@@ -6854,7 +6855,7 @@
             // Also hide/show total row based on whether any units are visible
             var totalRow = document.querySelector('#sl-appl-table .sl-total-row');
             if (totalRow) totalRow.style.display = (unitFilter || q) ? 'none' : '';
-        }
+        };
 
         document.getElementById('btn-view-appliances').addEventListener('click', () => openSlideout('slideout-appliances-bg', 'slideout-appliances'));
         document.getElementById('close-appliances').addEventListener('click', () => closeSlideout('slideout-appliances-bg', 'slideout-appliances'));
