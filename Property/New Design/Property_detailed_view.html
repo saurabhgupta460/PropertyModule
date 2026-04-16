@@ -959,6 +959,35 @@
         .sl-action-btn:hover { border-color: #3B8DBD; color: #3B8DBD; background: #F0F8FF; }
         .sl-action-btn--danger:hover { border-color: #E53E3E; color: #E53E3E; background: #FFF5F5; }
 
+        /* Unit-grouped appliance table */
+        .sl-unit-row { cursor: pointer; transition: background 0.15s; }
+        .sl-unit-row:hover { background: #F5F3FF !important; }
+        .sl-expand-icon { font-size: 10px; color: #A0AEC0; transition: transform 0.2s ease; display: inline-block; }
+        .sl-unit-row.expanded .sl-expand-icon { transform: rotate(90deg); color: #6B46C1; }
+        .sl-unit-row.expanded { background: #FAFBFF; }
+        .sl-count-zero { color: #CBD5E0; font-weight: 400; }
+        .sl-count-pill { display: inline-flex; align-items: center; justify-content: center;
+            min-width: 26px; height: 24px; border-radius: 20px; font-size: 12px; font-weight: 700; padding: 0 6px; }
+        .sl-count-pill--warn { background: #FFF4E8; color: #B86E1F; }
+        .sl-count-pill--danger { background: #FEE8E8; color: #C53030; }
+        .sl-count-pill--purple { background: #F0EBFA; color: #7C5CBF; }
+        .sl-count-pill--blue { background: #EBF4FA; color: #2E7AA5; }
+        .sl-detail-cell { padding: 0 !important; background: #FAFBFF; border-bottom: 2px solid #E9E3F8 !important; overflow: visible; }
+        .sl-nested-wrap { padding: 8px 16px 14px 40px; }
+        .sl-table--nested { margin: 0; font-size: 12px; border: 1px solid #E2E6EB; border-radius: 8px; overflow: hidden; }
+        .sl-table--nested thead th { background: #EDF2F7; font-size: 10.5px; padding: 8px 10px; position: static; }
+        .sl-table--nested tbody td { padding: 8px 10px; font-size: 12px; }
+        .sl-table--nested tbody tr:last-child td { border-bottom: none; }
+        .sl-appl-edit-btn { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px;
+            border-radius: 6px; border: 1px solid #E2E6EB; background: #fff; color: #6B46C1;
+            font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+        .sl-appl-edit-btn:hover { background: #F5F3FF; border-color: #6B46C1; }
+        .sl-appl-edit-btn i { font-size: 10px; }
+        .sl-unit-label { display: flex; align-items: center; gap: 8px; }
+        .sl-unit-label i { color: #6B46C1; font-size: 14px; }
+        .sl-unit-label span { font-weight: 600; color: #2D3748; }
+        .sl-total-row td { font-weight: 700; background: #F7F8FA; border-top: 2px solid #E2E6EB; }
+
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
@@ -4080,8 +4109,6 @@
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
                                                 <div class="unit-dd-sep"></div>
                                                 <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
-                                                <div class="unit-dd-sep"></div>
-                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -4106,8 +4133,6 @@
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
                                                 <div class="unit-dd-sep"></div>
                                                 <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
-                                                <div class="unit-dd-sep"></div>
-                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -4132,8 +4157,6 @@
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
                                                 <div class="unit-dd-sep"></div>
                                                 <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
-                                                <div class="unit-dd-sep"></div>
-                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -4158,8 +4181,6 @@
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
                                                 <div class="unit-dd-sep"></div>
                                                 <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
-                                                <div class="unit-dd-sep"></div>
-                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -4184,8 +4205,6 @@
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
                                                 <div class="unit-dd-sep"></div>
                                                 <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
-                                                <div class="unit-dd-sep"></div>
-                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -4210,8 +4229,6 @@
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
                                                 <div class="unit-dd-sep"></div>
                                                 <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
-                                                <div class="unit-dd-sep"></div>
-                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -4236,8 +4253,6 @@
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
                                                 <div class="unit-dd-sep"></div>
                                                 <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
-                                                <div class="unit-dd-sep"></div>
-                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -4262,8 +4277,6 @@
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
                                                 <div class="unit-dd-sep"></div>
                                                 <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
-                                                <div class="unit-dd-sep"></div>
-                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -4288,8 +4301,6 @@
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
                                                 <div class="unit-dd-sep"></div>
                                                 <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
-                                                <div class="unit-dd-sep"></div>
-                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -4314,8 +4325,6 @@
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
                                                 <div class="unit-dd-sep"></div>
                                                 <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
-                                                <div class="unit-dd-sep"></div>
-                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -4340,8 +4349,6 @@
                                                 <button class="unit-dropdown-item unit-dd-edit-unit"><i class="fas fa-pencil-alt"></i> Edit Unit</button>
                                                 <div class="unit-dd-sep"></div>
                                                 <button class="unit-dropdown-item"><i class="fas fa-sign-out-alt"></i> Move Out</button>
-                                                <div class="unit-dd-sep"></div>
-                                                <button class="unit-dropdown-item unit-dd-danger"><i class="fas fa-archive"></i> Archive Unit</button>
                                             </div>
                                         </div>
                                     </td>
@@ -4787,199 +4794,342 @@
                 </div>
             </div>
 
-            <div style="display:flex; gap:10px; margin-bottom:16px;">
-                <input class="form-input" style="flex:1;" placeholder="Search appliances...">
-                <select class="form-select" style="width:140px;">
-                    <option>All Status</option>
-                    <option>Working</option>
-                    <option>Needs Repair</option>
-                    <option>Warranty Expiring</option>
-                    <option>Replaced</option>
+            <!-- Filter row -->
+            <div style="display:flex; gap:10px; margin-bottom:16px; align-items:center;">
+                <input class="form-input" id="sl-appl-search" style="flex:1;" placeholder="Search units or appliances..." oninput="slFilterApplianceRows(this.value)">
+                <select class="form-select" id="sl-appl-filter" style="width:160px;" onchange="slFilterApplianceRows(document.getElementById('sl-appl-search').value)">
+                    <option value="">All Units</option>
+                    <option value="101A">Unit 101A</option>
+                    <option value="101B">Unit 101B</option>
+                    <option value="101C">Unit 101C</option>
+                    <option value="101D">Unit 101D</option>
+                    <option value="101E">Unit 101E</option>
+                    <option value="common">Common</option>
                 </select>
-                <select class="form-select" style="width:130px;">
-                    <option>All Units</option>
-                    <option>Unit 101A</option>
-                    <option>Unit 101B</option>
-                    <option>Unit 101C</option>
-                    <option>Unit 101D</option>
-                    <option>Unit 101E</option>
-                </select>
+                <span style="font-size:12px; color:#718096;">6 units &middot; 18 appliances</span>
             </div>
 
-            <table class="sl-table">
+            <!-- Unit-grouped summary table -->
+            <table class="sl-table" id="sl-appl-table">
                 <thead>
                     <tr>
-                        <th>Appliance</th>
+                        <th style="width:28px; padding-left:12px;"></th>
                         <th>Unit</th>
-                        <th>Brand / Model</th>
-                        <th>Status</th>
-                        <th>Warranty</th>
-                        <th>Service due</th>
-                        <th></th>
+                        <th style="text-align:center;">Appliances</th>
+                        <th style="text-align:center;">Warranty Expiring</th>
+                        <th style="text-align:center;">Need Service</th>
+                        <th style="text-align:center;">Need Repair</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><strong>Refrigerator</strong></td>
-                        <td>Unit 101A</td>
-                        <td>Samsung RF28 / RF28R7351SR</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Dec 2027</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">Aug 12, 2026</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+                    <!-- ── Unit 101A  (4 appliances, 0 warranty exp, 0 service, 1 repair) ── -->
+                    <tr class="sl-unit-row" data-unit="101A" onclick="slToggleUnit(this)">
+                        <td style="padding-left:12px;"><i class="fas fa-chevron-right sl-expand-icon"></i></td>
+                        <td>
+                            <div class="sl-unit-label">
+                                <i class="fas fa-building"></i>
+                                <span>Unit 101A</span>
+                            </div>
+                        </td>
+                        <td style="text-align:center; font-weight:600;">4</td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
+                        <td style="text-align:center;"><span class="sl-count-pill sl-count-pill--warn">1</span></td>
                     </tr>
-                    <tr>
-                        <td><strong>Dishwasher</strong></td>
-                        <td>Unit 101A</td>
-                        <td>Bosch 500 / SHPM88Z75N</td>
-                        <td><span class="sl-badge sl-badge--orange">Needs Repair</span></td>
-                        <td>Mar 2026</td>
-                        <td><span style="font-size:12px; color:#A0AEC0;">—</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+                    <tr class="sl-detail-row" data-unit="101A" style="display:none;">
+                        <td colspan="6" class="sl-detail-cell">
+                            <div class="sl-nested-wrap">
+                                <table class="sl-table sl-table--nested">
+                                    <thead><tr><th>Appliance</th><th>Brand / Model</th><th>Status</th><th>Warranty</th><th>Service Due</th><th style="width:70px;"></th></tr></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><i class="fas fa-snowflake" style="color:#3B8DBD; margin-right:5px;"></i><strong>Refrigerator</strong></td>
+                                            <td>Samsung RF28 / RF28R7351SR</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Dec 2027</td>
+                                            <td><span style="color:#5A6B7E;">Aug 12, 2026</span></td>
+                                            <td><button class="sl-appl-edit-btn" onclick="slEditAppliance(this, event)"><i class="fas fa-pen"></i> Edit</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fas fa-tint" style="color:#3B8DBD; margin-right:5px;"></i><strong>Dishwasher</strong></td>
+                                            <td>Bosch 500 / SHPM88Z75N</td>
+                                            <td><span class="sl-badge sl-badge--orange">Needs Repair</span></td>
+                                            <td>Mar 2026</td>
+                                            <td><span style="color:#A0AEC0;">—</span></td>
+                                            <td><button class="sl-appl-edit-btn" onclick="slEditAppliance(this, event)"><i class="fas fa-pen"></i> Edit</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fas fa-water" style="color:#3B8DBD; margin-right:5px;"></i><strong>Washer</strong></td>
+                                            <td>LG WM4000HWA</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Aug 2027</td>
+                                            <td><span style="color:#5A6B7E;">Sep 3, 2026</span></td>
+                                            <td><button class="sl-appl-edit-btn" onclick="slEditAppliance(this, event)"><i class="fas fa-pen"></i> Edit</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fas fa-wind" style="color:#3B8DBD; margin-right:5px;"></i><strong>Dryer</strong></td>
+                                            <td>LG DLEX4000W</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Aug 2027</td>
+                                            <td><span style="color:#5A6B7E;">Sep 3, 2026</span></td>
+                                            <td><button class="sl-appl-edit-btn" onclick="slEditAppliance(this, event)"><i class="fas fa-pen"></i> Edit</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><strong>Washer</strong></td>
-                        <td>Unit 101A</td>
-                        <td>LG WM4000HWA</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Aug 2027</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">Sep 3, 2026</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+
+                    <!-- ── Unit 101B  (3 appliances, 0 warranty exp, 0 service, 0 repair) ── -->
+                    <tr class="sl-unit-row" data-unit="101B" onclick="slToggleUnit(this)">
+                        <td style="padding-left:12px;"><i class="fas fa-chevron-right sl-expand-icon"></i></td>
+                        <td>
+                            <div class="sl-unit-label">
+                                <i class="fas fa-building"></i>
+                                <span>Unit 101B</span>
+                            </div>
+                        </td>
+                        <td style="text-align:center; font-weight:600;">3</td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
                     </tr>
-                    <tr>
-                        <td><strong>Dryer</strong></td>
-                        <td>Unit 101A</td>
-                        <td>LG DLEX4000W</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Aug 2027</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">Sep 3, 2026</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+                    <tr class="sl-detail-row" data-unit="101B" style="display:none;">
+                        <td colspan="6" class="sl-detail-cell">
+                            <div class="sl-nested-wrap">
+                                <table class="sl-table sl-table--nested">
+                                    <thead><tr><th>Appliance</th><th>Brand / Model</th><th>Status</th><th>Warranty</th><th>Service Due</th><th style="width:70px;"></th></tr></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><i class="fas fa-bolt" style="color:#3B8DBD; margin-right:5px;"></i><strong>Microwave</strong></td>
+                                            <td>GE JVM6175DKWW</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Jan 2028</td>
+                                            <td><span style="color:#A0AEC0;">—</span></td>
+                                            <td><button class="sl-appl-edit-btn" onclick="slEditAppliance(this, event)"><i class="fas fa-pen"></i> Edit</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fas fa-cog" style="color:#3B8DBD; margin-right:5px;"></i><strong>Garbage Disposal</strong></td>
+                                            <td>InSinkErator Evolution</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Jul 2028</td>
+                                            <td><span style="color:#5A6B7E;">Nov 1, 2026</span></td>
+                                            <td><button class="sl-appl-edit-btn" onclick="slEditAppliance(this, event)"><i class="fas fa-pen"></i> Edit</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fas fa-fan" style="color:#3B8DBD; margin-right:5px;"></i><strong>A/C Window Unit</strong></td>
+                                            <td>Frigidaire FFRA051WAE</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Jun 2026</td>
+                                            <td><span style="color:#5A6B7E;">May 1, 2026</span></td>
+                                            <td><button class="sl-appl-edit-btn" onclick="slEditAppliance(this, event)"><i class="fas fa-pen"></i> Edit</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><strong>HVAC System</strong></td>
-                        <td>Unit 101D</td>
-                        <td>Carrier 24ACC636A003</td>
-                        <td><span class="sl-badge sl-badge--blue">Warranty Expiring</span></td>
-                        <td style="color:#B86E1F; font-weight:600;">May 22, 2026</td>
-                        <td><span style="font-size:12px; font-weight:700; color:#2B6CB0;">Apr 28, 2026</span> <span class="sl-badge sl-badge--blue" style="font-size:9px; padding:2px 6px;">Next</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+
+                    <!-- ── Unit 101C  (3 appliances, 0 warranty exp, 0 service, 1 repair) ── -->
+                    <tr class="sl-unit-row" data-unit="101C" onclick="slToggleUnit(this)">
+                        <td style="padding-left:12px;"><i class="fas fa-chevron-right sl-expand-icon"></i></td>
+                        <td>
+                            <div class="sl-unit-label">
+                                <i class="fas fa-building"></i>
+                                <span>Unit 101C</span>
+                            </div>
+                        </td>
+                        <td style="text-align:center; font-weight:600;">3</td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
+                        <td style="text-align:center;"><span class="sl-count-pill sl-count-pill--warn">1</span></td>
                     </tr>
-                    <tr>
-                        <td><strong>Microwave</strong></td>
-                        <td>Unit 101B</td>
-                        <td>GE JVM6175DKWW</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Jan 2028</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">—</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+                    <tr class="sl-detail-row" data-unit="101C" style="display:none;">
+                        <td colspan="6" class="sl-detail-cell">
+                            <div class="sl-nested-wrap">
+                                <table class="sl-table sl-table--nested">
+                                    <thead><tr><th>Appliance</th><th>Brand / Model</th><th>Status</th><th>Warranty</th><th>Service Due</th><th style="width:70px;"></th></tr></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><i class="fas fa-fire" style="color:#3B8DBD; margin-right:5px;"></i><strong>Oven / Range</strong></td>
+                                            <td>Whirlpool WFG525S0JZ</td>
+                                            <td><span class="sl-badge sl-badge--orange">Needs Repair</span></td>
+                                            <td>Sep 2025</td>
+                                            <td><span style="color:#A0AEC0;">—</span></td>
+                                            <td><button class="sl-appl-edit-btn" onclick="slEditAppliance(this, event)"><i class="fas fa-pen"></i> Edit</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fas fa-snowflake" style="color:#3B8DBD; margin-right:5px;"></i><strong>Refrigerator</strong></td>
+                                            <td>LG LRMVS3006S</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Nov 2028</td>
+                                            <td><span style="color:#5A6B7E;">May 20, 2026</span></td>
+                                            <td><button class="sl-appl-edit-btn" onclick="slEditAppliance(this, event)"><i class="fas fa-pen"></i> Edit</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fas fa-water" style="color:#3B8DBD; margin-right:5px;"></i><strong>Washer</strong></td>
+                                            <td>Samsung WF45R6100AW</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Apr 2027</td>
+                                            <td><span style="color:#5A6B7E;">Jun 30, 2026</span></td>
+                                            <td><button class="sl-appl-edit-btn" onclick="slEditAppliance(this, event)"><i class="fas fa-pen"></i> Edit</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><strong>Oven / Range</strong></td>
-                        <td>Unit 101C</td>
-                        <td>Whirlpool WFG525S0JZ</td>
-                        <td><span class="sl-badge sl-badge--orange">Needs Repair</span></td>
-                        <td>Sep 2025</td>
-                        <td><span style="font-size:12px; color:#A0AEC0;">—</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+
+                    <!-- ── Unit 101D  (3 appliances, 1 warranty exp, 1 service, 0 repair) ── -->
+                    <tr class="sl-unit-row" data-unit="101D" onclick="slToggleUnit(this)">
+                        <td style="padding-left:12px;"><i class="fas fa-chevron-right sl-expand-icon"></i></td>
+                        <td>
+                            <div class="sl-unit-label">
+                                <i class="fas fa-building"></i>
+                                <span>Unit 101D</span>
+                            </div>
+                        </td>
+                        <td style="text-align:center; font-weight:600;">3</td>
+                        <td style="text-align:center;"><span class="sl-count-pill sl-count-pill--purple">1</span></td>
+                        <td style="text-align:center;"><span class="sl-count-pill sl-count-pill--blue">1</span></td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
                     </tr>
-                    <tr>
-                        <td><strong>Garbage Disposal</strong></td>
-                        <td>Unit 101B</td>
-                        <td>InSinkErator Evolution</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Jul 2028</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">Nov 1, 2026</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+                    <tr class="sl-detail-row" data-unit="101D" style="display:none;">
+                        <td colspan="6" class="sl-detail-cell">
+                            <div class="sl-nested-wrap">
+                                <table class="sl-table sl-table--nested">
+                                    <thead><tr><th>Appliance</th><th>Brand / Model</th><th>Status</th><th>Warranty</th><th>Service Due</th><th style="width:70px;"></th></tr></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><i class="fas fa-temperature-low" style="color:#3B8DBD; margin-right:5px;"></i><strong>HVAC System</strong></td>
+                                            <td>Carrier 24ACC636A003</td>
+                                            <td><span class="sl-badge sl-badge--blue">Warranty Expiring</span></td>
+                                            <td style="color:#B86E1F; font-weight:600;">May 22, 2026</td>
+                                            <td><span style="font-weight:700; color:#2B6CB0;">Apr 28, 2026</span> <span class="sl-badge sl-badge--blue" style="font-size:9px; padding:2px 6px;">Next</span></td>
+                                            <td><button class="sl-appl-edit-btn" onclick="slEditAppliance(this, event)"><i class="fas fa-pen"></i> Edit</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fas fa-tint" style="color:#3B8DBD; margin-right:5px;"></i><strong>Dishwasher</strong></td>
+                                            <td>KitchenAid KDTM404KPS</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Feb 2028</td>
+                                            <td><span style="color:#5A6B7E;">Jul 8, 2026</span></td>
+                                            <td><button class="sl-appl-edit-btn" onclick="slEditAppliance(this, event)"><i class="fas fa-pen"></i> Edit</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fas fa-wind" style="color:#3B8DBD; margin-right:5px;"></i><strong>Dryer</strong></td>
+                                            <td>Samsung DVE45R6100W</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Apr 2027</td>
+                                            <td><span style="color:#5A6B7E;">Jun 30, 2026</span></td>
+                                            <td><button class="sl-appl-edit-btn" onclick="slEditAppliance(this, event)"><i class="fas fa-pen"></i> Edit</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><strong>Water Heater</strong></td>
-                        <td>Common</td>
-                        <td>Rheem PROG50-36N</td>
-                        <td><span class="sl-badge sl-badge--blue">Warranty Expiring</span></td>
-                        <td style="color:#B86E1F; font-weight:600;">Jun 5, 2026</td>
-                        <td><span style="font-size:12px; font-weight:700; color:#C53030;">Mar 15, 2026</span> <span class="sl-badge sl-badge--red" style="font-size:9px; padding:2px 6px;">Overdue</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+
+                    <!-- ── Unit 101E  (3 appliances, 0 warranty exp, 0 service, 0 repair) ── -->
+                    <tr class="sl-unit-row" data-unit="101E" onclick="slToggleUnit(this)">
+                        <td style="padding-left:12px;"><i class="fas fa-chevron-right sl-expand-icon"></i></td>
+                        <td>
+                            <div class="sl-unit-label">
+                                <i class="fas fa-building"></i>
+                                <span>Unit 101E</span>
+                            </div>
+                        </td>
+                        <td style="text-align:center; font-weight:600;">3</td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
                     </tr>
-                    <tr>
-                        <td><strong>Refrigerator</strong></td>
-                        <td>Unit 101C</td>
-                        <td>LG LRMVS3006S</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Nov 2028</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">May 20, 2026</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+                    <tr class="sl-detail-row" data-unit="101E" style="display:none;">
+                        <td colspan="6" class="sl-detail-cell">
+                            <div class="sl-nested-wrap">
+                                <table class="sl-table sl-table--nested">
+                                    <thead><tr><th>Appliance</th><th>Brand / Model</th><th>Status</th><th>Warranty</th><th>Service Due</th><th style="width:70px;"></th></tr></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><i class="fas fa-fan" style="color:#3B8DBD; margin-right:5px;"></i><strong>Ceiling Fan</strong></td>
+                                            <td>Hunter Dempsey 52"</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Lifetime</td>
+                                            <td><span style="color:#A0AEC0;">—</span></td>
+                                            <td><button class="sl-appl-edit-btn" onclick="slEditAppliance(this, event)"><i class="fas fa-pen"></i> Edit</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fas fa-snowflake" style="color:#3B8DBD; margin-right:5px;"></i><strong>Refrigerator</strong></td>
+                                            <td>Whirlpool WRS325SDHZ</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Oct 2027</td>
+                                            <td><span style="color:#5A6B7E;">Jan 14, 2027</span></td>
+                                            <td><button class="sl-appl-edit-btn" onclick="slEditAppliance(this, event)"><i class="fas fa-pen"></i> Edit</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fas fa-bolt" style="color:#3B8DBD; margin-right:5px;"></i><strong>Microwave</strong></td>
+                                            <td>Panasonic NN-SN966S</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>Mar 2028</td>
+                                            <td><span style="color:#A0AEC0;">—</span></td>
+                                            <td><button class="sl-appl-edit-btn" onclick="slEditAppliance(this, event)"><i class="fas fa-pen"></i> Edit</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><strong>Dishwasher</strong></td>
-                        <td>Unit 101D</td>
-                        <td>KitchenAid KDTM404KPS</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Feb 2028</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">Jul 8, 2026</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+
+                    <!-- ── Common  (2 appliances, 1 warranty exp, 1 service overdue, 0 repair) ── -->
+                    <tr class="sl-unit-row" data-unit="common" onclick="slToggleUnit(this)">
+                        <td style="padding-left:12px;"><i class="fas fa-chevron-right sl-expand-icon"></i></td>
+                        <td>
+                            <div class="sl-unit-label">
+                                <i class="fas fa-home" style="color:#2E7AA5;"></i>
+                                <span>Common Areas</span>
+                            </div>
+                        </td>
+                        <td style="text-align:center; font-weight:600;">2</td>
+                        <td style="text-align:center;"><span class="sl-count-pill sl-count-pill--purple">1</span></td>
+                        <td style="text-align:center;"><span class="sl-count-pill sl-count-pill--danger">1</span></td>
+                        <td style="text-align:center;"><span class="sl-count-zero">0</span></td>
                     </tr>
-                    <tr>
-                        <td><strong>Washer</strong></td>
-                        <td>Unit 101C</td>
-                        <td>Samsung WF45R6100AW</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Apr 2027</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">Jun 30, 2026</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+                    <tr class="sl-detail-row" data-unit="common" style="display:none;">
+                        <td colspan="6" class="sl-detail-cell">
+                            <div class="sl-nested-wrap">
+                                <table class="sl-table sl-table--nested">
+                                    <thead><tr><th>Appliance</th><th>Brand / Model</th><th>Status</th><th>Warranty</th><th>Service Due</th><th style="width:70px;"></th></tr></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><i class="fas fa-fire-alt" style="color:#3B8DBD; margin-right:5px;"></i><strong>Water Heater</strong></td>
+                                            <td>Rheem PROG50-36N</td>
+                                            <td><span class="sl-badge sl-badge--blue">Warranty Expiring</span></td>
+                                            <td style="color:#B86E1F; font-weight:600;">Jun 5, 2026</td>
+                                            <td><span style="font-weight:700; color:#C53030;">Mar 15, 2026</span> <span class="sl-badge sl-badge--red" style="font-size:9px; padding:2px 6px;">Overdue</span></td>
+                                            <td><button class="sl-appl-edit-btn" onclick="slEditAppliance(this, event)"><i class="fas fa-pen"></i> Edit</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fas fa-shield-alt" style="color:#3B8DBD; margin-right:5px;"></i><strong>Smoke Detector</strong></td>
+                                            <td>Kidde i12060</td>
+                                            <td><span class="sl-badge sl-badge--green">Working</span></td>
+                                            <td>—</td>
+                                            <td><span style="color:#5A6B7E;">Oct 1, 2026</span></td>
+                                            <td><button class="sl-appl-edit-btn" onclick="slEditAppliance(this, event)"><i class="fas fa-pen"></i> Edit</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><strong>Dryer</strong></td>
-                        <td>Unit 101D</td>
-                        <td>Samsung DVE45R6100W</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Apr 2027</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">Jun 30, 2026</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Smoke Detector</strong></td>
-                        <td>Common</td>
-                        <td>Kidde i12060</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>—</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">Oct 1, 2026</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Ceiling Fan</strong></td>
-                        <td>Unit 101E</td>
-                        <td>Hunter Dempsey 52"</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Lifetime</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">—</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Refrigerator</strong></td>
-                        <td>Unit 101E</td>
-                        <td>Whirlpool WRS325SDHZ</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Oct 2027</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">Jan 14, 2027</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td><strong>A/C Window Unit</strong></td>
-                        <td>Unit 101B</td>
-                        <td>Frigidaire FFRA051WAE</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Jun 2026</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">May 1, 2026</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Microwave</strong></td>
-                        <td>Unit 101E</td>
-                        <td>Panasonic NN-SN966S</td>
-                        <td><span class="sl-badge sl-badge--green">Working</span></td>
-                        <td>Mar 2028</td>
-                        <td><span style="font-size:12px; color:#5A6B7E;">—</span></td>
-                        <td><button class="sl-action-btn" title="Edit"><i class="fas fa-pen"></i></button> <button class="sl-action-btn sl-action-btn--danger" title="Delete"><i class="fas fa-trash"></i></button></td>
+
+                    <!-- ── Totals row ── -->
+                    <tr class="sl-total-row">
+                        <td></td>
+                        <td style="color:#5A6B7D;">Total</td>
+                        <td style="text-align:center;">18</td>
+                        <td style="text-align:center;">2</td>
+                        <td style="text-align:center;">2</td>
+                        <td style="text-align:center;">2</td>
                     </tr>
                 </tbody>
             </table>
@@ -5554,23 +5704,22 @@
                     <div class="apw-bulk-field"><label class="apw-label">Size (sq ft)</label><input class="apw-input" type="text" id="bsuw-bulk-size" placeholder="e.g. 850"></div>
                   </div>
                   <div class="apw-bulk-actions">
-                    <button type="button" class="apw-bulk-apply-btn" id="bsuw-bulk-apply"><i class="fas fa-check-double"></i> Apply To All Empty</button>
-                    <button type="button" class="apw-bulk-overwrite-btn" id="bsuw-bulk-overwrite"><i class="fas fa-sync-alt"></i> Apply To All (Override)</button>
-                    <button type="button" class="apw-bulk-selected-btn" id="bsuw-bulk-selected" disabled><i class="fas fa-check-square"></i> Apply to Selected <span class="apw-bulk-sel-badge" id="bsuw-bulk-sel-badge">0</span></button>
+                    <button type="button" class="apw-bulk-apply-btn" id="bsuw-bulk-apply"><i class="fas fa-check-double"></i> Apply To All</button>
+                    <button type="button" class="apw-bulk-selected-btn" id="bsuw-bulk-selected" disabled><i class="fas fa-check-square"></i> Apply to Selected</button>
                     <button type="button" class="apw-bulk-clear-btn" id="bsuw-bulk-clear"><i class="fas fa-eraser"></i> Clear All</button>
                   </div>
                 </div>
-                <div class="apw-bulk-scope bsuw-hidden" id="bsuw-bulk-scope">
-                  <i class="fas fa-lightbulb"></i>
-                  <span id="bsuw-bulk-scope-text">These buttons only change the units on <strong>this page</strong>. To update other pages, switch to them and apply again.</span>
-                </div>
                 <div class="apw-bulk-result" id="bsuw-bulk-result" role="status" aria-live="polite">
                   <i class="fas fa-check-circle"></i>
-                  <div class="apw-bulk-result-body">
-                    <div class="apw-bulk-result-title" id="bsuw-bulk-result-title">Updated</div>
-                    <div class="apw-bulk-result-detail" id="bsuw-bulk-result-detail"></div>
-                  </div>
+                  <span class="apw-bulk-result-msg" id="bsuw-bulk-result-msg"></span>
                   <button type="button" class="apw-bulk-result-close" id="bsuw-bulk-result-close" aria-label="Dismiss">&times;</button>
+                </div>
+                <!-- Pagination (above table — makes per-page scope obvious) -->
+                <div class="apw-ut-pagination" id="bsuw-ut-pagination">
+                  <button type="button" class="apw-ut-page-btn" id="bsuw-ut-prev" disabled><i class="fas fa-chevron-left"></i></button>
+                  <span class="apw-ut-page-info" id="bsuw-ut-page-info"></span>
+                  <span class="apw-ut-page-hint" id="bsuw-ut-page-hint">— changes apply to this page only</span>
+                  <button type="button" class="apw-ut-page-btn" id="bsuw-ut-next"><i class="fas fa-chevron-right"></i></button>
                 </div>
                 <div class="apw-ut-wrap bsuw-hidden" id="bsuw-ut-wrap">
                   <table class="apw-ut-table">
@@ -5584,47 +5733,20 @@
                     <tbody id="bsuw-ut-tbody"></tbody>
                   </table>
                 </div>
-                <div class="apw-ut-pagination" id="bsuw-ut-pagination">
-                  <button type="button" class="apw-ut-page-btn" id="bsuw-ut-prev" disabled><i class="fas fa-chevron-left"></i></button>
-                  <span class="apw-ut-page-info" id="bsuw-ut-page-info"></span>
-                  <button type="button" class="apw-ut-page-btn" id="bsuw-ut-next"><i class="fas fa-chevron-right"></i></button>
-                </div>
               </div>
             </div>
 
-            <!-- STEP 2: Unit Amenities (redesigned) -->
+            <!-- STEP 2: Unit Amenities (units first, then amenities) -->
             <div class="apw-step-content" data-step="2">
               <div class="apw-inner">
-                <div class="apw-section-title">Choose Amenities</div>
-                <p style="text-align:center;color:#718096;font-size:13px;margin-bottom:22px;">Pick what's in the units, then choose which units get them.</p>
+                <div class="apw-section-title">Unit Amenities</div>
+                <p style="text-align:center;color:#718096;font-size:13px;margin-bottom:22px;">Pick units first, then choose their amenities. Save as many times as you need.</p>
+
+                <!-- ① Pick units card -->
                 <div class="bsuw-am-card">
                   <div class="bsuw-am-card-heading">
                     <span class="bsuw-am-card-num">1</span>
-                    <span class="bsuw-am-card-title">Pick amenities</span>
-                    <span class="bsuw-am-card-sub" id="bsuw-am-picks-sub">No amenities picked yet</span>
-                  </div>
-                  <div class="bsuw-am-picks-strip" id="bsuw-am-picks-strip">
-                    <div class="bsuw-am-picks-head">
-                      <span>Your picks <span id="bsuw-am-picks-count">(0)</span></span>
-                      <button type="button" class="bsuw-am-picks-clear" id="bsuw-am-picks-clear" style="display:none;"><i class="fas fa-times-circle"></i> Clear all</button>
-                    </div>
-                    <div class="bsuw-am-picks-body" id="bsuw-am-picks-body">
-                      <span class="bsuw-am-picks-empty">Click any amenity below to pick it</span>
-                    </div>
-                  </div>
-                  <div class="bsuw-am-amsearch-wrap">
-                    <i class="fas fa-search"></i>
-                    <input type="text" class="bsuw-am-amsearch" id="bsuw-am-amsearch" placeholder="Search amenities (e.g. air, shower, granite)…">
-                    <button type="button" class="bsuw-am-amsearch-clear" id="bsuw-am-amsearch-clear" title="Clear search">&times;</button>
-                  </div>
-                  <div id="bsuw-am-grid-body"></div>
-                  <div class="bsuw-am-noamresults" id="bsuw-am-noamresults" style="display:none;">No amenities match your search.</div>
-                  <div class="suw-am-sel-strip" id="bsuw-am-sel-strip" style="display:none;"></div>
-                </div>
-                <div class="bsuw-am-card">
-                  <div class="bsuw-am-card-heading">
-                    <span class="bsuw-am-card-num">2</span>
-                    <span class="bsuw-am-card-title">Apply to which units?</span>
+                    <span class="bsuw-am-card-title">Pick units</span>
                   </div>
                   <div class="bsuw-am-modetiles">
                     <button type="button" class="bsuw-am-modetile active" id="bsuw-am-mode-all">
@@ -5682,21 +5804,51 @@
                       <button type="button" class="bsuw-am-qpick-btn" id="bsuw-am-unselpage" style="margin-left:auto;"><i class="fas fa-times"></i> Clear page</button>
                     </div>
                   </div>
-                  <div class="bsuw-am-cta" id="bsuw-am-cta">
-                    <button type="button" class="bsuw-am-apply-btn" id="bsuw-am-apply-btn" disabled>
-                      <i class="fas fa-play"></i> <span id="bsuw-am-apply-label">Pick at least one amenity</span>
-                    </button>
+                </div>
+
+                <!-- ② Choose amenities card -->
+                <div class="bsuw-am-card">
+                  <div class="bsuw-am-card-heading">
+                    <span class="bsuw-am-card-num">2</span>
+                    <span class="bsuw-am-card-title">Choose amenities</span>
+                    <span class="bsuw-am-card-sub" id="bsuw-am-picks-sub">No amenities picked yet</span>
                   </div>
-                  <div class="bsuw-am-success" id="bsuw-am-success">
-                    <div class="bsuw-am-success-head">
-                      <div class="bsuw-am-success-icon"><i class="fas fa-check"></i></div>
-                      <div class="bsuw-am-success-title">Amenities applied!</div>
+                  <div class="bsuw-am-picks-strip" id="bsuw-am-picks-strip">
+                    <div class="bsuw-am-picks-head">
+                      <span>Your picks <span id="bsuw-am-picks-count">(0)</span></span>
+                      <button type="button" class="bsuw-am-picks-clear" id="bsuw-am-picks-clear" style="display:none;"><i class="fas fa-times-circle"></i> Clear all</button>
                     </div>
-                    <div class="bsuw-am-success-body" id="bsuw-am-success-body">&nbsp;</div>
-                    <div class="bsuw-am-success-actions">
-                      <button type="button" class="bsuw-am-success-btn" id="bsuw-am-success-edit"><i class="fas fa-pencil-alt"></i> Edit again</button>
-                      <button type="button" class="bsuw-am-success-btn primary" id="bsuw-am-success-continue">Review &amp; continue <i class="fas fa-arrow-right"></i></button>
+                    <div class="bsuw-am-picks-body" id="bsuw-am-picks-body">
+                      <span class="bsuw-am-picks-empty">Click any amenity below to pick it</span>
                     </div>
+                  </div>
+                  <div class="bsuw-am-amsearch-wrap">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="bsuw-am-amsearch" id="bsuw-am-amsearch" placeholder="Search amenities (e.g. air, shower, granite)…">
+                    <button type="button" class="bsuw-am-amsearch-clear" id="bsuw-am-amsearch-clear" title="Clear search">&times;</button>
+                  </div>
+                  <div id="bsuw-am-grid-body"></div>
+                  <div class="bsuw-am-noamresults" id="bsuw-am-noamresults" style="display:none;">No amenities match your search.</div>
+                  <div class="suw-am-sel-strip" id="bsuw-am-sel-strip" style="display:none;"></div>
+                </div>
+
+                <!-- Save CTA -->
+                <div class="bsuw-am-cta" id="bsuw-am-cta">
+                  <button type="button" class="bsuw-am-apply-btn" id="bsuw-am-apply-btn" disabled>
+                    <i class="fas fa-save"></i> <span id="bsuw-am-apply-label">Pick at least one amenity</span>
+                  </button>
+                </div>
+
+                <!-- Success banner (after save) -->
+                <div class="bsuw-am-success" id="bsuw-am-success">
+                  <div class="bsuw-am-success-head">
+                    <div class="bsuw-am-success-icon"><i class="fas fa-check"></i></div>
+                    <div class="bsuw-am-success-title">Saved!</div>
+                  </div>
+                  <div class="bsuw-am-success-body" id="bsuw-am-success-body">&nbsp;</div>
+                  <div class="bsuw-am-success-actions">
+                    <button type="button" class="bsuw-am-success-btn" id="bsuw-am-success-edit"><i class="fas fa-plus-circle"></i> Save more</button>
+                    <button type="button" class="bsuw-am-success-btn primary" id="bsuw-am-success-continue">Next step <i class="fas fa-arrow-right"></i></button>
                   </div>
                 </div>
               </div>
@@ -6637,6 +6789,73 @@
             document.getElementById('nlw-btn-back').style.visibility = 'hidden';
         })();
 
+
+        /* ── Appliance slideout: unit-grouped expand/collapse + filter ── */
+        /* Exposed on window so inline onclick handlers can reach them */
+        window.slToggleUnit = function(row) {
+            var unit = row.getAttribute('data-unit');
+            var detail = document.querySelector('.sl-detail-row[data-unit="' + unit + '"]');
+            if (!detail) return;
+            var isOpen = row.classList.contains('expanded');
+            if (isOpen) {
+                row.classList.remove('expanded');
+                detail.style.display = 'none';
+            } else {
+                row.classList.add('expanded');
+                detail.style.display = 'table-row';
+            }
+        };
+
+        /* Edit appliance — open modal with "Edit Appliance" title */
+        window.slEditAppliance = function(btn, e) {
+            if (e) e.stopPropagation();
+            var modalH2 = document.querySelector('#modal-add-appliance .mh-title-group h2');
+            var modalSub = document.querySelector('#modal-add-appliance .mh-title-group .mh-sub');
+            if (modalH2) modalH2.textContent = 'Edit Appliance';
+            if (modalSub) modalSub.textContent = 'Update brand, warranty, and service schedule for this appliance';
+            openModal('modal-add-appliance');
+        };
+
+        /* Reset title when "Add Appliance" button is used */
+        var origAddBtn = document.getElementById('btn-add-appliance');
+        if (origAddBtn) {
+            origAddBtn.addEventListener('click', function() {
+                var modalH2 = document.querySelector('#modal-add-appliance .mh-title-group h2');
+                var modalSub = document.querySelector('#modal-add-appliance .mh-title-group .mh-sub');
+                if (modalH2) modalH2.textContent = 'Add Appliance';
+                if (modalSub) modalSub.textContent = 'Track brand, warranty, and service schedule for this unit';
+            });
+        }
+
+        window.slFilterApplianceRows = function(query) {
+            var q = (query || '').toLowerCase().trim();
+            var unitFilter = document.getElementById('sl-appl-filter').value;
+            var unitRows = document.querySelectorAll('#sl-appl-table .sl-unit-row');
+            unitRows.forEach(function(row) {
+                var unit = row.getAttribute('data-unit');
+                var detail = document.querySelector('.sl-detail-row[data-unit="' + unit + '"]');
+                var unitName = row.querySelector('.sl-unit-label span').textContent.toLowerCase();
+
+                // Check unit filter dropdown
+                var unitMatch = !unitFilter || unit === unitFilter;
+                // Check text search — match against unit name or any appliance name in the detail
+                var textMatch = !q || unitName.indexOf(q) !== -1;
+                if (!textMatch && detail) {
+                    var appNames = detail.querySelectorAll('strong');
+                    for (var i = 0; i < appNames.length; i++) {
+                        if (appNames[i].textContent.toLowerCase().indexOf(q) !== -1) {
+                            textMatch = true; break;
+                        }
+                    }
+                }
+                var show = unitMatch && textMatch;
+                row.style.display = show ? '' : 'none';
+                if (detail) detail.style.display = (show && row.classList.contains('expanded')) ? 'table-row' : 'none';
+            });
+            // Also hide/show total row based on whether any units are visible
+            var totalRow = document.querySelector('#sl-appl-table .sl-total-row');
+            if (totalRow) totalRow.style.display = (unitFilter || q) ? 'none' : '';
+        };
 
         document.getElementById('btn-view-appliances').addEventListener('click', () => openSlideout('slideout-appliances-bg', 'slideout-appliances'));
         document.getElementById('close-appliances').addEventListener('click', () => closeSlideout('slideout-appliances-bg', 'slideout-appliances'));
@@ -7628,7 +7847,7 @@
         var overlay        = document.getElementById('bsuw-overlay');
         if (!overlay) return;
         var totalSteps     = 3, currentStep = 1;
-        var BSUW_PAGE_SIZE = 50, bsuwPage = 1;
+        var BSUW_PAGE_SIZE = 20, bsuwPage = 1;
         var bsuwUnitData   = [], bsuwSelectedAmenities = new Set(), bsuwApplyToAll = true;
 
         var BSUW_AMENITIES = {
@@ -7649,7 +7868,7 @@
             var usePag=total>BSUW_PAGE_SIZE, s=usePag?(bsuwPage-1)*BSUW_PAGE_SIZE:0, e=usePag?Math.min(s+BSUW_PAGE_SIZE,total):total;
             document.getElementById('bsuw-ut-count-label').textContent=total+' unit'+(total!==1?'s':'');
             var pag=document.getElementById('bsuw-ut-pagination'); pag.classList.toggle('visible',usePag);
-            if(usePag){document.getElementById('bsuw-ut-page-info').textContent=(s+1)+' – '+e+' of '+total; document.getElementById('bsuw-ut-prev').disabled=bsuwPage<=1; document.getElementById('bsuw-ut-next').disabled=e>=total;}
+            if(usePag){var pc=Math.ceil(total/BSUW_PAGE_SIZE); document.getElementById('bsuw-ut-page-info').textContent='Showing '+(s+1)+' – '+e+' of '+total+'  (page '+bsuwPage+' of '+pc+')'; document.getElementById('bsuw-ut-prev').disabled=bsuwPage<=1; document.getElementById('bsuw-ut-next').disabled=e>=total; var hE=document.getElementById('bsuw-ut-page-hint'); if(hE) hE.textContent='— changes apply to this page only';}
             tbody.innerHTML='';
             for(var i=s;i<e;i++){(function(idx){
                 var d=bsuwUnitData[idx],tr=document.createElement('tr');
@@ -7668,7 +7887,14 @@
                 bind('bsuw-iname','name','input');bind('bsuw-ibeds','beds','change');bind('bsuw-ibaths','baths','change');bind('bsuw-isize','size','input');
                 tbody.appendChild(tr);
             })(i);}
-            bsuwSyncAll(); bsuwUpdateSelBadge();
+            bsuwSyncAll();
+            bsuwUpdateSelBadge();
+        }
+        function bsuwUpdateSelBadge(){
+            var t=bsuwUnitData.length,s=(bsuwPage-1)*BSUW_PAGE_SIZE,e=Math.min(s+BSUW_PAGE_SIZE,t),c=0;
+            for(var i=s;i<e;i++) if(bsuwUnitData[i]._selected) c++;
+            var btn=document.getElementById('bsuw-bulk-selected');
+            if(btn) btn.disabled=c===0;
         }
         function bsuwUpdateProgress(){
             var t=bsuwUnitData.length;
@@ -7682,18 +7908,16 @@
             var lbl=document.getElementById('bsuw-ut-count-label');
             if(lbl) lbl.textContent=t+' unit'+(t===1?'':'s');
         }
-        function bsuwShowBulkResult(title, detailHtml, type){
+        function bsuwShowBulkResult(msg, type){
             var banner=document.getElementById('bsuw-bulk-result');
             var icon=banner?banner.querySelector('i.fas'):null;
-            var tEl=document.getElementById('bsuw-bulk-result-title');
-            var dEl=document.getElementById('bsuw-bulk-result-detail');
+            var msgEl=document.getElementById('bsuw-bulk-result-msg');
             if(!banner) return;
             banner.classList.remove('warn','err');
             if(type==='warn') banner.classList.add('warn');
             else if(type==='err') banner.classList.add('err');
             if(icon) icon.className='fas '+(type==='warn'?'fa-exclamation-triangle':type==='err'?'fa-times-circle':'fa-check-circle');
-            if(tEl) tEl.textContent=title;
-            if(dEl) dEl.innerHTML=detailHtml;
+            if(msgEl) msgEl.textContent=msg;
             banner.classList.add('show');
         }
         (function(){
@@ -7710,13 +7934,6 @@
             return arr.slice(0,-1).join(', ')+', and '+arr[arr.length-1];
         }
         function bsuwSyncAll(){var c=document.getElementById('bsuw-chk-all');if(!c)return;var a=bsuwUnitData.length>0&&bsuwUnitData.every(function(d){return d._selected;}),n=bsuwUnitData.some(function(d){return d._selected;});c.checked=a;c.indeterminate=!a&&n;}
-        function bsuwUpdateSelBadge(){
-            var t=bsuwUnitData.length,s=(bsuwPage-1)*BSUW_PAGE_SIZE,e=Math.min(s+BSUW_PAGE_SIZE,t),c=0;
-            for(var i=s;i<e;i++) if(bsuwUnitData[i]._selected) c++;
-            document.getElementById('bsuw-bulk-sel-badge').textContent=c;
-            document.getElementById('bsuw-bulk-selected').disabled=c===0;
-        }
-
         /* Generate 150 units: 10 floors × 15 units (Unit 101 … Unit 1015) */
         function bsuwGenerate(){
             function pad(n){return n<10?'0'+n:''+n;}
@@ -7725,7 +7942,7 @@
                 for(var u=1;u<=15;u++)
                     bsuwUnitData.push({name:'Unit '+f+pad(u),beds:'',baths:'',size:'',_selected:false,amenities:[]});
             bsuwPage=1;bsuwBuildTable();bsuwUpdateProgress();
-            show('bsuw-ut-count-line');show('bsuw-ut-wrap');show('bsuw-bulk-scope');
+            show('bsuw-ut-count-line');show('bsuw-ut-wrap');
             document.getElementById('bsuw-bulk-toolbar').classList.remove('bsuw-hidden');
             document.getElementById('bsuw-bulk-toolbar').classList.add('visible');
             var br=document.getElementById('bsuw-bulk-result'); if(br) br.classList.remove('show');
@@ -7755,27 +7972,7 @@
         }
         document.getElementById('bsuw-bulk-apply').addEventListener('click',function(){
             var v=bsuwVals();
-            if(!v.any){ bsuwShowBulkResult('Pick a value first','Choose a Bed, Bath, or Size above, then try again.','warn'); return; }
-            var r=bsuwPageRange(), changed=0, skipped=0;
-            for(var i=r.start;i<r.end;i++){
-                var d=bsuwUnitData[i], touched=false, relHad=false;
-                if(v.beds){ if(!d.beds){ d.beds=v.beds; touched=true; } else relHad=true; }
-                if(v.baths){ if(!d.baths){ d.baths=v.baths; touched=true; } else relHad=true; }
-                if(v.size){ if(!d.size){ d.size=v.size; touched=true; } else relHad=true; }
-                if(touched) changed++; else if(relHad) skipped++;
-            }
-            bsuwBuildTable(); bsuwUpdateProgress();
-            bsuwShowBulkResult(
-                'Filled in the blanks on page '+bsuwPage,
-                'Added '+bsuwFmtList(v.labels)+' to <strong>'+changed+' unit'+(changed===1?'':'s')+'</strong> that '+(changed===1?'was':'were')+' empty.'
-                +' <strong>'+skipped+'</strong> already had values and '+(skipped===1?'was':'were')+' left alone.'
-                +bsuwOtherPagesTail(r),
-                'ok'
-            );
-        });
-        document.getElementById('bsuw-bulk-overwrite').addEventListener('click',function(){
-            var v=bsuwVals();
-            if(!v.any){ bsuwShowBulkResult('Pick a value first','Choose a Bed, Bath, or Size above, then try again.','warn'); return; }
+            if(!v.any){ bsuwShowBulkResult('Pick a value first','warn'); return; }
             var r=bsuwPageRange(), changed=0;
             for(var i=r.start;i<r.end;i++){
                 var d=bsuwUnitData[i], touched=false;
@@ -7785,20 +7982,14 @@
                 if(touched) changed++;
             }
             bsuwBuildTable(); bsuwUpdateProgress();
-            bsuwShowBulkResult(
-                'Overwrote page '+bsuwPage,
-                'Changed '+bsuwFmtList(v.labels)+' on <strong>'+changed+' unit'+(changed===1?'':'s')+'</strong>.'
-                +' <strong>'+(r.size-changed)+'</strong> already matched, so we left '+((r.size-changed)===1?'it':'them')+'.'
-                +bsuwOtherPagesTail(r,'are unchanged'),
-                'ok'
-            );
+            bsuwShowBulkResult('Applied '+bsuwFmtList(v.labels)+' to '+changed+' of '+r.size+' units on page '+bsuwPage,'ok');
         });
         document.getElementById('bsuw-bulk-selected').addEventListener('click',function(){
             var v=bsuwVals();
+            if(!v.any){ bsuwShowBulkResult('Pick a value first','warn'); return; }
             var r=bsuwPageRange(), pageSelIdx=[];
             for(var i=r.start;i<r.end;i++) if(bsuwUnitData[i]._selected) pageSelIdx.push(i);
-            if(pageSelIdx.length===0){ bsuwShowBulkResult('Tick some rows first','Check the boxes next to the rows you want to update, then click Apply to Selected.','warn'); return; }
-            if(!v.any){ bsuwShowBulkResult('Pick a value first','Choose a Bed, Bath, or Size above, then try again.','warn'); return; }
+            if(pageSelIdx.length===0){ bsuwShowBulkResult('Tick some rows first','warn'); return; }
             var changed=0;
             pageSelIdx.forEach(function(i){
                 var d=bsuwUnitData[i], touched=false;
@@ -7808,17 +7999,7 @@
                 if(touched) changed++;
             });
             bsuwBuildTable(); bsuwUpdateProgress();
-            var unticked=r.size-pageSelIdx.length;
-            var others=bsuwOtherPagesText(r);
-            var tail='';
-            if(unticked>0 && others) tail=' The <strong>'+unticked+'</strong> unticked unit'+(unticked===1?'':'s')+' on this page and '+others+' weren\u2019t changed.';
-            else if(unticked>0)      tail=' The <strong>'+unticked+'</strong> unticked unit'+(unticked===1?'':'s')+' on this page weren\u2019t changed.';
-            else if(others)          tail=' '+others+' weren\u2019t changed.';
-            bsuwShowBulkResult(
-                'Updated your picks on page '+bsuwPage,
-                '<strong>'+pageSelIdx.length+' ticked unit'+(pageSelIdx.length===1?'':'s')+'</strong> got '+bsuwFmtList(v.labels)+'.'+tail,
-                'ok'
-            );
+            bsuwShowBulkResult('Applied '+bsuwFmtList(v.labels)+' to '+changed+' of '+pageSelIdx.length+' selected units on page '+bsuwPage,'ok');
         });
         document.getElementById('bsuw-bulk-clear').addEventListener('click',function(){
             var r=bsuwPageRange(), hadData=0;
@@ -7828,13 +8009,7 @@
                 d.beds=d.baths=d.size=''; d._selected=false;
             }
             bsuwBuildTable(); bsuwUpdateProgress();
-            var others=bsuwOtherPagesText(r);
-            var tail=others ? ' '+others+' still '+(others.indexOf('Pages')===0?'have their':'has its')+' data.' : '';
-            bsuwShowBulkResult(
-                'Cleared page '+bsuwPage,
-                'Wiped Bed, Bath and Size on <strong>'+hadData+' unit'+(hadData===1?'':'s')+'</strong>. Unit names are kept.'+tail,
-                'ok'
-            );
+            bsuwShowBulkResult('Cleared '+hadData+' units on page '+bsuwPage,'ok');
         });
 
         var bTgl=document.getElementById('bsuw-bulk-toggle'),bBar=document.getElementById('bsuw-bulk-toolbar'),bPnl=document.getElementById('bsuw-bulk-panel');
@@ -7987,15 +8162,16 @@
             if(!btn||!label) return;
             var amN=bsuwSelectedAmenities.size, total=bsuwUnitData.length;
             var picked=bsuwUnitData.filter(function(u){return u._selected;}).length;
-            if(amN===0){ btn.disabled=true; label.textContent='Pick at least one amenity'; return; }
+            // Units first: check unit readiness, then amenity readiness
+            if(!bsuwApplyToAll && picked===0){ btn.disabled=true; label.textContent='Pick at least one unit above'; return; }
+            if(amN===0){ btn.disabled=true; label.textContent='Pick amenities to save'; return; }
             if(bsuwApplyToAll){
                 if(total===0){ btn.disabled=true; label.textContent='Load units first'; return; }
                 btn.disabled=false;
-                label.textContent='Apply '+amN+' amenit'+(amN===1?'y':'ies')+' to all '+total+' unit'+(total===1?'':'s');
+                label.textContent='Save '+amN+' amenit'+(amN===1?'y':'ies')+' to all '+total+' unit'+(total===1?'':'s');
             } else {
-                if(picked===0){ btn.disabled=true; label.textContent='Pick at least one unit'; return; }
                 btn.disabled=false;
-                label.textContent='Apply '+amN+' amenit'+(amN===1?'y':'ies')+' to '+picked+' unit'+(picked===1?'':'s');
+                label.textContent='Save '+amN+' amenit'+(amN===1?'y':'ies')+' to '+picked+' unit'+(picked===1?'':'s');
             }
         }
 
@@ -8066,7 +8242,7 @@
         }
         function bsuwAmShowSuccess(ams, n){
             var body=document.getElementById('bsuw-am-success-body');
-            if(body) body.innerHTML='<strong>'+n+' unit'+(n===1?'':'s')+'</strong> now '+(n===1?'has':'have')+' '+bsuwAmFormatAmenityList(ams)+'.';
+            if(body) body.innerHTML='Added <strong>'+ams.length+' amenit'+(ams.length===1?'y':'ies')+'</strong> to <strong>'+n+' unit'+(n===1?'':'s')+'</strong>. Click <em>Save more</em> to add different amenities to other units.';
             document.getElementById('bsuw-am-cta').style.display='none';
             document.getElementById('bsuw-am-success').classList.add('show');
         }
@@ -8078,10 +8254,21 @@
         document.getElementById('bsuw-am-apply-btn').addEventListener('click',function(){
             if(this.disabled) return;
             var ams=Array.from(bsuwSelectedAmenities); var n=0;
-            bsuwUnitData.forEach(function(d){ if(bsuwApplyToAll||d._selected){ d.amenities=ams.slice(); n++; }});
+            bsuwUnitData.forEach(function(d){
+                if(bsuwApplyToAll||d._selected){
+                    // Additive: merge new amenities into existing (no duplicates)
+                    ams.forEach(function(am){ if(d.amenities.indexOf(am)===-1) d.amenities.push(am); });
+                    n++;
+                }
+            });
             bsuwAmShowSuccess(ams, n);
         });
-        document.getElementById('bsuw-am-success-edit').addEventListener('click', bsuwAmHideSuccess);
+        // "Save more" — clear amenity picks so user can do another round
+        document.getElementById('bsuw-am-success-edit').addEventListener('click',function(){
+            bsuwAmHideSuccess();
+            bsuwSelectedAmenities.clear();
+            bsuwRenderChips(); bsuwRenderStrip(); bsuwAmUpdateCTA();
+        });
         document.getElementById('bsuw-am-success-continue').addEventListener('click',function(){
             bsuwAmHideSuccess();
             var n=document.getElementById('bsuw-btn-next'); if(n) n.click();
@@ -8248,39 +8435,37 @@
         .apw-ut-table tbody tr.apw-ut-selected { background: #F5F0FF !important; }
         .apw-ut-table tbody tr.apw-ut-selected:hover { background: #EDE5FF !important; }
         /* Bulk toolbar */
-        .apw-bulk-toolbar { display: none; align-items: center; justify-content: space-between; background: linear-gradient(135deg,#F0F4FF 0%,#E8F0FE 100%); border: 1.5px solid #C2D5F0; border-radius: 10px; padding: 10px 16px; margin-bottom: 0; cursor: pointer; transition: all 0.15s; }
+        .apw-bulk-toolbar { display: none; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #667EEA 0%, #5A67D8 50%, #764BA2 100%); border: none; border-radius: 12px; padding: 12px 18px; margin-bottom: 0; cursor: pointer; transition: all 0.15s; box-shadow: 0 4px 14px rgba(90, 103, 216, 0.3); }
         .apw-bulk-toolbar.visible { display: flex; }
         .apw-bulk-toolbar.visible:not(.panel-open) { margin-bottom: 14px; }
-        .apw-bulk-toolbar:hover { border-color: #8BAADB; }
+        .apw-bulk-toolbar:hover { box-shadow: 0 6px 20px rgba(90, 103, 216, 0.4); transform: translateY(-1px); }
         .apw-bulk-left { display: flex; align-items: center; gap: 8px; }
-        .apw-bulk-left i { color: #4A7FC1; font-size: 14px; }
-        .apw-bulk-title { font-size: 13px; font-weight: 700; color: #1B3A5C; }
-        .apw-bulk-hint { font-size: 11.5px; color: #6B89A8; margin-left: 4px; }
-        .apw-bulk-toggle-btn { background: none; border: none; cursor: pointer; color: #4A7FC1; font-size: 12px; padding: 4px 8px; border-radius: 6px; transition: all 0.15s; }
+        .apw-bulk-left i { color: #FFD700; font-size: 16px; }
+        .apw-bulk-title { font-size: 14px; font-weight: 700; color: #FFFFFF; letter-spacing: 0.2px; }
+        .apw-bulk-hint { font-size: 12px; color: rgba(255,255,255,0.8); margin-left: 4px; }
+        .apw-bulk-hint strong { color: #fff; }
+        .apw-bulk-toggle-btn { background: rgba(255,255,255,0.2); border: none; cursor: pointer; color: #fff; font-size: 13px; padding: 6px 10px; border-radius: 8px; transition: all 0.15s; }
+        .apw-bulk-toggle-btn:hover { background: rgba(255,255,255,0.3); }
         .apw-bulk-toggle-btn.open i { transform: rotate(180deg); }
-        .apw-bulk-panel { display: none; background: #F8FAFF; border: 1.5px solid #C2D5F0; border-top: none; border-radius: 0 0 10px 10px; padding: 16px 18px 14px; margin-bottom: 14px; }
+        .apw-bulk-panel { display: none; background: linear-gradient(180deg, #F0F2FF 0%, #F8F9FF 100%); border: 1.5px solid #C7CEFA; border-top: none; border-radius: 0 0 12px 12px; padding: 18px 20px 16px; margin-bottom: 14px; }
         .apw-bulk-panel.open { display: block; }
-        .apw-bulk-toolbar.panel-open { border-radius: 10px 10px 0 0; margin-bottom: 0; border-bottom-color: transparent; }
+        .apw-bulk-toolbar.panel-open { border-radius: 12px 12px 0 0; margin-bottom: 0; box-shadow: 0 2px 8px rgba(90, 103, 216, 0.2); }
         .apw-bulk-fields { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
         .apw-bulk-field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 130px; }
         .apw-bulk-field .apw-label { font-size: 11px; }
         .apw-bulk-field .apw-input, .apw-bulk-field .apw-select { padding: 7px 10px; font-size: 12px; }
         .apw-bulk-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-        .apw-bulk-apply-btn, .apw-bulk-overwrite-btn, .apw-bulk-selected-btn, .apw-bulk-clear-btn { padding: 7px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s; white-space: nowrap; }
+        .apw-bulk-apply-btn, .apw-bulk-selected-btn, .apw-bulk-clear-btn { padding: 7px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s; white-space: nowrap; }
         .apw-bulk-apply-btn { background: #3BAA6E; color: #fff; }
         .apw-bulk-apply-btn:hover { background: #2E9A5F; }
-        .apw-bulk-overwrite-btn { background: #3B8DBD; color: #fff; }
-        .apw-bulk-overwrite-btn:hover { background: #2D7AAD; }
         .apw-bulk-selected-btn { background: #7B4FCF; color: #fff; }
         .apw-bulk-selected-btn:hover { background: #6A3FBF; }
         .apw-bulk-selected-btn:disabled { background: #BEA8E8; cursor: not-allowed; }
-        .apw-bulk-sel-badge { background: rgba(255,255,255,0.3); border-radius: 10px; font-size: 10px; font-weight: 700; padding: 1px 6px; margin-left: 2px; min-width: 18px; text-align: center; }
+        .apw-bulk-result-msg { font-size: 13px; font-weight: 500; color: #2D6A4F; flex: 1; }
         .apw-bulk-clear-btn { background: #F0F4F8; color: #4A6B8A; border: 1px solid #D1D9E4; }
         .apw-bulk-clear-btn:hover { background: #E2E8F0; }
-        /* Bulk edit scope + result banner */
-        .apw-bulk-scope { display: flex; align-items: center; gap: 8px; background: #FFF7E6; border: 1px solid #F5D5A8; border-radius: 8px; padding: 8px 14px; margin: 10px 0 14px; font-size: 12px; color: #7A4B00; line-height: 1.4; }
-        .apw-bulk-scope i { color: #D9822B; flex-shrink: 0; }
-        .apw-bulk-scope strong { color: #5A3600; }
+        /* Bulk edit scope — now hidden (replaced by prominent pagination) */
+        .apw-bulk-scope { display: none !important; }
         .apw-bulk-result { display: none; align-items: flex-start; gap: 10px; background: #F0FDF4; border: 1.5px solid #9ED2B3; border-radius: 10px; padding: 12px 16px; margin-bottom: 14px; animation: apwBulkResultIn 0.25s ease-out; }
         .apw-bulk-result.show { display: flex; }
         .apw-bulk-result.warn { background: #FFF7E6; border-color: #F5C98A; }
@@ -8288,15 +8473,8 @@
         .apw-bulk-result > i { font-size: 16px; color: #2E9A5F; margin-top: 2px; flex-shrink: 0; }
         .apw-bulk-result.warn > i { color: #D9822B; }
         .apw-bulk-result.err > i { color: #C53030; }
-        .apw-bulk-result-body { flex: 1; min-width: 0; }
-        .apw-bulk-result-title { font-size: 13px; font-weight: 700; color: #1F5235; margin-bottom: 3px; }
-        .apw-bulk-result.warn .apw-bulk-result-title { color: #7A4B00; }
-        .apw-bulk-result.err .apw-bulk-result-title { color: #8A1F1F; }
-        .apw-bulk-result-detail { font-size: 12px; color: #3C5A4A; line-height: 1.5; }
-        .apw-bulk-result.warn .apw-bulk-result-detail { color: #6B4200; }
-        .apw-bulk-result.err .apw-bulk-result-detail { color: #6B1A1A; }
-        .apw-bulk-result-detail strong { color: inherit; font-weight: 700; }
-        .apw-bulk-result-detail .apw-bulk-result-sep { color: #B4C3BA; margin: 0 8px; }
+        .apw-bulk-result.warn .apw-bulk-result-msg { color: #7A4B00; }
+        .apw-bulk-result.err .apw-bulk-result-msg { color: #8A1F1F; }
         .apw-bulk-result-close { background: none; border: none; color: #7A8B82; font-size: 20px; line-height: 1; cursor: pointer; padding: 0 4px; flex-shrink: 0; }
         .apw-bulk-result-close:hover { color: #2D3748; }
         @keyframes apwBulkResultIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
@@ -8311,12 +8489,13 @@
         .apw-ut-table tbody .apw-chk-wrap input:checked + .apw-chk-box { background: #7B4FCF; border-color: #7B4FCF; }
         .apw-ut-table tbody .apw-chk-wrap input:checked + .apw-chk-box::after { border-color: #fff; }
         /* Pagination */
-        .apw-ut-pagination { display: none; align-items: center; justify-content: center; gap: 14px; padding: 12px 0 4px; margin-top: 8px; }
+        .apw-ut-pagination { display: none; align-items: center; justify-content: center; gap: 14px; padding: 10px 16px; margin-bottom: 10px; background: linear-gradient(135deg, #EDF6FF 0%, #E8F0FE 100%); border: 1.5px solid #B8D4F0; border-radius: 10px; }
         .apw-ut-pagination.visible { display: flex; }
-        .apw-ut-page-btn { width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid #D1D9E4; background: #fff; color: #4A6B8A; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
-        .apw-ut-page-btn:hover:not(:disabled) { background: #EDF6FF; border-color: #3B8DBD; color: #3B8DBD; }
+        .apw-ut-page-btn { width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid #B8D4F0; background: #fff; color: #1B4B6E; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+        .apw-ut-page-btn:hover:not(:disabled) { background: #3B8DBD; border-color: #3B8DBD; color: #fff; }
         .apw-ut-page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-        .apw-ut-page-info { font-size: 12.5px; font-weight: 600; color: #4A6B8A; }
+        .apw-ut-page-info { font-size: 13px; font-weight: 700; color: #1B4B6E; }
+        .apw-ut-page-hint { font-size: 11.5px; color: #5A7A94; margin-left: 8px; font-weight: 400; }
 
         /* ══ BULK SETUP UNIT WIZARD ══ */
         .bsuw-hidden { display: none !important; }
