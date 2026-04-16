@@ -742,6 +742,56 @@
         }
         .ovm-note strong { color: #334155; }
 
+        /* Mortgage: Loan tabs (multi-loan support) */
+        .ovm-loan-tabs {
+            display: flex; gap: 8px; padding: 0 20px 14px;
+            border-bottom: 1px solid #EDF2F7; margin-bottom: 0;
+        }
+        .ovm-loan-tab {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 14px; border-radius: 999px; border: none;
+            font-size: 12px; font-weight: 600; cursor: pointer;
+            background: #F0F4F9; color: #64748B;
+            transition: all 0.2s;
+        }
+        .ovm-loan-tab:hover { background: #E2E8F0; color: #334155; }
+        .ovm-loan-tab.active {
+            background: #4338CA; color: #fff;
+        }
+        .ovm-loan-content { display: none; }
+        .ovm-loan-content.active { display: block; }
+
+        /* Mortgage: Key facts 3-col grid */
+        .ovm-keyfacts {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+            margin-bottom: 14px;
+        }
+        .ovm-keyfacts .ovm-cell { padding: 10px 12px; }
+
+        /* Payment modal: remaining amount display */
+        .pmt-remaining {
+            font-size: 13px; font-weight: 700; padding: 8px 12px;
+            border-radius: 8px; text-align: center;
+            background: #F0F4F9; color: #64748B;
+            transition: all 0.25s;
+        }
+        .pmt-remaining.is-zero { background: #E6F9F0; color: #22894A; }
+        .pmt-remaining.has-remainder { background: #FFF4E8; color: #B86E1F; }
+
+        /* Interest adjustment panel */
+        .int-adj-panel {
+            padding: 16px; border-radius: 10px;
+            background: #FAFBFD; border: 1px solid #EDF2F7;
+            margin-top: 12px; display: none;
+        }
+        .int-adj-panel.is-open { display: block; }
+        .int-adj-preview {
+            font-size: 12.5px; color: #334155; font-weight: 600;
+            padding: 8px 12px; border-radius: 8px;
+            background: #EBF4FA; border-left: 3px solid #3B8DBD;
+            margin: 10px 0;
+        }
+
         /* ── Wide modal variant for Add Appliance / Add Loan ── */
         .modal-box.modal-box--wide {
             width: 760px; max-width: 96vw;
@@ -3048,104 +3098,194 @@
                         </div>
                     </div>
 
-                    <!-- Home Loan — Modernized PITI + escrow summary -->
+                    <!-- Home Loan — Multi-loan PITI + escrow summary -->
                     <div class="ov-card ov-card--modern ov-card--indigo">
                         <div class="ovm-head">
                             <div class="ovm-head-title">
                                 <div class="ovm-ic ovm-ic--indigo"><i class="fas fa-university"></i></div>
                                 <div>
                                     <div>Mortgage / Loan</div>
-                                    <div class="ovm-head-sub">Chase Bank · Account ••••4521</div>
+                                    <div class="ovm-head-sub">2 active loans on this property</div>
                                 </div>
                             </div>
-                            <span class="ovm-badge ovm-badge--blue"><span class="dot"></span> 1st lien · Active</span>
+                            <span class="ovm-badge ovm-badge--blue"><span class="dot"></span> Active</span>
                         </div>
 
-                        <div class="ovm-body">
-                            <!-- PITI Hero block -->
-                            <div class="ovm-piti">
-                                <div class="ovm-piti-top">
-                                    <span class="lbl">Monthly payment (PITI)</span>
-                                    <span class="chip"><i class="fas fa-lock" style="font-size:9px;"></i> Fixed · 5.250%</span>
-                                </div>
-                                <div class="ovm-piti-amount">$1,850<span class="mo">/ month</span></div>
-                                <div class="ovm-piti-breakdown">
-                                    <div class="ovm-piti-seg">
-                                        <div class="sv">$1,482</div>
-                                        <div class="sl">Principal &amp; int.</div>
+                        <!-- Loan tabs -->
+                        <div class="ovm-loan-tabs">
+                            <button class="ovm-loan-tab active" data-loan="loan1" onclick="window.switchLoanTab(this)">
+                                <i class="fas fa-university" style="font-size:10px;"></i> Chase Bank · ••4521
+                            </button>
+                            <button class="ovm-loan-tab" data-loan="loan2" onclick="window.switchLoanTab(this)">
+                                <i class="fas fa-university" style="font-size:10px;"></i> Wells Fargo · ••7890
+                            </button>
+                        </div>
+
+                        <!-- ── Loan 1: Chase Bank ── -->
+                        <div class="ovm-loan-content active" id="loan1">
+                            <div class="ovm-body">
+                                <!-- Key facts row -->
+                                <div class="ovm-keyfacts">
+                                    <div class="ovm-cell">
+                                        <div class="lbl"><i class="fas fa-calendar-alt"></i> Origination</div>
+                                        <div class="val">Feb 2011</div>
                                     </div>
-                                    <div class="ovm-piti-seg">
-                                        <div class="sv">$330</div>
-                                        <div class="sl">Tax + Ins.</div>
+                                    <div class="ovm-cell">
+                                        <div class="lbl"><i class="fas fa-tag"></i> Loan type</div>
+                                        <div class="val">30-yr fixed</div>
                                     </div>
-                                    <div class="ovm-piti-seg">
-                                        <div class="sv">$38</div>
-                                        <div class="sl">PMI</div>
+                                    <div class="ovm-cell">
+                                        <div class="lbl"><i class="fas fa-percentage"></i> Interest rate</div>
+                                        <div class="val accent">5.250%</div>
+                                    </div>
+                                    <div class="ovm-cell">
+                                        <div class="lbl"><i class="fas fa-coins"></i> Original balance</div>
+                                        <div class="val">$500,000</div>
+                                    </div>
+                                    <div class="ovm-cell">
+                                        <div class="lbl"><i class="fas fa-wallet"></i> Current balance</div>
+                                        <div class="val">$245,000</div>
+                                    </div>
+                                    <div class="ovm-cell">
+                                        <div class="lbl"><i class="fas fa-hashtag"></i> Loan acct #</div>
+                                        <div class="val" style="letter-spacing:0.05em;">••••4521</div>
+                                    </div>
+                                </div>
+
+                                <!-- PITI Hero block -->
+                                <div class="ovm-piti">
+                                    <div class="ovm-piti-top">
+                                        <span class="lbl">Monthly payment (PITI)</span>
+                                        <span class="chip"><i class="fas fa-lock" style="font-size:9px;"></i> Fixed · 5.250%</span>
+                                    </div>
+                                    <div class="ovm-piti-amount">$1,850<span class="mo">/ month</span></div>
+                                    <div class="ovm-piti-breakdown">
+                                        <div class="ovm-piti-seg">
+                                            <div class="sv">$1,482</div>
+                                            <div class="sl">Principal &amp; int.</div>
+                                        </div>
+                                        <div class="ovm-piti-seg">
+                                            <div class="sv">$330</div>
+                                            <div class="sl">Tax + Ins.</div>
+                                        </div>
+                                        <div class="ovm-piti-seg">
+                                            <div class="sv">$38</div>
+                                            <div class="sl">PMI</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Next payment chip -->
+                                <div class="ovm-nextpay">
+                                    <div class="ovm-nextpay-ic"><i class="fas fa-calendar-check"></i></div>
+                                    <div>
+                                        <div class="ovm-nextpay-lbl">Next payment due</div>
+                                        <div class="ovm-nextpay-date">May 1, 2026</div>
+                                    </div>
+                                    <span class="ovm-nextpay-days"><i class="fas fa-clock" style="font-size:9px;"></i> 16 days</span>
+                                </div>
+
+                                <!-- Paid-down progress -->
+                                <div class="ovm-paid">
+                                    <div class="ovm-paid-head">
+                                        <span>Principal paid down</span>
+                                        <span><strong>51%</strong> · $255,000 of $500,000</span>
+                                    </div>
+                                    <div class="ovm-paid-bar">
+                                        <div class="ovm-paid-fill" style="width: 51%;"></div>
+                                    </div>
+                                    <div class="ovm-paid-foot">
+                                        <span>Origination · Feb 2011</span>
+                                        <span>Maturity · Jan 2041</span>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Next payment chip -->
-                            <div class="ovm-nextpay">
-                                <div class="ovm-nextpay-ic"><i class="fas fa-calendar-check"></i></div>
-                                <div>
-                                    <div class="ovm-nextpay-lbl">Next payment due</div>
-                                    <div class="ovm-nextpay-date">May 1, 2026</div>
+                        <!-- ── Loan 2: Wells Fargo ── -->
+                        <div class="ovm-loan-content" id="loan2">
+                            <div class="ovm-body">
+                                <!-- Key facts row -->
+                                <div class="ovm-keyfacts">
+                                    <div class="ovm-cell">
+                                        <div class="lbl"><i class="fas fa-calendar-alt"></i> Origination</div>
+                                        <div class="val">Jul 2019</div>
+                                    </div>
+                                    <div class="ovm-cell">
+                                        <div class="lbl"><i class="fas fa-tag"></i> Loan type</div>
+                                        <div class="val">15-yr fixed</div>
+                                    </div>
+                                    <div class="ovm-cell">
+                                        <div class="lbl"><i class="fas fa-percentage"></i> Interest rate</div>
+                                        <div class="val accent">3.875%</div>
+                                    </div>
+                                    <div class="ovm-cell">
+                                        <div class="lbl"><i class="fas fa-coins"></i> Original balance</div>
+                                        <div class="val">$150,000</div>
+                                    </div>
+                                    <div class="ovm-cell">
+                                        <div class="lbl"><i class="fas fa-wallet"></i> Current balance</div>
+                                        <div class="val">$98,000</div>
+                                    </div>
+                                    <div class="ovm-cell">
+                                        <div class="lbl"><i class="fas fa-hashtag"></i> Loan acct #</div>
+                                        <div class="val" style="letter-spacing:0.05em;">••••7890</div>
+                                    </div>
                                 </div>
-                                <span class="ovm-nextpay-days"><i class="fas fa-clock" style="font-size:9px;"></i> 16 days</span>
-                            </div>
 
-                            <!-- Paid-down progress -->
-                            <div class="ovm-paid">
-                                <div class="ovm-paid-head">
-                                    <span>Principal paid down</span>
-                                    <span><strong>51%</strong> · $255,000 of $500,000</span>
+                                <!-- PITI Hero block -->
+                                <div class="ovm-piti">
+                                    <div class="ovm-piti-top">
+                                        <span class="lbl">Monthly payment (P&amp;I)</span>
+                                        <span class="chip"><i class="fas fa-lock" style="font-size:9px;"></i> Fixed · 3.875%</span>
+                                    </div>
+                                    <div class="ovm-piti-amount">$1,095<span class="mo">/ month</span></div>
+                                    <div class="ovm-piti-breakdown">
+                                        <div class="ovm-piti-seg">
+                                            <div class="sv">$1,095</div>
+                                            <div class="sl">Principal &amp; int.</div>
+                                        </div>
+                                        <div class="ovm-piti-seg">
+                                            <div class="sv">$0</div>
+                                            <div class="sl">Tax + Ins.</div>
+                                        </div>
+                                        <div class="ovm-piti-seg">
+                                            <div class="sv">$0</div>
+                                            <div class="sl">PMI</div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="ovm-paid-bar">
-                                    <div class="ovm-paid-fill" style="width: 51%;"></div>
-                                </div>
-                                <div class="ovm-paid-foot">
-                                    <span>Origination · Feb 2011</span>
-                                    <span>Maturity · Jan 2041</span>
-                                </div>
-                            </div>
 
-                            <!-- Detail grid -->
-                            <div class="ovm-grid">
-                                <div class="ovm-cell">
-                                    <div class="lbl"><i class="fas fa-tag"></i> Loan type</div>
-                                    <div class="val">30-yr fixed</div>
+                                <!-- Next payment chip -->
+                                <div class="ovm-nextpay">
+                                    <div class="ovm-nextpay-ic"><i class="fas fa-calendar-check"></i></div>
+                                    <div>
+                                        <div class="ovm-nextpay-lbl">Next payment due</div>
+                                        <div class="ovm-nextpay-date">May 1, 2026</div>
+                                    </div>
+                                    <span class="ovm-nextpay-days"><i class="fas fa-clock" style="font-size:9px;"></i> 16 days</span>
                                 </div>
-                                <div class="ovm-cell">
-                                    <div class="lbl"><i class="fas fa-percentage"></i> Interest rate</div>
-                                    <div class="val accent">5.250%</div>
-                                </div>
-                                <div class="ovm-cell">
-                                    <div class="lbl"><i class="fas fa-wallet"></i> Remaining balance</div>
-                                    <div class="val">$245,000</div>
-                                </div>
-                                <div class="ovm-cell">
-                                    <div class="lbl"><i class="fas fa-landmark"></i> Escrow / mo</div>
-                                    <div class="val">$368</div>
-                                </div>
-                                <div class="ovm-cell">
-                                    <div class="lbl"><i class="fas fa-flag-checkered"></i> Maturity</div>
-                                    <div class="val">Jan 2041</div>
-                                </div>
-                                <div class="ovm-cell">
-                                    <div class="lbl"><i class="fas fa-hashtag"></i> Loan account</div>
-                                    <div class="val" style="letter-spacing:0.05em;">••••4521</div>
-                                </div>
-                            </div>
 
-                            <!-- Note -->
-                            <div class="ovm-note">
-                                Escrow covers property taxes and hazard insurance rolled into the monthly payment. Open <strong>View loan detail</strong> for YTD principal, escrow balance, and documents.
+                                <!-- Paid-down progress -->
+                                <div class="ovm-paid">
+                                    <div class="ovm-paid-head">
+                                        <span>Principal paid down</span>
+                                        <span><strong>35%</strong> · $52,000 of $150,000</span>
+                                    </div>
+                                    <div class="ovm-paid-bar">
+                                        <div class="ovm-paid-fill" style="width: 35%;"></div>
+                                    </div>
+                                    <div class="ovm-paid-foot">
+                                        <span>Origination · Jul 2019</span>
+                                        <span>Maturity · Jun 2034</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="ovm-footer">
                             <button type="button" id="btn-view-loan" class="ov-btn ov-btn--outline"><i class="fas fa-file-lines"></i> View loan detail</button>
+                            <button type="button" id="btn-make-payment" class="ov-btn ov-btn--primary"><i class="fas fa-dollar-sign"></i> Make Payment</button>
                             <button type="button" id="btn-add-loan" class="ov-btn ov-btn--success"><i class="fas fa-plus"></i> Add loan</button>
                         </div>
                     </div>
@@ -6086,6 +6226,38 @@
                 <div><dt>YTD interest paid</dt><dd>$12,774.00</dd></div>
             </dl>
 
+            <div class="slideout-subhead">Year-end interest adjustment</div>
+            <div style="font-size:12px; color:#64748B; line-height:1.55; margin-bottom:12px; padding:10px 12px; background:#F8FAFC; border-radius:8px; border-left:3px solid #3B8DBD;">
+                If payments were recorded without a P&amp;I split, you can reallocate between principal and interest here.
+            </div>
+            <div style="font-size:13px; color:#334155; margin-bottom:6px;">
+                Total payments this year: <strong>$24,000</strong>
+            </div>
+            <div style="font-size:13px; color:#334155; margin-bottom:12px;">
+                Currently applied to &rarr; Principal: <strong id="int-adj-cur-principal">$24,000</strong> &middot; Interest: <strong id="int-adj-cur-interest">$0</strong>
+            </div>
+            <button type="button" class="ov-btn ov-btn--outline" id="btn-interest-adjust" onclick="window.slToggleInterestAdj()">
+                <i class="fas fa-sliders-h"></i> Adjust
+            </button>
+            <div class="int-adj-panel" id="int-adj-panel">
+                <div class="form-group" style="margin-bottom:10px;">
+                    <label class="form-label" style="font-size:12px;">Move from Principal to Interest ($)</label>
+                    <input class="form-input" type="text" id="interest-adj-amount" placeholder="e.g. 6,000" oninput="window.intAdjPreview()" style="max-width:240px;">
+                </div>
+                <div class="int-adj-preview" id="int-adj-preview">
+                    New allocation &rarr; Principal: <strong id="int-adj-new-principal">$24,000</strong> &middot; Interest: <strong id="int-adj-new-interest">$0</strong>
+                </div>
+                <div style="display:flex; align-items:center; gap:12px; margin-top:10px;">
+                    <button type="button" class="ov-btn ov-btn--success" style="font-size:12px; padding:6px 14px;" onclick="window.applyInterestAdj()">
+                        <i class="fas fa-check"></i> Apply Adjustment
+                    </button>
+                    <a href="#" style="font-size:12px; color:#64748B; text-decoration:none;" onclick="event.preventDefault(); window.slToggleInterestAdj();">Cancel</a>
+                </div>
+                <div id="int-adj-success" style="display:none; margin-top:10px; font-size:12px; font-weight:600; color:#22894A; padding:8px 12px; background:#E6F9F0; border-radius:6px;">
+                    <i class="fas fa-check-circle"></i> Interest adjustment applied
+                </div>
+            </div>
+
             <div class="slideout-subhead">Documents</div>
             <div class="pms-comp-row" style="border:1px solid #EDF2F7; border-radius:8px; padding:10px 14px; margin-bottom:8px;">
                 <span><i class="fas fa-file-pdf" style="color:#C53030; margin-right:8px;"></i> Closing disclosure (2021 refi)</span>
@@ -6323,6 +6495,90 @@
             <div class="modal-footer modal-footer--wide">
                 <button class="ov-btn ov-btn--outline" id="cancel-add-loan">Cancel</button>
                 <button class="ov-btn ov-btn--success"><i class="fas fa-check"></i> Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         MODAL 5 — MAKE PAYMENT
+         ═══════════════════════════════════════════ -->
+    <div id="modal-make-payment" class="modal-overlay">
+        <div class="modal-box modal-box--wide">
+            <div class="modal-header modal-header--hero" style="background:linear-gradient(135deg,#4338CA 0%,#5B52E5 100%); border-bottom:none;">
+                <div class="mh-hero-ic" style="background:rgba(255,255,255,0.18); color:#fff;"><i class="fas fa-dollar-sign"></i></div>
+                <div class="mh-title-group">
+                    <h2 style="color:#fff;">Record Loan Payment</h2>
+                    <div class="mh-sub" style="color:rgba(255,255,255,0.8);">Enter payment amount and how it splits between principal &amp; interest</div>
+                </div>
+                <button class="modal-close" id="close-make-payment" style="color:#fff;"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body modal-body--wide">
+
+                <!-- Section 1: Payment details -->
+                <div class="modal-section">
+                    <div class="modal-section-title modal-section-title--indigo">
+                        <i class="fas fa-receipt"></i> Payment details
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Payment date</label>
+                            <input class="form-input" type="date" id="pmt-date">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Total payment amount ($)</label>
+                            <input class="form-input" type="text" id="pmt-total" placeholder="e.g. 2,000" oninput="window.pmtCalcRemaining()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: P&I split -->
+                <div class="modal-section">
+                    <div class="modal-section-title modal-section-title--teal">
+                        <i class="fas fa-chart-pie"></i> Principal &amp; Interest split
+                    </div>
+                    <div style="font-size:12px; color:#64748B; line-height:1.5; margin-bottom:12px; padding:9px 12px; background:#F0FAF5; border-radius:8px; border-left:3px solid #2B9A6E;">
+                        Break down how much goes to principal vs interest. If you're unsure, enter the full amount and adjust later.
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Principal portion ($)</label>
+                            <input class="form-input" type="text" id="pmt-principal" placeholder="0" oninput="window.pmtCalcRemaining()">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Interest portion ($)</label>
+                            <input class="form-input" type="text" id="pmt-interest" placeholder="0" oninput="window.pmtCalcRemaining()">
+                        </div>
+                    </div>
+                    <div class="pmt-remaining" id="pmt-remaining" style="margin-top:12px;">
+                        Remaining: $0.00
+                    </div>
+                </div>
+
+                <!-- Section 3: Escrow & other -->
+                <div class="modal-section">
+                    <div class="modal-section-title modal-section-title--orange">
+                        <i class="fas fa-layer-group"></i> Escrow &amp; other
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Escrow portion ($) <span style="font-weight:400; color:#A0AEC0;">(optional)</span></label>
+                            <input class="form-input" type="text" id="pmt-escrow" placeholder="0">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Additional principal ($) <span style="font-weight:400; color:#A0AEC0;">(optional)</span></label>
+                            <input class="form-input" type="text" id="pmt-extra-principal" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:14px; margin-bottom:0;">
+                        <label class="form-label">Notes <span style="font-weight:400; color:#A0AEC0;">(optional)</span></label>
+                        <textarea class="form-textarea" id="pmt-notes" style="min-height:64px;" placeholder="Optional note about this payment..."></textarea>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer modal-footer--wide">
+                <button class="ov-btn ov-btn--outline" id="cancel-make-payment">Cancel</button>
+                <button class="ov-btn ov-btn--success" id="btn-record-payment"><i class="fas fa-check"></i> Record Payment</button>
             </div>
         </div>
     </div>
@@ -6940,12 +7196,117 @@
         document.getElementById('cancel-add-loan').addEventListener('click', () => closeModal('modal-add-loan'));
         document.getElementById('modal-add-loan').addEventListener('click', (e) => { if (e.target === e.currentTarget) closeModal('modal-add-loan'); });
 
+        // ── Make Payment modal handlers ──
+        document.getElementById('btn-make-payment').addEventListener('click', () => {
+            // Default payment date to today
+            var dateInput = document.getElementById('pmt-date');
+            if (dateInput && !dateInput.value) {
+                var d = new Date();
+                dateInput.value = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+            }
+            openModal('modal-make-payment');
+        });
+        document.getElementById('close-make-payment').addEventListener('click', () => closeModal('modal-make-payment'));
+        document.getElementById('cancel-make-payment').addEventListener('click', () => closeModal('modal-make-payment'));
+        document.getElementById('modal-make-payment').addEventListener('click', (e) => { if (e.target === e.currentTarget) closeModal('modal-make-payment'); });
+
+        // Expose openPaymentModal for external use
+        window.openPaymentModal = function() {
+            document.getElementById('btn-make-payment').click();
+        };
+
+        // ── Loan tab switching ──
+        window.switchLoanTab = function(btn) {
+            var tabs = document.querySelectorAll('.ovm-loan-tab');
+            var contents = document.querySelectorAll('.ovm-loan-content');
+            var loanId = btn.getAttribute('data-loan');
+            tabs.forEach(function(t) { t.classList.remove('active'); });
+            contents.forEach(function(c) { c.classList.remove('active'); });
+            btn.classList.add('active');
+            var target = document.getElementById(loanId);
+            if (target) target.classList.add('active');
+        };
+
+        // ── Payment modal: live remaining calculation ──
+        function parseCurrency(val) {
+            if (!val) return 0;
+            var n = parseFloat(String(val).replace(/[^0-9.\-]/g, ''));
+            return Number.isFinite(n) ? n : 0;
+        }
+
+        window.pmtCalcRemaining = function() {
+            var total = parseCurrency(document.getElementById('pmt-total').value);
+            var principal = parseCurrency(document.getElementById('pmt-principal').value);
+            var interest = parseCurrency(document.getElementById('pmt-interest').value);
+            var remaining = total - principal - interest;
+            var el = document.getElementById('pmt-remaining');
+            if (!el) return;
+            el.textContent = 'Remaining: $' + Math.abs(remaining).toFixed(2);
+            el.classList.remove('is-zero', 'has-remainder');
+            if (Math.abs(remaining) < 0.01) {
+                el.classList.add('is-zero');
+                el.textContent = 'Remaining: $0.00 — Fully allocated';
+            } else {
+                el.classList.add('has-remainder');
+            }
+        };
+
+        // ── Interest adjustment (slideout) ──
+        window.slToggleInterestAdj = function() {
+            var panel = document.getElementById('int-adj-panel');
+            if (!panel) return;
+            panel.classList.toggle('is-open');
+            // Reset on close
+            if (!panel.classList.contains('is-open')) {
+                var inp = document.getElementById('interest-adj-amount');
+                if (inp) inp.value = '';
+                var succ = document.getElementById('int-adj-success');
+                if (succ) succ.style.display = 'none';
+                window.intAdjPreview();
+            }
+        };
+
+        window.intAdjPreview = function() {
+            var totalPaid = 24000;
+            var moveAmt = parseCurrency(document.getElementById('interest-adj-amount').value);
+            if (moveAmt < 0) moveAmt = 0;
+            if (moveAmt > totalPaid) moveAmt = totalPaid;
+            var newPrincipal = totalPaid - moveAmt;
+            var newInterest = moveAmt;
+            var elP = document.getElementById('int-adj-new-principal');
+            var elI = document.getElementById('int-adj-new-interest');
+            if (elP) elP.textContent = '$' + newPrincipal.toLocaleString();
+            if (elI) elI.textContent = '$' + newInterest.toLocaleString();
+        };
+
+        window.applyInterestAdj = function() {
+            var moveAmt = parseCurrency(document.getElementById('interest-adj-amount').value);
+            var totalPaid = 24000;
+            if (moveAmt < 0) moveAmt = 0;
+            if (moveAmt > totalPaid) moveAmt = totalPaid;
+            var newPrincipal = totalPaid - moveAmt;
+            var newInterest = moveAmt;
+            // Update the "current" display
+            var curP = document.getElementById('int-adj-cur-principal');
+            var curI = document.getElementById('int-adj-cur-interest');
+            if (curP) curP.textContent = '$' + newPrincipal.toLocaleString();
+            if (curI) curI.textContent = '$' + newInterest.toLocaleString();
+            // Show success message
+            var succ = document.getElementById('int-adj-success');
+            if (succ) succ.style.display = 'block';
+            // Collapse after a short delay
+            setTimeout(function() {
+                window.slToggleInterestAdj();
+            }, 1500);
+        };
+
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeSlideout('slideout-appliances-bg', 'slideout-appliances');
                 closeSlideout('slideout-loan-bg', 'slideout-loan');
                 closeModal('modal-add-appliance');
                 closeModal('modal-add-loan');
+                closeModal('modal-make-payment');
             }
         });
     })();
