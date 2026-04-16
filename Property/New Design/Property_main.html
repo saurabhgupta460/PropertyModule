@@ -952,31 +952,27 @@
                   </div>
                   <div class="apw-bulk-actions">
                     <button type="button" class="apw-bulk-apply-btn" id="apw-bulk-apply">
-                      <i class="fas fa-check-double"></i> Apply To All Empty Row
+                      <i class="fas fa-check-double"></i> Apply To All
                     </button>
-                    <button type="button" class="apw-bulk-overwrite-btn" id="apw-bulk-overwrite">
-                      <i class="fas fa-sync-alt"></i> Apply To All Row (Override)
-                    </button>
-                    <button type="button" class="apw-bulk-selected-btn" id="apw-bulk-selected">
-                      <i class="fas fa-check-square"></i> Apply to Selected Row
-                      <span class="apw-bulk-sel-badge" id="apw-bulk-sel-badge">0</span>
+                    <button type="button" class="apw-bulk-selected-btn" id="apw-bulk-selected" disabled>
+                      <i class="fas fa-check-square"></i> Apply to Selected
                     </button>
                     <button type="button" class="apw-bulk-clear-btn" id="apw-bulk-clear">
                       <i class="fas fa-eraser"></i> Clear All
                     </button>
                   </div>
                 </div>
-                <div class="apw-bulk-scope">
-                  <i class="fas fa-lightbulb"></i>
-                  <span id="apw-bulk-scope-text">These buttons only change the units on <strong>this page</strong>. To update other pages, switch to them and apply again.</span>
-                </div>
                 <div class="apw-bulk-result" id="apw-bulk-result" role="status" aria-live="polite">
                   <i class="fas fa-check-circle"></i>
-                  <div class="apw-bulk-result-body">
-                    <div class="apw-bulk-result-title" id="apw-bulk-result-title">Updated</div>
-                    <div class="apw-bulk-result-detail" id="apw-bulk-result-detail"></div>
-                  </div>
+                  <span class="apw-bulk-result-msg" id="apw-bulk-result-msg"></span>
                   <button type="button" class="apw-bulk-result-close" id="apw-bulk-result-close" aria-label="Dismiss">&times;</button>
+                </div>
+                <!-- Pagination (above table — makes per-page scope obvious) -->
+                <div class="apw-ut-pagination" id="apw-ut-pagination">
+                  <button type="button" class="apw-ut-page-btn" id="apw-ut-prev" disabled><i class="fas fa-chevron-left"></i></button>
+                  <span class="apw-ut-page-info" id="apw-ut-page-info">1 – 20 of 150</span>
+                  <span class="apw-ut-page-hint" id="apw-ut-page-hint">— changes apply to this page only</span>
+                  <button type="button" class="apw-ut-page-btn" id="apw-ut-next"><i class="fas fa-chevron-right"></i></button>
                 </div>
                 <div class="apw-ut-wrap">
                   <table class="apw-ut-table" id="apw-ut-table">
@@ -990,11 +986,6 @@
                     </thead>
                     <tbody id="apw-ut-tbody"></tbody>
                   </table>
-                </div>
-                <div class="apw-ut-pagination" id="apw-ut-pagination">
-                  <button type="button" class="apw-ut-page-btn" id="apw-ut-prev" disabled><i class="fas fa-chevron-left"></i></button>
-                  <span class="apw-ut-page-info" id="apw-ut-page-info">1 – 10 of 20</span>
-                  <button type="button" class="apw-ut-page-btn" id="apw-ut-next"><i class="fas fa-chevron-right"></i></button>
                 </div>
               </div>
             </div>
@@ -1341,31 +1332,28 @@
                   </div>
                   <div class="apw-bulk-actions">
                     <button type="button" class="apw-bulk-apply-btn" id="bsuw-bulk-apply">
-                      <i class="fas fa-check-double"></i> Apply To All Empty
-                    </button>
-                    <button type="button" class="apw-bulk-overwrite-btn" id="bsuw-bulk-overwrite">
-                      <i class="fas fa-sync-alt"></i> Apply To All (Override)
+                      <i class="fas fa-check-double"></i> Apply To All
                     </button>
                     <button type="button" class="apw-bulk-selected-btn" id="bsuw-bulk-selected" disabled>
                       <i class="fas fa-check-square"></i> Apply to Selected
-                      <span class="apw-bulk-sel-badge" id="bsuw-bulk-sel-badge">0</span>
                     </button>
                     <button type="button" class="apw-bulk-clear-btn" id="bsuw-bulk-clear">
                       <i class="fas fa-eraser"></i> Clear All
                     </button>
                   </div>
                 </div>
-                <div class="apw-bulk-scope bsuw-hidden" id="bsuw-bulk-scope">
-                  <i class="fas fa-lightbulb"></i>
-                  <span id="bsuw-bulk-scope-text">These buttons only change the units on <strong>this page</strong>. To update other pages, switch to them and apply again.</span>
-                </div>
                 <div class="apw-bulk-result" id="bsuw-bulk-result" role="status" aria-live="polite">
                   <i class="fas fa-check-circle"></i>
-                  <div class="apw-bulk-result-body">
-                    <div class="apw-bulk-result-title" id="bsuw-bulk-result-title">Updated</div>
-                    <div class="apw-bulk-result-detail" id="bsuw-bulk-result-detail"></div>
-                  </div>
+                  <span class="apw-bulk-result-msg" id="bsuw-bulk-result-msg"></span>
                   <button type="button" class="apw-bulk-result-close" id="bsuw-bulk-result-close" aria-label="Dismiss">&times;</button>
+                </div>
+
+                <!-- Pagination (above table — makes per-page scope obvious) -->
+                <div class="apw-ut-pagination" id="bsuw-ut-pagination">
+                  <button type="button" class="apw-ut-page-btn" id="bsuw-ut-prev" disabled><i class="fas fa-chevron-left"></i></button>
+                  <span class="apw-ut-page-info" id="bsuw-ut-page-info"></span>
+                  <span class="apw-ut-page-hint" id="bsuw-ut-page-hint">— changes apply to this page only</span>
+                  <button type="button" class="apw-ut-page-btn" id="bsuw-ut-next"><i class="fas fa-chevron-right"></i></button>
                 </div>
 
                 <!-- Unit table -->
@@ -1381,11 +1369,6 @@
                     </thead>
                     <tbody id="bsuw-ut-tbody"></tbody>
                   </table>
-                </div>
-                <div class="apw-ut-pagination" id="bsuw-ut-pagination">
-                  <button type="button" class="apw-ut-page-btn" id="bsuw-ut-prev" disabled><i class="fas fa-chevron-left"></i></button>
-                  <span class="apw-ut-page-info" id="bsuw-ut-page-info"></span>
-                  <button type="button" class="apw-ut-page-btn" id="bsuw-ut-next"><i class="fas fa-chevron-right"></i></button>
                 </div>
               </div>
             </div>
@@ -1711,39 +1694,37 @@
         .rv-units-table td { padding: 8px 10px; border-bottom: 1px solid #F0F4F8; color: #2D3748; }
         .rv-units-table tr:last-child td { border-bottom: none; }
         /* Bulk edit toolbar */
-        .apw-bulk-toolbar { display: none; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #F0F4FF 0%, #E8F0FE 100%); border: 1.5px solid #C2D5F0; border-radius: 10px; padding: 10px 16px; margin-bottom: 0; cursor: pointer; transition: all 0.15s; }
+        .apw-bulk-toolbar { display: none; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #667EEA 0%, #5A67D8 50%, #764BA2 100%); border: none; border-radius: 12px; padding: 12px 18px; margin-bottom: 0; cursor: pointer; transition: all 0.15s; box-shadow: 0 4px 14px rgba(90, 103, 216, 0.3); }
         .apw-bulk-toolbar.visible { display: flex; }
         .apw-bulk-toolbar.visible:not(.panel-open) { margin-bottom: 14px; }
-        .apw-bulk-toolbar:hover { border-color: #8BAADB; }
+        .apw-bulk-toolbar:hover { box-shadow: 0 6px 20px rgba(90, 103, 216, 0.4); transform: translateY(-1px); }
         .apw-bulk-left { display: flex; align-items: center; gap: 8px; }
-        .apw-bulk-left i { color: #4A7FC1; font-size: 14px; }
-        .apw-bulk-title { font-size: 13px; font-weight: 700; color: #1B3A5C; }
-        .apw-bulk-hint { font-size: 11.5px; color: #6B89A8; margin-left: 4px; }
-        .apw-bulk-toggle-btn { background: none; border: none; cursor: pointer; color: #4A7FC1; font-size: 12px; padding: 4px 8px; border-radius: 6px; transition: all 0.15s; }
+        .apw-bulk-left i { color: #FFD700; font-size: 16px; }
+        .apw-bulk-title { font-size: 14px; font-weight: 700; color: #FFFFFF; letter-spacing: 0.2px; }
+        .apw-bulk-hint { font-size: 12px; color: rgba(255,255,255,0.8); margin-left: 4px; }
+        .apw-bulk-hint strong { color: #fff; }
+        .apw-bulk-toggle-btn { background: rgba(255,255,255,0.2); border: none; cursor: pointer; color: #fff; font-size: 13px; padding: 6px 10px; border-radius: 8px; transition: all 0.15s; }
+        .apw-bulk-toggle-btn:hover { background: rgba(255,255,255,0.3); }
         .apw-bulk-toggle-btn.open i { transform: rotate(180deg); }
-        .apw-bulk-panel { display: none; background: #F8FAFF; border: 1.5px solid #C2D5F0; border-top: none; border-radius: 0 0 10px 10px; padding: 16px 18px 14px; margin-bottom: 14px; animation: apw-fadein 0.2s ease; }
+        .apw-bulk-panel { display: none; background: linear-gradient(180deg, #F0F2FF 0%, #F8F9FF 100%); border: 1.5px solid #C7CEFA; border-top: none; border-radius: 0 0 12px 12px; padding: 18px 20px 16px; margin-bottom: 14px; animation: apw-fadein 0.2s ease; }
         .apw-bulk-panel.open { display: block; }
-        .apw-bulk-toolbar.panel-open { border-radius: 10px 10px 0 0; margin-bottom: 0; border-bottom-color: transparent; }
+        .apw-bulk-toolbar.panel-open { border-radius: 12px 12px 0 0; margin-bottom: 0; box-shadow: 0 2px 8px rgba(90, 103, 216, 0.2); }
         .apw-bulk-fields { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
         .apw-bulk-field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 130px; }
         .apw-bulk-field .apw-label { font-size: 11px; }
         .apw-bulk-field .apw-input, .apw-bulk-field .apw-select { padding: 7px 10px; font-size: 12px; }
         .apw-bulk-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-        .apw-bulk-apply-btn, .apw-bulk-overwrite-btn, .apw-bulk-selected-btn, .apw-bulk-clear-btn { padding: 7px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s; white-space: nowrap; }
+        .apw-bulk-apply-btn, .apw-bulk-selected-btn, .apw-bulk-clear-btn { padding: 7px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s; white-space: nowrap; }
         .apw-bulk-apply-btn { background: #3BAA6E; color: #fff; }
         .apw-bulk-apply-btn:hover { background: #2E9A5F; }
-        .apw-bulk-overwrite-btn { background: #3B8DBD; color: #fff; }
-        .apw-bulk-overwrite-btn:hover { background: #2D7AAD; }
         .apw-bulk-selected-btn { background: #7B4FCF; color: #fff; }
         .apw-bulk-selected-btn:hover { background: #6A3FBF; }
         .apw-bulk-selected-btn:disabled { background: #BEA8E8; cursor: not-allowed; }
-        .apw-bulk-sel-badge { background: rgba(255,255,255,0.3); border-radius: 10px; font-size: 10px; font-weight: 700; padding: 1px 6px; margin-left: 2px; min-width: 18px; text-align: center; }
+        .apw-bulk-result-msg { font-size: 13px; font-weight: 500; color: #2D6A4F; flex: 1; }
         .apw-bulk-clear-btn { background: #F0F4F8; color: #4A6B8A; border: 1px solid #D1D9E4; }
         .apw-bulk-clear-btn:hover { background: #E2E8F0; }
-        /* Bulk edit scope + result banner */
-        .apw-bulk-scope { display: flex; align-items: center; gap: 8px; background: #FFF7E6; border: 1px solid #F5D5A8; border-radius: 8px; padding: 8px 14px; margin: 10px 0 14px; font-size: 12px; color: #7A4B00; line-height: 1.4; }
-        .apw-bulk-scope i { color: #D9822B; flex-shrink: 0; }
-        .apw-bulk-scope strong { color: #5A3600; }
+        /* Bulk edit scope — now hidden (replaced by prominent pagination) */
+        .apw-bulk-scope { display: none !important; }
         .apw-bulk-result { display: none; align-items: flex-start; gap: 10px; background: #F0FDF4; border: 1.5px solid #9ED2B3; border-radius: 10px; padding: 12px 16px; margin-bottom: 14px; animation: apwBulkResultIn 0.25s ease-out; }
         .apw-bulk-result.show { display: flex; }
         .apw-bulk-result.warn { background: #FFF7E6; border-color: #F5C98A; }
@@ -1751,15 +1732,8 @@
         .apw-bulk-result > i { font-size: 16px; color: #2E9A5F; margin-top: 2px; flex-shrink: 0; }
         .apw-bulk-result.warn > i { color: #D9822B; }
         .apw-bulk-result.err > i { color: #C53030; }
-        .apw-bulk-result-body { flex: 1; min-width: 0; }
-        .apw-bulk-result-title { font-size: 13px; font-weight: 700; color: #1F5235; margin-bottom: 3px; }
-        .apw-bulk-result.warn .apw-bulk-result-title { color: #7A4B00; }
-        .apw-bulk-result.err .apw-bulk-result-title { color: #8A1F1F; }
-        .apw-bulk-result-detail { font-size: 12px; color: #3C5A4A; line-height: 1.5; }
-        .apw-bulk-result.warn .apw-bulk-result-detail { color: #6B4200; }
-        .apw-bulk-result.err .apw-bulk-result-detail { color: #6B1A1A; }
-        .apw-bulk-result-detail strong { color: inherit; font-weight: 700; }
-        .apw-bulk-result-detail .apw-bulk-result-sep { color: #B4C3BA; margin: 0 8px; }
+        .apw-bulk-result.warn .apw-bulk-result-msg { color: #7A4B00; }
+        .apw-bulk-result.err .apw-bulk-result-msg { color: #8A1F1F; }
         .apw-bulk-result-close { background: none; border: none; color: #7A8B82; font-size: 20px; line-height: 1; cursor: pointer; padding: 0 4px; flex-shrink: 0; }
         .apw-bulk-result-close:hover { color: #2D3748; }
         @keyframes apwBulkResultIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
@@ -1777,12 +1751,13 @@
         .apw-ut-table tbody tr.apw-ut-selected { background: #F5F0FF !important; }
         .apw-ut-table tbody tr.apw-ut-selected:hover { background: #EDE5FF !important; }
         /* Pagination */
-        .apw-ut-pagination { display: none; align-items: center; justify-content: center; gap: 14px; padding: 12px 0 4px; margin-top: 8px; }
+        .apw-ut-pagination { display: none; align-items: center; justify-content: center; gap: 14px; padding: 10px 16px; margin-bottom: 10px; background: linear-gradient(135deg, #EDF6FF 0%, #E8F0FE 100%); border: 1.5px solid #B8D4F0; border-radius: 10px; }
         .apw-ut-pagination.visible { display: flex; }
-        .apw-ut-page-btn { width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid #D1D9E4; background: #fff; color: #4A6B8A; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
-        .apw-ut-page-btn:hover:not(:disabled) { background: #EDF6FF; border-color: #3B8DBD; color: #3B8DBD; }
+        .apw-ut-page-btn { width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid #B8D4F0; background: #fff; color: #1B4B6E; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+        .apw-ut-page-btn:hover:not(:disabled) { background: #3B8DBD; border-color: #3B8DBD; color: #fff; }
         .apw-ut-page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-        .apw-ut-page-info { font-size: 12.5px; font-weight: 600; color: #4A6B8A; }
+        .apw-ut-page-info { font-size: 13px; font-weight: 700; color: #1B4B6E; }
+        .apw-ut-page-hint { font-size: 11.5px; color: #5A7A94; margin-left: 8px; font-weight: 400; }
         /* Review grid */
         .apw-review-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
         .apw-review-section { background: #FAFBFC; border: 1px solid #E2E6EB; border-radius: 10px; padding: 18px 20px; }
@@ -2138,7 +2113,7 @@
 
         var apwUnitData = [];
         var apwCurrentPage = 1;
-        var APW_PAGE_SIZE = 50;
+        var APW_PAGE_SIZE = 20;
 
         function apwInitUnitStep() {
             var heading = document.getElementById('apw-ud-heading');
@@ -2249,20 +2224,16 @@
             var lbl = document.getElementById('apw-ut-count-label');
             if (lbl) lbl.textContent = total + ' unit' + (total === 1 ? '' : 's');
         }
-        function apwShowBulkResult(title, detailHtml, type) {
+        function apwShowBulkResult(msg, type) {
             var banner = document.getElementById('apw-bulk-result');
             var icon   = banner ? banner.querySelector('i.fas') : null;
-            var tEl    = document.getElementById('apw-bulk-result-title');
-            var dEl    = document.getElementById('apw-bulk-result-detail');
+            var msgEl  = document.getElementById('apw-bulk-result-msg');
             if (!banner) return;
             banner.classList.remove('warn', 'err');
             if (type === 'warn') banner.classList.add('warn');
             else if (type === 'err') banner.classList.add('err');
-            if (icon) {
-                icon.className = 'fas ' + (type === 'warn' ? 'fa-exclamation-triangle' : type === 'err' ? 'fa-times-circle' : 'fa-check-circle');
-            }
-            if (tEl) tEl.textContent = title;
-            if (dEl) dEl.innerHTML = detailHtml;
+            if (icon) icon.className = 'fas ' + (type === 'warn' ? 'fa-exclamation-triangle' : type === 'err' ? 'fa-times-circle' : 'fa-check-circle');
+            if (msgEl) msgEl.textContent = msg;
             banner.classList.add('show');
         }
         (function(){
@@ -2277,7 +2248,8 @@
             var info = document.getElementById('apw-ut-page-info');
             var prev = document.getElementById('apw-ut-prev');
             var next = document.getElementById('apw-ut-next');
-            if (info) info.textContent = start + ' – ' + end + ' of ' + total;
+            var pc = Math.max(1, Math.ceil(total / APW_PAGE_SIZE));
+            if (info) info.textContent = 'Showing ' + start + ' – ' + end + ' of ' + total + '  (page ' + apwCurrentPage + ' of ' + pc + ')';
             if (prev) prev.disabled = (apwCurrentPage <= 1);
             if (next) next.disabled = (end >= total);
         }
@@ -2307,16 +2279,13 @@
         }
 
         function apwUpdateSelBadge() {
-            // Show how many rows on the CURRENT page are selected (since bulk actions are per-page)
             var total = apwUnitData.length;
             var s = (apwCurrentPage - 1) * APW_PAGE_SIZE;
             var e = Math.min(s + APW_PAGE_SIZE, total);
             var count = 0;
             for (var i = s; i < e; i++) if (apwUnitData[i]._selected) count++;
-            var badge = document.getElementById('apw-bulk-sel-badge');
-            var btn   = document.getElementById('apw-bulk-selected');
-            if (badge) badge.textContent = count;
-            if (btn)   btn.disabled = (count === 0);
+            var btn = document.getElementById('apw-bulk-selected');
+            if (btn) btn.disabled = (count === 0);
         }
 
         var bulkToggleBtn = document.getElementById('apw-bulk-toggle');
@@ -2379,29 +2348,7 @@
 
         document.getElementById('apw-bulk-apply').addEventListener('click', function() {
             var v = apwBulkFields();
-            if (!v.any) { apwShowBulkResult('Pick a value first', 'Choose a Bed, Bath, or Size above, then try again.', 'warn'); return; }
-            var r = apwPageRange(), changed = 0, skipped = 0;
-            for (var i = r.start; i < r.end; i++) {
-                var d = apwUnitData[i], touched = false, relevantHadValue = false;
-                if (v.beds)  { if (!d.beds)  { d.beds  = v.beds;  touched = true; } else relevantHadValue = true; }
-                if (v.baths) { if (!d.baths) { d.baths = v.baths; touched = true; } else relevantHadValue = true; }
-                if (v.size)  { if (!d.size)  { d.size  = v.size;  touched = true; } else relevantHadValue = true; }
-                if (touched) changed++;
-                else if (relevantHadValue) skipped++;
-            }
-            apwBuildTable(); apwUpdateProgress();
-            apwShowBulkResult(
-                'Filled in the blanks on page ' + apwCurrentPage,
-                'Added ' + apwFormatList(v.labels) + ' to <strong>' + changed + ' unit' + (changed === 1 ? '' : 's') + '</strong> that ' + (changed === 1 ? 'was' : 'were') + ' empty.'
-                + ' <strong>' + skipped + '</strong> already had values and ' + (skipped === 1 ? 'was' : 'were') + ' left alone.'
-                + apwOtherPagesTail(r),
-                'ok'
-            );
-        });
-
-        document.getElementById('apw-bulk-overwrite').addEventListener('click', function() {
-            var v = apwBulkFields();
-            if (!v.any) { apwShowBulkResult('Pick a value first', 'Choose a Bed, Bath, or Size above, then try again.', 'warn'); return; }
+            if (!v.any) { apwShowBulkResult('Pick a value first', 'warn'); return; }
             var r = apwPageRange(), changed = 0;
             for (var i = r.start; i < r.end; i++) {
                 var d = apwUnitData[i], touched = false;
@@ -2411,22 +2358,15 @@
                 if (touched) changed++;
             }
             apwBuildTable(); apwUpdateProgress();
-            apwShowBulkResult(
-                'Overwrote page ' + apwCurrentPage,
-                'Changed ' + apwFormatList(v.labels) + ' on <strong>' + changed + ' unit' + (changed === 1 ? '' : 's') + '</strong>.'
-                + ' <strong>' + (r.size - changed) + '</strong> already matched, so we left ' + ((r.size - changed) === 1 ? 'it' : 'them') + '.'
-                + apwOtherPagesTail(r).replace('weren\u2019t touched.', 'are unchanged.'),
-                'ok'
-            );
+            apwShowBulkResult('Applied ' + apwFormatList(v.labels) + ' to ' + changed + ' of ' + r.size + ' units on page ' + apwCurrentPage, 'ok');
         });
 
         document.getElementById('apw-bulk-selected').addEventListener('click', function() {
             var v = apwBulkFields();
-            var r = apwPageRange();
-            var pageSelIdx = [];
+            if (!v.any) { apwShowBulkResult('Pick a value first', 'warn'); return; }
+            var r = apwPageRange(), pageSelIdx = [];
             for (var i = r.start; i < r.end; i++) if (apwUnitData[i]._selected) pageSelIdx.push(i);
-            if (pageSelIdx.length === 0) { apwShowBulkResult('Tick some rows first', 'Check the boxes next to the rows you want to update, then click Apply to Selected.', 'warn'); return; }
-            if (!v.any) { apwShowBulkResult('Pick a value first', 'Choose a Bed, Bath, or Size above, then try again.', 'warn'); return; }
+            if (pageSelIdx.length === 0) { apwShowBulkResult('Tick some rows first', 'warn'); return; }
             var changed = 0;
             pageSelIdx.forEach(function(i) {
                 var d = apwUnitData[i], touched = false;
@@ -2436,22 +2376,12 @@
                 if (touched) changed++;
             });
             apwBuildTable(); apwUpdateProgress();
-            var unticked = r.size - pageSelIdx.length;
-            var others = apwOtherPagesText(r);
-            var tail = '';
-            if (unticked > 0 && others)      tail = ' The <strong>' + unticked + '</strong> unticked unit' + (unticked === 1 ? '' : 's') + ' on this page and ' + others + ' weren\u2019t changed.';
-            else if (unticked > 0)           tail = ' The <strong>' + unticked + '</strong> unticked unit' + (unticked === 1 ? '' : 's') + ' on this page weren\u2019t changed.';
-            else if (others)                 tail = ' ' + others + ' weren\u2019t changed.';
-            apwShowBulkResult(
-                'Updated your picks on page ' + apwCurrentPage,
-                '<strong>' + pageSelIdx.length + ' ticked unit' + (pageSelIdx.length === 1 ? '' : 's') + '</strong> got ' + apwFormatList(v.labels) + '.' + tail,
-                'ok'
-            );
+            apwShowBulkResult('Applied ' + apwFormatList(v.labels) + ' to ' + changed + ' of ' + pageSelIdx.length + ' selected units on page ' + apwCurrentPage, 'ok');
         });
 
         document.getElementById('apw-bulk-clear').addEventListener('click', function() {
             var r = apwPageRange();
-            if (r.size === 0) { apwShowBulkResult('Nothing to clear here', 'This page has no units yet.', 'warn'); return; }
+            if (r.size === 0) { apwShowBulkResult('Nothing to clear', 'warn'); return; }
             var hadData = 0;
             for (var i = r.start; i < r.end; i++) {
                 var d = apwUnitData[i];
@@ -2459,13 +2389,7 @@
                 d.name = ''; d.beds = ''; d.baths = ''; d.size = ''; d._selected = false;
             }
             apwBuildTable(); apwUpdateProgress();
-            var others = apwOtherPagesText(r);
-            var tail = others ? ' ' + others + ' still ' + (others.indexOf('Pages') === 0 ? 'have' : 'has') + ' ' + (others.indexOf('Pages') === 0 ? 'their' : 'its') + ' data.' : '';
-            apwShowBulkResult(
-                'Cleared page ' + apwCurrentPage,
-                'Wiped Name, Bed, Bath and Size on <strong>' + hadData + ' unit' + (hadData === 1 ? '' : 's') + '</strong>.' + tail,
-                'ok'
-            );
+            apwShowBulkResult('Cleared ' + hadData + ' units on page ' + apwCurrentPage, 'ok');
         });
 
         function apwPopulateUnitsReview() {
@@ -2783,7 +2707,7 @@
         var overlay     = document.getElementById('bsuw-overlay');
         var totalSteps  = 3;
         var currentStep = 1;
-        var BSUW_PAGE_SIZE = 50;
+        var BSUW_PAGE_SIZE = 20;
         var bsuwCurrentPage = 1;
         var bsuwUnitData = [];          // [{name,beds,baths,size,strat,rent,desc,_selected,amenities:[]}]
         var bsuwSelectedAmenities = new Set();
@@ -2854,9 +2778,12 @@
             var pag = document.getElementById('bsuw-ut-pagination');
             if (pag) pag.classList.toggle('visible', usePag);
             if (usePag) {
-                document.getElementById('bsuw-ut-page-info').textContent = (startIdx+1)+' – '+endIdx+' of '+total;
+                var pc = Math.ceil(total / BSUW_PAGE_SIZE);
+                document.getElementById('bsuw-ut-page-info').textContent = 'Showing ' + (startIdx+1)+' – '+endIdx+' of '+total + '  (page ' + bsuwCurrentPage + ' of ' + pc + ')';
                 document.getElementById('bsuw-ut-prev').disabled = bsuwCurrentPage <= 1;
                 document.getElementById('bsuw-ut-next').disabled = endIdx >= total;
+                var hintEl = document.getElementById('bsuw-ut-page-hint');
+                if (hintEl) hintEl.textContent = '— changes apply to this page only';
             }
 
             tbody.innerHTML = '';
@@ -2904,6 +2831,16 @@
             bsuwUpdateSelBadge();
         }
 
+        function bsuwUpdateSelBadge() {
+            var total = bsuwUnitData.length;
+            var s = (bsuwCurrentPage - 1) * BSUW_PAGE_SIZE;
+            var e = Math.min(s + BSUW_PAGE_SIZE, total);
+            var count = 0;
+            for (var i = s; i < e; i++) if (bsuwUnitData[i]._selected) count++;
+            var btn = document.getElementById('bsuw-bulk-selected');
+            if (btn) btn.disabled = (count === 0);
+        }
+
         function bsuwUpdateProgress() {
             var total = bsuwUnitData.length;
             var pc = Math.max(1, Math.ceil(total / BSUW_PAGE_SIZE));
@@ -2921,20 +2858,16 @@
             var lbl = document.getElementById('bsuw-ut-count-label');
             if (lbl) lbl.textContent = total + ' unit' + (total === 1 ? '' : 's');
         }
-        function bsuwShowBulkResult(title, detailHtml, type) {
+        function bsuwShowBulkResult(msg, type) {
             var banner = document.getElementById('bsuw-bulk-result');
             var icon   = banner ? banner.querySelector('i.fas') : null;
-            var tEl    = document.getElementById('bsuw-bulk-result-title');
-            var dEl    = document.getElementById('bsuw-bulk-result-detail');
+            var msgEl  = document.getElementById('bsuw-bulk-result-msg');
             if (!banner) return;
             banner.classList.remove('warn', 'err');
             if (type === 'warn') banner.classList.add('warn');
             else if (type === 'err') banner.classList.add('err');
-            if (icon) {
-                icon.className = 'fas ' + (type === 'warn' ? 'fa-exclamation-triangle' : type === 'err' ? 'fa-times-circle' : 'fa-check-circle');
-            }
-            if (tEl) tEl.textContent = title;
-            if (dEl) dEl.innerHTML = detailHtml;
+            if (icon) icon.className = 'fas ' + (type === 'warn' ? 'fa-exclamation-triangle' : type === 'err' ? 'fa-times-circle' : 'fa-check-circle');
+            if (msgEl) msgEl.textContent = msg;
             banner.classList.add('show');
         }
         (function(){
@@ -2960,17 +2893,6 @@
             chkAll.indeterminate = !allChk && anyChk;
         }
 
-        function bsuwUpdateSelBadge() {
-            // Show how many rows on the CURRENT page are selected (bulk actions are per-page)
-            var total = bsuwUnitData.length;
-            var s = (bsuwCurrentPage - 1) * BSUW_PAGE_SIZE;
-            var e = Math.min(s + BSUW_PAGE_SIZE, total);
-            var count = 0;
-            for (var i = s; i < e; i++) if (bsuwUnitData[i]._selected) count++;
-            document.getElementById('bsuw-bulk-sel-badge').textContent = count;
-            document.getElementById('bsuw-bulk-selected').disabled = count === 0;
-        }
-
         /* ─── Load units for selected property ─── */
         function bsuwGenerate(propName) {
             var unitNames = BSUW_PROPERTY_UNITS[propName] || [];
@@ -2983,7 +2905,6 @@
             bsuwUpdateProgress();
             show('bsuw-ut-count-line');
             show('bsuw-ut-wrap');
-            show('bsuw-bulk-scope');
             document.getElementById('bsuw-bulk-toolbar').classList.remove('bsuw-hidden');
             document.getElementById('bsuw-bulk-toolbar').classList.add('visible');
             // Hide any stale result banner from a previous property
@@ -3029,30 +2950,8 @@
 
         document.getElementById('bsuw-bulk-apply').addEventListener('click', function() {
             var v = bsuwBulkVals();
-            if (bsuwUnitData.length === 0) { bsuwShowBulkResult('Pick a property first', 'Choose a property above so we can load its units.', 'warn'); return; }
-            if (!v.any) { bsuwShowBulkResult('Pick a value first', 'Choose a Bed, Bath, or Size above, then try again.', 'warn'); return; }
-            var r = bsuwPageRange(), changed = 0, skipped = 0;
-            for (var i = r.start; i < r.end; i++) {
-                var d = bsuwUnitData[i], touched = false, relevantHadValue = false;
-                if (v.beds)  { if (!d.beds)  { d.beds  = v.beds;  touched = true; } else relevantHadValue = true; }
-                if (v.baths) { if (!d.baths) { d.baths = v.baths; touched = true; } else relevantHadValue = true; }
-                if (v.size)  { if (!d.size)  { d.size  = v.size;  touched = true; } else relevantHadValue = true; }
-                if (touched) changed++;
-                else if (relevantHadValue) skipped++;
-            }
-            bsuwBuildTable(); bsuwUpdateProgress();
-            bsuwShowBulkResult(
-                'Filled in the blanks on page ' + bsuwCurrentPage,
-                'Added ' + bsuwFmtList(v.labels) + ' to <strong>' + changed + ' unit' + (changed === 1 ? '' : 's') + '</strong> that ' + (changed === 1 ? 'was' : 'were') + ' empty.'
-                + ' <strong>' + skipped + '</strong> already had values and ' + (skipped === 1 ? 'was' : 'were') + ' left alone.'
-                + bsuwOtherPagesTail(r),
-                'ok'
-            );
-        });
-        document.getElementById('bsuw-bulk-overwrite').addEventListener('click', function() {
-            var v = bsuwBulkVals();
-            if (bsuwUnitData.length === 0) { bsuwShowBulkResult('Pick a property first', 'Choose a property above so we can load its units.', 'warn'); return; }
-            if (!v.any) { bsuwShowBulkResult('Pick a value first', 'Choose a Bed, Bath, or Size above, then try again.', 'warn'); return; }
+            if (bsuwUnitData.length === 0) { bsuwShowBulkResult('Pick a property first', 'warn'); return; }
+            if (!v.any) { bsuwShowBulkResult('Pick a value first', 'warn'); return; }
             var r = bsuwPageRange(), changed = 0;
             for (var i = r.start; i < r.end; i++) {
                 var d = bsuwUnitData[i], touched = false;
@@ -3062,21 +2961,16 @@
                 if (touched) changed++;
             }
             bsuwBuildTable(); bsuwUpdateProgress();
-            bsuwShowBulkResult(
-                'Overwrote page ' + bsuwCurrentPage,
-                'Changed ' + bsuwFmtList(v.labels) + ' on <strong>' + changed + ' unit' + (changed === 1 ? '' : 's') + '</strong>.'
-                + ' <strong>' + (r.size - changed) + '</strong> already matched, so we left ' + ((r.size - changed) === 1 ? 'it' : 'them') + '.'
-                + bsuwOtherPagesTail(r, 'are unchanged'),
-                'ok'
-            );
+            bsuwShowBulkResult('Applied ' + bsuwFmtList(v.labels) + ' to ' + changed + ' of ' + r.size + ' units on page ' + bsuwCurrentPage, 'ok');
         });
+
         document.getElementById('bsuw-bulk-selected').addEventListener('click', function() {
             var v = bsuwBulkVals();
-            var r = bsuwPageRange();
-            var pageSelIdx = [];
+            if (bsuwUnitData.length === 0) { bsuwShowBulkResult('Pick a property first', 'warn'); return; }
+            if (!v.any) { bsuwShowBulkResult('Pick a value first', 'warn'); return; }
+            var r = bsuwPageRange(), pageSelIdx = [];
             for (var i = r.start; i < r.end; i++) if (bsuwUnitData[i]._selected) pageSelIdx.push(i);
-            if (pageSelIdx.length === 0) { bsuwShowBulkResult('Tick some rows first', 'Check the boxes next to the rows you want to update, then click Apply to Selected.', 'warn'); return; }
-            if (!v.any) { bsuwShowBulkResult('Pick a value first', 'Choose a Bed, Bath, or Size above, then try again.', 'warn'); return; }
+            if (pageSelIdx.length === 0) { bsuwShowBulkResult('Tick some rows first', 'warn'); return; }
             var changed = 0;
             pageSelIdx.forEach(function(i) {
                 var d = bsuwUnitData[i], touched = false;
@@ -3086,35 +2980,19 @@
                 if (touched) changed++;
             });
             bsuwBuildTable(); bsuwUpdateProgress();
-            var unticked = r.size - pageSelIdx.length;
-            var others = bsuwOtherPagesText(r);
-            var tail = '';
-            if (unticked > 0 && others)      tail = ' The <strong>' + unticked + '</strong> unticked unit' + (unticked === 1 ? '' : 's') + ' on this page and ' + others + ' weren\u2019t changed.';
-            else if (unticked > 0)           tail = ' The <strong>' + unticked + '</strong> unticked unit' + (unticked === 1 ? '' : 's') + ' on this page weren\u2019t changed.';
-            else if (others)                 tail = ' ' + others + ' weren\u2019t changed.';
-            bsuwShowBulkResult(
-                'Updated your picks on page ' + bsuwCurrentPage,
-                '<strong>' + pageSelIdx.length + ' ticked unit' + (pageSelIdx.length === 1 ? '' : 's') + '</strong> got ' + bsuwFmtList(v.labels) + '.' + tail,
-                'ok'
-            );
+            bsuwShowBulkResult('Applied ' + bsuwFmtList(v.labels) + ' to ' + changed + ' of ' + pageSelIdx.length + ' selected units on page ' + bsuwCurrentPage, 'ok');
         });
+
         document.getElementById('bsuw-bulk-clear').addEventListener('click', function() {
-            if (bsuwUnitData.length === 0) { bsuwShowBulkResult('Pick a property first', 'Choose a property above so we can load its units.', 'warn'); return; }
-            var r = bsuwPageRange();
-            var hadData = 0;
+            if (bsuwUnitData.length === 0) { bsuwShowBulkResult('Pick a property first', 'warn'); return; }
+            var r = bsuwPageRange(), hadData = 0;
             for (var i = r.start; i < r.end; i++) {
                 var d = bsuwUnitData[i];
                 if (d.beds || d.baths || d.size) hadData++;
                 d.beds = d.baths = d.size = ''; d._selected = false;
             }
             bsuwBuildTable(); bsuwUpdateProgress();
-            var others = bsuwOtherPagesText(r);
-            var tail = others ? ' ' + others + ' still ' + (others.indexOf('Pages') === 0 ? 'have their' : 'has its') + ' data.' : '';
-            bsuwShowBulkResult(
-                'Cleared page ' + bsuwCurrentPage,
-                'Wiped Bed, Bath and Size on <strong>' + hadData + ' unit' + (hadData === 1 ? '' : 's') + '</strong>. Unit names are kept.' + tail,
-                'ok'
-            );
+            bsuwShowBulkResult('Cleared ' + hadData + ' units on page ' + bsuwCurrentPage, 'ok');
         });
 
         /* Bulk panel toggle */
