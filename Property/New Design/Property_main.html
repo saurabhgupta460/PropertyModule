@@ -1373,51 +1373,17 @@
               </div>
             </div>
 
-            <!-- STEP 2: Unit Amenities (redesigned) -->
+            <!-- STEP 2: Unit Amenities (units first, then amenities) -->
             <div class="apw-step-content" data-step="2">
               <div class="apw-inner">
-                <div class="apw-section-title">Choose Amenities</div>
-                <p style="text-align:center;color:#718096;font-size:13px;margin-bottom:22px;">Pick what's in the units, then choose which units get them.</p>
+                <div class="apw-section-title">Unit Amenities</div>
+                <p style="text-align:center;color:#718096;font-size:13px;margin-bottom:22px;">Pick units first, then choose their amenities. Save as many times as you need.</p>
 
-                <!-- ① Pick amenities card -->
+                <!-- ① Pick units card -->
                 <div class="bsuw-am-card">
                   <div class="bsuw-am-card-heading">
                     <span class="bsuw-am-card-num">1</span>
-                    <span class="bsuw-am-card-title">Pick amenities</span>
-                    <span class="bsuw-am-card-sub" id="bsuw-am-picks-sub">No amenities picked yet</span>
-                  </div>
-
-                  <!-- Your Picks strip -->
-                  <div class="bsuw-am-picks-strip" id="bsuw-am-picks-strip">
-                    <div class="bsuw-am-picks-head">
-                      <span>Your picks <span id="bsuw-am-picks-count">(0)</span></span>
-                      <button type="button" class="bsuw-am-picks-clear" id="bsuw-am-picks-clear" style="display:none;"><i class="fas fa-times-circle"></i> Clear all</button>
-                    </div>
-                    <div class="bsuw-am-picks-body" id="bsuw-am-picks-body">
-                      <span class="bsuw-am-picks-empty">Click any amenity below to pick it</span>
-                    </div>
-                  </div>
-
-                  <!-- Amenity search -->
-                  <div class="bsuw-am-amsearch-wrap">
-                    <i class="fas fa-search"></i>
-                    <input type="text" class="bsuw-am-amsearch" id="bsuw-am-amsearch" placeholder="Search amenities (e.g. air, shower, granite)…">
-                    <button type="button" class="bsuw-am-amsearch-clear" id="bsuw-am-amsearch-clear" title="Clear search">&times;</button>
-                  </div>
-
-                  <!-- Amenity category grid -->
-                  <div id="bsuw-am-grid-body"></div>
-                  <div class="bsuw-am-noamresults" id="bsuw-am-noamresults" style="display:none;">No amenities match your search.</div>
-
-                  <!-- Legacy sel strip (hidden; the picks strip above replaces it) -->
-                  <div class="suw-am-sel-strip" id="bsuw-am-sel-strip" style="display:none;"></div>
-                </div>
-
-                <!-- ② Apply to which units card -->
-                <div class="bsuw-am-card">
-                  <div class="bsuw-am-card-heading">
-                    <span class="bsuw-am-card-num">2</span>
-                    <span class="bsuw-am-card-title">Apply to which units?</span>
+                    <span class="bsuw-am-card-title">Pick units</span>
                   </div>
 
                   <!-- Mode tiles -->
@@ -1482,25 +1448,59 @@
                       <button type="button" class="bsuw-am-qpick-btn" id="bsuw-am-unselpage" style="margin-left:auto;"><i class="fas fa-times"></i> Clear page</button>
                     </div>
                   </div>
+                </div>
 
-                  <!-- Apply CTA -->
-                  <div class="bsuw-am-cta" id="bsuw-am-cta">
-                    <button type="button" class="bsuw-am-apply-btn" id="bsuw-am-apply-btn" disabled>
-                      <i class="fas fa-play"></i> <span id="bsuw-am-apply-label">Pick at least one amenity</span>
-                    </button>
+                <!-- ② Choose amenities card -->
+                <div class="bsuw-am-card">
+                  <div class="bsuw-am-card-heading">
+                    <span class="bsuw-am-card-num">2</span>
+                    <span class="bsuw-am-card-title">Choose amenities</span>
+                    <span class="bsuw-am-card-sub" id="bsuw-am-picks-sub">No amenities picked yet</span>
                   </div>
 
-                  <!-- Success banner (replaces CTA after save) -->
-                  <div class="bsuw-am-success" id="bsuw-am-success">
-                    <div class="bsuw-am-success-head">
-                      <div class="bsuw-am-success-icon"><i class="fas fa-check"></i></div>
-                      <div class="bsuw-am-success-title">Amenities applied!</div>
+                  <!-- Your Picks strip -->
+                  <div class="bsuw-am-picks-strip" id="bsuw-am-picks-strip">
+                    <div class="bsuw-am-picks-head">
+                      <span>Your picks <span id="bsuw-am-picks-count">(0)</span></span>
+                      <button type="button" class="bsuw-am-picks-clear" id="bsuw-am-picks-clear" style="display:none;"><i class="fas fa-times-circle"></i> Clear all</button>
                     </div>
-                    <div class="bsuw-am-success-body" id="bsuw-am-success-body">&nbsp;</div>
-                    <div class="bsuw-am-success-actions">
-                      <button type="button" class="bsuw-am-success-btn" id="bsuw-am-success-edit"><i class="fas fa-pencil-alt"></i> Edit again</button>
-                      <button type="button" class="bsuw-am-success-btn primary" id="bsuw-am-success-continue">Review &amp; continue <i class="fas fa-arrow-right"></i></button>
+                    <div class="bsuw-am-picks-body" id="bsuw-am-picks-body">
+                      <span class="bsuw-am-picks-empty">Click any amenity below to pick it</span>
                     </div>
+                  </div>
+
+                  <!-- Amenity search -->
+                  <div class="bsuw-am-amsearch-wrap">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="bsuw-am-amsearch" id="bsuw-am-amsearch" placeholder="Search amenities (e.g. air, shower, granite)…">
+                    <button type="button" class="bsuw-am-amsearch-clear" id="bsuw-am-amsearch-clear" title="Clear search">&times;</button>
+                  </div>
+
+                  <!-- Amenity category grid -->
+                  <div id="bsuw-am-grid-body"></div>
+                  <div class="bsuw-am-noamresults" id="bsuw-am-noamresults" style="display:none;">No amenities match your search.</div>
+
+                  <!-- Legacy sel strip (hidden) -->
+                  <div class="suw-am-sel-strip" id="bsuw-am-sel-strip" style="display:none;"></div>
+                </div>
+
+                <!-- Save CTA -->
+                <div class="bsuw-am-cta" id="bsuw-am-cta">
+                  <button type="button" class="bsuw-am-apply-btn" id="bsuw-am-apply-btn" disabled>
+                    <i class="fas fa-save"></i> <span id="bsuw-am-apply-label">Pick at least one amenity</span>
+                  </button>
+                </div>
+
+                <!-- Success banner (after save) -->
+                <div class="bsuw-am-success" id="bsuw-am-success">
+                  <div class="bsuw-am-success-head">
+                    <div class="bsuw-am-success-icon"><i class="fas fa-check"></i></div>
+                    <div class="bsuw-am-success-title">Saved!</div>
+                  </div>
+                  <div class="bsuw-am-success-body" id="bsuw-am-success-body">&nbsp;</div>
+                  <div class="bsuw-am-success-actions">
+                    <button type="button" class="bsuw-am-success-btn" id="bsuw-am-success-edit"><i class="fas fa-plus-circle"></i> Save more</button>
+                    <button type="button" class="bsuw-am-success-btn primary" id="bsuw-am-success-continue">Next step <i class="fas fa-arrow-right"></i></button>
                   </div>
                 </div>
               </div>
@@ -3234,19 +3234,24 @@
             var amN     = bsuwSelectedAmenities.size;
             var total   = bsuwUnitData.length;
             var picked  = bsuwUnitData.filter(function(u){ return u._selected; }).length;
+            // Units first: check unit readiness, then amenity readiness
+            if (!bsuwApplyToAll && picked === 0) {
+                btn.disabled = true;
+                label.textContent = 'Pick at least one unit above';
+                return;
+            }
             if (amN === 0) {
                 btn.disabled = true;
-                label.textContent = 'Pick at least one amenity';
+                label.textContent = 'Pick amenities to save';
                 return;
             }
             if (bsuwApplyToAll) {
                 if (total === 0) { btn.disabled = true; label.textContent = 'Load units first'; return; }
                 btn.disabled = false;
-                label.textContent = 'Apply ' + amN + ' amenit' + (amN === 1 ? 'y' : 'ies') + ' to all ' + total + ' unit' + (total === 1 ? '' : 's');
+                label.textContent = 'Save ' + amN + ' amenit' + (amN === 1 ? 'y' : 'ies') + ' to all ' + total + ' unit' + (total === 1 ? '' : 's');
             } else {
-                if (picked === 0) { btn.disabled = true; label.textContent = 'Pick at least one unit'; return; }
                 btn.disabled = false;
-                label.textContent = 'Apply ' + amN + ' amenit' + (amN === 1 ? 'y' : 'ies') + ' to ' + picked + ' unit' + (picked === 1 ? '' : 's');
+                label.textContent = 'Save ' + amN + ' amenit' + (amN === 1 ? 'y' : 'ies') + ' to ' + picked + ' unit' + (picked === 1 ? '' : 's');
             }
         }
 
@@ -3348,7 +3353,7 @@
         }
         function bsuwAmShowSuccess(ams, n) {
             var body = document.getElementById('bsuw-am-success-body');
-            if (body) body.innerHTML = '<strong>' + n + ' unit' + (n === 1 ? '' : 's') + '</strong> now ' + (n === 1 ? 'has' : 'have') + ' ' + bsuwAmFormatAmenityList(ams) + '.';
+            if (body) body.innerHTML = 'Added <strong>' + ams.length + ' amenit' + (ams.length === 1 ? 'y' : 'ies') + '</strong> to <strong>' + n + ' unit' + (n === 1 ? '' : 's') + '</strong>. Click <em>Save more</em> to add different amenities to other units.';
             document.getElementById('bsuw-am-cta').style.display = 'none';
             document.getElementById('bsuw-am-success').classList.add('show');
         }
@@ -3362,11 +3367,25 @@
             var ams = Array.from(bsuwSelectedAmenities);
             var n = 0;
             bsuwUnitData.forEach(function(d) {
-                if (bsuwApplyToAll || d._selected) { d.amenities = ams.slice(); n++; }
+                if (bsuwApplyToAll || d._selected) {
+                    // Additive: merge new amenities into existing (no duplicates)
+                    ams.forEach(function(am) {
+                        if (d.amenities.indexOf(am) === -1) d.amenities.push(am);
+                    });
+                    n++;
+                }
             });
             bsuwAmShowSuccess(ams, n);
         });
-        document.getElementById('bsuw-am-success-edit').addEventListener('click', bsuwAmHideSuccess);
+        // "Save more" — clear amenity picks so user can do another round
+        document.getElementById('bsuw-am-success-edit').addEventListener('click', function() {
+            bsuwAmHideSuccess();
+            // Clear amenity picks for the next round
+            bsuwSelectedAmenities.clear();
+            bsuwRenderChips();
+            bsuwRenderSelStrip();
+            bsuwAmUpdateCTA();
+        });
         document.getElementById('bsuw-am-success-continue').addEventListener('click', function() {
             bsuwAmHideSuccess();
             var nextBtn = document.getElementById('bsuw-btn-next');
