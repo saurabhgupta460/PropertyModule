@@ -911,26 +911,6 @@
             <!-- STEP 4: Unit Details -->
             <div class="apw-step-content" data-step="4">
               <div class="apw-inner">
-                <!-- Hero header with live progress -->
-                <div class="apw-ud-hero">
-                  <div class="apw-ud-hero-main">
-                    <div class="apw-ud-hero-icon"><i class="fas fa-layer-group"></i></div>
-                    <div class="apw-ud-hero-text">
-                      <div class="apw-ud-hero-title" id="apw-ud-heading">Unit Details</div>
-                      <div class="apw-ud-hero-sub" id="apw-ud-sub">Enter details for your unit below.</div>
-                    </div>
-                  </div>
-                  <div class="apw-ud-progress">
-                    <div class="apw-ud-progress-stats">
-                      <div class="apw-ud-progress-num"><span id="apw-ud-done">0</span><span class="apw-ud-progress-divider">/</span><span id="apw-ud-total">1</span></div>
-                      <div class="apw-ud-progress-label">Units Completed</div>
-                    </div>
-                    <div class="apw-ud-progress-bar">
-                      <div class="apw-ud-progress-fill" id="apw-ud-progress-fill"></div>
-                    </div>
-                  </div>
-                </div>
-
                 <!-- Quick Fill card (only shown for multi-unit) -->
                 <div class="apw-qf" id="apw-qf-card">
                   <div class="apw-qf-head">
@@ -1288,8 +1268,6 @@
             <!-- STEP 1: Unit Details -->
             <div class="apw-step-content active" data-step="1">
               <div class="apw-inner">
-                <div class="apw-section-title">Unit Details</div>
-                <p style="text-align:center;color:#718096;font-size:13px;margin-bottom:20px;">Select a property to load its units, then bulk-edit the details below.</p>
 
                 <!-- Property selection row -->
                 <div class="bsuw-count-row">
@@ -1311,55 +1289,48 @@
                   </div>
                 </div>
 
-                <!-- Unit count line -->
-                <div class="apw-ut-count-line bsuw-hidden" id="bsuw-ut-count-line">
-                  <i class="fas fa-layer-group"></i><span id="bsuw-ut-count-label">0 units</span>
-                </div>
-
-                <!-- Bulk edit toolbar -->
-                <div class="apw-bulk-toolbar bsuw-hidden" id="bsuw-bulk-toolbar">
-                  <div class="apw-bulk-left">
-                    <i class="fas fa-magic"></i>
-                    <span class="apw-bulk-title">Bulk Edit</span>
-                    <span class="apw-bulk-hint" id="bsuw-bulk-hint">Fills values on the units shown on <strong>this page</strong></span>
+                <!-- Quick Fill card (shown after property is loaded) -->
+                <div class="apw-qf" id="bsuw-qf-card">
+                  <div class="apw-qf-head">
+                    <div class="apw-qf-head-left">
+                      <div class="apw-qf-icon"><i class="fas fa-bolt"></i></div>
+                      <div class="apw-qf-text">
+                        <div class="apw-qf-title">Quick Fill</div>
+                        <div class="apw-qf-sub" id="bsuw-qf-sub">Tick units below, then apply values to your selection</div>
+                      </div>
+                    </div>
+                    <button type="button" class="apw-qf-reset" id="bsuw-bulk-clear" title="Clear all fields on this page">
+                      <i class="fas fa-eraser"></i> Reset page
+                    </button>
                   </div>
-                  <button type="button" class="apw-bulk-toggle-btn" id="bsuw-bulk-toggle">
-                    <i class="fas fa-chevron-down"></i>
-                  </button>
-                </div>
-                <div class="apw-bulk-panel" id="bsuw-bulk-panel">
-                  <div class="apw-bulk-fields">
-                    <div class="apw-bulk-field">
-                      <label class="apw-label">Bedroom</label>
-                      <select class="apw-input apw-select" id="bsuw-bulk-beds">
-                        <option value="">—</option>
-                        <option>Studio</option><option>1</option><option>2</option>
-                        <option>3</option><option>4</option><option>5</option><option>6+</option>
-                      </select>
+                  <div class="apw-qf-body">
+                    <div class="apw-qf-inputs">
+                      <div class="apw-qf-field">
+                        <label class="apw-qf-label">Bedroom</label>
+                        <select class="apw-qf-input" id="bsuw-bulk-beds">
+                          <option value="">—</option>
+                          <option>Studio</option><option>1</option><option>2</option>
+                          <option>3</option><option>4</option><option>5</option><option>6+</option>
+                        </select>
+                      </div>
+                      <div class="apw-qf-field">
+                        <label class="apw-qf-label">Bathroom</label>
+                        <select class="apw-qf-input" id="bsuw-bulk-baths">
+                          <option value="">—</option>
+                          <option>1</option><option>1.5</option><option>2</option>
+                          <option>2.5</option><option>3</option><option>3+</option>
+                        </select>
+                      </div>
+                      <div class="apw-qf-field">
+                        <label class="apw-qf-label">Size (sq ft)</label>
+                        <input class="apw-qf-input" type="text" id="bsuw-bulk-size" placeholder="e.g. 850">
+                      </div>
                     </div>
-                    <div class="apw-bulk-field">
-                      <label class="apw-label">Bathroom</label>
-                      <select class="apw-input apw-select" id="bsuw-bulk-baths">
-                        <option value="">—</option>
-                        <option>1</option><option>1.5</option><option>2</option>
-                        <option>2.5</option><option>3</option><option>3+</option>
-                      </select>
+                    <div class="apw-qf-actions">
+                      <button type="button" class="apw-qf-apply-sel" id="bsuw-bulk-selected" disabled>
+                        <i class="fas fa-check-square"></i> <span id="bsuw-qf-sel-label">Apply to Selected (0)</span>
+                      </button>
                     </div>
-                    <div class="apw-bulk-field">
-                      <label class="apw-label">Size (sq ft)</label>
-                      <input class="apw-input" type="text" id="bsuw-bulk-size" placeholder="e.g. 850">
-                    </div>
-                  </div>
-                  <div class="apw-bulk-actions">
-                    <button type="button" class="apw-bulk-apply-btn" id="bsuw-bulk-apply">
-                      <i class="fas fa-check-double"></i> Apply To All
-                    </button>
-                    <button type="button" class="apw-bulk-selected-btn" id="bsuw-bulk-selected" disabled>
-                      <i class="fas fa-check-square"></i> Apply to Selected
-                    </button>
-                    <button type="button" class="apw-bulk-clear-btn" id="bsuw-bulk-clear">
-                      <i class="fas fa-eraser"></i> Clear All
-                    </button>
                   </div>
                 </div>
                 <div class="apw-bulk-result" id="bsuw-bulk-result" role="status" aria-live="polite">
@@ -1372,19 +1343,21 @@
                 <div class="apw-ut-pagination" id="bsuw-ut-pagination">
                   <button type="button" class="apw-ut-page-btn" id="bsuw-ut-prev" disabled><i class="fas fa-chevron-left"></i></button>
                   <span class="apw-ut-page-info" id="bsuw-ut-page-info"></span>
-                  <span class="apw-ut-page-hint" id="bsuw-ut-page-hint">— changes apply to this page only</span>
+                  <span class="apw-ut-page-hint" id="bsuw-ut-page-hint">— Quick Fill applies to this page only</span>
                   <button type="button" class="apw-ut-page-btn" id="bsuw-ut-next"><i class="fas fa-chevron-right"></i></button>
                 </div>
 
                 <!-- Unit table -->
-                <div class="apw-ut-wrap bsuw-hidden" id="bsuw-ut-wrap">
-                  <table class="apw-ut-table">
+                <div class="apw-ut-wrap apw-ut-wrap--v2 bsuw-hidden" id="bsuw-ut-wrap">
+                  <table class="apw-ut-table apw-ut-table--v2">
                     <thead>
                       <tr>
-                        <th class="apw-ut-th-chk"><label class="apw-chk-wrap" title="Select all"><input type="checkbox" id="bsuw-chk-all"><span class="apw-chk-box"></span></label></th>
+                        <th class="apw-ut-th-chk"><label class="apw-chk-wrap" title="Select all on page"><input type="checkbox" id="bsuw-chk-all"><span class="apw-chk-box"></span></label></th>
                         <th class="apw-ut-th-num">#</th>
-                        <th>Unit Name</th><th>Bed</th><th>Bath</th>
-                        <th>Size (sq ft)</th>
+                        <th>Unit Name</th>
+                        <th class="apw-ut-th-sm">Bed</th>
+                        <th class="apw-ut-th-sm">Bath</th>
+                        <th class="apw-ut-th-size">Size (sq ft)</th>
                       </tr>
                     </thead>
                     <tbody id="bsuw-ut-tbody"></tbody>
@@ -1397,132 +1370,65 @@
             <div class="apw-step-content" data-step="2">
               <div class="apw-inner">
                 <div class="apw-section-title">Unit Amenities</div>
-                <p style="text-align:center;color:#718096;font-size:13px;margin-bottom:22px;">Pick units first, then choose their amenities. Save as many times as you need.</p>
+                <p class="bsuw2-intro">Tick units on the left to target a subset — or leave all unselected to apply to everyone. Then check amenities on the right.</p>
 
-                <!-- ① Pick units card -->
-                <div class="bsuw-am-card">
-                  <div class="bsuw-am-card-heading">
-                    <span class="bsuw-am-card-num">1</span>
-                    <span class="bsuw-am-card-title">Pick units</span>
+                <div class="bsuw2-layout">
+
+                  <!-- ─── Left: unit selector ─── -->
+                  <div class="bsuw2-units-panel">
+                    <div class="bsuw2-units-head">
+                      <label class="bsuw2-selall-lbl">
+                        <input type="checkbox" id="bsuw2-selall-chk">
+                        <span>Units</span>
+                      </label>
+                      <span class="bsuw2-sel-badge" id="bsuw2-sel-count">none selected</span>
+                    </div>
+                    <!-- All Units shortcut row -->
+                    <div class="bsuw2-allunits-row active" id="bsuw2-allunits-row" title="Apply amenities to every unit">
+                      <i class="fas fa-layer-group"></i>
+                      <span>All Units</span>
+                      <span class="bsuw2-allunits-cnt" id="bsuw2-allunits-cnt">0</span>
+                    </div>
+                    <div class="bsuw2-units-divider">— or pick specific —</div>
+                    <div class="bsuw2-unit-list" id="bsuw2-unit-list">
+                      <div class="bsuw2-no-units">No units yet.<br>Pick a property in Step 1.</div>
+                    </div>
+                    <div class="bsuw2-units-foot">
+                      <button type="button" class="bsuw2-pg-btn" id="bsuw2-prev" disabled><i class="fas fa-chevron-left"></i></button>
+                      <span class="bsuw2-pg-info" id="bsuw2-pg-info">— / —</span>
+                      <button type="button" class="bsuw2-pg-btn" id="bsuw2-next" disabled><i class="fas fa-chevron-right"></i></button>
+                    </div>
                   </div>
 
-                  <!-- Mode tiles -->
-                  <div class="bsuw-am-modetiles">
-                    <button type="button" class="bsuw-am-modetile active" id="bsuw-am-mode-all">
-                      <div class="bsuw-am-modetile-icon"><i class="fas fa-layer-group"></i></div>
-                      <div class="bsuw-am-modetile-body">
-                        <div class="bsuw-am-modetile-title">All units</div>
-                        <div class="bsuw-am-modetile-sub" id="bsuw-am-mode-all-sub">Apply to all units</div>
+                  <!-- ─── Right: amenity categories ─── -->
+                  <div class="bsuw2-am-panel">
+                    <div class="bsuw2-scope-bar" id="bsuw2-scope-bar">
+                      <i class="fas fa-pencil-alt"></i>
+                      Editing:&nbsp;<strong id="bsuw2-scope-label">All 0 units</strong>
+                      <button type="button" class="bsuw2-clear-sel-btn" id="bsuw2-clear-sel" style="display:none;"><i class="fas fa-times"></i> Clear selection</button>
+                    </div>
+                    <div class="bsuw2-am-grid" id="bsuw2-am-grid">
+                      <!-- populated by bsuw2RenderAmenities() -->
+                    </div>
+                    <div class="bsuw2-legend">
+                      <span class="bsuw2-leg state-all"><i class="fas fa-check"></i> All have it</span>
+                      <span class="bsuw2-leg state-some"><i class="fas fa-minus"></i> Some have it</span>
+                      <span class="bsuw2-leg state-none"><i class="fas fa-plus"></i> None have it</span>
+                      <span class="bsuw2-leg-tip">— click any chip to toggle</span>
+                    </div>
+                    <!-- Save area -->
+                    <div class="bsuw2-save-area">
+                      <button type="button" class="bsuw2-save-btn" id="bsuw2-save-btn">
+                        <i class="fas fa-save"></i> Save selection
+                      </button>
+                      <div class="bsuw2-saved-toast" id="bsuw2-saved-toast" style="display:none;">
+                        <i class="fas fa-check-circle"></i>
+                        <span id="bsuw2-saved-detail">Saved!</span>
                       </div>
-                      <div class="bsuw-am-modetile-check"><i class="fas fa-check"></i></div>
-                    </button>
-                    <button type="button" class="bsuw-am-modetile" id="bsuw-am-mode-pick">
-                      <div class="bsuw-am-modetile-icon"><i class="fas fa-bullseye"></i></div>
-                      <div class="bsuw-am-modetile-body">
-                        <div class="bsuw-am-modetile-title">Pick specific units</div>
-                        <div class="bsuw-am-modetile-sub">Choose which ones below</div>
-                      </div>
-                      <div class="bsuw-am-modetile-check"><i class="fas fa-check"></i></div>
-                    </button>
-                  </div>
-
-                  <!-- Selection panel (only shown when Pick Specific is active) -->
-                  <div class="bsuw-am-selpanel bsuw-hidden" id="bsuw-am-selpanel">
-                    <div class="bsuw-am-selstat">
-                      <span><strong id="bsuw-am-sel-count">0</strong> of <strong id="bsuw-am-total-count">0</strong> selected</span>
-                      <div class="bsuw-am-selstat-bar"><div class="bsuw-am-selstat-bar-fill" id="bsuw-am-selstat-bar-fill" style="width:0%;"></div></div>
-                      <span class="bsuw-am-stats-sep">•</span>
-                      <span id="bsuw-am-shown-count" style="font-size:11.5px;color:#9AA5B4;">0 of 0 shown</span>
-                      <span class="bsuw-am-sel-badge" id="bsuw-am-sel-badge" style="display:none;">0</span>
-                    </div>
-
-                    <div class="bsuw-am-sel-sub"><i class="fas fa-bolt"></i> Quick pick</div>
-                    <div class="bsuw-am-qpick">
-                      <button type="button" class="bsuw-am-qpick-btn" id="bsuw-am-selall"><i class="fas fa-check-double"></i> <span id="bsuw-am-selall-label">All 0</span></button>
-                      <button type="button" class="bsuw-am-qpick-btn" id="bsuw-am-first50"><i class="fas fa-angle-double-up"></i> First 50</button>
-                      <button type="button" class="bsuw-am-qpick-btn" id="bsuw-am-last50"><i class="fas fa-angle-double-down"></i> Last 50</button>
-                      <button type="button" class="bsuw-am-qpick-btn danger" id="bsuw-am-unselall"><i class="fas fa-eraser"></i> None</button>
-                    </div>
-
-                    <div class="bsuw-am-sel-sub"><i class="fas fa-sliders-h"></i> Pick a range</div>
-                    <div class="bsuw-am-rangerow">
-                      <span style="font-size:12px;color:#718096;">From</span>
-                      <input type="number" class="bsuw-am-range-input" id="bsuw-am-range-from" min="1" placeholder="1">
-                      <span class="bsuw-am-range-sep">to</span>
-                      <input type="number" class="bsuw-am-range-input" id="bsuw-am-range-to" min="1" placeholder="50">
-                      <button type="button" class="bsuw-am-range-btn" id="bsuw-am-range-apply"><i class="fas fa-plus"></i> Add to selection</button>
-                    </div>
-
-                    <div class="bsuw-am-sel-sub"><i class="fas fa-list-ul"></i> Or tick individually</div>
-                    <div class="bsuw-am-search-wrap" style="margin-bottom:8px;">
-                      <i class="fas fa-search"></i>
-                      <input type="text" class="bsuw-am-search" id="bsuw-am-search" placeholder="Search by unit name (e.g. Unit 301, Bldg A)…">
-                      <button type="button" class="bsuw-am-search-clear" id="bsuw-am-search-clear" title="Clear search" style="display:none;">&times;</button>
-                    </div>
-                    <div class="bsuw-unit-checklist" id="bsuw-unit-checklist"></div>
-                    <div class="bsuw-am-pagination hidden" id="bsuw-am-pagination" style="margin-top:10px;">
-                      <button type="button" class="bsuw-am-qpick-btn" id="bsuw-am-selpage" style="margin-right:auto;"><i class="fas fa-check"></i> Select page</button>
-                      <button type="button" class="bsuw-am-page-btn" id="bsuw-am-prev" disabled><i class="fas fa-chevron-left"></i></button>
-                      <span class="bsuw-am-page-info" id="bsuw-am-pg-info">Page 1 of 1</span>
-                      <button type="button" class="bsuw-am-page-btn" id="bsuw-am-next"><i class="fas fa-chevron-right"></i></button>
-                      <button type="button" class="bsuw-am-qpick-btn" id="bsuw-am-unselpage" style="margin-left:auto;"><i class="fas fa-times"></i> Clear page</button>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- ② Choose amenities card -->
-                <div class="bsuw-am-card">
-                  <div class="bsuw-am-card-heading">
-                    <span class="bsuw-am-card-num">2</span>
-                    <span class="bsuw-am-card-title">Choose amenities</span>
-                    <span class="bsuw-am-card-sub" id="bsuw-am-picks-sub">No amenities picked yet</span>
-                  </div>
-
-                  <!-- Your Picks strip -->
-                  <div class="bsuw-am-picks-strip" id="bsuw-am-picks-strip">
-                    <div class="bsuw-am-picks-head">
-                      <span>Your picks <span id="bsuw-am-picks-count">(0)</span></span>
-                      <button type="button" class="bsuw-am-picks-clear" id="bsuw-am-picks-clear" style="display:none;"><i class="fas fa-times-circle"></i> Clear all</button>
-                    </div>
-                    <div class="bsuw-am-picks-body" id="bsuw-am-picks-body">
-                      <span class="bsuw-am-picks-empty">Click any amenity below to pick it</span>
                     </div>
                   </div>
 
-                  <!-- Amenity search -->
-                  <div class="bsuw-am-amsearch-wrap">
-                    <i class="fas fa-search"></i>
-                    <input type="text" class="bsuw-am-amsearch" id="bsuw-am-amsearch" placeholder="Search amenities (e.g. air, shower, granite)…">
-                    <button type="button" class="bsuw-am-amsearch-clear" id="bsuw-am-amsearch-clear" title="Clear search">&times;</button>
-                  </div>
-
-                  <!-- Amenity category grid -->
-                  <div id="bsuw-am-grid-body"></div>
-                  <div class="bsuw-am-noamresults" id="bsuw-am-noamresults" style="display:none;">No amenities match your search.</div>
-
-                  <!-- Legacy sel strip (hidden) -->
-                  <div class="suw-am-sel-strip" id="bsuw-am-sel-strip" style="display:none;"></div>
-                </div>
-
-                <!-- Save CTA -->
-                <div class="bsuw-am-cta" id="bsuw-am-cta">
-                  <button type="button" class="bsuw-am-apply-btn" id="bsuw-am-apply-btn" disabled>
-                    <i class="fas fa-save"></i> <span id="bsuw-am-apply-label">Pick at least one amenity</span>
-                  </button>
-                </div>
-
-                <!-- Success banner (after save) -->
-                <div class="bsuw-am-success" id="bsuw-am-success">
-                  <div class="bsuw-am-success-head">
-                    <div class="bsuw-am-success-icon"><i class="fas fa-check"></i></div>
-                    <div class="bsuw-am-success-title">Saved!</div>
-                  </div>
-                  <div class="bsuw-am-success-body" id="bsuw-am-success-body">&nbsp;</div>
-                  <div class="bsuw-am-success-actions">
-                    <button type="button" class="bsuw-am-success-btn" id="bsuw-am-success-edit"><i class="fas fa-plus-circle"></i> Save more</button>
-                    <button type="button" class="bsuw-am-success-btn primary" id="bsuw-am-success-continue">Next step <i class="fas fa-arrow-right"></i></button>
-                  </div>
-                </div>
+                </div><!-- /bsuw2-layout -->
               </div>
             </div>
 
@@ -1891,9 +1797,26 @@
         .suw-am-cat-title { font-size: 11px; font-weight: 700; color: #8896A6; text-transform: uppercase; letter-spacing: 0.5px; margin: 14px 0 8px; }
         .suw-am-cat-title:first-child { margin-top: 0; }
         .suw-am-chip-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 6px; }
-        .suw-am-chip { padding: 5px 13px; border-radius: 20px; border: 1.5px solid #D1D9E4; background: #fff; font-size: 12.5px; color: #4A6FA5; cursor: pointer; font-family: inherit; font-weight: 500; transition: all 0.12s; }
+        .suw-am-chip { padding: 5px 13px; border-radius: 20px; border: 1.5px solid #D1D9E4; background: #fff; font-size: 12.5px; color: #4A6FA5; cursor: pointer; font-family: inherit; font-weight: 500; transition: all 0.12s; display: inline-flex; align-items: center; gap: 6px; }
         .suw-am-chip:hover { border-color: #3B8DBD; background: #EDF6FF; }
         .suw-am-chip.selected { background: #1B4B6E; border-color: #1B4B6E; color: #fff; font-weight: 600; }
+        /* Tri-state chips for Step 2 — reflect what picked units currently have */
+        .suw-am-chip.state-all { background: #E6F9ED; border-color: #2FA866; color: #1F7A47; font-weight: 600; }
+        .suw-am-chip.state-all::before { content: "\f00c"; font-family: "Font Awesome 5 Free"; font-weight: 900; font-size: 10px; color: #2FA866; }
+        .suw-am-chip.state-some { background: #FFF6E0; border-color: #E8A83A; color: #8A5B17; font-weight: 600; }
+        .suw-am-chip.state-some .chip-count { background: #E8A83A; color: #fff; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 8px; line-height: 1.4; }
+        .suw-am-chip.state-none { }
+        .suw-am-chip.action-add { background: #EDE5FF !important; border-color: #7B4FCF !important; color: #5A2CA8 !important; box-shadow: 0 0 0 3px rgba(123,79,207,0.12); }
+        .suw-am-chip.action-add::before { content: "\f067"; font-family: "Font Awesome 5 Free"; font-weight: 900; font-size: 10px; color: #7B4FCF; }
+        .suw-am-chip.action-remove { background: #FFE8E8 !important; border-color: #E53E3E !important; color: #9B1C1C !important; box-shadow: 0 0 0 3px rgba(229,62,62,0.12); text-decoration: line-through; }
+        .suw-am-chip.action-remove::before { content: "\f068"; font-family: "Font Awesome 5 Free"; font-weight: 900; font-size: 10px; color: #E53E3E; }
+        .suw-am-chip .chip-count { display: none; }
+        .bsuw-am-pick-group { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-right: 10px; }
+        .bsuw-am-pick-group-label { font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #5B32A8; display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; background: #EDE5FF; border-radius: 10px; }
+        .bsuw-am-pick-group-label.danger { color: #9B1C1C; background: #FFE8E8; }
+        .bsuw-am-pick-pill.remove { border-color: #E53E3E; color: #9B1C1C; }
+        .bsuw-am-pick-pill.remove button { background: #FFE0E0; color: #9B1C1C; }
+        .bsuw-am-pick-pill.remove button:hover { background: #E53E3E; color: #fff; }
         /* ── Unit Photos step ── */
         .suw-photo-drop { border: 2px dashed #BFCFE0; border-radius: 12px; padding: 32px 20px; text-align: center; cursor: pointer; background: #F8FBFD; transition: border-color 0.15s, background 0.15s; margin-bottom: 16px; }
         .suw-photo-drop:hover, .suw-photo-drop.drag-over { border-color: #3B8DBD; background: #EDF6FF; }
@@ -2024,22 +1947,96 @@
         .bsuw-am-apply-btn:disabled { background: #C4CDD6; cursor: not-allowed; box-shadow: none; }
         .bsuw-am-apply-btn i { font-size: 13px; }
 
-        /* Success banner */
-        .bsuw-am-success { display: none; background: linear-gradient(135deg, #D7F5E3 0%, #EAFAF0 100%); border: 1.5px solid #6BC98D; border-radius: 12px; padding: 20px 24px; margin-top: 20px; animation: bsuwSuccessIn 0.3s ease-out; }
-        .bsuw-am-success.show { display: block; }
-        @keyframes bsuwSuccessIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-        .bsuw-am-success-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-        .bsuw-am-success-icon { width: 32px; height: 32px; border-radius: 50%; background: #22894A; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .bsuw-am-success-title { font-size: 15px; font-weight: 700; color: #1F5235; }
-        .bsuw-am-success-body { color: #2F6641; font-size: 13px; line-height: 1.5; margin-bottom: 14px; padding-left: 42px; }
-        .bsuw-am-success-body strong { color: #1F5235; }
-        .bsuw-am-success-actions { display: flex; gap: 14px; padding-left: 42px; }
-        .bsuw-am-success-btn { background: transparent; border: none; color: #22894A; font-size: 12.5px; font-weight: 700; cursor: pointer; padding: 6px 12px; border-radius: 6px; font-family: inherit; display: inline-flex; align-items: center; gap: 6px; transition: background 0.12s; }
-        .bsuw-am-success-btn:hover { background: rgba(34,137,74,0.1); }
-        .bsuw-am-success-btn.primary { background: #22894A; color: #fff; }
-        .bsuw-am-success-btn.primary:hover { background: #1B6B3A; }
 
-        /* Review table */
+
+        /* ══ Step 2 — Two-panel amenity editor ══ */
+        .bsuw2-intro { text-align:center; color:#718096; font-size:13px; margin:0 0 16px; }
+
+        .bsuw2-layout { display:flex; gap:14px; align-items:flex-start; min-height:440px; }
+
+        /* ── Left: unit list panel ── */
+        .bsuw2-units-panel { width:188px; flex-shrink:0; border:1px solid #D1D9E4; border-radius:10px; overflow:hidden; background:#fff; display:flex; flex-direction:column; }
+        .bsuw2-units-head { background:#1B4B6E; color:#fff; padding:9px 12px; display:flex; align-items:center; justify-content:space-between; gap:8px; flex-shrink:0; }
+        .bsuw2-selall-lbl { display:inline-flex; align-items:center; gap:7px; cursor:pointer; font-size:12.5px; font-weight:700; }
+        .bsuw2-selall-lbl input { width:13px; height:13px; cursor:pointer; accent-color:#A073E8; }
+        .bsuw2-sel-badge { font-size:10.5px; background:rgba(255,255,255,0.2); border-radius:10px; padding:2px 7px; white-space:nowrap; }
+        .bsuw2-unit-list { flex:1; overflow-y:auto; max-height:400px; }
+        .bsuw2-no-units { padding:24px 12px; text-align:center; color:#9AA5B4; font-size:12px; line-height:1.7; }
+        .bsuw2-unit-row { display:flex; align-items:center; gap:8px; padding:7px 12px; font-size:12px; cursor:pointer; border-bottom:1px solid #F0F3F6; color:#2D3748; transition:background 0.1s; user-select:none; }
+        .bsuw2-unit-row:last-child { border-bottom:none; }
+        .bsuw2-unit-row:hover { background:#EDF6FF; }
+        .bsuw2-unit-row.sel { background:#F5EFFF; font-weight:600; color:#4A2CA0; }
+        .bsuw2-unit-row.sel:hover { background:#EDE5FF; }
+        .bsuw2-unit-chk { width:13px; height:13px; flex-shrink:0; cursor:pointer; accent-color:#7B4FCF; pointer-events:none; }
+        /* All Units shortcut row */
+        .bsuw2-allunits-row { display:flex; align-items:center; gap:8px; padding:9px 12px; font-size:12.5px; font-weight:700; cursor:pointer; border-bottom:1px solid #E2E6EB; color:#4A6FA5; transition:all 0.12s; user-select:none; }
+        .bsuw2-allunits-row:hover { background:#EDF6FF; }
+        .bsuw2-allunits-row.active { background:linear-gradient(90deg,#1B4B6E,#2A6A9A); color:#fff; }
+        .bsuw2-allunits-row.active i { color:#A8D8F0; }
+        .bsuw2-allunits-cnt { margin-left:auto; font-size:11px; background:rgba(0,0,0,0.15); border-radius:10px; padding:1px 7px; }
+        .bsuw2-allunits-row:not(.active) .bsuw2-allunits-cnt { background:#E2E6EB; color:#4A6B8A; }
+        .bsuw2-units-divider { font-size:10.5px; color:#A0AEC0; text-align:center; padding:5px 8px; background:#FAFBFC; border-bottom:1px solid #F0F3F6; font-weight:600; letter-spacing:0.03em; }
+        .bsuw2-units-foot { padding:6px 12px; display:flex; align-items:center; justify-content:center; gap:6px; border-top:1px solid #E2E6EB; background:#F8FAFB; flex-shrink:0; }
+        .bsuw2-pg-btn { width:26px; height:26px; border-radius:6px; border:1.5px solid #D1D9E4; background:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#4A6FA5; font-size:10px; transition:all 0.1s; }
+        .bsuw2-pg-btn:hover:not(:disabled) { border-color:#7B4FCF; color:#7B4FCF; }
+        .bsuw2-pg-btn:disabled { opacity:0.4; cursor:not-allowed; }
+        .bsuw2-pg-info { font-size:11.5px; color:#4A6B8A; font-weight:700; min-width:40px; text-align:center; }
+
+        /* ── Right: amenity panel ── */
+        .bsuw2-am-panel { flex:1; min-width:0; }
+        .bsuw2-scope-bar { display:flex; align-items:center; gap:7px; padding:8px 14px; background:linear-gradient(135deg,#F5EEFF,#FAF6FF); border:1.5px solid #C6B3F0; border-radius:8px; margin-bottom:14px; font-size:12.5px; color:#5B32A8; flex-wrap:wrap; }
+        .bsuw2-scope-bar i { font-size:11px; flex-shrink:0; }
+        .bsuw2-scope-bar strong { color:#3D1D85; }
+        .bsuw2-clear-sel-btn { margin-left:auto; background:transparent; border:1px solid #9B72E0; border-radius:6px; color:#5B32A8; font-size:11px; font-weight:600; cursor:pointer; padding:3px 9px; font-family:inherit; display:inline-flex; align-items:center; gap:4px; transition:background 0.1s; }
+        .bsuw2-clear-sel-btn:hover { background:#EDE5FF; }
+
+        /* Amenity category sections */
+        .bsuw2-am-grid { }
+        .bsuw2-cat-section { margin-bottom:16px; }
+        .bsuw2-cat-title { font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.07em; padding:0 0 6px; border-bottom:2px solid #E2E6EB; margin-bottom:8px; display:flex; align-items:center; gap:5px; color:#4A5568; }
+        .bsuw2-cat-section[data-cat="Interior"] .bsuw2-cat-title         { color:#1B4B6E; border-color:#93C5DC; }
+        .bsuw2-cat-section[data-cat="Bathroom"] .bsuw2-cat-title         { color:#1F7A47; border-color:#6ECC99; }
+        .bsuw2-cat-section[data-cat="Kitchen"] .bsuw2-cat-title          { color:#8A5B17; border-color:#F5B84C; }
+        .bsuw2-cat-section[data-cat="Tech & Utilities"] .bsuw2-cat-title { color:#5B32A8; border-color:#B89EE6; }
+        .bsuw2-cat-section[data-cat="Accessibility"] .bsuw2-cat-title    { color:#9B1C1C; border-color:#F68B8B; }
+
+        /* Amenity chips */
+        .bsuw2-am-chips { display:flex; flex-wrap:wrap; gap:5px; }
+        .bsuw2-am-chip { display:inline-flex; align-items:center; gap:5px; padding:5px 11px; border-radius:999px; border:1.5px solid #D1D9E4; background:#fff; font-size:11.5px; font-weight:500; color:#4A6FA5; cursor:pointer; font-family:inherit; transition:all 0.12s; user-select:none; line-height:1.3; }
+        .bsuw2-am-chip:hover { border-color:#7B4FCF; background:#F5EEFF; }
+        .bsuw2-am-chip::before { font-family:"Font Awesome 5 Free"; font-weight:900; font-size:9px; width:11px; display:inline-block; text-align:center; flex-shrink:0; }
+        /* state-all = green check */
+        .bsuw2-am-chip.state-all  { background:#E6F9ED; border-color:#2FA866; color:#1F7A47; font-weight:700; }
+        .bsuw2-am-chip.state-all::before  { content:"\f00c"; color:#2FA866; }
+        .bsuw2-am-chip.state-all:hover    { background:#C6F2D8; }
+        /* state-some = amber minus */
+        .bsuw2-am-chip.state-some { background:#FFF4E5; border-color:#E8A83A; color:#8A5B17; font-weight:600; }
+        .bsuw2-am-chip.state-some::before { content:"\f068"; color:#E8A83A; }
+        .bsuw2-am-chip.state-some:hover   { background:#FFE8B0; }
+        /* state-none = grey plus */
+        .bsuw2-am-chip.state-none::before { content:"\f067"; color:#C4CDD6; }
+        .bsuw2-am-chip.state-none:hover   { border-color:#7B4FCF; background:#F5EEFF; color:#5B32A8; }
+
+        /* Legend */
+        .bsuw2-legend { display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-top:16px; padding-top:12px; border-top:1px solid #E2E6EB; }
+        .bsuw2-leg { display:inline-flex; align-items:center; gap:5px; font-size:11.5px; font-weight:600; }
+        .bsuw2-leg.state-all  { color:#1F7A47; }
+        .bsuw2-leg.state-some { color:#8A5B17; }
+        .bsuw2-leg.state-none { color:#718096; }
+        .bsuw2-leg-tip { font-size:11px; color:#9AA5B4; }
+
+        /* Save area */
+        .bsuw2-save-area { display:flex; align-items:center; gap:14px; margin-top:20px; padding-top:16px; border-top:2px solid #E2E6EB; flex-wrap:wrap; }
+        .bsuw2-save-btn { display:inline-flex; align-items:center; gap:9px; padding:11px 28px; border:none; border-radius:9px; background:linear-gradient(135deg,#1B4B6E,#2E7AA5); color:#fff; font-size:13.5px; font-weight:700; font-family:inherit; cursor:pointer; box-shadow:0 3px 12px rgba(27,75,110,0.3); transition:all 0.15s; }
+        .bsuw2-save-btn:hover { transform:translateY(-1px); box-shadow:0 5px 16px rgba(27,75,110,0.4); }
+        .bsuw2-save-btn:active { transform:none; }
+        .bsuw2-saved-toast { display:inline-flex; align-items:center; gap:8px; padding:9px 16px; background:#E6F9ED; border:1.5px solid #6ECC99; border-radius:8px; font-size:13px; font-weight:600; color:#1F7A47; animation:bsuw2ToastIn 0.25s ease-out; }
+        .bsuw2-saved-toast i { color:#2FA866; font-size:15px; }
+        @keyframes bsuw2ToastIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:none; } }
+
+        /* Success banner (legacy, hidden) */
+        .bsuw-am-success { display: none; }
+
         .bsuw-review-section { margin-bottom: 20px; }
         .bsuw-review-section h4 { font-size: 13px; font-weight: 700; color: #1B4B6E; margin: 0 0 10px; display: flex; align-items: center; gap: 7px; }
         .bsuw-review-table { width: 100%; border-collapse: collapse; font-size: 12px; border: 1px solid #E2E6EB; border-radius: 10px; overflow: hidden; }
@@ -2086,13 +2083,6 @@
             if (pag) pag.classList.remove('visible');
             var utb = document.getElementById('apw-ut-tbody');
             if (utb) utb.innerHTML = '';
-            // Reset progress display
-            var doneEl  = document.getElementById('apw-ud-done');
-            var totalEl = document.getElementById('apw-ud-total');
-            var fillEl  = document.getElementById('apw-ud-progress-fill');
-            if (doneEl)  doneEl.textContent  = '0';
-            if (totalEl) totalEl.textContent = '1';
-            if (fillEl)  fillEl.style.width  = '0%';
             document.getElementById('apw-success-msg').style.display = 'none';
             document.getElementById('apw-btn-next').classList.remove('finish');
             document.getElementById('apw-btn-next').textContent = 'Next';
@@ -2231,24 +2221,14 @@
         var APW_PAGE_SIZE = 20;
 
         function apwInitUnitStep() {
-            var heading = document.getElementById('apw-ud-heading');
-            var sub     = document.getElementById('apw-ud-sub');
             var qfCard  = document.getElementById('apw-qf-card');
-            var totalEl = document.getElementById('apw-ud-total');
             var unitCount = 1;
             if (selectedUnitOption === 'Multiple Unit') {
                 var nInput = document.getElementById('apw-num-units');
                 unitCount = Math.max(2, parseInt(nInput ? nInput.value : '2') || 2);
             }
-            if (heading) heading.textContent = 'Unit Details';
-            if (sub) {
-                sub.textContent = unitCount === 1
-                    ? 'Enter the details for your unit below.'
-                    : 'Enter details for all ' + unitCount + ' units. Use Quick Fill to apply the same values at once.';
-            }
             // Show Quick Fill card only for multi-unit setups
             if (qfCard) qfCard.classList.toggle('visible', unitCount > 1);
-            if (totalEl) totalEl.textContent = unitCount;
             // Reset bulk inputs
             var bBeds = document.getElementById('apw-bulk-beds');   if (bBeds)  bBeds.value = '';
             var bBath = document.getElementById('apw-bulk-baths');  if (bBath)  bBath.value = '';
@@ -2379,18 +2359,6 @@
             var pageStart = (apwCurrentPage - 1) * APW_PAGE_SIZE;
             var pageEnd = Math.min(pageStart + APW_PAGE_SIZE, total);
             var pageSize = pageEnd - pageStart;
-            // Count units with all 3 key fields filled (Bed, Bath, Size)
-            var done = 0;
-            for (var i = 0; i < apwUnitData.length; i++) {
-                var d = apwUnitData[i];
-                if (d.beds && d.baths && d.size) done++;
-            }
-            var doneEl  = document.getElementById('apw-ud-done');
-            var totalEl = document.getElementById('apw-ud-total');
-            var fillEl  = document.getElementById('apw-ud-progress-fill');
-            if (doneEl)  doneEl.textContent  = done;
-            if (totalEl) totalEl.textContent = total;
-            if (fillEl)  fillEl.style.width  = (total > 0 ? (done / total * 100) : 0) + '%';
             // Update Quick Fill subtitle with page scope when paginated
             var qfSub = document.getElementById('apw-qf-sub');
             if (qfSub) {
@@ -2874,7 +2842,8 @@
         var BSUW_PAGE_SIZE = 20;
         var bsuwCurrentPage = 1;
         var bsuwUnitData = [];          // [{name,beds,baths,size,strat,rent,desc,_selected,amenities:[]}]
-        var bsuwSelectedAmenities = new Set();
+        var bsuwSelectedAmenities = new Set(); // legacy — unused by new tri-state flow but kept for any external refs
+        var bsuwChipActions = {};       // { amenity: 'add' | 'remove' } — pending changes before Save
         var bsuwApplyToAll = true;      // true = all units, false = selected units
 
         /* ─── Units per property (generated) ─── */
@@ -2931,6 +2900,7 @@
         /* ─── Unit table ─── */
         function bsuwBuildTable() {
             var tbody  = document.getElementById('bsuw-ut-tbody');
+            if (!tbody) return;
             var total  = bsuwUnitData.length;
             var BED_OPTS   = ['','Studio','1','2','3','4','5','6+'];
             var BATH_OPTS  = ['','1','1.5','2','2.5','3','3+'];
@@ -2938,16 +2908,16 @@
             var startIdx = usePag ? (bsuwCurrentPage-1)*BSUW_PAGE_SIZE : 0;
             var endIdx   = usePag ? Math.min(startIdx+BSUW_PAGE_SIZE, total) : total;
 
-            document.getElementById('bsuw-ut-count-label').textContent = total+' unit'+(total!==1?'s':'');
             var pag = document.getElementById('bsuw-ut-pagination');
             if (pag) pag.classList.toggle('visible', usePag);
             if (usePag) {
                 var pc = Math.ceil(total / BSUW_PAGE_SIZE);
-                document.getElementById('bsuw-ut-page-info').textContent = 'Showing ' + (startIdx+1)+' – '+endIdx+' of '+total + '  (page ' + bsuwCurrentPage + ' of ' + pc + ')';
-                document.getElementById('bsuw-ut-prev').disabled = bsuwCurrentPage <= 1;
-                document.getElementById('bsuw-ut-next').disabled = endIdx >= total;
-                var hintEl = document.getElementById('bsuw-ut-page-hint');
-                if (hintEl) hintEl.textContent = '— changes apply to this page only';
+                var info = document.getElementById('bsuw-ut-page-info');
+                var prevBtn = document.getElementById('bsuw-ut-prev');
+                var nextBtn = document.getElementById('bsuw-ut-next');
+                if (info) info.textContent = 'Showing ' + (startIdx+1)+' – '+endIdx+' of '+total + '  (page ' + bsuwCurrentPage + ' of ' + pc + ')';
+                if (prevBtn) prevBtn.disabled = bsuwCurrentPage <= 1;
+                if (nextBtn) nextBtn.disabled = endIdx >= total;
             }
 
             tbody.innerHTML = '';
@@ -2956,7 +2926,8 @@
                     var d  = bsuwUnitData[idx];
                     var tr = document.createElement('tr');
                     tr.dataset.unitIdx = idx;
-                    if (d.name||d.beds||d.baths) tr.classList.add('apw-ut-filled');
+                    var isFilled = d.beds && d.baths && d.size;
+                    if (isFilled) tr.classList.add('apw-ut-filled');
                     if (d._selected) tr.classList.add('apw-ut-selected');
                     tr.innerHTML =
                         '<td style="text-align:center;"><label class="apw-chk-wrap"><input type="checkbox" class="bsuw-ichk"'+(d._selected?' checked':'')+
@@ -2972,15 +2943,15 @@
                         tr.classList.toggle('apw-ut-selected', this.checked);
                         bsuwSyncSelectAll();
                         bsuwUpdateSelBadge();
-                        bsuwUpdateAmUnitChecklist();
                     });
                     function bind(cls, key, evt) {
                         var el = tr.querySelector('.'+cls);
                         if (!el) return;
                         el.addEventListener(evt, function() {
                             bsuwUnitData[idx][key] = this.value;
-                            var hasSome = bsuwUnitData[idx].name||bsuwUnitData[idx].beds||bsuwUnitData[idx].baths;
-                            tr.classList.toggle('apw-ut-filled', !!hasSome);
+                            var nd = bsuwUnitData[idx];
+                            var nowFilled = nd.beds && nd.baths && nd.size;
+                            tr.classList.toggle('apw-ut-filled', !!nowFilled);
                             bsuwUpdateProgress();
                         });
                     }
@@ -2997,11 +2968,14 @@
 
         function bsuwUpdateSelBadge() {
             var total = bsuwUnitData.length;
-            var s = (bsuwCurrentPage - 1) * BSUW_PAGE_SIZE;
-            var e = Math.min(s + BSUW_PAGE_SIZE, total);
+            var usePag = total > BSUW_PAGE_SIZE;
+            var s = usePag ? (bsuwCurrentPage - 1) * BSUW_PAGE_SIZE : 0;
+            var e = usePag ? Math.min(s + BSUW_PAGE_SIZE, total) : total;
             var count = 0;
             for (var i = s; i < e; i++) if (bsuwUnitData[i]._selected) count++;
             var btn = document.getElementById('bsuw-bulk-selected');
+            var lbl = document.getElementById('bsuw-qf-sel-label');
+            if (lbl) lbl.textContent = 'Apply to Selected (' + count + ')';
             if (btn) btn.disabled = (count === 0);
         }
 
@@ -3011,16 +2985,15 @@
             var pageStart = (bsuwCurrentPage - 1) * BSUW_PAGE_SIZE;
             var pageEnd   = Math.min(pageStart + BSUW_PAGE_SIZE, total);
             var pageSize  = pageEnd - pageStart;
-            var hint = document.getElementById('bsuw-bulk-hint');
-            if (hint) {
+            // Update QF subtitle with page scope
+            var qfSub = document.getElementById('bsuw-qf-sub');
+            if (qfSub) {
                 if (pc > 1) {
-                    hint.innerHTML = 'Fills values on the <strong>' + pageSize + ' unit' + (pageSize === 1 ? '' : 's') + ' shown on page ' + bsuwCurrentPage + '</strong> of ' + pc;
+                    qfSub.innerHTML = 'Tick units below, then fill the <strong>' + pageSize + ' on page ' + bsuwCurrentPage + '</strong> of ' + pc;
                 } else {
-                    hint.innerHTML = 'Fills values on <strong>all ' + total + ' unit' + (total === 1 ? '' : 's') + '</strong>';
+                    qfSub.innerHTML = 'Tick units below, then apply values to your selection';
                 }
             }
-            var lbl = document.getElementById('bsuw-ut-count-label');
-            if (lbl) lbl.textContent = total + ' unit' + (total === 1 ? '' : 's');
         }
         function bsuwShowBulkResult(msg, type) {
             var banner = document.getElementById('bsuw-bulk-result');
@@ -3051,10 +3024,15 @@
         function bsuwSyncSelectAll() {
             var chkAll = document.getElementById('bsuw-chk-all');
             if (!chkAll) return;
-            var allChk = bsuwUnitData.length > 0 && bsuwUnitData.every(function(d){ return d._selected; });
-            var anyChk = bsuwUnitData.some(function(d){ return d._selected; });
-            chkAll.checked = allChk;
-            chkAll.indeterminate = !allChk && anyChk;
+            var total = bsuwUnitData.length;
+            var usePag = total > BSUW_PAGE_SIZE;
+            var s = usePag ? (bsuwCurrentPage - 1) * BSUW_PAGE_SIZE : 0;
+            var e = usePag ? Math.min(s + BSUW_PAGE_SIZE, total) : total;
+            var pageSize = e - s;
+            var picked = 0;
+            for (var i = s; i < e; i++) if (bsuwUnitData[i]._selected) picked++;
+            chkAll.checked = pageSize > 0 && picked === pageSize;
+            chkAll.indeterminate = picked > 0 && picked < pageSize;
         }
 
         /* ─── Load units for selected property ─── */
@@ -3067,10 +3045,10 @@
             bsuwCurrentPage = 1;
             bsuwBuildTable();
             bsuwUpdateProgress();
-            show('bsuw-ut-count-line');
+            bsuwUpdateSelBadge();
+            var qfCard = document.getElementById('bsuw-qf-card');
+            if (qfCard) qfCard.classList.add('visible');
             show('bsuw-ut-wrap');
-            document.getElementById('bsuw-bulk-toolbar').classList.remove('bsuw-hidden');
-            document.getElementById('bsuw-bulk-toolbar').classList.add('visible');
             // Hide any stale result banner from a previous property
             var br = document.getElementById('bsuw-bulk-result');
             if (br) br.classList.remove('show');
@@ -3112,456 +3090,368 @@
             return t ? ' ' + t + ' ' + verb + '.' : '';
         }
 
-        document.getElementById('bsuw-bulk-apply').addEventListener('click', function() {
-            var v = bsuwBulkVals();
-            if (bsuwUnitData.length === 0) { bsuwShowBulkResult('Pick a property first', 'warn'); return; }
-            if (!v.any) { bsuwShowBulkResult('Pick a value first', 'warn'); return; }
-            var r = bsuwPageRange(), changed = 0;
-            for (var i = r.start; i < r.end; i++) {
-                var d = bsuwUnitData[i], touched = false;
-                if (v.beds  && d.beds  !== v.beds)  { d.beds  = v.beds;  touched = true; }
-                if (v.baths && d.baths !== v.baths) { d.baths = v.baths; touched = true; }
-                if (v.size  && d.size  !== v.size)  { d.size  = v.size;  touched = true; }
-                if (touched) changed++;
-            }
-            bsuwBuildTable(); bsuwUpdateProgress();
-            bsuwShowBulkResult('Applied ' + bsuwFmtList(v.labels) + ' to ' + changed + ' of ' + r.size + ' units on page ' + bsuwCurrentPage, 'ok');
-        });
-
-        document.getElementById('bsuw-bulk-selected').addEventListener('click', function() {
-            var v = bsuwBulkVals();
-            if (bsuwUnitData.length === 0) { bsuwShowBulkResult('Pick a property first', 'warn'); return; }
-            if (!v.any) { bsuwShowBulkResult('Pick a value first', 'warn'); return; }
-            var r = bsuwPageRange(), pageSelIdx = [];
-            for (var i = r.start; i < r.end; i++) if (bsuwUnitData[i]._selected) pageSelIdx.push(i);
-            if (pageSelIdx.length === 0) { bsuwShowBulkResult('Tick some rows first', 'warn'); return; }
-            var changed = 0;
-            pageSelIdx.forEach(function(i) {
-                var d = bsuwUnitData[i], touched = false;
-                if (v.beds  && d.beds  !== v.beds)  { d.beds  = v.beds;  touched = true; }
-                if (v.baths && d.baths !== v.baths) { d.baths = v.baths; touched = true; }
-                if (v.size  && d.size  !== v.size)  { d.size  = v.size;  touched = true; }
-                if (touched) changed++;
+        /* Apply to Selected — the only fill action */
+        (function(){
+            var selBtn = document.getElementById('bsuw-bulk-selected');
+            if (!selBtn) return;
+            selBtn.addEventListener('click', function() {
+                var v = bsuwBulkVals();
+                if (bsuwUnitData.length === 0) { bsuwShowBulkResult('Select a property first', 'warn'); return; }
+                if (!v.any) { bsuwShowBulkResult('Pick at least one value above to fill', 'warn'); return; }
+                var r = bsuwPageRange(), pageSelIdx = [];
+                for (var i = r.start; i < r.end; i++) if (bsuwUnitData[i]._selected) pageSelIdx.push(i);
+                if (pageSelIdx.length === 0) { bsuwShowBulkResult('Tick at least one unit first', 'warn'); return; }
+                var changed = 0;
+                pageSelIdx.forEach(function(i) {
+                    var d = bsuwUnitData[i], touched = false;
+                    if (v.beds  && d.beds  !== v.beds)  { d.beds  = v.beds;  touched = true; }
+                    if (v.baths && d.baths !== v.baths) { d.baths = v.baths; touched = true; }
+                    if (v.size  && d.size  !== v.size)  { d.size  = v.size;  touched = true; }
+                    if (touched) changed++;
+                });
+                bsuwBuildTable(); bsuwUpdateProgress(); bsuwUpdateSelBadge();
+                bsuwShowBulkResult('Applied ' + bsuwFmtList(v.labels) + ' to ' + changed + ' of ' + pageSelIdx.length + ' selected unit' + (pageSelIdx.length === 1 ? '' : 's'), 'ok');
             });
-            bsuwBuildTable(); bsuwUpdateProgress();
-            bsuwShowBulkResult('Applied ' + bsuwFmtList(v.labels) + ' to ' + changed + ' of ' + pageSelIdx.length + ' selected units on page ' + bsuwCurrentPage, 'ok');
-        });
+        })();
 
-        document.getElementById('bsuw-bulk-clear').addEventListener('click', function() {
-            if (bsuwUnitData.length === 0) { bsuwShowBulkResult('Pick a property first', 'warn'); return; }
-            var r = bsuwPageRange(), hadData = 0;
-            for (var i = r.start; i < r.end; i++) {
-                var d = bsuwUnitData[i];
-                if (d.beds || d.baths || d.size) hadData++;
-                d.beds = d.baths = d.size = ''; d._selected = false;
-            }
-            bsuwBuildTable(); bsuwUpdateProgress();
-            bsuwShowBulkResult('Cleared ' + hadData + ' units on page ' + bsuwCurrentPage, 'ok');
-        });
+        /* Reset page — clears Bed/Bath/Size on all rows of the current page */
+        (function(){
+            var clearBtn = document.getElementById('bsuw-bulk-clear');
+            if (!clearBtn) return;
+            clearBtn.addEventListener('click', function() {
+                if (bsuwUnitData.length === 0) { bsuwShowBulkResult('Select a property first', 'warn'); return; }
+                var r = bsuwPageRange(), hadData = 0;
+                for (var i = r.start; i < r.end; i++) {
+                    var d = bsuwUnitData[i];
+                    if (d.beds || d.baths || d.size) hadData++;
+                    d.beds = d.baths = d.size = ''; d._selected = false;
+                }
+                // Reset Quick Fill inputs too
+                var bBeds = document.getElementById('bsuw-bulk-beds');  if (bBeds)  bBeds.value = '';
+                var bBath = document.getElementById('bsuw-bulk-baths'); if (bBath)  bBath.value = '';
+                var bSize = document.getElementById('bsuw-bulk-size');  if (bSize)  bSize.value = '';
+                bsuwBuildTable(); bsuwUpdateProgress(); bsuwUpdateSelBadge();
+                var pc = Math.max(1, Math.ceil(bsuwUnitData.length / BSUW_PAGE_SIZE));
+                var scope = pc > 1 ? (' on page ' + bsuwCurrentPage) : '';
+                bsuwShowBulkResult('Reset ' + hadData + ' unit' + (hadData === 1 ? '' : 's') + scope, 'ok');
+            });
+        })();
 
-        /* Bulk panel toggle */
-        var bsuwBulkToggleBtn = document.getElementById('bsuw-bulk-toggle');
-        var bsuwBulkToolbar   = document.getElementById('bsuw-bulk-toolbar');
-        var bsuwBulkPanel     = document.getElementById('bsuw-bulk-panel');
-        function toggleBsuwBulkPanel() {
-            var isOpen = bsuwBulkPanel.classList.toggle('open');
-            bsuwBulkToggleBtn.classList.toggle('open', isOpen);
-            bsuwBulkToolbar.classList.toggle('panel-open', isOpen);
-        }
-        bsuwBulkToggleBtn.addEventListener('click', toggleBsuwBulkPanel);
-        bsuwBulkToolbar.addEventListener('click', function(e) {
-            if (e.target === bsuwBulkToolbar || e.target.closest('.apw-bulk-left')) toggleBsuwBulkPanel();
-        });
-
-        /* Select-all checkbox */
-        document.getElementById('bsuw-chk-all').addEventListener('change', function() {
-            bsuwUnitData.forEach(function(d) { d._selected = this.checked; }.bind(this));
-            bsuwBuildTable();
-        });
+        /* Select-all header checkbox — toggles current page only */
+        (function(){
+            var chkAll = document.getElementById('bsuw-chk-all');
+            if (!chkAll) return;
+            chkAll.addEventListener('change', function() {
+                var on = this.checked;
+                var total = bsuwUnitData.length;
+                var usePag = total > BSUW_PAGE_SIZE;
+                var s = usePag ? (bsuwCurrentPage - 1) * BSUW_PAGE_SIZE : 0;
+                var e = usePag ? Math.min(s + BSUW_PAGE_SIZE, total) : total;
+                for (var i = s; i < e; i++) bsuwUnitData[i]._selected = on;
+                bsuwBuildTable();
+                bsuwUpdateSelBadge();
+            });
+        })();
 
         /* Pagination */
-        document.getElementById('bsuw-ut-prev').addEventListener('click', function() {
-            if (bsuwCurrentPage > 1) { bsuwCurrentPage--; bsuwBuildTable(); bsuwUpdateProgress(); }
-        });
-        document.getElementById('bsuw-ut-next').addEventListener('click', function() {
-            if ((bsuwCurrentPage*BSUW_PAGE_SIZE) < bsuwUnitData.length) { bsuwCurrentPage++; bsuwBuildTable(); bsuwUpdateProgress(); }
-        });
+        (function(){
+            var prevBtn = document.getElementById('bsuw-ut-prev');
+            var nextBtn = document.getElementById('bsuw-ut-next');
+            if (prevBtn) prevBtn.addEventListener('click', function() {
+                if (bsuwCurrentPage > 1) { bsuwCurrentPage--; bsuwBuildTable(); bsuwUpdateProgress(); bsuwUpdateSelBadge(); }
+            });
+            if (nextBtn) nextBtn.addEventListener('click', function() {
+                if ((bsuwCurrentPage * BSUW_PAGE_SIZE) < bsuwUnitData.length) { bsuwCurrentPage++; bsuwBuildTable(); bsuwUpdateProgress(); bsuwUpdateSelBadge(); }
+            });
+        })();
 
         /* Auto-load units when a property is selected */
         document.getElementById('bsuw-property-select').addEventListener('change', function() {
             var propName = this.value;
-            // Reset table & bulk panel before loading
+            // Reset state before loading
             bsuwUnitData = [];
             bsuwSelectedAmenities.clear();
+            bsuwChipActions = {};
             bsuwCurrentPage = 1;
-            hide('bsuw-ut-count-line'); hide('bsuw-ut-wrap');
-            document.getElementById('bsuw-bulk-toolbar').classList.add('bsuw-hidden');
-            document.getElementById('bsuw-bulk-toolbar').classList.remove('visible','panel-open');
-            document.getElementById('bsuw-bulk-panel').classList.remove('open');
+            bsuw2Page = 1;
+            hide('bsuw-ut-wrap');
+            var qfC = document.getElementById('bsuw-qf-card'); if (qfC) qfC.classList.remove('visible');
+            var br = document.getElementById('bsuw-bulk-result');
+            if (br) br.classList.remove('show');
+            var bBeds = document.getElementById('bsuw-bulk-beds');  if (bBeds)  bBeds.value = '';
+            var bBath = document.getElementById('bsuw-bulk-baths'); if (bBath)  bBath.value = '';
+            var bSize = document.getElementById('bsuw-bulk-size');  if (bSize)  bSize.value = '';
             this.style.borderColor = propName ? '' : '#E53E3E';
             if (propName) bsuwGenerate(propName);
         });
 
-        /* ─── Amenity step ─── */
-        function bsuwRenderChips() {
-            var grid = document.getElementById('bsuw-am-grid-body');
+        /* ─── Step 2: Two-panel amenity editor ───
+           Left  = paginated unit list with row checkboxes.
+           Right = ALL amenity categories + subcategories visible as chips at once — no horizontal scroll.
+
+           Scope rule: if any units are ticked → scope = those units.
+                       if nothing ticked      → scope = ALL units.
+           Chip states (for the current scope):
+             state-all  = every unit in scope has this amenity (green ✓)
+             state-some = only some units have it             (amber −)
+             state-none = no units have it                    (grey  +)
+           Click: all → remove from scope.  some/none → add to scope.
+        */
+        var BSUW2_PAGE_SIZE = 20;
+        var bsuw2Page = 1;
+        /* Keep old matrix vars so bsuwOpen() reset code compiles without errors */
+        var bsuwMatPage = 1, bsuwMatColFilter = '', bsuwPickedCols = new Set();
+
+        /* Return the units that are currently "in scope". */
+        function bsuw2Scope() {
+            var sel = bsuwUnitData.filter(function(u) { return u._selected; });
+            return sel.length > 0 ? sel : bsuwUnitData;
+        }
+
+        /* Returns 'all', 'some', or 'none' for the current scope. */
+        function bsuw2AmState(am) {
+            var scope = bsuw2Scope();
+            if (!scope.length) return 'none';
+            var has = scope.filter(function(u) {
+                return (u.amenities || []).indexOf(am) !== -1;
+            }).length;
+            if (has === scope.length) return 'all';
+            if (has === 0) return 'none';
+            return 'some';
+        }
+
+        /* Update scope bar, All-Units row, selall checkbox, and sel-count badge. */
+        function bsuw2UpdateScopeBar() {
+            var total  = bsuwUnitData.length;
+            var selN   = bsuwUnitData.filter(function(u) { return u._selected; }).length;
+            var label  = document.getElementById('bsuw2-scope-label');
+            var clrBtn = document.getElementById('bsuw2-clear-sel');
+            var badge  = document.getElementById('bsuw2-sel-count');
+            var allChk = document.getElementById('bsuw2-selall-chk');
+            var allRow = document.getElementById('bsuw2-allunits-row');
+            var allCnt = document.getElementById('bsuw2-allunits-cnt');
+            var isAllScope = (selN === 0);
+            if (label) {
+                label.textContent = isAllScope
+                    ? 'All ' + total + ' unit' + (total === 1 ? '' : 's')
+                    : selN + ' selected unit' + (selN === 1 ? '' : 's');
+            }
+            if (clrBtn) clrBtn.style.display = selN > 0 ? 'inline-flex' : 'none';
+            if (badge)  badge.textContent    = selN > 0 ? selN + ' selected' : 'none selected';
+            if (allChk) {
+                allChk.checked       = total > 0 && selN === total;
+                allChk.indeterminate = selN > 0  && selN < total;
+            }
+            /* All Units row: active (blue) when scope = all, inactive when specific units picked */
+            if (allRow) allRow.classList.toggle('active', isAllScope);
+            if (allCnt) allCnt.textContent = total;
+        }
+
+        /* Render the unit list for the current page. */
+        function bsuw2RenderUnits() {
+            var list = document.getElementById('bsuw2-unit-list');
+            if (!list) return;
+            if (!bsuwUnitData.length) {
+                list.innerHTML = '<div class="bsuw2-no-units">No units yet.<br>Pick a property in Step 1.</div>';
+                var pgInfo = document.getElementById('bsuw2-pg-info');
+                var prev   = document.getElementById('bsuw2-prev');
+                var nxt    = document.getElementById('bsuw2-next');
+                if (pgInfo) pgInfo.textContent = '— / —';
+                if (prev)   prev.disabled = true;
+                if (nxt)    nxt.disabled  = true;
+                bsuw2UpdateScopeBar();
+                return;
+            }
+            var total = bsuwUnitData.length;
+            var pc = Math.max(1, Math.ceil(total / BSUW2_PAGE_SIZE));
+            if (bsuw2Page > pc) bsuw2Page = pc;
+            if (bsuw2Page < 1)  bsuw2Page = 1;
+            var s = (bsuw2Page - 1) * BSUW2_PAGE_SIZE;
+            var e = Math.min(s + BSUW2_PAGE_SIZE, total);
+            var html = '';
+            for (var i = s; i < e; i++) {
+                var d    = bsuwUnitData[i];
+                var name = d.name || ('Unit ' + (i + 1));
+                html += '<div class="bsuw2-unit-row' + (d._selected ? ' sel' : '') + '" data-idx="' + i + '">' +
+                    '<input type="checkbox" class="bsuw2-unit-chk"' + (d._selected ? ' checked' : '') + '>' +
+                    '<span>' + escHtml(name) + '</span>' +
+                    '</div>';
+            }
+            list.innerHTML = html;
+            var pgInfo = document.getElementById('bsuw2-pg-info');
+            var prev   = document.getElementById('bsuw2-prev');
+            var nxt    = document.getElementById('bsuw2-next');
+            if (pgInfo) pgInfo.textContent = bsuw2Page + ' / ' + pc;
+            if (prev)   prev.disabled = bsuw2Page <= 1;
+            if (nxt)    nxt.disabled  = bsuw2Page >= pc;
+            bsuw2UpdateScopeBar();
+        }
+
+        /* Render (or re-render) the amenity category chips for the current scope. */
+        function bsuw2RenderAmenities() {
+            var grid = document.getElementById('bsuw2-am-grid');
+            if (!grid) return;
+            if (!bsuwUnitData.length) { grid.innerHTML = ''; return; }
             var html = '';
             Object.keys(BSUW_AMENITIES).forEach(function(cat) {
-                html += '<div class="suw-am-cat-title">'+cat+'</div><div class="suw-am-chip-row">';
-                BSUW_AMENITIES[cat].forEach(function(item) {
-                    var sel = bsuwSelectedAmenities.has(item) ? ' selected' : '';
-                    html += '<button class="suw-am-chip'+sel+'" data-am="'+item+'">'+item+'</button>';
+                html += '<div class="bsuw2-cat-section" data-cat="' + escHtml(cat) + '">';
+                html += '<div class="bsuw2-cat-title">' + escHtml(cat) + '</div>';
+                html += '<div class="bsuw2-am-chips">';
+                BSUW_AMENITIES[cat].forEach(function(am) {
+                    var st = bsuw2AmState(am);
+                    html += '<button type="button" class="bsuw2-am-chip state-' + st +
+                        '" data-am="' + escHtml(am) + '">' + escHtml(am) + '</button>';
                 });
-                html += '</div>';
+                html += '</div></div>';
             });
             grid.innerHTML = html;
-            grid.querySelectorAll('.suw-am-chip').forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    var am = this.dataset.am;
-                    if (bsuwSelectedAmenities.has(am)) { bsuwSelectedAmenities.delete(am); this.classList.remove('selected'); }
-                    else { bsuwSelectedAmenities.add(am); this.classList.add('selected'); }
-                    bsuwRenderSelStrip();
-                });
-            });
         }
 
-        /* ── Your-Picks strip (replaces the legacy sel strip) ── */
-        function bsuwRenderSelStrip() {
-            var body  = document.getElementById('bsuw-am-picks-body');
-            var count = document.getElementById('bsuw-am-picks-count');
-            var sub   = document.getElementById('bsuw-am-picks-sub');
-            var clr   = document.getElementById('bsuw-am-picks-clear');
-            var n     = bsuwSelectedAmenities.size;
-            if (count) count.textContent = '(' + n + ')';
-            if (sub)   sub.textContent   = n === 0 ? 'No amenities picked yet' : (n + ' picked');
-            if (clr)   clr.style.display = n === 0 ? 'none' : 'inline-flex';
-            if (!body) return;
-            if (n === 0) {
-                body.innerHTML = '<span class="bsuw-am-picks-empty">Click any amenity below to pick it</span>';
-            } else {
-                var html = '';
-                bsuwSelectedAmenities.forEach(function(am) {
-                    html += '<span class="bsuw-am-pick-pill">' + escHtml(am) + '<button data-am="'+escHtml(am)+'" title="Remove">&#x2715;</button></span>';
-                });
-                body.innerHTML = html;
-                body.querySelectorAll('button').forEach(function(btn) {
-                    btn.addEventListener('click', function() {
-                        var am = this.dataset.am;
-                        bsuwSelectedAmenities.delete(am);
-                        var chip = document.querySelector('#bsuw-am-grid-body .suw-am-chip[data-am="'+am+'"]');
-                        if (chip) chip.classList.remove('selected');
-                        bsuwRenderSelStrip();
-                        bsuwAmUpdateCTA();
-                    });
-                });
-            }
-            bsuwAmUpdateCTA();
+        /* Master render — called by bsuwRender() when stepping to Step 2. */
+        function bsuwRenderMatrix() {
+            bsuw2RenderUnits();
+            bsuw2RenderAmenities();
         }
 
-        /* Clear-all picks */
-        (function(){
-            var el = document.getElementById('bsuw-am-picks-clear');
-            if (el) el.addEventListener('click', function() {
-                bsuwSelectedAmenities.clear();
-                document.querySelectorAll('#bsuw-am-grid-body .suw-am-chip.selected').forEach(function(c) { c.classList.remove('selected'); });
-                bsuwRenderSelStrip();
+        /* ── Unit list: row click toggles selection ── */
+        (function() {
+            var listEl = document.getElementById('bsuw2-unit-list');
+            if (!listEl) return;
+            listEl.addEventListener('click', function(e) {
+                var row = e.target.closest ? e.target.closest('.bsuw2-unit-row') : null;
+                if (!row) return;
+                var idx = parseInt(row.dataset.idx, 10);
+                if (isNaN(idx) || idx < 0 || idx >= bsuwUnitData.length) return;
+                bsuwUnitData[idx]._selected = !bsuwUnitData[idx]._selected;
+                row.classList.toggle('sel', bsuwUnitData[idx]._selected);
+                var chk = row.querySelector('.bsuw2-unit-chk');
+                if (chk) chk.checked = bsuwUnitData[idx]._selected;
+                bsuw2UpdateScopeBar();
+                bsuw2RenderAmenities();
             });
         })();
 
-        /* ── Amenity search ── */
-        function bsuwFilterAmenities(q) {
-            q = (q || '').trim().toLowerCase();
-            var any = false;
-            document.querySelectorAll('#bsuw-am-grid-body .suw-am-chip-row').forEach(function(row) {
-                var chips = row.querySelectorAll('.suw-am-chip');
-                var shown = 0;
-                chips.forEach(function(chip) {
-                    var match = !q || chip.dataset.am.toLowerCase().indexOf(q) !== -1;
-                    chip.classList.toggle('hidden', !match);
-                    if (match) shown++;
-                });
-                row.classList.toggle('hidden', shown === 0);
-                // Also hide the preceding category title if empty
-                var title = row.previousElementSibling;
-                if (title && title.classList.contains('suw-am-cat-title')) {
-                    title.classList.toggle('hidden', shown === 0);
-                }
-                if (shown > 0) any = true;
+        /* ── Select-all checkbox ── */
+        (function() {
+            var chk = document.getElementById('bsuw2-selall-chk');
+            if (!chk) return;
+            chk.addEventListener('change', function() {
+                var on = this.checked;
+                bsuwUnitData.forEach(function(u) { u._selected = on; });
+                bsuw2RenderUnits();
+                bsuw2RenderAmenities();
             });
-            var empty = document.getElementById('bsuw-am-noamresults');
-            if (empty) empty.style.display = any ? 'none' : 'block';
-        }
-        document.getElementById('bsuw-am-amsearch').addEventListener('input', function() {
-            var v = this.value;
-            document.getElementById('bsuw-am-amsearch-clear').classList.toggle('visible', !!v.trim());
-            bsuwFilterAmenities(v);
-        });
-        document.getElementById('bsuw-am-amsearch-clear').addEventListener('click', function() {
-            var inp = document.getElementById('bsuw-am-amsearch');
-            inp.value = ''; this.classList.remove('visible');
-            bsuwFilterAmenities('');
-            inp.focus();
-        });
+        })();
 
-        /* ── Unit picker (Pick Specific mode) ── */
-        var BSUW_AM_PAGE_SIZE = 50;
-        var bsuwAmPage = 1;
-        var bsuwAmSearch = '';
-        function bsuwAmMatchesSearch(d, idx) {
-            if (!bsuwAmSearch) return true;
-            var name = (d.name || ('Unit ' + (idx + 1))).toLowerCase();
-            return name.indexOf(bsuwAmSearch) !== -1;
-        }
-        function bsuwAmFilteredIdx() {
-            var arr = [];
-            bsuwUnitData.forEach(function(d, i) { if (bsuwAmMatchesSearch(d, i)) arr.push(i); });
-            return arr;
-        }
-        function bsuwAmPageCount() {
-            return Math.max(1, Math.ceil(bsuwAmFilteredIdx().length / BSUW_AM_PAGE_SIZE));
-        }
-        function bsuwAmPageRange() {
-            var idx = bsuwAmFilteredIdx();
-            var s = (bsuwAmPage - 1) * BSUW_AM_PAGE_SIZE;
-            var e = Math.min(s + BSUW_AM_PAGE_SIZE, idx.length);
-            return { start: s, end: e, idx: idx, total: idx.length };
-        }
-        function bsuwUpdateAmUnitChecklist() {
-            var list = document.getElementById('bsuw-unit-checklist');
-            if (!list) return;
-            list.innerHTML = '';
-            if (!bsuwUnitData.length) {
-                list.innerHTML = '<span class="bsuw-unit-checklist-empty">No units yet. Go back to Step 1 and pick a property.</span>';
-                bsuwAmUpdateStats();
-                return;
-            }
-            var pc = bsuwAmPageCount();
-            if (bsuwAmPage > pc) bsuwAmPage = pc;
-            if (bsuwAmPage < 1)  bsuwAmPage = 1;
-            var r = bsuwAmPageRange();
-            if (r.total === 0) {
-                list.innerHTML = '<span class="bsuw-unit-checklist-empty">No units match &ldquo;' + escHtml(bsuwAmSearch) + '&rdquo;. Try a different search.</span>';
-            } else {
-                for (var i = r.start; i < r.end; i++) {
-                    (function(unitIdx) {
-                        var d = bsuwUnitData[unitIdx];
-                        var label = document.createElement('label');
-                        label.className = 'bsuw-unit-chk-item' + (d._selected ? ' checked' : '');
-                        label.innerHTML = '<input type="checkbox"'+(d._selected?' checked':'')+'>'+
-                            '<i class="fas fa-home" style="font-size:10px;"></i> '+escHtml(d.name || 'Unit '+(unitIdx+1));
-                        label.querySelector('input').addEventListener('change', function() {
-                            bsuwUnitData[unitIdx]._selected = this.checked;
-                            label.classList.toggle('checked', this.checked);
-                            bsuwAmUpdateStats();
-                            bsuwAmUpdateCTA();
-                        });
-                        list.appendChild(label);
-                    })(r.idx[i]);
-                }
-            }
-            var pag = document.getElementById('bsuw-am-pagination');
-            var pgInfo = document.getElementById('bsuw-am-pg-info');
-            var prev = document.getElementById('bsuw-am-prev');
-            var next = document.getElementById('bsuw-am-next');
-            if (pag)  pag.classList.toggle('hidden', pc <= 1);
-            if (pgInfo) pgInfo.textContent = 'Page ' + bsuwAmPage + ' of ' + pc;
-            if (prev) prev.disabled = (bsuwAmPage <= 1);
-            if (next) next.disabled = (bsuwAmPage >= pc);
-            bsuwAmUpdateStats();
-        }
-        function bsuwAmUpdateStats() {
-            var total    = bsuwUnitData.length;
-            var filtered = bsuwAmFilteredIdx().length;
-            var selected = bsuwUnitData.filter(function(u){ return u._selected; }).length;
-            var selEl   = document.getElementById('bsuw-am-sel-count');
-            var totEl   = document.getElementById('bsuw-am-total-count');
-            var shown   = document.getElementById('bsuw-am-shown-count');
-            var badge   = document.getElementById('bsuw-am-sel-badge');
-            var barFill = document.getElementById('bsuw-am-selstat-bar-fill');
-            var selAllLbl = document.getElementById('bsuw-am-selall-label');
-            var allSub  = document.getElementById('bsuw-am-mode-all-sub');
-            if (selEl)  selEl.textContent  = selected;
-            if (totEl)  totEl.textContent  = total;
-            if (shown)  shown.textContent  = filtered + ' of ' + total + ' shown';
-            if (badge)  badge.textContent  = selected;
-            if (barFill) barFill.style.width = (total > 0 ? (selected / total * 100) : 0) + '%';
-            if (selAllLbl) selAllLbl.textContent = 'All ' + (filtered || total);
-            if (allSub) allSub.textContent = total > 0 ? ('Apply to all ' + total + ' unit' + (total === 1 ? '' : 's')) : 'Apply to all units';
-            bsuwAmUpdateCTA();
-        }
+        /* ── Clear selection button ── */
+        (function() {
+            var btn = document.getElementById('bsuw2-clear-sel');
+            if (!btn) return;
+            btn.addEventListener('click', function() {
+                bsuwUnitData.forEach(function(u) { u._selected = false; });
+                bsuw2RenderUnits();
+                bsuw2RenderAmenities();
+            });
+        })();
 
-        /* ── Apply CTA label + disabled state ── */
-        function bsuwAmUpdateCTA() {
-            var btn   = document.getElementById('bsuw-am-apply-btn');
-            var label = document.getElementById('bsuw-am-apply-label');
-            if (!btn || !label) return;
-            var amN     = bsuwSelectedAmenities.size;
-            var total   = bsuwUnitData.length;
-            var picked  = bsuwUnitData.filter(function(u){ return u._selected; }).length;
-            // Units first: check unit readiness, then amenity readiness
-            if (!bsuwApplyToAll && picked === 0) {
-                btn.disabled = true;
-                label.textContent = 'Pick at least one unit above';
-                return;
-            }
-            if (amN === 0) {
-                btn.disabled = true;
-                label.textContent = 'Pick amenities to save';
-                return;
-            }
-            if (bsuwApplyToAll) {
-                if (total === 0) { btn.disabled = true; label.textContent = 'Load units first'; return; }
-                btn.disabled = false;
-                label.textContent = 'Save ' + amN + ' amenit' + (amN === 1 ? 'y' : 'ies') + ' to all ' + total + ' unit' + (total === 1 ? '' : 's');
-            } else {
-                btn.disabled = false;
-                label.textContent = 'Save ' + amN + ' amenit' + (amN === 1 ? 'y' : 'ies') + ' to ' + picked + ' unit' + (picked === 1 ? '' : 's');
-            }
-        }
+        /* ── "All Units" row — click resets to all-scope ── */
+        (function() {
+            var row = document.getElementById('bsuw2-allunits-row');
+            if (!row) return;
+            row.addEventListener('click', function() {
+                bsuwUnitData.forEach(function(u) { u._selected = false; });
+                bsuw2RenderUnits();
+                bsuw2RenderAmenities();
+            });
+        })();
 
-        /* ── Mode tiles ── */
-        document.getElementById('bsuw-am-mode-all').addEventListener('click', function() {
-            bsuwApplyToAll = true;
-            this.classList.add('active');
-            document.getElementById('bsuw-am-mode-pick').classList.remove('active');
-            hide('bsuw-am-selpanel');
-            bsuwAmUpdateCTA();
-        });
-        document.getElementById('bsuw-am-mode-pick').addEventListener('click', function() {
-            bsuwApplyToAll = false;
-            this.classList.add('active');
-            document.getElementById('bsuw-am-mode-all').classList.remove('active');
-            show('bsuw-am-selpanel');
-            bsuwUpdateAmUnitChecklist();
-        });
-
-        /* Unit search */
-        document.getElementById('bsuw-am-search').addEventListener('input', function() {
-            bsuwAmSearch = this.value.trim().toLowerCase();
-            bsuwAmPage = 1;
-            document.getElementById('bsuw-am-search-clear').style.display = bsuwAmSearch ? 'flex' : 'none';
-            bsuwUpdateAmUnitChecklist();
-        });
-        document.getElementById('bsuw-am-search-clear').addEventListener('click', function() {
-            var inp = document.getElementById('bsuw-am-search');
-            inp.value = ''; bsuwAmSearch = ''; this.style.display = 'none';
-            bsuwAmPage = 1; bsuwUpdateAmUnitChecklist();
-        });
-
-        /* Pagination */
-        document.getElementById('bsuw-am-prev').addEventListener('click', function() {
-            if (bsuwAmPage > 1) { bsuwAmPage--; bsuwUpdateAmUnitChecklist(); }
-        });
-        document.getElementById('bsuw-am-next').addEventListener('click', function() {
-            if (bsuwAmPage < bsuwAmPageCount()) { bsuwAmPage++; bsuwUpdateAmUnitChecklist(); }
-        });
-
-        /* Quick-pick presets + page actions */
-        document.getElementById('bsuw-am-selall').addEventListener('click', function() {
-            // Select all units matching the current search filter (across all pages)
-            bsuwAmFilteredIdx().forEach(function(i) { bsuwUnitData[i]._selected = true; });
-            bsuwUpdateAmUnitChecklist();
-        });
-        document.getElementById('bsuw-am-first50').addEventListener('click', function() {
-            var n = Math.min(50, bsuwUnitData.length);
-            for (var i = 0; i < n; i++) bsuwUnitData[i]._selected = true;
-            bsuwAmPage = 1;
-            bsuwUpdateAmUnitChecklist();
-        });
-        document.getElementById('bsuw-am-last50').addEventListener('click', function() {
-            var total = bsuwUnitData.length;
-            var start = Math.max(0, total - 50);
-            for (var i = start; i < total; i++) bsuwUnitData[i]._selected = true;
-            bsuwAmPage = bsuwAmPageCount();
-            bsuwUpdateAmUnitChecklist();
-        });
-        document.getElementById('bsuw-am-unselall').addEventListener('click', function() {
-            bsuwUnitData.forEach(function(u) { u._selected = false; });
-            bsuwUpdateAmUnitChecklist();
-        });
-        document.getElementById('bsuw-am-selpage').addEventListener('click', function() {
-            var r = bsuwAmPageRange();
-            for (var i = r.start; i < r.end; i++) bsuwUnitData[r.idx[i]]._selected = true;
-            bsuwUpdateAmUnitChecklist();
-        });
-        document.getElementById('bsuw-am-unselpage').addEventListener('click', function() {
-            var r = bsuwAmPageRange();
-            for (var i = r.start; i < r.end; i++) bsuwUnitData[r.idx[i]]._selected = false;
-            bsuwUpdateAmUnitChecklist();
-        });
-
-        /* Range selector */
-        document.getElementById('bsuw-am-range-apply').addEventListener('click', function() {
-            var fromEl = document.getElementById('bsuw-am-range-from');
-            var toEl   = document.getElementById('bsuw-am-range-to');
-            var from = parseInt(fromEl.value, 10);
-            var to   = parseInt(toEl.value, 10);
-            var total = bsuwUnitData.length;
-            if (!total) return;
-            if (isNaN(from) || from < 1) from = 1;
-            if (isNaN(to) || to > total) to = total;
-            if (from > to) { var tmp = from; from = to; to = tmp; }
-            for (var i = from - 1; i < to; i++) bsuwUnitData[i]._selected = true;
-            fromEl.value = ''; toEl.value = '';
-            bsuwUpdateAmUnitChecklist();
-        });
-
-        /* ── Apply button + rich success banner ── */
-        function bsuwAmFormatAmenityList(ams) {
-            if (ams.length <= 3) {
-                if (ams.length === 1) return '<strong>' + escHtml(ams[0]) + '</strong>';
-                if (ams.length === 2) return '<strong>' + escHtml(ams[0]) + '</strong> and <strong>' + escHtml(ams[1]) + '</strong>';
-                return '<strong>' + escHtml(ams[0]) + '</strong>, <strong>' + escHtml(ams[1]) + '</strong>, and <strong>' + escHtml(ams[2]) + '</strong>';
-            }
-            return '<strong>' + escHtml(ams[0]) + '</strong>, <strong>' + escHtml(ams[1]) + '</strong>, <strong>' + escHtml(ams[2]) + '</strong>, and <strong>' + (ams.length - 3) + ' more</strong>';
-        }
-        function bsuwAmShowSuccess(ams, n) {
-            var body = document.getElementById('bsuw-am-success-body');
-            if (body) body.innerHTML = 'Added <strong>' + ams.length + ' amenit' + (ams.length === 1 ? 'y' : 'ies') + '</strong> to <strong>' + n + ' unit' + (n === 1 ? '' : 's') + '</strong>. Click <em>Save more</em> to add different amenities to other units.';
-            document.getElementById('bsuw-am-cta').style.display = 'none';
-            document.getElementById('bsuw-am-success').classList.add('show');
-        }
-        function bsuwAmHideSuccess() {
-            document.getElementById('bsuw-am-success').classList.remove('show');
-            document.getElementById('bsuw-am-cta').style.display = '';
-            bsuwAmUpdateCTA();
-        }
-        document.getElementById('bsuw-am-apply-btn').addEventListener('click', function() {
-            if (this.disabled) return;
-            var ams = Array.from(bsuwSelectedAmenities);
-            var n = 0;
-            bsuwUnitData.forEach(function(d) {
-                if (bsuwApplyToAll || d._selected) {
-                    // Additive: merge new amenities into existing (no duplicates)
-                    ams.forEach(function(am) {
-                        if (d.amenities.indexOf(am) === -1) d.amenities.push(am);
+        /* ── Save button ── */
+        (function() {
+            var btn   = document.getElementById('bsuw2-save-btn');
+            var toast = document.getElementById('bsuw2-saved-toast');
+            var det   = document.getElementById('bsuw2-saved-detail');
+            if (!btn) return;
+            btn.addEventListener('click', function() {
+                var scope    = bsuw2Scope();
+                var scopeN   = scope.length;
+                /* Count amenities that every unit in scope now has */
+                var amWithAll = 0;
+                Object.keys(BSUW_AMENITIES).forEach(function(cat) {
+                    BSUW_AMENITIES[cat].forEach(function(am) {
+                        if (bsuw2AmState(am) === 'all') amWithAll++;
                     });
-                    n++;
+                });
+                var selN = bsuwUnitData.filter(function(u) { return u._selected; }).length;
+                var scopeLabel = selN === 0 ? 'all ' + scopeN + ' units' : scopeN + ' unit' + (scopeN === 1 ? '' : 's');
+                var amLabel    = amWithAll + ' amenit' + (amWithAll === 1 ? 'y' : 'ies');
+                if (det) det.textContent = 'Saved — ' + amLabel + ' applied to ' + scopeLabel + '. Pick new units to continue.';
+                if (toast) {
+                    toast.style.display = 'inline-flex';
+                    clearTimeout(toast._hide);
+                    toast._hide = setTimeout(function() { toast.style.display = 'none'; }, 4000);
                 }
+                /* Auto-reset selection so user can pick a new batch */
+                bsuwUnitData.forEach(function(u) { u._selected = false; });
+                bsuw2RenderUnits();
+                bsuw2RenderAmenities();
             });
-            bsuwAmShowSuccess(ams, n);
+        })();
+
+        /* ── Unit list pagination ── */
+        document.getElementById('bsuw2-prev').addEventListener('click', function() {
+            if (bsuw2Page > 1) { bsuw2Page--; bsuw2RenderUnits(); }
         });
-        // "Save more" — clear amenity picks so user can do another round
-        document.getElementById('bsuw-am-success-edit').addEventListener('click', function() {
-            bsuwAmHideSuccess();
-            // Clear amenity picks for the next round
-            bsuwSelectedAmenities.clear();
-            bsuwRenderChips();
-            bsuwRenderSelStrip();
-            bsuwAmUpdateCTA();
+        document.getElementById('bsuw2-next').addEventListener('click', function() {
+            var pc = Math.max(1, Math.ceil(bsuwUnitData.length / BSUW2_PAGE_SIZE));
+            if (bsuw2Page < pc) { bsuw2Page++; bsuw2RenderUnits(); }
         });
-        document.getElementById('bsuw-am-success-continue').addEventListener('click', function() {
-            bsuwAmHideSuccess();
-            var nextBtn = document.getElementById('bsuw-btn-next');
-            if (nextBtn) nextBtn.click();
-        });
+
+        /* ── Amenity chip click: toggle for entire scope ── */
+        (function() {
+            var grid = document.getElementById('bsuw2-am-grid');
+            if (!grid) return;
+            grid.addEventListener('click', function(e) {
+                var chip = e.target.closest ? e.target.closest('.bsuw2-am-chip') : null;
+                if (!chip) return;
+                var am    = chip.dataset.am;
+                var scope = bsuw2Scope();
+                var state = bsuw2AmState(am);
+                if (state === 'all') {
+                    /* Remove from every unit in scope */
+                    scope.forEach(function(u) {
+                        var idx = (u.amenities || []).indexOf(am);
+                        if (idx !== -1) u.amenities.splice(idx, 1);
+                    });
+                } else {
+                    /* Add to every unit in scope (covers 'none' and 'some') */
+                    scope.forEach(function(u) {
+                        if (!u.amenities) u.amenities = [];
+                        if (u.amenities.indexOf(am) === -1) u.amenities.push(am);
+                    });
+                }
+                /* Fast path: only re-render chips, units list unchanged */
+                bsuw2RenderAmenities();
+            });
+        })();
+
+        /* ── Back-compat shims (other code paths call these) ── */
+        function bsuwRenderChips()       { bsuwRenderMatrix(); }
+        function bsuwRenderSelStrip()    { /* no-op */ }
+        function bsuwUpdateChipStates()  { /* no-op */ }
+        function bsuwAmUpdateStats()     { bsuw2UpdateScopeBar(); }
+        function bsuwAmUpdateCTA()       { /* no-op */ }
+        function bsuwAmHideSuccess()     { /* no-op */ }
+        function bsuwAmScopeUnits()      { return bsuw2Scope(); }
 
         /* ─── Review step ─── */
         function bsuwBuildReview() {
             var body = document.getElementById('bsuw-review-body');
             var totalUnits = bsuwUnitData.length;
             var filledUnits = bsuwUnitData.filter(function(d){ return d.name||d.beds||d.baths; }).length;
-            var amCount = bsuwSelectedAmenities.size;
+            // Count the unique amenity names that are assigned to at least one unit
+            var amSet = {};
+            bsuwUnitData.forEach(function(d){ (d.amenities || []).forEach(function(am){ amSet[am] = true; }); });
+            var amCount = Object.keys(amSet).length;
             var unitsWithAm = bsuwUnitData.filter(function(d){ return d.amenities && d.amenities.length > 0; }).length;
 
             var html =
@@ -3601,28 +3491,24 @@
             currentStep = 1;
             bsuwUnitData = [];
             bsuwSelectedAmenities.clear();
+            bsuwChipActions = {};
             bsuwApplyToAll = true;
             bsuwCurrentPage = 1;
-            bsuwAmPage = 1;
-            bsuwAmSearch = '';
-            var sEl = document.getElementById('bsuw-am-search'); if (sEl) sEl.value = '';
-            var scEl = document.getElementById('bsuw-am-search-clear'); if (scEl) scEl.style.display = 'none';
             var propSel = document.getElementById('bsuw-property-select');
             if (propSel) { propSel.value = ''; propSel.style.borderColor = ''; }
             document.getElementById('bsuw-success-msg').style.display = 'none';
-            hide('bsuw-ut-count-line'); hide('bsuw-ut-wrap');
-            document.getElementById('bsuw-bulk-toolbar').classList.add('bsuw-hidden');
-            document.getElementById('bsuw-bulk-toolbar').classList.remove('visible','panel-open');
-            document.getElementById('bsuw-bulk-panel').classList.remove('open');
+            hide('bsuw-ut-wrap');
+            var qfReset = document.getElementById('bsuw-qf-card'); if (qfReset) qfReset.classList.remove('visible');
+            // Reset Quick Fill inputs
+            var bBeds = document.getElementById('bsuw-bulk-beds');  if (bBeds)  bBeds.value = '';
+            var bBath = document.getElementById('bsuw-bulk-baths'); if (bBath)  bBath.value = '';
+            var bSize = document.getElementById('bsuw-bulk-size');  if (bSize)  bSize.value = '';
+            var brB = document.getElementById('bsuw-bulk-result'); if (brB) brB.classList.remove('show');
+            var selLbl = document.getElementById('bsuw-qf-sel-label'); if (selLbl) selLbl.textContent = 'Apply to Selected (0)';
+            var selBtn = document.getElementById('bsuw-bulk-selected'); if (selBtn) selBtn.disabled = true;
             // Reset Step 2 state
-            document.getElementById('bsuw-am-mode-all').classList.add('active');
-            document.getElementById('bsuw-am-mode-pick').classList.remove('active');
-            hide('bsuw-am-selpanel');
-            document.getElementById('bsuw-am-pagination').classList.add('hidden');
-            document.getElementById('bsuw-am-success').classList.remove('show');
-            document.getElementById('bsuw-am-cta').style.display = '';
-            var amS = document.getElementById('bsuw-am-amsearch'); if (amS) amS.value = '';
-            var amSc = document.getElementById('bsuw-am-amsearch-clear'); if (amSc) amSc.classList.remove('visible');
+            bsuw2Page = 1;
+            bsuwUnitData.forEach(function(u) { u._selected = false; });
             bsuwRender();
             overlay.classList.add('open');
             overlay.scrollTop = 0;
@@ -3651,10 +3537,7 @@
             else { btnNext.textContent = 'Next'; btnNext.classList.remove('finish'); }
             document.getElementById('bsuw-btn-back').style.visibility = currentStep === 1 ? 'hidden' : 'visible';
             if (currentStep === 2) {
-                bsuwRenderChips();
-                bsuwRenderSelStrip();
-                bsuwAmUpdateStats();
-                bsuwAmUpdateCTA();
+                bsuwRenderMatrix();
             }
             if (currentStep === 3) bsuwBuildReview();
             overlay.scrollTop = 0;
