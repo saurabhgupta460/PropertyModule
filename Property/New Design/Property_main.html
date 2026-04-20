@@ -911,26 +911,6 @@
             <!-- STEP 4: Unit Details -->
             <div class="apw-step-content" data-step="4">
               <div class="apw-inner">
-                <!-- Hero header with live progress -->
-                <div class="apw-ud-hero">
-                  <div class="apw-ud-hero-main">
-                    <div class="apw-ud-hero-icon"><i class="fas fa-layer-group"></i></div>
-                    <div class="apw-ud-hero-text">
-                      <div class="apw-ud-hero-title" id="apw-ud-heading">Unit Details</div>
-                      <div class="apw-ud-hero-sub" id="apw-ud-sub">Enter details for your unit below.</div>
-                    </div>
-                  </div>
-                  <div class="apw-ud-progress">
-                    <div class="apw-ud-progress-stats">
-                      <div class="apw-ud-progress-num"><span id="apw-ud-done">0</span><span class="apw-ud-progress-divider">/</span><span id="apw-ud-total">1</span></div>
-                      <div class="apw-ud-progress-label">Units Completed</div>
-                    </div>
-                    <div class="apw-ud-progress-bar">
-                      <div class="apw-ud-progress-fill" id="apw-ud-progress-fill"></div>
-                    </div>
-                  </div>
-                </div>
-
                 <!-- Quick Fill card (only shown for multi-unit) -->
                 <div class="apw-qf" id="apw-qf-card">
                   <div class="apw-qf-head">
@@ -2079,13 +2059,6 @@
             if (pag) pag.classList.remove('visible');
             var utb = document.getElementById('apw-ut-tbody');
             if (utb) utb.innerHTML = '';
-            // Reset progress display
-            var doneEl  = document.getElementById('apw-ud-done');
-            var totalEl = document.getElementById('apw-ud-total');
-            var fillEl  = document.getElementById('apw-ud-progress-fill');
-            if (doneEl)  doneEl.textContent  = '0';
-            if (totalEl) totalEl.textContent = '1';
-            if (fillEl)  fillEl.style.width  = '0%';
             document.getElementById('apw-success-msg').style.display = 'none';
             document.getElementById('apw-btn-next').classList.remove('finish');
             document.getElementById('apw-btn-next').textContent = 'Next';
@@ -2224,24 +2197,14 @@
         var APW_PAGE_SIZE = 20;
 
         function apwInitUnitStep() {
-            var heading = document.getElementById('apw-ud-heading');
-            var sub     = document.getElementById('apw-ud-sub');
             var qfCard  = document.getElementById('apw-qf-card');
-            var totalEl = document.getElementById('apw-ud-total');
             var unitCount = 1;
             if (selectedUnitOption === 'Multiple Unit') {
                 var nInput = document.getElementById('apw-num-units');
                 unitCount = Math.max(2, parseInt(nInput ? nInput.value : '2') || 2);
             }
-            if (heading) heading.textContent = 'Unit Details';
-            if (sub) {
-                sub.textContent = unitCount === 1
-                    ? 'Enter the details for your unit below.'
-                    : 'Enter details for all ' + unitCount + ' units. Use Quick Fill to apply the same values at once.';
-            }
             // Show Quick Fill card only for multi-unit setups
             if (qfCard) qfCard.classList.toggle('visible', unitCount > 1);
-            if (totalEl) totalEl.textContent = unitCount;
             // Reset bulk inputs
             var bBeds = document.getElementById('apw-bulk-beds');   if (bBeds)  bBeds.value = '';
             var bBath = document.getElementById('apw-bulk-baths');  if (bBath)  bBath.value = '';
@@ -2372,18 +2335,6 @@
             var pageStart = (apwCurrentPage - 1) * APW_PAGE_SIZE;
             var pageEnd = Math.min(pageStart + APW_PAGE_SIZE, total);
             var pageSize = pageEnd - pageStart;
-            // Count units with all 3 key fields filled (Bed, Bath, Size)
-            var done = 0;
-            for (var i = 0; i < apwUnitData.length; i++) {
-                var d = apwUnitData[i];
-                if (d.beds && d.baths && d.size) done++;
-            }
-            var doneEl  = document.getElementById('apw-ud-done');
-            var totalEl = document.getElementById('apw-ud-total');
-            var fillEl  = document.getElementById('apw-ud-progress-fill');
-            if (doneEl)  doneEl.textContent  = done;
-            if (totalEl) totalEl.textContent = total;
-            if (fillEl)  fillEl.style.width  = (total > 0 ? (done / total * 100) : 0) + '%';
             // Update Quick Fill subtitle with page scope when paginated
             var qfSub = document.getElementById('apw-qf-sub');
             if (qfSub) {

@@ -5824,50 +5824,75 @@
             <!-- STEP 1: Unit Details -->
             <div class="apw-step-content active" data-step="1">
               <div class="apw-inner">
-                <div class="apw-section-title">Unit Details</div>
-                <p style="text-align:center;color:#718096;font-size:13px;margin-bottom:20px;">150 units for this property are loaded below. Bulk-edit or update each row individually.</p>
-                <div class="apw-ut-count-line bsuw-hidden" id="bsuw-ut-count-line">
-                  <i class="fas fa-layer-group"></i><span id="bsuw-ut-count-label">0 units</span>
-                </div>
-                <div class="apw-bulk-toolbar bsuw-hidden" id="bsuw-bulk-toolbar">
-                  <div class="apw-bulk-left">
-                    <i class="fas fa-magic"></i>
-                    <span class="apw-bulk-title">Bulk Edit</span>
-                    <span class="apw-bulk-hint" id="bsuw-bulk-hint">Fills values on the units shown on <strong>this page</strong></span>
+
+                <!-- Quick Fill card -->
+                <div class="apw-qf" id="bsuw-qf-card">
+                  <div class="apw-qf-head">
+                    <div class="apw-qf-head-left">
+                      <div class="apw-qf-icon"><i class="fas fa-bolt"></i></div>
+                      <div class="apw-qf-text">
+                        <div class="apw-qf-title">Quick Fill</div>
+                        <div class="apw-qf-sub" id="bsuw-qf-sub">Tick units below, then apply values to your selection</div>
+                      </div>
+                    </div>
+                    <button type="button" class="apw-qf-reset" id="bsuw-bulk-clear" title="Clear all fields on this page">
+                      <i class="fas fa-eraser"></i> Reset page
+                    </button>
                   </div>
-                  <button type="button" class="apw-bulk-toggle-btn" id="bsuw-bulk-toggle"><i class="fas fa-chevron-down"></i></button>
-                </div>
-                <div class="apw-bulk-panel" id="bsuw-bulk-panel">
-                  <div class="apw-bulk-fields">
-                    <div class="apw-bulk-field"><label class="apw-label">Bedroom</label><select class="apw-input apw-select" id="bsuw-bulk-beds"><option value="">—</option><option>Studio</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6+</option></select></div>
-                    <div class="apw-bulk-field"><label class="apw-label">Bathroom</label><select class="apw-input apw-select" id="bsuw-bulk-baths"><option value="">—</option><option>1</option><option>1.5</option><option>2</option><option>2.5</option><option>3</option><option>3+</option></select></div>
-                    <div class="apw-bulk-field"><label class="apw-label">Size (sq ft)</label><input class="apw-input" type="text" id="bsuw-bulk-size" placeholder="e.g. 850"></div>
+                  <div class="apw-qf-body">
+                    <div class="apw-qf-inputs">
+                      <div class="apw-qf-field">
+                        <label class="apw-qf-label">Bedroom</label>
+                        <select class="apw-qf-input" id="bsuw-bulk-beds">
+                          <option value="">—</option>
+                          <option>Studio</option><option>1</option><option>2</option>
+                          <option>3</option><option>4</option><option>5</option><option>6+</option>
+                        </select>
+                      </div>
+                      <div class="apw-qf-field">
+                        <label class="apw-qf-label">Bathroom</label>
+                        <select class="apw-qf-input" id="bsuw-bulk-baths">
+                          <option value="">—</option>
+                          <option>1</option><option>1.5</option><option>2</option>
+                          <option>2.5</option><option>3</option><option>3+</option>
+                        </select>
+                      </div>
+                      <div class="apw-qf-field">
+                        <label class="apw-qf-label">Size (sq ft)</label>
+                        <input class="apw-qf-input" type="text" id="bsuw-bulk-size" placeholder="e.g. 850">
+                      </div>
+                    </div>
+                    <div class="apw-qf-actions">
+                      <button type="button" class="apw-qf-apply-sel" id="bsuw-bulk-selected" disabled>
+                        <i class="fas fa-check-square"></i> <span id="bsuw-qf-sel-label">Apply to Selected (0)</span>
+                      </button>
+                    </div>
                   </div>
-                  <div class="apw-bulk-actions">
-                    <button type="button" class="apw-bulk-apply-btn" id="bsuw-bulk-apply"><i class="fas fa-check-double"></i> Apply To All</button>
-                    <button type="button" class="apw-bulk-selected-btn" id="bsuw-bulk-selected" disabled><i class="fas fa-check-square"></i> Apply to Selected</button>
-                    <button type="button" class="apw-bulk-clear-btn" id="bsuw-bulk-clear"><i class="fas fa-eraser"></i> Clear All</button>
-                  </div>
                 </div>
+
                 <div class="apw-bulk-result" id="bsuw-bulk-result" role="status" aria-live="polite">
                   <i class="fas fa-check-circle"></i>
                   <span class="apw-bulk-result-msg" id="bsuw-bulk-result-msg"></span>
                   <button type="button" class="apw-bulk-result-close" id="bsuw-bulk-result-close" aria-label="Dismiss">&times;</button>
                 </div>
-                <!-- Pagination (above table — makes per-page scope obvious) -->
+
                 <div class="apw-ut-pagination" id="bsuw-ut-pagination">
                   <button type="button" class="apw-ut-page-btn" id="bsuw-ut-prev" disabled><i class="fas fa-chevron-left"></i></button>
                   <span class="apw-ut-page-info" id="bsuw-ut-page-info"></span>
-                  <span class="apw-ut-page-hint" id="bsuw-ut-page-hint">— changes apply to this page only</span>
+                  <span class="apw-ut-page-hint" id="bsuw-ut-page-hint">— Quick Fill applies to this page only</span>
                   <button type="button" class="apw-ut-page-btn" id="bsuw-ut-next"><i class="fas fa-chevron-right"></i></button>
                 </div>
-                <div class="apw-ut-wrap bsuw-hidden" id="bsuw-ut-wrap">
-                  <table class="apw-ut-table">
+
+                <div class="apw-ut-wrap apw-ut-wrap--v2" id="bsuw-ut-wrap">
+                  <table class="apw-ut-table apw-ut-table--v2">
                     <thead>
                       <tr>
-                        <th class="apw-ut-th-chk"><label class="apw-chk-wrap" title="Select all"><input type="checkbox" id="bsuw-chk-all"><span class="apw-chk-box"></span></label></th>
+                        <th class="apw-ut-th-chk"><label class="apw-chk-wrap" title="Select all on page"><input type="checkbox" id="bsuw-chk-all"><span class="apw-chk-box"></span></label></th>
                         <th class="apw-ut-th-num">#</th>
-                        <th>Unit Name</th><th>Bed</th><th>Bath</th><th>Size (sq ft)</th>
+                        <th>Unit Name</th>
+                        <th class="apw-ut-th-sm">Bed</th>
+                        <th class="apw-ut-th-sm">Bath</th>
+                        <th class="apw-ut-th-size">Size (sq ft)</th>
                       </tr>
                     </thead>
                     <tbody id="bsuw-ut-tbody"></tbody>
@@ -8224,19 +8249,26 @@
         function hide(id){var e=document.getElementById(id);if(e)e.classList.add('bsuw-hidden');}
 
         function bsuwBuildTable() {
-            var tbody=document.getElementById('bsuw-ut-tbody'), total=bsuwUnitData.length;
+            var tbody=document.getElementById('bsuw-ut-tbody');
+            if(!tbody) return;
+            var total=bsuwUnitData.length;
             var BED=['','Studio','1','2','3','4','5','6+'], BATH=['','1','1.5','2','2.5','3','3+'];
             var usePag=total>BSUW_PAGE_SIZE, s=usePag?(bsuwPage-1)*BSUW_PAGE_SIZE:0, e=usePag?Math.min(s+BSUW_PAGE_SIZE,total):total;
-            document.getElementById('bsuw-ut-count-label').textContent=total+' unit'+(total!==1?'s':'');
-            var pag=document.getElementById('bsuw-ut-pagination'); pag.classList.toggle('visible',usePag);
-            if(usePag){var pc=Math.ceil(total/BSUW_PAGE_SIZE); document.getElementById('bsuw-ut-page-info').textContent='Showing '+(s+1)+' – '+e+' of '+total+'  (page '+bsuwPage+' of '+pc+')'; document.getElementById('bsuw-ut-prev').disabled=bsuwPage<=1; document.getElementById('bsuw-ut-next').disabled=e>=total; var hE=document.getElementById('bsuw-ut-page-hint'); if(hE) hE.textContent='— changes apply to this page only';}
+            var pag=document.getElementById('bsuw-ut-pagination'); if(pag) pag.classList.toggle('visible',usePag);
+            if(usePag){
+                var pc=Math.ceil(total/BSUW_PAGE_SIZE);
+                var info=document.getElementById('bsuw-ut-page-info'); if(info) info.textContent='Showing '+(s+1)+' – '+e+' of '+total+'  (page '+bsuwPage+' of '+pc+')';
+                var pv=document.getElementById('bsuw-ut-prev'); if(pv) pv.disabled=bsuwPage<=1;
+                var nx=document.getElementById('bsuw-ut-next'); if(nx) nx.disabled=e>=total;
+            }
             tbody.innerHTML='';
             for(var i=s;i<e;i++){(function(idx){
                 var d=bsuwUnitData[idx],tr=document.createElement('tr');
                 tr.dataset.unitIdx=idx;
-                if(d.name||d.beds||d.baths)tr.classList.add('apw-ut-filled');
-                if(d._selected)tr.classList.add('apw-ut-selected');
-                tr.innerHTML='<td style="text-align:center;"><label class="apw-chk-wrap"><input type="checkbox" class="bsuw-ichk"'+(d._selected?' checked':'')+
+                var isFilled=d.beds&&d.baths&&d.size;
+                if(isFilled) tr.classList.add('apw-ut-filled');
+                if(d._selected) tr.classList.add('apw-ut-selected');
+                tr.innerHTML='<td class="apw-ut-chk-cell"><label class="apw-chk-wrap"><input type="checkbox" class="bsuw-ichk"'+(d._selected?' checked':'')+
                     '><span class="apw-chk-box"></span></label></td>'+
                     '<td style="text-align:center;"><div class="apw-ut-num">'+(idx+1)+'</div></td>'+
                     '<td><input type="text" class="bsuw-iname" value="'+escA(d.name)+'" placeholder="Unit '+(idx+1)+'"></td>'+
@@ -8244,7 +8276,7 @@
                     '<td><select class="bsuw-ibaths">'+BATH.map(function(o){return'<option value="'+o+'"'+(o===d.baths?' selected':'')+'>'+(o||'Select')+'</option>';}).join('')+'</select></td>'+
                     '<td><input type="text" class="bsuw-isize" value="'+escA(d.size)+'" placeholder="e.g. 850"></td>';
                 tr.querySelector('.bsuw-ichk').addEventListener('change',function(){bsuwUnitData[idx]._selected=this.checked;tr.classList.toggle('apw-ut-selected',this.checked);bsuwSyncAll();bsuwUpdateSelBadge();bsuwUpdateUnitChecklist();});
-                function bind(cls,key,evt){var el=tr.querySelector('.'+cls);if(!el)return;el.addEventListener(evt,function(){bsuwUnitData[idx][key]=this.value;tr.classList.toggle('apw-ut-filled',!!(bsuwUnitData[idx].name||bsuwUnitData[idx].beds||bsuwUnitData[idx].baths));bsuwUpdateProgress();});}
+                function bind(cls,key,evt){var el=tr.querySelector('.'+cls);if(!el)return;el.addEventListener(evt,function(){bsuwUnitData[idx][key]=this.value;var nd=bsuwUnitData[idx];tr.classList.toggle('apw-ut-filled',!!(nd.beds&&nd.baths&&nd.size));bsuwUpdateProgress();});}
                 bind('bsuw-iname','name','input');bind('bsuw-ibeds','beds','change');bind('bsuw-ibaths','baths','change');bind('bsuw-isize','size','input');
                 tbody.appendChild(tr);
             })(i);}
@@ -8252,22 +8284,21 @@
             bsuwUpdateSelBadge();
         }
         function bsuwUpdateSelBadge(){
-            var t=bsuwUnitData.length,s=(bsuwPage-1)*BSUW_PAGE_SIZE,e=Math.min(s+BSUW_PAGE_SIZE,t),c=0;
+            var t=bsuwUnitData.length, usePag=t>BSUW_PAGE_SIZE;
+            var s=usePag?(bsuwPage-1)*BSUW_PAGE_SIZE:0, e=usePag?Math.min(s+BSUW_PAGE_SIZE,t):t, c=0;
             for(var i=s;i<e;i++) if(bsuwUnitData[i]._selected) c++;
-            var btn=document.getElementById('bsuw-bulk-selected');
-            if(btn) btn.disabled=c===0;
+            var btn=document.getElementById('bsuw-bulk-selected'); if(btn) btn.disabled=c===0;
+            var lbl=document.getElementById('bsuw-qf-sel-label'); if(lbl) lbl.textContent='Apply to Selected ('+c+')';
         }
         function bsuwUpdateProgress(){
             var t=bsuwUnitData.length;
             var pc=Math.max(1, Math.ceil(t/BSUW_PAGE_SIZE));
             var s=(bsuwPage-1)*BSUW_PAGE_SIZE, e=Math.min(s+BSUW_PAGE_SIZE,t), ps=e-s;
-            var hint=document.getElementById('bsuw-bulk-hint');
-            if(hint){
-                if(pc>1) hint.innerHTML='Fills values on the <strong>'+ps+' unit'+(ps===1?'':'s')+' shown on page '+bsuwPage+'</strong> of '+pc;
-                else     hint.innerHTML='Fills values on <strong>all '+t+' unit'+(t===1?'':'s')+'</strong>';
+            var sub=document.getElementById('bsuw-qf-sub');
+            if(sub){
+                if(pc>1) sub.innerHTML='Tick units below, then fill the <strong>'+ps+' on page '+bsuwPage+'</strong> of '+pc;
+                else     sub.innerHTML='Tick units below, then apply values to your selection';
             }
-            var lbl=document.getElementById('bsuw-ut-count-label');
-            if(lbl) lbl.textContent=t+' unit'+(t===1?'':'s');
         }
         function bsuwShowBulkResult(msg, type){
             var banner=document.getElementById('bsuw-bulk-result');
@@ -8294,23 +8325,43 @@
             if(arr.length===2) return arr[0]+' and '+arr[1];
             return arr.slice(0,-1).join(', ')+', and '+arr[arr.length-1];
         }
-        function bsuwSyncAll(){var c=document.getElementById('bsuw-chk-all');if(!c)return;var a=bsuwUnitData.length>0&&bsuwUnitData.every(function(d){return d._selected;}),n=bsuwUnitData.some(function(d){return d._selected;});c.checked=a;c.indeterminate=!a&&n;}
-        /* Generate 150 units: 10 floors × 15 units (Unit 101 … Unit 1015) */
+        /* bsuwSyncAll — checks current page only */
+        function bsuwSyncAll(){
+            var c=document.getElementById('bsuw-chk-all'); if(!c) return;
+            var t=bsuwUnitData.length, usePag=t>BSUW_PAGE_SIZE;
+            var s=usePag?(bsuwPage-1)*BSUW_PAGE_SIZE:0, e=usePag?Math.min(s+BSUW_PAGE_SIZE,t):t;
+            var ps=e-s, picked=0;
+            for(var i=s;i<e;i++) if(bsuwUnitData[i]._selected) picked++;
+            c.checked=ps>0&&picked===ps; c.indeterminate=picked>0&&picked<ps;
+        }
+        /* Generate 150 units: 10 floors × 15 units */
         function bsuwGenerate(){
             function pad(n){return n<10?'0'+n:''+n;}
             bsuwUnitData=[];
             for(var f=1;f<=10;f++)
                 for(var u=1;u<=15;u++)
                     bsuwUnitData.push({name:'Unit '+f+pad(u),beds:'',baths:'',size:'',_selected:false,amenities:[]});
-            bsuwPage=1;bsuwBuildTable();bsuwUpdateProgress();
-            show('bsuw-ut-count-line');show('bsuw-ut-wrap');
-            document.getElementById('bsuw-bulk-toolbar').classList.remove('bsuw-hidden');
-            document.getElementById('bsuw-bulk-toolbar').classList.add('visible');
+            bsuwPage=1; bsuwBuildTable(); bsuwUpdateProgress(); bsuwUpdateSelBadge();
+            var qf=document.getElementById('bsuw-qf-card'); if(qf) qf.classList.add('visible');
+            show('bsuw-ut-wrap');
             var br=document.getElementById('bsuw-bulk-result'); if(br) br.classList.remove('show');
         }
-        document.getElementById('bsuw-chk-all').addEventListener('change',function(){bsuwUnitData.forEach(function(d){d._selected=this.checked;}.bind(this));bsuwBuildTable();});
-        document.getElementById('bsuw-ut-prev').addEventListener('click',function(){if(bsuwPage>1){bsuwPage--;bsuwBuildTable();bsuwUpdateProgress();}});
-        document.getElementById('bsuw-ut-next').addEventListener('click',function(){if(bsuwPage*BSUW_PAGE_SIZE<bsuwUnitData.length){bsuwPage++;bsuwBuildTable();bsuwUpdateProgress();}});
+        /* Select-all header — current page only */
+        (function(){
+            var chkAll=document.getElementById('bsuw-chk-all'); if(!chkAll) return;
+            chkAll.addEventListener('change',function(){
+                var on=this.checked, t=bsuwUnitData.length, usePag=t>BSUW_PAGE_SIZE;
+                var s=usePag?(bsuwPage-1)*BSUW_PAGE_SIZE:0, e=usePag?Math.min(s+BSUW_PAGE_SIZE,t):t;
+                for(var i=s;i<e;i++) bsuwUnitData[i]._selected=on;
+                bsuwBuildTable(); bsuwUpdateSelBadge();
+            });
+        })();
+        /* Pagination */
+        (function(){
+            var pv=document.getElementById('bsuw-ut-prev'), nx=document.getElementById('bsuw-ut-next');
+            if(pv) pv.addEventListener('click',function(){if(bsuwPage>1){bsuwPage--;bsuwBuildTable();bsuwUpdateProgress();bsuwUpdateSelBadge();}});
+            if(nx) nx.addEventListener('click',function(){if(bsuwPage*BSUW_PAGE_SIZE<bsuwUnitData.length){bsuwPage++;bsuwBuildTable();bsuwUpdateProgress();bsuwUpdateSelBadge();}});
+        })();
 
         function bsuwVals(){
             var v={beds:document.getElementById('bsuw-bulk-beds').value,baths:document.getElementById('bsuw-bulk-baths').value,size:document.getElementById('bsuw-bulk-size').value.trim()};
@@ -8331,52 +8382,45 @@
             var t=bsuwOtherPagesText(r);
             return t ? ' '+t+' '+verb+'.' : '';
         }
-        document.getElementById('bsuw-bulk-apply').addEventListener('click',function(){
-            var v=bsuwVals();
-            if(!v.any){ bsuwShowBulkResult('Pick a value first','warn'); return; }
-            var r=bsuwPageRange(), changed=0;
-            for(var i=r.start;i<r.end;i++){
-                var d=bsuwUnitData[i], touched=false;
-                if(v.beds && d.beds!==v.beds){ d.beds=v.beds; touched=true; }
-                if(v.baths && d.baths!==v.baths){ d.baths=v.baths; touched=true; }
-                if(v.size && d.size!==v.size){ d.size=v.size; touched=true; }
-                if(touched) changed++;
-            }
-            bsuwBuildTable(); bsuwUpdateProgress();
-            bsuwShowBulkResult('Applied '+bsuwFmtList(v.labels)+' to '+changed+' of '+r.size+' units on page '+bsuwPage,'ok');
-        });
-        document.getElementById('bsuw-bulk-selected').addEventListener('click',function(){
-            var v=bsuwVals();
-            if(!v.any){ bsuwShowBulkResult('Pick a value first','warn'); return; }
-            var r=bsuwPageRange(), pageSelIdx=[];
-            for(var i=r.start;i<r.end;i++) if(bsuwUnitData[i]._selected) pageSelIdx.push(i);
-            if(pageSelIdx.length===0){ bsuwShowBulkResult('Tick some rows first','warn'); return; }
-            var changed=0;
-            pageSelIdx.forEach(function(i){
-                var d=bsuwUnitData[i], touched=false;
-                if(v.beds && d.beds!==v.beds){ d.beds=v.beds; touched=true; }
-                if(v.baths && d.baths!==v.baths){ d.baths=v.baths; touched=true; }
-                if(v.size && d.size!==v.size){ d.size=v.size; touched=true; }
-                if(touched) changed++;
+        /* Apply to Selected — the only fill action */
+        (function(){
+            var selBtn=document.getElementById('bsuw-bulk-selected'); if(!selBtn) return;
+            selBtn.addEventListener('click',function(){
+                var v=bsuwVals();
+                if(!v.any){ bsuwShowBulkResult('Pick at least one value above to fill','warn'); return; }
+                var r=bsuwPageRange(), pageSelIdx=[];
+                for(var i=r.start;i<r.end;i++) if(bsuwUnitData[i]._selected) pageSelIdx.push(i);
+                if(pageSelIdx.length===0){ bsuwShowBulkResult('Tick at least one unit first','warn'); return; }
+                var changed=0;
+                pageSelIdx.forEach(function(i){
+                    var d=bsuwUnitData[i], touched=false;
+                    if(v.beds && d.beds!==v.beds){ d.beds=v.beds; touched=true; }
+                    if(v.baths && d.baths!==v.baths){ d.baths=v.baths; touched=true; }
+                    if(v.size && d.size!==v.size){ d.size=v.size; touched=true; }
+                    if(touched) changed++;
+                });
+                bsuwBuildTable(); bsuwUpdateProgress(); bsuwUpdateSelBadge();
+                bsuwShowBulkResult('Applied '+bsuwFmtList(v.labels)+' to '+changed+' of '+pageSelIdx.length+' selected unit'+(pageSelIdx.length===1?'':'s'),'ok');
             });
-            bsuwBuildTable(); bsuwUpdateProgress();
-            bsuwShowBulkResult('Applied '+bsuwFmtList(v.labels)+' to '+changed+' of '+pageSelIdx.length+' selected units on page '+bsuwPage,'ok');
-        });
-        document.getElementById('bsuw-bulk-clear').addEventListener('click',function(){
-            var r=bsuwPageRange(), hadData=0;
-            for(var i=r.start;i<r.end;i++){
-                var d=bsuwUnitData[i];
-                if(d.beds||d.baths||d.size) hadData++;
-                d.beds=d.baths=d.size=''; d._selected=false;
-            }
-            bsuwBuildTable(); bsuwUpdateProgress();
-            bsuwShowBulkResult('Cleared '+hadData+' units on page '+bsuwPage,'ok');
-        });
-
-        var bTgl=document.getElementById('bsuw-bulk-toggle'),bBar=document.getElementById('bsuw-bulk-toolbar'),bPnl=document.getElementById('bsuw-bulk-panel');
-        function toggleBulk(){var o=bPnl.classList.toggle('open');bTgl.classList.toggle('open',o);bBar.classList.toggle('panel-open',o);}
-        bTgl.addEventListener('click',toggleBulk);
-        bBar.addEventListener('click',function(e){if(e.target===bBar||e.target.closest('.apw-bulk-left'))toggleBulk();});
+        })();
+        /* Reset page */
+        (function(){
+            var clearBtn=document.getElementById('bsuw-bulk-clear'); if(!clearBtn) return;
+            clearBtn.addEventListener('click',function(){
+                var r=bsuwPageRange(), hadData=0;
+                for(var i=r.start;i<r.end;i++){
+                    var d=bsuwUnitData[i];
+                    if(d.beds||d.baths||d.size) hadData++;
+                    d.beds=d.baths=d.size=''; d._selected=false;
+                }
+                var bBeds=document.getElementById('bsuw-bulk-beds'); if(bBeds) bBeds.value='';
+                var bBath=document.getElementById('bsuw-bulk-baths'); if(bBath) bBath.value='';
+                var bSize=document.getElementById('bsuw-bulk-size'); if(bSize) bSize.value='';
+                bsuwBuildTable(); bsuwUpdateProgress(); bsuwUpdateSelBadge();
+                var pc=Math.max(1,Math.ceil(bsuwUnitData.length/BSUW_PAGE_SIZE));
+                bsuwShowBulkResult('Reset '+hadData+' unit'+(hadData===1?'':'s')+(pc>1?' on page '+bsuwPage:''),'ok');
+            });
+        })();
 
         function bsuwRenderChips(){
             var grid=document.getElementById('bsuw-am-grid-body'),html='';
@@ -8658,8 +8702,13 @@
             var sEl=document.getElementById('bsuw-am-search'); if(sEl) sEl.value='';
             var scEl=document.getElementById('bsuw-am-search-clear'); if(scEl) scEl.style.display='none';
             document.getElementById('bsuw-success-msg').style.display='none';
-            var bt=document.getElementById('bsuw-bulk-toolbar');bt.classList.add('bsuw-hidden');bt.classList.remove('visible','panel-open');
-            document.getElementById('bsuw-bulk-panel').classList.remove('open');
+            var qfC=document.getElementById('bsuw-qf-card'); if(qfC) qfC.classList.remove('visible');
+            var bBeds=document.getElementById('bsuw-bulk-beds'); if(bBeds) bBeds.value='';
+            var bBath=document.getElementById('bsuw-bulk-baths'); if(bBath) bBath.value='';
+            var bSize=document.getElementById('bsuw-bulk-size'); if(bSize) bSize.value='';
+            var brB=document.getElementById('bsuw-bulk-result'); if(brB) brB.classList.remove('show');
+            var selLbl=document.getElementById('bsuw-qf-sel-label'); if(selLbl) selLbl.textContent='Apply to Selected (0)';
+            var selBtn=document.getElementById('bsuw-bulk-selected'); if(selBtn) selBtn.disabled=true;
             // Reset Step 2 state
             document.getElementById('bsuw-am-mode-all').classList.add('active');
             document.getElementById('bsuw-am-mode-pick').classList.remove('active');
@@ -8838,6 +8887,53 @@
         .apw-bulk-result.err .apw-bulk-result-msg { color: #8A1F1F; }
         .apw-bulk-result-close { background: none; border: none; color: #7A8B82; font-size: 20px; line-height: 1; cursor: pointer; padding: 0 4px; flex-shrink: 0; }
         .apw-bulk-result-close:hover { color: #2D3748; }
+
+        /* Quick Fill card (BSUW Step 1) */
+        .apw-qf { display: none; background: #fff; border: 1.5px solid #E2E6EB; border-radius: 14px; overflow: hidden; margin-bottom: 14px; box-shadow: 0 2px 10px rgba(27,75,104,0.05); }
+        .apw-qf.visible { display: block; }
+        .apw-qf-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: linear-gradient(135deg, #FAFBFF 0%, #F3F6FD 100%); padding: 13px 18px; border-bottom: 1px solid #EDF2F7; }
+        .apw-qf-head-left { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+        .apw-qf-icon { width: 34px; height: 34px; border-radius: 9px; background: linear-gradient(135deg, #FFD24D 0%, #FFA726 100%); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; box-shadow: 0 2px 6px rgba(255,167,38,0.3); }
+        .apw-qf-text { min-width: 0; }
+        .apw-qf-title { font-size: 14px; font-weight: 800; color: #1B4B6E; letter-spacing: -0.005em; line-height: 1.2; }
+        .apw-qf-sub { font-size: 11.5px; color: #718096; margin-top: 2px; }
+        .apw-qf-reset { background: transparent; color: #4A6B8A; border: 1px solid #D1D9E4; border-radius: 8px; padding: 6px 12px; font-size: 11.5px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.15s; font-family: inherit; white-space: nowrap; flex-shrink: 0; }
+        .apw-qf-reset:hover { background: #FEF0F0; border-color: #F4B8B8; color: #C53030; }
+        .apw-qf-body { padding: 16px 18px; }
+        .apw-qf-inputs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+        .apw-qf-field { display: flex; flex-direction: column; gap: 5px; }
+        .apw-qf-label { font-size: 10.5px; font-weight: 700; color: #4A5B6E; text-transform: uppercase; letter-spacing: 0.05em; }
+        .apw-qf-input { padding: 9px 11px; border: 1.5px solid #DCE2EA; border-radius: 8px; font-size: 13px; font-family: inherit; color: #2D3748; background: #fff; outline: none; transition: all 0.12s; box-sizing: border-box; width: 100%; }
+        .apw-qf-input:focus { border-color: #3B8DBD; box-shadow: 0 0 0 3px rgba(59,141,189,0.12); }
+        .apw-qf-input:hover:not(:focus) { border-color: #C0CCDA; }
+        .apw-qf-actions { display: block; }
+        .apw-qf-apply-sel { width: 100%; background: linear-gradient(135deg, #7B4FCF 0%, #6A3FBF 100%); color: #fff; border: none; padding: 11px 16px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.15s; font-family: inherit; letter-spacing: 0.01em; box-shadow: 0 3px 10px rgba(123,79,207,0.28); }
+        .apw-qf-apply-sel:hover:not(:disabled) { box-shadow: 0 5px 16px rgba(123,79,207,0.4); transform: translateY(-1px); }
+        .apw-qf-apply-sel:disabled { background: #D9CFF0; box-shadow: none; cursor: not-allowed; }
+        /* v2 table upgrades */
+        .apw-ut-wrap--v2 { border: 1.5px solid #E2E6EB; border-radius: 12px; overflow: auto; background: #fff; max-height: 540px; box-shadow: 0 2px 8px rgba(27,75,104,0.04); margin-bottom: 14px; }
+        .apw-ut-table--v2 { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12.5px; table-layout: fixed; }
+        .apw-ut-table--v2 thead th { background: linear-gradient(180deg, #1B5068 0%, #164258 100%); color: #fff; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 11px 10px; text-align: left; position: sticky; top: 0; z-index: 2; border-right: 1px solid rgba(255,255,255,0.08); }
+        .apw-ut-table--v2 thead th:last-child { border-right: none; }
+        .apw-ut-table--v2 .apw-ut-th-chk { width: 40px; text-align: center !important; padding: 11px 6px !important; }
+        .apw-ut-table--v2 .apw-ut-th-num { width: 50px; text-align: center !important; }
+        .apw-ut-table--v2 .apw-ut-th-sm { width: 80px; }
+        .apw-ut-table--v2 .apw-ut-th-size { width: 130px; }
+        .apw-ut-table--v2 tbody tr { transition: background 0.12s; }
+        .apw-ut-table--v2 tbody tr:nth-child(even) { background: #F8FAFC; }
+        .apw-ut-table--v2 tbody tr:hover { background: #EFF7FF; }
+        .apw-ut-table--v2 tbody tr.apw-ut-filled { background: #F0FBF5; }
+        .apw-ut-table--v2 tbody tr.apw-ut-selected { background: #F3ECFF !important; }
+        .apw-ut-table--v2 tbody tr.apw-ut-selected:hover { background: #E9DEFC !important; }
+        .apw-ut-table--v2 tbody td { padding: 8px; vertical-align: middle; border-bottom: 1px solid #EDF2F7; border-right: 1px solid #F0F4F8; }
+        .apw-ut-table--v2 tbody td:last-child { border-right: none; }
+        .apw-ut-table--v2 tbody td.apw-ut-chk-cell { text-align: center; padding: 8px 4px; }
+        .apw-ut-table--v2 tbody input[type="text"] { width: 100%; padding: 7px 10px; border: 1.5px solid transparent; border-radius: 6px; font-size: 12.5px; font-family: inherit; color: #2D3748; background: transparent; outline: none; transition: all 0.12s; box-sizing: border-box; }
+        .apw-ut-table--v2 tbody input[type="text"]:focus { border-color: #3B8DBD; background: #fff; box-shadow: 0 0 0 2px rgba(59,141,189,0.12); }
+        .apw-ut-table--v2 tbody select { width: 100%; padding: 6px 8px; border: 1.5px solid transparent; border-radius: 6px; font-size: 12.5px; font-family: inherit; color: #2D3748; background: transparent; outline: none; cursor: pointer; transition: all 0.12s; }
+        .apw-ut-table--v2 tbody select:focus { border-color: #3B8DBD; background: #fff; }
+        .apw-ut-table--v2 tbody .apw-ut-num { width: 28px; height: 28px; border-radius: 50%; background: #EDF2F7; color: #5A7A94; font-size: 11px; font-weight: 800; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
+        .apw-ut-table--v2 tbody tr.apw-ut-filled .apw-ut-num { background: linear-gradient(135deg, #3BAA6E 0%, #2E9A5F 100%); color: #fff; }
         @keyframes apwBulkResultIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
         /* Per-field fill chips */
         /* Checkboxes */
