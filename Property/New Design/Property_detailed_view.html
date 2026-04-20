@@ -5918,6 +5918,13 @@
                       </label>
                       <span class="bsuw2-sel-badge" id="bsuw2-sel-count">none selected</span>
                     </div>
+                    <!-- All Units shortcut row -->
+                    <div class="bsuw2-allunits-row active" id="bsuw2-allunits-row" title="Apply amenities to every unit">
+                      <i class="fas fa-layer-group"></i>
+                      <span>All Units</span>
+                      <span class="bsuw2-allunits-cnt" id="bsuw2-allunits-cnt">0</span>
+                    </div>
+                    <div class="bsuw2-units-divider">— or pick specific —</div>
                     <div class="bsuw2-unit-list" id="bsuw2-unit-list">
                       <div class="bsuw2-no-units">No units yet.<br>Pick a property in Step 1.</div>
                     </div>
@@ -5943,6 +5950,16 @@
                       <span class="bsuw2-leg state-some"><i class="fas fa-minus"></i> Some have it</span>
                       <span class="bsuw2-leg state-none"><i class="fas fa-plus"></i> None have it</span>
                       <span class="bsuw2-leg-tip">— click any chip to toggle</span>
+                    </div>
+                    <!-- Save area -->
+                    <div class="bsuw2-save-area">
+                      <button type="button" class="bsuw2-save-btn" id="bsuw2-save-btn">
+                        <i class="fas fa-save"></i> Save selection
+                      </button>
+                      <div class="bsuw2-saved-toast" id="bsuw2-saved-toast" style="display:none;">
+                        <i class="fas fa-check-circle"></i>
+                        <span id="bsuw2-saved-detail">Saved!</span>
+                      </div>
                     </div>
                   </div>
 
@@ -8388,7 +8405,7 @@
             return 'some';
         }
 
-        /* Update the scope bar label + selall checkbox + sel-count badge. */
+        /* Update scope bar, All-Units row, selall checkbox, and sel-count badge. */
         function bsuw2UpdateScopeBar() {
             var total  = bsuwUnitData.length;
             var selN   = bsuwUnitData.filter(function(u) { return u._selected; }).length;
@@ -8396,8 +8413,11 @@
             var clrBtn = document.getElementById('bsuw2-clear-sel');
             var badge  = document.getElementById('bsuw2-sel-count');
             var allChk = document.getElementById('bsuw2-selall-chk');
+            var allRow = document.getElementById('bsuw2-allunits-row');
+            var allCnt = document.getElementById('bsuw2-allunits-cnt');
+            var isAllScope = (selN === 0);
             if (label) {
-                label.textContent = selN === 0
+                label.textContent = isAllScope
                     ? 'All ' + total + ' unit' + (total === 1 ? '' : 's')
                     : selN + ' selected unit' + (selN === 1 ? '' : 's');
             }
@@ -8407,6 +8427,9 @@
                 allChk.checked       = total > 0 && selN === total;
                 allChk.indeterminate = selN > 0  && selN < total;
             }
+            /* All Units row: active (blue) when scope = all, inactive when specific units picked */
+            if (allRow) allRow.classList.toggle('active', isAllScope);
+            if (allCnt) allCnt.textContent = total;
         }
 
         /* Render the unit list for the current page. */
@@ -8516,6 +8539,49 @@
             });
         })();
 
+        /* ── "All Units" row — click resets to all-scope ── */
+        (function() {
+            var row = document.getElementById('bsuw2-allunits-row');
+            if (!row) return;
+            row.addEventListener('click', function() {
+                bsuwUnitData.forEach(function(u) { u._selected = false; });
+                bsuw2RenderUnits();
+                bsuw2RenderAmenities();
+            });
+        })();
+
+        /* ── Save button ── */
+        (function() {
+            var btn   = document.getElementById('bsuw2-save-btn');
+            var toast = document.getElementById('bsuw2-saved-toast');
+            var det   = document.getElementById('bsuw2-saved-detail');
+            if (!btn) return;
+            btn.addEventListener('click', function() {
+                var scope    = bsuw2Scope();
+                var scopeN   = scope.length;
+                /* Count amenities that every unit in scope now has */
+                var amWithAll = 0;
+                Object.keys(BSUW_AMENITIES).forEach(function(cat) {
+                    BSUW_AMENITIES[cat].forEach(function(am) {
+                        if (bsuw2AmState(am) === 'all') amWithAll++;
+                    });
+                });
+                var selN = bsuwUnitData.filter(function(u) { return u._selected; }).length;
+                var scopeLabel = selN === 0 ? 'all ' + scopeN + ' units' : scopeN + ' unit' + (scopeN === 1 ? '' : 's');
+                var amLabel    = amWithAll + ' amenit' + (amWithAll === 1 ? 'y' : 'ies');
+                if (det) det.textContent = 'Saved — ' + amLabel + ' applied to ' + scopeLabel + '. Pick new units to continue.';
+                if (toast) {
+                    toast.style.display = 'inline-flex';
+                    clearTimeout(toast._hide);
+                    toast._hide = setTimeout(function() { toast.style.display = 'none'; }, 4000);
+                }
+                /* Auto-reset selection so user can pick a new batch */
+                bsuwUnitData.forEach(function(u) { u._selected = false; });
+                bsuw2RenderUnits();
+                bsuw2RenderAmenities();
+            });
+        })();
+
         /* ── Unit list pagination ── */
         document.getElementById('bsuw2-prev').addEventListener('click', function() {
             if (bsuw2Page > 1) { bsuw2Page--; bsuw2RenderUnits(); }
@@ -8562,137 +8628,6 @@
         function bsuwAmHideSuccess()     { /* no-op */ }
         function bsuwAmScopeUnits()      { return bsuw2Scope(); }
 
-        function bsuwBuildReview(){
-            var body=document.getElementById('bsuw-review-body'),total=bsuwUnitData.length;
-            var filled=bsuwUnitData.filter(function(d){return d.name||d.beds||d.baths;}).length;
-            var _amSet={}; bsuwUnitData.forEach(function(d){ (d.amenities||[]).forEach(function(am){ _amSet[am]=true; }); });
-            var amCount=Object.keys(_amSet).length,withAm=bsuwUnitData.filter(function(d){return d.amenities&&d.amenities.length>0;}).length;
-            var html='<div class="bsuw-review-summary">'+
-                '<div class="bsuw-review-stat"><div class="bsuw-review-stat-num">'+total+'</div><div class="bsuw-review-stat-lbl">Total Units</div></div>'+
-                '<div class="bsuw-review-stat"><div class="bsuw-review-stat-num">'+filled+'</div><div class="bsuw-review-stat-lbl">Units with Details</div></div>'+
-                '<div class="bsuw-review-stat"><div class="bsuw-review-stat-num">'+amCount+'</div><div class="bsuw-review-stat-lbl">Amenities Selected</div></div>'+
-                '<div class="bsuw-review-stat"><div class="bsuw-review-stat-num">'+withAm+'</div><div class="bsuw-review-stat-lbl">Units with Amenities</div></div></div>'+
-                '<div class="bsuw-review-section"><h4><i class="fas fa-table"></i> Unit Summary</h4>'+
-                '<table class="bsuw-review-table"><thead><tr><th>#</th><th>Unit Name</th><th>Bed</th><th>Bath</th><th>Size</th><th>Amenities</th></tr></thead><tbody>';
-            bsuwUnitData.forEach(function(d,idx){
-                var tags=d.amenities&&d.amenities.length?d.amenities.map(function(a){return'<span class="bsuw-review-am-tag">'+escH(a)+'</span>';}).join(''):'<span style="color:#C4CDD6;">—</span>';
-                html+='<tr><td>'+(idx+1)+'</td><td><strong>'+(d.name?escH(d.name):'<span style="color:#C4CDD6;">Unit '+(idx+1)+'</span>')+'</strong></td><td>'+(d.beds||'—')+'</td><td>'+(d.baths||'—')+'</td><td>'+(d.size?d.size+' sq ft':'—')+'</td><td>'+tags+'</td></tr>';
-            });
-            body.innerHTML=html+'</tbody></table></div>';
-        }
-
-        function bsuwOpen(){
-            currentStep=1;bsuwUnitData=[];bsuwSelectedAmenities.clear();bsuwChipActions={};bsuwApplyToAll=true;bsuwPage=1;
-            document.getElementById('bsuw-success-msg').style.display='none';
-            var qfC=document.getElementById('bsuw-qf-card'); if(qfC) qfC.classList.remove('visible');
-            var bBeds=document.getElementById('bsuw-bulk-beds'); if(bBeds) bBeds.value='';
-            var bBath=document.getElementById('bsuw-bulk-baths'); if(bBath) bBath.value='';
-            var bSize=document.getElementById('bsuw-bulk-size'); if(bSize) bSize.value='';
-            var brB=document.getElementById('bsuw-bulk-result'); if(brB) brB.classList.remove('show');
-            var selLbl=document.getElementById('bsuw-qf-sel-label'); if(selLbl) selLbl.textContent='Apply to Selected (0)';
-            var selBtn=document.getElementById('bsuw-bulk-selected'); if(selBtn) selBtn.disabled=true;
-            // Reset Step 2 state
-            bsuw2Page = 1;
-            bsuwUnitData.forEach(function(u) { u._selected = false; });
-            bsuwGenerate(); /* auto-load 150 units immediately */
-            bsuwRender();overlay.classList.add('open');overlay.scrollTop=0;document.body.style.overflow='hidden';
-        }
-        function bsuwClose(){overlay.classList.remove('open');document.body.style.overflow='';}
-
-        function bsuwRender(){
-            document.querySelectorAll('#bsuw-overlay .apw-step').forEach(function(el){var s=parseInt(el.dataset.step);el.classList.toggle('active',s===currentStep);el.classList.toggle('completed',s<currentStep);var c=el.querySelector('.apw-step-circle');if(s<currentStep)c.innerHTML='<i class="fas fa-check" style="font-size:11px;"></i>';else c.textContent=s;});
-            document.querySelectorAll('#bsuw-overlay .apw-step-content').forEach(function(el){el.classList.toggle('active',parseInt(el.dataset.step)===currentStep);});
-            document.getElementById('bsuw-step-label').textContent='Step '+currentStep+' of '+totalSteps;
-            var btn=document.getElementById('bsuw-btn-next');
-            if(currentStep===totalSteps){btn.textContent='Submit';btn.classList.add('finish');}else{btn.textContent='Next';btn.classList.remove('finish');}
-            document.getElementById('bsuw-btn-back').style.visibility=currentStep===1?'hidden':'visible';
-            if(currentStep===2){ bsuwRenderMatrix(); }
-            if(currentStep===3)bsuwBuildReview();
-            overlay.scrollTop=0;
-        }
-        document.getElementById('bsuw-btn-back').addEventListener('click',function(){if(currentStep>1){currentStep--;bsuwRender();}else bsuwClose();});
-        document.getElementById('bsuw-btn-next').addEventListener('click',function(){if(currentStep<totalSteps){currentStep++;bsuwRender();}else{document.getElementById('bsuw-success-msg').style.display='block';var btn=document.getElementById('bsuw-btn-next');btn.textContent='Done';btn.classList.add('finish');setTimeout(function(){bsuwClose();},2500);}});
-        document.getElementById('bsuw-close-top').addEventListener('click',bsuwClose);
-        document.getElementById('btn-bulk-setup-unit-dv').addEventListener('click',bsuwOpen);
-    })();
-    </script>
-
-    <style>
-        /* ══ SETUP UNIT WIZARD — APW BASE STYLES ══ */
-        .apw-overlay { display: none; position: fixed; inset: 0; z-index: 2000; background: linear-gradient(135deg, #1B4B6E 0%, #2E7AA5 100%); overflow-y: auto; }
-        .apw-overlay.open { display: block; animation: fadeIn 0.2s; }
-        .apw-page { min-height: 100vh; display: flex; flex-direction: column; }
-        .apw-topbar { display: flex; align-items: center; gap: 14px; padding: 14px 32px; flex-shrink: 0; }
-        .apw-back-btn { background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.85); font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 7px; padding: 0; font-family: inherit; }
-        .apw-back-btn:hover { color: #fff; }
-        .apw-topbar-title { color: #fff; }
-        .apw-topbar-title h1 { font-size: 18px; font-weight: 700; margin: 0; line-height: 1.2; }
-        .apw-topbar-title p  { font-size: 12px; color: rgba(255,255,255,0.7); margin: 2px 0 0; }
-        .apw-search { margin-left: auto; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); border-radius: 8px; display: flex; align-items: center; gap: 8px; padding: 7px 14px; color: rgba(255,255,255,0.6); font-size: 13px; width: 340px; }
-        .apw-card { background: #fff; border-radius: 14px; margin: 0 24px 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.18); display: flex; flex-direction: column; flex: 1; }
-        .apw-steps-bar { display: flex; align-items: center; justify-content: center; gap: 0; padding: 24px 40px 20px; border-bottom: 1px solid #EDF2F7; background: #FAFBFC; border-radius: 14px 14px 0 0; }
-        /* Hide Step 1 pill when wizard is opened in Edit Unit mode */
-        #suw-overlay.edit-mode .apw-step[data-step="1"],
-        #suw-overlay.edit-mode .apw-step[data-step="1"] + .apw-step-line { display: none; }
-        .apw-step { display: flex; flex-direction: column; align-items: center; flex: 1; position: relative; cursor: default; }
-        .apw-step:not(:last-child)::after { content: ''; position: absolute; top: 18px; left: 55%; right: -45%; height: 2px; background: #D5DAE0; z-index: 0; }
-        .apw-step.completed:not(:last-child)::after { background: #1B4B6E; }
-        .apw-step-circle { width: 36px; height: 36px; border-radius: 50%; border: 2px solid #D5DAE0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #8896A6; background: #fff; position: relative; z-index: 1; }
-        .apw-step.active   .apw-step-circle { border-color: #1B4B6E; background: #1B4B6E; color: #fff; }
-        .apw-step.completed .apw-step-circle { border-color: #1B4B6E; background: #1B4B6E; color: #fff; }
-        .apw-step-label { font-size: 11px; font-weight: 500; color: #A0AEC0; margin-top: 6px; text-align: center; white-space: nowrap; }
-        .apw-step.active   .apw-step-label { color: #1B4B6E; font-weight: 700; }
-        .apw-step.completed .apw-step-label { color: #4A6B8A; font-weight: 600; }
-        .apw-body { flex: 1; overflow-y: auto; }
-        .apw-step-content { display: none; }
-        .apw-step-content.active { display: block; }
-        .apw-inner { padding: 32px 40px; }
-        .apw-section-title { font-size: 18px; font-weight: 700; color: #1A2B3D; margin-bottom: 28px; text-align: center; }
-        .apw-section-box { border: 1px solid #E2E6EB; border-radius: 10px; padding: 20px 22px; margin-bottom: 20px; background: #FAFBFC; }
-        .apw-section-box-title { font-size: 14px; font-weight: 600; color: #1A2B3D; margin-bottom: 16px; }
-        .apw-form-group { display: flex; flex-direction: column; gap: 5px; }
-        .apw-label { font-size: 12.5px; font-weight: 600; color: #4A5568; }
-        .apw-input, .apw-select { padding: 9px 12px; border: 1px solid #D1D9E4; border-radius: 8px; font-size: 13px; color: #2D3748; font-family: inherit; background: #fff; outline: none; transition: border-color 0.15s; }
-        .apw-input::placeholder { color: #A0AEC0; }
-        .apw-input:focus, .apw-select:focus { border-color: #3B8DBD; box-shadow: 0 0 0 3px rgba(59,141,189,0.12); }
-        .apw-textarea { width: 100%; resize: vertical; min-height: 70px; padding: 9px 12px; border: 1px solid #D1D9E4; border-radius: 8px; font-size: 13px; color: #2D3748; font-family: inherit; outline: none; box-sizing: border-box; }
-        .apw-textarea:focus { border-color: #3B8DBD; box-shadow: 0 0 0 3px rgba(59,141,189,0.12); }
-        .apw-review-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-        .apw-review-section { background: #FAFBFC; border: 1px solid #E2E6EB; border-radius: 10px; padding: 18px 20px; }
-        .apw-review-section h4 { font-size: 12.5px; font-weight: 700; color: #1B4B6E; text-transform: uppercase; letter-spacing: 0.3px; margin: 0 0 12px; }
-        .apw-review-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #F0F2F5; font-size: 13px; }
-        .apw-review-row:last-child { border-bottom: none; }
-        .apw-review-label { color: #718096; }
-        .apw-review-val { font-weight: 600; color: #1A2B3D; text-align: right; max-width: 60%; }
-        .apw-footer { display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; border-top: 1px solid #EDF2F7; background: #fff; border-radius: 0 0 14px 14px; flex-shrink: 0; }
-        .apw-footer-left { font-size: 12.5px; color: #8896A6; }
-        .apw-btn-back { padding: 10px 28px; border: 1.5px solid #E8863A; border-radius: 8px; background: #fff; color: #E8863A; font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.12s; }
-        .apw-btn-back:hover { background: #FFF7F0; }
-        .apw-btn-next { padding: 10px 32px; border-radius: 8px; background: #E8863A; border: none; color: #fff; font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.12s; }
-        .apw-btn-next:hover { background: #D4771F; }
-        .apw-btn-next.finish { background: #3BAA6E; }
-        .apw-btn-next.finish:hover { background: #2E9A5F; }
-        /* Unit Amenities chips */
-        .suw-am-sel-strip { min-height: 44px; padding: 10px 20px; border-bottom: 1px solid #EDF2F7; background: #F8FAFB; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-        .suw-am-sel-placeholder { font-size: 12.5px; color: #A0AEC0; font-style: italic; }
-        .suw-am-sel-tag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 6px 3px 10px; background: #EBF4FA; border: 1px solid #BDE0F5; border-radius: 20px; font-size: 12px; font-weight: 600; color: #2C6F9A; }
-        .suw-am-sel-tag button { background: none; border: none; cursor: pointer; color: #7BAECE; font-size: 13px; line-height: 1; padding: 0 2px; font-family: inherit; }
-        .suw-am-sel-tag button:hover { color: #1B4B6E; }
-        .suw-am-cat-title { font-size: 11px; font-weight: 700; color: #8896A6; text-transform: uppercase; letter-spacing: 0.5px; margin: 14px 0 8px; }
-        .suw-am-cat-title:first-child { margin-top: 0; }
-        .suw-am-chip-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 6px; }
-        .suw-am-chip { padding: 5px 13px; border-radius: 20px; border: 1.5px solid #D1D9E4; background: #fff; font-size: 12.5px; color: #4A6FA5; cursor: pointer; font-family: inherit; font-weight: 500; transition: all 0.12s; display: inline-flex; align-items: center; gap: 6px; }
-        .suw-am-chip:hover { border-color: #3B8DBD; background: #EDF6FF; }
-        .suw-am-chip.selected { background: #1B4B6E; border-color: #1B4B6E; color: #fff; font-weight: 600; }
-        /* Tri-state chips for Step 2 — reflect what picked units currently have */
-        .suw-am-chip.state-all { background: #E6F9ED; border-color: #2FA866; color: #1F7A47; font-weight: 600; }
-        .suw-am-chip.state-all::before { content: "\f00c"; font-family: "Font Awesome 5 Free"; font-weight: 900; font-size: 10px; color: #2FA866; }
-        .suw-am-chip.state-some { background: #FFF6E0; border-color: #E8A83A; color: #8A5B17; font-weight: 600; }
-        .suw-am-chip.state-some .chip-count { background: #E8A83A; color: #fff; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 8px; line-height: 1.4; }
-        .suw-am-chip.state-none { }
-        .suw-am-chip.action-add { background: #EDE5FF !important; border-color: #7B4FCF !important; color: #5A2CA8 !important; box-shadow: 0 0 0 3px rgba(123,79,207,0.12); }
-        .suw-am-chip.action-add::before { content: "\f067"; font-family: "Font Awesome 5 Free"; font-weight: 900; font-size: 10px; color: #7B4FCF; }
-        .suw-am-chip.action-remove { background: #FFE8E8 !important; border-color: #E53E3E !important; color: #9B1C1C !important; box-shadow: 0 0 0 3px rgba(229,62,62,0.12); text-decoration: line-through; }
         .suw-am-chip.action-remove::before { content: "\f068"; font-family: "Font Awesome 5 Free"; font-weight: 900; font-size: 10px; color: #E53E3E; }
         .suw-am-chip .chip-count { display: none; }
         .bsuw-am-pick-group { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-right: 10px; }
@@ -8996,6 +8931,14 @@
         .bsuw2-unit-row.sel { background:#F5EFFF; font-weight:600; color:#4A2CA0; }
         .bsuw2-unit-row.sel:hover { background:#EDE5FF; }
         .bsuw2-unit-chk { width:13px; height:13px; flex-shrink:0; cursor:pointer; accent-color:#7B4FCF; pointer-events:none; }
+        /* All Units shortcut row */
+        .bsuw2-allunits-row { display:flex; align-items:center; gap:8px; padding:9px 12px; font-size:12.5px; font-weight:700; cursor:pointer; border-bottom:1px solid #E2E6EB; color:#4A6FA5; transition:all 0.12s; user-select:none; }
+        .bsuw2-allunits-row:hover { background:#EDF6FF; }
+        .bsuw2-allunits-row.active { background:linear-gradient(90deg,#1B4B6E,#2A6A9A); color:#fff; }
+        .bsuw2-allunits-row.active i { color:#A8D8F0; }
+        .bsuw2-allunits-cnt { margin-left:auto; font-size:11px; background:rgba(0,0,0,0.15); border-radius:10px; padding:1px 7px; }
+        .bsuw2-allunits-row:not(.active) .bsuw2-allunits-cnt { background:#E2E6EB; color:#4A6B8A; }
+        .bsuw2-units-divider { font-size:10.5px; color:#A0AEC0; text-align:center; padding:5px 8px; background:#FAFBFC; border-bottom:1px solid #F0F3F6; font-weight:600; letter-spacing:0.03em; }
         .bsuw2-units-foot { padding:6px 12px; display:flex; align-items:center; justify-content:center; gap:6px; border-top:1px solid #E2E6EB; background:#F8FAFB; flex-shrink:0; }
         .bsuw2-pg-btn { width:26px; height:26px; border-radius:6px; border:1.5px solid #D1D9E4; background:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#4A6FA5; font-size:10px; transition:all 0.1s; }
         .bsuw2-pg-btn:hover:not(:disabled) { border-color:#7B4FCF; color:#7B4FCF; }
@@ -9045,7 +8988,16 @@
         .bsuw2-leg.state-none { color:#718096; }
         .bsuw2-leg-tip { font-size:11px; color:#9AA5B4; }
 
-        /* Success banner */
+        /* Save area */
+        .bsuw2-save-area { display:flex; align-items:center; gap:14px; margin-top:20px; padding-top:16px; border-top:2px solid #E2E6EB; flex-wrap:wrap; }
+        .bsuw2-save-btn { display:inline-flex; align-items:center; gap:9px; padding:11px 28px; border:none; border-radius:9px; background:linear-gradient(135deg,#1B4B6E,#2E7AA5); color:#fff; font-size:13.5px; font-weight:700; font-family:inherit; cursor:pointer; box-shadow:0 3px 12px rgba(27,75,110,0.3); transition:all 0.15s; }
+        .bsuw2-save-btn:hover { transform:translateY(-1px); box-shadow:0 5px 16px rgba(27,75,110,0.4); }
+        .bsuw2-save-btn:active { transform:none; }
+        .bsuw2-saved-toast { display:inline-flex; align-items:center; gap:8px; padding:9px 16px; background:#E6F9ED; border:1.5px solid #6ECC99; border-radius:8px; font-size:13px; font-weight:600; color:#1F7A47; animation:bsuw2ToastIn 0.25s ease-out; }
+        .bsuw2-saved-toast i { color:#2FA866; font-size:15px; }
+        @keyframes bsuw2ToastIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:none; } }
+
+        /* Success banner (legacy, hidden) */
         .bsuw-am-success { display: none; }
 
     </style>
