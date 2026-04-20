@@ -1309,26 +1309,6 @@
                   </div>
                 </div>
 
-                <!-- Hero header (shown after property is loaded) -->
-                <div class="apw-ud-hero bsuw-hidden" id="bsuw-ud-hero">
-                  <div class="apw-ud-hero-main">
-                    <div class="apw-ud-hero-icon"><i class="fas fa-layer-group"></i></div>
-                    <div class="apw-ud-hero-text">
-                      <div class="apw-ud-hero-title">Unit Details</div>
-                      <div class="apw-ud-hero-sub" id="bsuw-ud-sub">Enter details for your units below.</div>
-                    </div>
-                  </div>
-                  <div class="apw-ud-progress">
-                    <div class="apw-ud-progress-stats">
-                      <div class="apw-ud-progress-num"><span id="bsuw-ud-done">0</span><span class="apw-ud-progress-divider">/</span><span id="bsuw-ud-total">0</span></div>
-                      <div class="apw-ud-progress-label">Units Completed</div>
-                    </div>
-                    <div class="apw-ud-progress-bar">
-                      <div class="apw-ud-progress-fill" id="bsuw-ud-progress-fill"></div>
-                    </div>
-                  </div>
-                </div>
-
                 <!-- Quick Fill card (shown after property is loaded) -->
                 <div class="apw-qf" id="bsuw-qf-card">
                   <div class="apw-qf-head">
@@ -3030,18 +3010,6 @@
             var pageStart = (bsuwCurrentPage - 1) * BSUW_PAGE_SIZE;
             var pageEnd   = Math.min(pageStart + BSUW_PAGE_SIZE, total);
             var pageSize  = pageEnd - pageStart;
-            // Count units where all 3 key fields are filled
-            var done = 0;
-            for (var i = 0; i < total; i++) {
-                var d = bsuwUnitData[i];
-                if (d.beds && d.baths && d.size) done++;
-            }
-            var doneEl = document.getElementById('bsuw-ud-done');
-            var totalEl = document.getElementById('bsuw-ud-total');
-            var fillEl  = document.getElementById('bsuw-ud-progress-fill');
-            if (doneEl)  doneEl.textContent  = done;
-            if (totalEl) totalEl.textContent = total;
-            if (fillEl)  fillEl.style.width  = (total > 0 ? (done / total * 100) : 0) + '%';
             // Update QF subtitle with page scope
             var qfSub = document.getElementById('bsuw-qf-sub');
             if (qfSub) {
@@ -3103,7 +3071,6 @@
             bsuwBuildTable();
             bsuwUpdateProgress();
             bsuwUpdateSelBadge();
-            show('bsuw-ud-hero');
             var qfCard = document.getElementById('bsuw-qf-card');
             if (qfCard) qfCard.classList.add('visible');
             show('bsuw-ut-wrap');
@@ -3230,7 +3197,7 @@
             bsuwUnitData = [];
             bsuwSelectedAmenities.clear();
             bsuwCurrentPage = 1;
-            hide('bsuw-ud-hero'); hide('bsuw-ut-wrap');
+            hide('bsuw-ut-wrap');
             var qfC = document.getElementById('bsuw-qf-card'); if (qfC) qfC.classList.remove('visible');
             var br = document.getElementById('bsuw-bulk-result');
             if (br) br.classList.remove('show');
@@ -3649,15 +3616,12 @@
             var propSel = document.getElementById('bsuw-property-select');
             if (propSel) { propSel.value = ''; propSel.style.borderColor = ''; }
             document.getElementById('bsuw-success-msg').style.display = 'none';
-            hide('bsuw-ud-hero'); hide('bsuw-ut-wrap');
+            hide('bsuw-ut-wrap');
             var qfReset = document.getElementById('bsuw-qf-card'); if (qfReset) qfReset.classList.remove('visible');
-            // Reset Quick Fill inputs and progress hero
+            // Reset Quick Fill inputs
             var bBeds = document.getElementById('bsuw-bulk-beds');  if (bBeds)  bBeds.value = '';
             var bBath = document.getElementById('bsuw-bulk-baths'); if (bBath)  bBath.value = '';
             var bSize = document.getElementById('bsuw-bulk-size');  if (bSize)  bSize.value = '';
-            var doneEl = document.getElementById('bsuw-ud-done');   if (doneEl)  doneEl.textContent = '0';
-            var totEl  = document.getElementById('bsuw-ud-total');  if (totEl)   totEl.textContent  = '0';
-            var fillEl = document.getElementById('bsuw-ud-progress-fill'); if (fillEl) fillEl.style.width = '0%';
             var brB = document.getElementById('bsuw-bulk-result'); if (brB) brB.classList.remove('show');
             var selLbl = document.getElementById('bsuw-qf-sel-label'); if (selLbl) selLbl.textContent = 'Apply to Selected (0)';
             var selBtn = document.getElementById('bsuw-bulk-selected'); if (selBtn) selBtn.disabled = true;
