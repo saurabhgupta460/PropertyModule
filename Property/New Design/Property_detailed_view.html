@@ -8192,9 +8192,42 @@
             'Accessibility':    ['Wheelchair Accessible','Roll-in Shower','Grab Bars','First Floor Unit','Elevator Access']
         };
 
-        function escA(s){return(s||'').replace(/"/g,'&quot;');} function escH(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+        function escA(s){return(s||'').replace(/"/g,'&quot;');} function escH(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');} function escHtml(s){return escH(s);}
         function show(id){var e=document.getElementById(id);if(e)e.classList.remove('bsuw-hidden');}
         function hide(id){var e=document.getElementById(id);if(e)e.classList.add('bsuw-hidden');}
+
+        /* Step navigation */
+        function bsuwRenderStep(n) {
+            currentStep = n;
+            overlay.querySelectorAll('.apw-step-content').forEach(function(el) {
+                el.classList.toggle('active', parseInt(el.dataset.step) === n);
+            });
+            overlay.querySelectorAll('.apw-step').forEach(function(el) {
+                var s = parseInt(el.dataset.step);
+                el.classList.toggle('active', s === n);
+                el.classList.toggle('completed', s < n);
+            });
+            var lbl = document.getElementById('bsuw-step-label');
+            if (lbl) lbl.textContent = 'Step ' + n + ' of ' + totalSteps;
+            var back = document.getElementById('bsuw-btn-back');
+            var next = document.getElementById('bsuw-btn-next');
+            if (back) back.style.visibility = n === 1 ? 'hidden' : 'visible';
+            if (next) next.textContent = n === totalSteps ? 'Finish' : 'Next';
+            if (n === 1) { bsuwGenerate(); }
+            if (n === 2) { bsuw2Page = 1; bsuw2RenderUnits(); bsuw2RenderAmenities(); }
+        }
+        /* Wire Next / Back footer buttons */
+        (function() {
+            var nxt = document.getElementById('bsuw-btn-next');
+            var bck = document.getElementById('bsuw-btn-back');
+            if (nxt) nxt.addEventListener('click', function() {
+                if (currentStep < totalSteps) bsuwRenderStep(currentStep + 1);
+                else bsuwClose();
+            });
+            if (bck) bck.addEventListener('click', function() {
+                if (currentStep > 1) bsuwRenderStep(currentStep - 1);
+            });
+        })();
 
         function bsuwBuildTable() {
             var tbody=document.getElementById('bsuw-ut-tbody');
@@ -8627,6 +8660,47 @@
         function bsuwAmUpdateCTA()       { /* no-op */ }
         function bsuwAmHideSuccess()     { /* no-op */ }
         function bsuwAmScopeUnits()      { return bsuw2Scope(); }
+
+        /* ── Open / close the BSUW overlay ── */
+        function bsuwOpen() {
+            bsuwRenderStep(1);
+            overlay.classList.add('open');
+            overlay.scrollTop = 0;
+            document.body.style.overflow = 'hidden';
+        }
+        function bsuwClose() {
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        window.bsuwOpen  = bsuwOpen;
+        window.bsuwClose = bsuwClose;
+
+        /* Wire "Bulk Setup Unit" button in the Units tab */
+        var bsuwOpenBtn = document.getElementById('btn-bulk-setup-unit-dv');
+        if (bsuwOpenBtn) bsuwOpenBtn.addEventListener('click', bsuwOpen);
+
+        /* Wire the Back button inside the BSUW wizard */
+        var bsuwCloseTop = document.getElementById('bsuw-close-top');
+        if (bsuwCloseTop) bsuwCloseTop.addEventListener('click', bsuwClose);
+
+    })(); /* end BSUW IIFE */
+    </script>
+
+    <!-- BSUW / SUW extra CSS — kept in a separate style block -->
+    <style>
+        /* Wizard overlays: hidden by default, shown with .open */
+        .apw-overlay {
+            position: fixed; inset: 0;
+            background: rgba(10, 20, 40, 0.55);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            overflow-y: auto;
+            padding: 20px 16px 40px;
+        }
+        .apw-overlay.open { display: flex; }
 
         .suw-am-chip.action-remove::before { content: "\f068"; font-family: "Font Awesome 5 Free"; font-weight: 900; font-size: 10px; color: #E53E3E; }
         .suw-am-chip .chip-count { display: none; }
