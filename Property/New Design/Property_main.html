@@ -1330,7 +1330,7 @@
                 </div>
 
                 <!-- Quick Fill card (shown after property is loaded) -->
-                <div class="apw-qf bsuw-hidden" id="bsuw-qf-card">
+                <div class="apw-qf" id="bsuw-qf-card">
                   <div class="apw-qf-head">
                     <div class="apw-qf-head-left">
                       <div class="apw-qf-icon"><i class="fas fa-bolt"></i></div>
@@ -3104,7 +3104,8 @@
             bsuwUpdateProgress();
             bsuwUpdateSelBadge();
             show('bsuw-ud-hero');
-            show('bsuw-qf-card');
+            var qfCard = document.getElementById('bsuw-qf-card');
+            if (qfCard) qfCard.classList.add('visible');
             show('bsuw-ut-wrap');
             // Hide any stale result banner from a previous property
             var br = document.getElementById('bsuw-bulk-result');
@@ -3229,7 +3230,8 @@
             bsuwUnitData = [];
             bsuwSelectedAmenities.clear();
             bsuwCurrentPage = 1;
-            hide('bsuw-ud-hero'); hide('bsuw-qf-card'); hide('bsuw-ut-wrap');
+            hide('bsuw-ud-hero'); hide('bsuw-ut-wrap');
+            var qfC = document.getElementById('bsuw-qf-card'); if (qfC) qfC.classList.remove('visible');
             var br = document.getElementById('bsuw-bulk-result');
             if (br) br.classList.remove('show');
             var bBeds = document.getElementById('bsuw-bulk-beds');  if (bBeds)  bBeds.value = '';
@@ -3647,7 +3649,8 @@
             var propSel = document.getElementById('bsuw-property-select');
             if (propSel) { propSel.value = ''; propSel.style.borderColor = ''; }
             document.getElementById('bsuw-success-msg').style.display = 'none';
-            hide('bsuw-ud-hero'); hide('bsuw-qf-card'); hide('bsuw-ut-wrap');
+            hide('bsuw-ud-hero'); hide('bsuw-ut-wrap');
+            var qfReset = document.getElementById('bsuw-qf-card'); if (qfReset) qfReset.classList.remove('visible');
             // Reset Quick Fill inputs and progress hero
             var bBeds = document.getElementById('bsuw-bulk-beds');  if (bBeds)  bBeds.value = '';
             var bBath = document.getElementById('bsuw-bulk-baths'); if (bBath)  bBath.value = '';
