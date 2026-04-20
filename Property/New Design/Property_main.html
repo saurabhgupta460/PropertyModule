@@ -1370,130 +1370,57 @@
             <div class="apw-step-content" data-step="2">
               <div class="apw-inner">
                 <div class="apw-section-title">Unit Amenities</div>
-                <p style="text-align:center;color:#718096;font-size:13px;margin-bottom:22px;">Pick units first, then choose their amenities. Save as many times as you need.</p>
+                <p style="text-align:center;color:#718096;font-size:13px;margin-bottom:18px;">Tick any cell to toggle one amenity for one unit. Or pick rows + columns and use the bulk-apply bar below.</p>
 
-                <!-- ① Pick units card -->
-                <div class="bsuw-am-card">
-                  <div class="bsuw-am-card-heading">
-                    <span class="bsuw-am-card-num">1</span>
-                    <span class="bsuw-am-card-title">Pick units</span>
+                <!-- Row 1: row selection summary + column filter -->
+                <div class="bsuw-mat-toolbar">
+                  <div class="bsuw-mat-rowsel">
+                    <label class="bsuw-mat-chk"><input type="checkbox" id="bsuw-mat-selall-chk"> <span>Select all units</span></label>
+                    <span class="bsuw-mat-sep">•</span>
+                    <span class="bsuw-mat-sel-summary"><strong id="bsuw-mat-sel-n">0</strong> of <strong id="bsuw-mat-total">0</strong> units selected</span>
+                    <button type="button" class="bsuw-mat-mini-btn" id="bsuw-mat-clear-rows"><i class="fas fa-times"></i> Clear selection</button>
                   </div>
-
-                  <!-- Mode tiles -->
-                  <div class="bsuw-am-modetiles">
-                    <button type="button" class="bsuw-am-modetile active" id="bsuw-am-mode-all">
-                      <div class="bsuw-am-modetile-icon"><i class="fas fa-layer-group"></i></div>
-                      <div class="bsuw-am-modetile-body">
-                        <div class="bsuw-am-modetile-title">All units</div>
-                        <div class="bsuw-am-modetile-sub" id="bsuw-am-mode-all-sub">Apply to all units</div>
-                      </div>
-                      <div class="bsuw-am-modetile-check"><i class="fas fa-check"></i></div>
-                    </button>
-                    <button type="button" class="bsuw-am-modetile" id="bsuw-am-mode-pick">
-                      <div class="bsuw-am-modetile-icon"><i class="fas fa-bullseye"></i></div>
-                      <div class="bsuw-am-modetile-body">
-                        <div class="bsuw-am-modetile-title">Pick specific units</div>
-                        <div class="bsuw-am-modetile-sub">Choose which ones below</div>
-                      </div>
-                      <div class="bsuw-am-modetile-check"><i class="fas fa-check"></i></div>
-                    </button>
-                  </div>
-
-                  <!-- Selection panel (only shown when Pick Specific is active) -->
-                  <div class="bsuw-am-selpanel bsuw-hidden" id="bsuw-am-selpanel">
-                    <div class="bsuw-am-selstat">
-                      <span><strong id="bsuw-am-sel-count">0</strong> of <strong id="bsuw-am-total-count">0</strong> selected</span>
-                      <div class="bsuw-am-selstat-bar"><div class="bsuw-am-selstat-bar-fill" id="bsuw-am-selstat-bar-fill" style="width:0%;"></div></div>
-                      <span class="bsuw-am-stats-sep">•</span>
-                      <span id="bsuw-am-shown-count" style="font-size:11.5px;color:#9AA5B4;">0 of 0 shown</span>
-                      <span class="bsuw-am-sel-badge" id="bsuw-am-sel-badge" style="display:none;">0</span>
-                    </div>
-
-                    <div class="bsuw-am-sel-sub"><i class="fas fa-bolt"></i> Quick pick</div>
-                    <div class="bsuw-am-qpick">
-                      <button type="button" class="bsuw-am-qpick-btn" id="bsuw-am-selall"><i class="fas fa-check-double"></i> <span id="bsuw-am-selall-label">All 0</span></button>
-                      <button type="button" class="bsuw-am-qpick-btn" id="bsuw-am-first50"><i class="fas fa-angle-double-up"></i> First 50</button>
-                      <button type="button" class="bsuw-am-qpick-btn" id="bsuw-am-last50"><i class="fas fa-angle-double-down"></i> Last 50</button>
-                      <button type="button" class="bsuw-am-qpick-btn danger" id="bsuw-am-unselall"><i class="fas fa-eraser"></i> None</button>
-                    </div>
-
-                    <div class="bsuw-am-sel-sub"><i class="fas fa-sliders-h"></i> Pick a range</div>
-                    <div class="bsuw-am-rangerow">
-                      <span style="font-size:12px;color:#718096;">From</span>
-                      <input type="number" class="bsuw-am-range-input" id="bsuw-am-range-from" min="1" placeholder="1">
-                      <span class="bsuw-am-range-sep">to</span>
-                      <input type="number" class="bsuw-am-range-input" id="bsuw-am-range-to" min="1" placeholder="50">
-                      <button type="button" class="bsuw-am-range-btn" id="bsuw-am-range-apply"><i class="fas fa-plus"></i> Add to selection</button>
-                    </div>
-
-                    <div class="bsuw-am-sel-sub"><i class="fas fa-list-ul"></i> Or tick individually</div>
-                    <div class="bsuw-am-search-wrap" style="margin-bottom:8px;">
-                      <i class="fas fa-search"></i>
-                      <input type="text" class="bsuw-am-search" id="bsuw-am-search" placeholder="Search by unit name (e.g. Unit 301, Bldg A)…">
-                      <button type="button" class="bsuw-am-search-clear" id="bsuw-am-search-clear" title="Clear search" style="display:none;">&times;</button>
-                    </div>
-                    <div class="bsuw-unit-checklist" id="bsuw-unit-checklist"></div>
-                    <div class="bsuw-am-pagination hidden" id="bsuw-am-pagination" style="margin-top:10px;">
-                      <button type="button" class="bsuw-am-qpick-btn" id="bsuw-am-selpage" style="margin-right:auto;"><i class="fas fa-check"></i> Select page</button>
-                      <button type="button" class="bsuw-am-page-btn" id="bsuw-am-prev" disabled><i class="fas fa-chevron-left"></i></button>
-                      <span class="bsuw-am-page-info" id="bsuw-am-pg-info">Page 1 of 1</span>
-                      <button type="button" class="bsuw-am-page-btn" id="bsuw-am-next"><i class="fas fa-chevron-right"></i></button>
-                      <button type="button" class="bsuw-am-qpick-btn" id="bsuw-am-unselpage" style="margin-left:auto;"><i class="fas fa-times"></i> Clear page</button>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- ② Choose amenities card -->
-                <div class="bsuw-am-card">
-                  <div class="bsuw-am-card-heading">
-                    <span class="bsuw-am-card-num">2</span>
-                    <span class="bsuw-am-card-title">Choose amenities</span>
-                    <span class="bsuw-am-card-sub" id="bsuw-am-picks-sub">No amenities picked yet</span>
-                  </div>
-
-                  <!-- Your Picks strip -->
-                  <div class="bsuw-am-picks-strip" id="bsuw-am-picks-strip">
-                    <div class="bsuw-am-picks-head">
-                      <span>Your picks <span id="bsuw-am-picks-count">(0)</span></span>
-                      <button type="button" class="bsuw-am-picks-clear" id="bsuw-am-picks-clear" style="display:none;"><i class="fas fa-times-circle"></i> Clear all</button>
-                    </div>
-                    <div class="bsuw-am-picks-body" id="bsuw-am-picks-body">
-                      <span class="bsuw-am-picks-empty">Click any amenity below to pick it</span>
-                    </div>
-                  </div>
-
-                  <!-- Amenity search -->
-                  <div class="bsuw-am-amsearch-wrap">
+                  <div class="bsuw-mat-colfilter">
                     <i class="fas fa-search"></i>
-                    <input type="text" class="bsuw-am-amsearch" id="bsuw-am-amsearch" placeholder="Search amenities (e.g. air, shower, granite)…">
-                    <button type="button" class="bsuw-am-amsearch-clear" id="bsuw-am-amsearch-clear" title="Clear search">&times;</button>
+                    <input type="text" id="bsuw-mat-colsearch" placeholder="Filter amenity columns…">
                   </div>
-
-                  <!-- Amenity category grid -->
-                  <div id="bsuw-am-grid-body"></div>
-                  <div class="bsuw-am-noamresults" id="bsuw-am-noamresults" style="display:none;">No amenities match your search.</div>
-
-                  <!-- Legacy sel strip (hidden) -->
-                  <div class="suw-am-sel-strip" id="bsuw-am-sel-strip" style="display:none;"></div>
                 </div>
 
-                <!-- Save CTA -->
-                <div class="bsuw-am-cta" id="bsuw-am-cta">
-                  <button type="button" class="bsuw-am-apply-btn" id="bsuw-am-apply-btn" disabled>
-                    <i class="fas fa-save"></i> <span id="bsuw-am-apply-label">Pick at least one amenity</span>
-                  </button>
+                <!-- Row 2: picked amenities + bulk apply actions -->
+                <div class="bsuw-mat-bulkbar">
+                  <div class="bsuw-mat-picked">
+                    <span class="bsuw-mat-picked-label"><i class="fas fa-hand-pointer"></i> Picked amenities:</span>
+                    <span class="bsuw-mat-picked-list" id="bsuw-mat-picked-chips"><span class="bsuw-mat-picked-empty">Click column headers to pick</span></span>
+                    <button type="button" class="bsuw-mat-mini-btn" id="bsuw-mat-picked-clear" style="display:none;"><i class="fas fa-times"></i> Clear</button>
+                  </div>
+                  <div class="bsuw-mat-bulkactions">
+                    <button type="button" class="bsuw-mat-btn primary" id="bsuw-mat-apply-sel" disabled><i class="fas fa-check"></i> Apply to <span id="bsuw-mat-apply-sel-n">0</span> selected</button>
+                    <button type="button" class="bsuw-mat-btn" id="bsuw-mat-apply-all" disabled><i class="fas fa-globe"></i> Apply to all units</button>
+                    <button type="button" class="bsuw-mat-btn danger" id="bsuw-mat-remove-sel" disabled><i class="fas fa-minus"></i> Remove from selected</button>
+                  </div>
                 </div>
 
-                <!-- Success banner (after save) -->
-                <div class="bsuw-am-success" id="bsuw-am-success">
-                  <div class="bsuw-am-success-head">
-                    <div class="bsuw-am-success-icon"><i class="fas fa-check"></i></div>
-                    <div class="bsuw-am-success-title">Saved!</div>
+                <!-- The matrix -->
+                <div class="bsuw-mat-wrap">
+                  <div class="bsuw-mat-empty" id="bsuw-mat-empty">No units loaded yet. Pick a property above.</div>
+                  <table class="bsuw-mat" id="bsuw-mat" style="display:none;">
+                    <thead>
+                      <tr class="bsuw-mat-cat-row" id="bsuw-mat-cat-row"></tr>
+                      <tr class="bsuw-mat-am-row" id="bsuw-mat-am-row"></tr>
+                    </thead>
+                    <tbody id="bsuw-mat-body"></tbody>
+                  </table>
+                </div>
+
+                <!-- Pagination + auto-save note -->
+                <div class="bsuw-mat-footer">
+                  <div class="bsuw-mat-pagination">
+                    <button type="button" class="bsuw-mat-page-btn" id="bsuw-mat-prev" disabled><i class="fas fa-chevron-left"></i></button>
+                    <span class="bsuw-mat-page-info" id="bsuw-mat-page-info">Page 1 of 1</span>
+                    <button type="button" class="bsuw-mat-page-btn" id="bsuw-mat-next" disabled><i class="fas fa-chevron-right"></i></button>
                   </div>
-                  <div class="bsuw-am-success-body" id="bsuw-am-success-body">&nbsp;</div>
-                  <div class="bsuw-am-success-actions">
-                    <button type="button" class="bsuw-am-success-btn" id="bsuw-am-success-edit"><i class="fas fa-plus-circle"></i> Save more</button>
-                    <button type="button" class="bsuw-am-success-btn primary" id="bsuw-am-success-continue">Next step <i class="fas fa-arrow-right"></i></button>
+                  <div class="bsuw-mat-save-note">
+                    <i class="fas fa-cloud-check"></i> Changes save as you tick. Click <strong>Next</strong> when done.
                   </div>
                 </div>
               </div>
@@ -2013,6 +1940,84 @@
         .bsuw-am-apply-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(123,79,207,0.4); }
         .bsuw-am-apply-btn:disabled { background: #C4CDD6; cursor: not-allowed; box-shadow: none; }
         .bsuw-am-apply-btn i { font-size: 13px; }
+
+        /* ══ Step 2 — Amenity Matrix (unit × amenity grid) ══ */
+        .bsuw-mat-toolbar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 14px; background:#F8FAFB; border:1px solid #E2E6EB; border-radius:10px; margin-bottom:10px; flex-wrap:wrap; }
+        .bsuw-mat-rowsel { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+        .bsuw-mat-chk { display:inline-flex; align-items:center; gap:7px; cursor:pointer; font-size:13px; font-weight:600; color:#1B4B6E; }
+        .bsuw-mat-chk input { width:15px; height:15px; cursor:pointer; accent-color:#7B4FCF; }
+        .bsuw-mat-sep { color:#C4CDD6; }
+        .bsuw-mat-sel-summary { font-size:12.5px; color:#4A6B8A; }
+        .bsuw-mat-sel-summary strong { color:#1B4B6E; }
+        .bsuw-mat-mini-btn { padding:5px 10px; border-radius:6px; border:1.5px solid #D1D9E4; background:#fff; color:#4A6FA5; font-size:11.5px; font-weight:600; cursor:pointer; font-family:inherit; display:inline-flex; align-items:center; gap:5px; }
+        .bsuw-mat-mini-btn:hover { border-color:#7B4FCF; color:#7B4FCF; }
+        .bsuw-mat-colfilter { position:relative; min-width:220px; flex:0 0 auto; }
+        .bsuw-mat-colfilter i { position:absolute; left:10px; top:50%; transform:translateY(-50%); color:#6B8AA3; font-size:12px; pointer-events:none; }
+        .bsuw-mat-colfilter input { width:100%; padding:7px 10px 7px 30px; border:1.5px solid #D1D9E4; border-radius:8px; font-size:12.5px; font-family:inherit; color:#1B4B6E; background:#fff; box-sizing:border-box; }
+        .bsuw-mat-colfilter input:focus { outline:none; border-color:#7B4FCF; }
+
+        .bsuw-mat-bulkbar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; background:linear-gradient(135deg, #F4EFFF 0%, #EDE5FF 100%); border:1.5px solid #C6B3F0; border-radius:10px; margin-bottom:12px; flex-wrap:wrap; }
+        .bsuw-mat-picked { display:flex; align-items:center; gap:8px; flex-wrap:wrap; flex:1; min-width:220px; }
+        .bsuw-mat-picked-label { font-size:11px; font-weight:700; color:#5B32A8; text-transform:uppercase; letter-spacing:0.05em; display:inline-flex; align-items:center; gap:5px; white-space:nowrap; }
+        .bsuw-mat-picked-list { display:inline-flex; gap:5px; flex-wrap:wrap; }
+        .bsuw-mat-picked-empty { font-size:12px; color:#9485B8; font-style:italic; }
+        .bsuw-mat-picked-chip { display:inline-flex; align-items:center; gap:5px; padding:3px 5px 3px 10px; background:#fff; border:1.5px solid #7B4FCF; border-radius:999px; font-size:11.5px; font-weight:600; color:#5B32A8; }
+        .bsuw-mat-picked-chip button { border:none; background:#EDE5FF; color:#5B32A8; width:18px; height:18px; border-radius:50%; cursor:pointer; font-size:10px; display:flex; align-items:center; justify-content:center; padding:0; font-family:inherit; }
+        .bsuw-mat-picked-chip button:hover { background:#7B4FCF; color:#fff; }
+        .bsuw-mat-bulkactions { display:flex; gap:6px; flex-wrap:wrap; }
+        .bsuw-mat-btn { padding:8px 14px; border-radius:8px; border:1.5px solid #D1D9E4; background:#fff; color:#4A6FA5; font-size:12px; font-weight:600; cursor:pointer; font-family:inherit; display:inline-flex; align-items:center; gap:6px; transition:all 0.12s; }
+        .bsuw-mat-btn:hover:not(:disabled) { border-color:#7B4FCF; color:#7B4FCF; }
+        .bsuw-mat-btn:disabled { opacity:0.45; cursor:not-allowed; }
+        .bsuw-mat-btn.primary { background:#7B4FCF; border-color:#7B4FCF; color:#fff; }
+        .bsuw-mat-btn.primary:hover:not(:disabled) { background:#6A3FBD; border-color:#6A3FBD; color:#fff; }
+        .bsuw-mat-btn.danger { border-color:#E53E3E; color:#E53E3E; }
+        .bsuw-mat-btn.danger:hover:not(:disabled) { background:#E53E3E; color:#fff; }
+
+        .bsuw-mat-wrap { position:relative; overflow:auto; max-height:480px; border:1px solid #E2E6EB; border-radius:10px; background:#fff; }
+        .bsuw-mat-empty { padding:50px 24px; text-align:center; color:#718096; font-size:13px; background:#F8FAFB; }
+        .bsuw-mat { border-collapse:separate; border-spacing:0; font-size:12px; width:max-content; min-width:100%; }
+        .bsuw-mat th, .bsuw-mat td { border-bottom:1px solid #E2E6EB; border-right:1px solid #EEF1F4; background:#fff; }
+        .bsuw-mat thead th { background:#F8FAFB; position:sticky; top:0; z-index:2; }
+        .bsuw-mat-cat-row th { padding:8px 10px; font-weight:700; font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:#4A5568; text-align:center; border-bottom:2px solid #D1D9E4; white-space:nowrap; }
+        .bsuw-mat-cat-row th.cat-Interior    { background:#EEF5FB; color:#1B4B6E; }
+        .bsuw-mat-cat-row th.cat-Bathroom    { background:#E8F7EF; color:#1F7A47; }
+        .bsuw-mat-cat-row th.cat-Kitchen     { background:#FFF4E5; color:#8A5B17; }
+        .bsuw-mat-cat-row th.cat-Tech        { background:#F0E8FF; color:#5B32A8; }
+        .bsuw-mat-cat-row th.cat-Accessibility { background:#FFF0F0; color:#9B1C1C; }
+        .bsuw-mat-cat-row th.unit-corner { background:#1B4B6E; color:#fff; font-size:12.5px; text-transform:none; letter-spacing:0; position:sticky; left:0; z-index:4; min-width:150px; text-align:left; padding:8px 12px; }
+        .bsuw-mat-am-row th { padding:10px 10px; font-weight:600; font-size:11.5px; color:#4A6B8A; cursor:pointer; text-align:center; white-space:nowrap; min-width:84px; background:#FCFCFD; position:sticky; top:32px; z-index:2; border-bottom:2px solid #D1D9E4; user-select:none; transition:all 0.12s; }
+        .bsuw-mat-am-row th:hover { background:#EDF6FF; color:#1B4B6E; }
+        .bsuw-mat-am-row th.picked { background:#7B4FCF !important; color:#fff !important; box-shadow:inset 0 -3px 0 #4D2A9C; }
+        .bsuw-mat-am-row th.picked::after { content:" ✓"; font-weight:900; }
+        .bsuw-mat-am-row th.unit-corner2 { background:#2A5A7E; color:#fff; position:sticky; left:0; z-index:4; cursor:default; text-align:left; padding:10px 12px; min-width:150px; }
+        .bsuw-mat-am-row th.unit-corner2:hover { background:#2A5A7E; color:#fff; box-shadow:none; }
+
+        .bsuw-mat tbody tr:hover td { background:#F8FBFF; }
+        .bsuw-mat tbody tr.row-selected td { background:#F5EFFF; }
+        .bsuw-mat tbody tr.row-selected:hover td { background:#EDE5FF; }
+        .bsuw-mat-unit-cell { padding:8px 12px; text-align:left; font-weight:600; font-size:12px; color:#1B4B6E; position:sticky; left:0; background:#fff; border-right:2px solid #D1D9E4 !important; z-index:1; min-width:150px; }
+        .bsuw-mat tbody tr.row-selected .bsuw-mat-unit-cell { background:#F5EFFF; }
+        .bsuw-mat tbody tr:hover .bsuw-mat-unit-cell { background:#F8FBFF; }
+        .bsuw-mat tbody tr.row-selected:hover .bsuw-mat-unit-cell { background:#EDE5FF; }
+        .bsuw-mat-unit-cell label { display:flex; align-items:center; gap:8px; cursor:pointer; }
+        .bsuw-mat-unit-cell input { width:14px; height:14px; cursor:pointer; accent-color:#7B4FCF; flex-shrink:0; }
+        .bsuw-mat-cell { padding:0; cursor:pointer; min-width:84px; height:34px; user-select:none; text-align:center; color:transparent; font-size:13px; transition:background 0.1s; }
+        .bsuw-mat-cell:hover { background:#EDF6FF !important; color:#7FA8C9; }
+        .bsuw-mat-cell::before { content:"·"; font-size:16px; opacity:0.3; }
+        .bsuw-mat-cell.on { background:#E6F9ED !important; color:#1F7A47; font-weight:700; }
+        .bsuw-mat-cell.on::before { content:"\f00c"; font-family:"Font Awesome 5 Free"; font-weight:900; font-size:11px; opacity:1; color:#2FA866; }
+        .bsuw-mat-cell.on:hover { background:#CCF2D9 !important; }
+        .bsuw-mat-cell.col-picked { box-shadow:inset 2px 0 0 #7B4FCF, inset -2px 0 0 #7B4FCF; }
+
+        .bsuw-mat-footer { display:flex; justify-content:space-between; align-items:center; margin-top:12px; gap:10px; flex-wrap:wrap; padding:0 4px; }
+        .bsuw-mat-pagination { display:flex; align-items:center; gap:8px; }
+        .bsuw-mat-page-btn { width:32px; height:32px; border-radius:6px; border:1.5px solid #D1D9E4; background:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#4A6FA5; font-family:inherit; }
+        .bsuw-mat-page-btn:hover:not(:disabled) { border-color:#7B4FCF; color:#7B4FCF; }
+        .bsuw-mat-page-btn:disabled { opacity:0.4; cursor:not-allowed; }
+        .bsuw-mat-page-info { font-size:12px; color:#4A6B8A; font-weight:600; min-width:160px; text-align:center; }
+        .bsuw-mat-save-note { font-size:11.5px; color:#4A6B8A; display:inline-flex; align-items:center; gap:6px; }
+        .bsuw-mat-save-note i { color:#2FA866; }
+        .bsuw-mat-save-note strong { color:#1B4B6E; }
 
         /* Success banner */
         .bsuw-am-success { display: none; background: linear-gradient(135deg, #D7F5E3 0%, #EAFAF0 100%); border: 1.5px solid #6BC98D; border-radius: 12px; padding: 20px 24px; margin-top: 20px; animation: bsuwSuccessIn 0.3s ease-out; }
@@ -2936,7 +2941,6 @@
                         tr.classList.toggle('apw-ut-selected', this.checked);
                         bsuwSyncSelectAll();
                         bsuwUpdateSelBadge();
-                        bsuwUpdateAmUnitChecklist();
                     });
                     function bind(cls, key, evt) {
                         var el = tr.querySelector('.'+cls);
@@ -3167,6 +3171,9 @@
             bsuwSelectedAmenities.clear();
             bsuwChipActions = {};
             bsuwCurrentPage = 1;
+            bsuwPickedCols.clear();
+            bsuwMatPage = 1;
+            bsuwMatColFilter = '';
             hide('bsuw-ut-wrap');
             var qfC = document.getElementById('bsuw-qf-card'); if (qfC) qfC.classList.remove('visible');
             var br = document.getElementById('bsuw-bulk-result');
@@ -3178,468 +3185,299 @@
             if (propName) bsuwGenerate(propName);
         });
 
-        /* ─── Amenity step (tri-state model) ───
-           Each chip reflects the CURRENT state of amenities across the units in scope:
-             - state-all:  every unit in scope already has this amenity
-             - state-some: a subset has it (partial / indeterminate)
-             - state-none: nobody in scope has it
-           Clicking a chip sets a pending action (add or remove) that is applied on Save.
-           Cycle:
-             all   → remove → all
-             none  → add    → none
-             some  → add    → remove → some
+        /* ─── Step 2: Amenity Matrix ───
+           Rows = units. Columns = amenities (grouped by category).
+           - Click a cell  → toggle that unit's amenity (one-off edit).
+           - Tick a row   → add to "selected" set.
+           - Click a column header → pick that amenity for bulk apply.
+           - "Apply to N selected" / "Apply to all" / "Remove from selected"
+             perform bulk actions using the picked columns × selected rows.
         */
-        function bsuwAmScopeUnits() {
-            return bsuwUnitData.filter(function(u) { return bsuwApplyToAll || u._selected; });
-        }
-        function bsuwChipBaseState(am) {
-            var pool = bsuwAmScopeUnits();
-            if (pool.length === 0) return { state: 'none', has: 0, tot: 0 };
-            var has = 0;
-            for (var i = 0; i < pool.length; i++) {
-                if ((pool[i].amenities || []).indexOf(am) !== -1) has++;
-            }
-            if (has === pool.length) return { state: 'all',  has: has, tot: pool.length };
-            if (has === 0)           return { state: 'none', has: 0,   tot: pool.length };
-            return { state: 'some', has: has, tot: pool.length };
-        }
-        function bsuwRenderChips() {
-            var grid = document.getElementById('bsuw-am-grid-body');
-            var html = '';
+        var BSUW_MAT_PAGE_SIZE = 25;
+        var bsuwMatPage = 1;
+        var bsuwMatColFilter = '';
+        var bsuwPickedCols = new Set(); // column names currently picked for bulk apply
+
+        function bsuwMatAllCols() {
+            var out = [];
             Object.keys(BSUW_AMENITIES).forEach(function(cat) {
-                html += '<div class="suw-am-cat-title">'+cat+'</div><div class="suw-am-chip-row">';
-                BSUW_AMENITIES[cat].forEach(function(item) {
-                    html += '<button class="suw-am-chip" data-am="'+escHtml(item)+'"><span class="chip-label">'+escHtml(item)+'</span><span class="chip-count"></span></button>';
-                });
-                html += '</div>';
+                BSUW_AMENITIES[cat].forEach(function(am) { out.push({ cat: cat, am: am }); });
             });
-            grid.innerHTML = html;
-            bsuwUpdateChipStates();
-            grid.onclick = function(e) {
-                var btn = e.target.closest ? e.target.closest('.suw-am-chip') : null;
-                if (!btn) return;
-                var am   = btn.dataset.am;
-                var base = bsuwChipBaseState(am).state;
-                var cur  = bsuwChipActions[am];
-                if (base === 'all') {
-                    if (cur === 'remove') delete bsuwChipActions[am];
-                    else bsuwChipActions[am] = 'remove';
-                } else if (base === 'none') {
-                    if (cur === 'add') delete bsuwChipActions[am];
-                    else bsuwChipActions[am] = 'add';
-                } else { /* some */
-                    if (cur === 'add')         bsuwChipActions[am] = 'remove';
-                    else if (cur === 'remove') delete bsuwChipActions[am];
-                    else                       bsuwChipActions[am] = 'add';
-                }
-                bsuwUpdateChipStates();
-                bsuwRenderSelStrip();
-                bsuwAmUpdateCTA();
-            };
+            return out;
         }
-        function bsuwUpdateChipStates() {
-            var grid = document.getElementById('bsuw-am-grid-body');
-            if (!grid) return;
-            grid.querySelectorAll('.suw-am-chip').forEach(function(btn) {
-                var am   = btn.dataset.am;
-                var base = bsuwChipBaseState(am);
-                var act  = bsuwChipActions[am];
-                // Preserve the .hidden class from amenity search when rebuilding class list
-                var hidden = btn.classList.contains('hidden');
-                btn.className = 'suw-am-chip state-' + base.state + (act ? ' action-' + act : '') + (hidden ? ' hidden' : '');
-                var cntEl = btn.querySelector('.chip-count');
-                if (cntEl) {
-                    if (base.state === 'some' && !act) {
-                        cntEl.style.display = '';
-                        cntEl.textContent = base.has + '/' + base.tot;
-                    } else {
-                        cntEl.style.display = 'none';
-                        cntEl.textContent = '';
-                    }
-                }
+        function bsuwMatFilteredCols() {
+            var q = bsuwMatColFilter;
+            return bsuwMatAllCols().filter(function(x) {
+                return !q || x.am.toLowerCase().indexOf(q) !== -1;
             });
+        }
+        function bsuwMatPageCount() {
+            return Math.max(1, Math.ceil(bsuwUnitData.length / BSUW_MAT_PAGE_SIZE));
+        }
+        function bsuwMatPageRange() {
+            var s = (bsuwMatPage - 1) * BSUW_MAT_PAGE_SIZE;
+            var e = Math.min(s + BSUW_MAT_PAGE_SIZE, bsuwUnitData.length);
+            return { start: s, end: e };
+        }
+        function bsuwCatCssSuffix(cat) { return cat.replace(/[^A-Za-z]/g, ''); }
+
+        function bsuwRenderMatrix() {
+            var catRow = document.getElementById('bsuw-mat-cat-row');
+            var amRow  = document.getElementById('bsuw-mat-am-row');
+            var body   = document.getElementById('bsuw-mat-body');
+            var empty  = document.getElementById('bsuw-mat-empty');
+            var mat    = document.getElementById('bsuw-mat');
+            if (!catRow || !amRow || !body || !mat) return;
+
+            if (!bsuwUnitData.length) {
+                mat.style.display = 'none';
+                if (empty) { empty.style.display = ''; empty.textContent = 'No units loaded yet. Pick a property above.'; }
+                bsuwMatUpdateToolbar();
+                bsuwMatUpdateFooter();
+                return;
+            }
+            mat.style.display = '';
+            if (empty) empty.style.display = 'none';
+
+            var cols = bsuwMatFilteredCols();
+            if (cols.length === 0) {
+                mat.style.display = 'none';
+                if (empty) { empty.style.display = ''; empty.textContent = 'No amenities match "' + bsuwMatColFilter + '".'; }
+                bsuwMatUpdateToolbar();
+                bsuwMatUpdateFooter();
+                return;
+            }
+
+            // Header: grouped-by-category band
+            var catHtml = '<th class="unit-corner" rowspan="2">Unit</th>';
+            var curCat = null, groupCount = 0, groups = [];
+            cols.forEach(function(c) {
+                if (c.cat !== curCat) {
+                    if (curCat !== null) groups.push({ cat: curCat, count: groupCount });
+                    curCat = c.cat; groupCount = 0;
+                }
+                groupCount++;
+            });
+            if (curCat !== null) groups.push({ cat: curCat, count: groupCount });
+            groups.forEach(function(g) {
+                catHtml += '<th colspan="' + g.count + '" class="cat-' + bsuwCatCssSuffix(g.cat) + '">' + escHtml(g.cat) + '</th>';
+            });
+            catRow.innerHTML = catHtml;
+
+            // Amenity header row
+            var amHtml = '';
+            cols.forEach(function(c) {
+                var pick = bsuwPickedCols.has(c.am) ? ' picked' : '';
+                amHtml += '<th class="mat-am-head' + pick + '" data-am="' + escHtml(c.am) + '" title="Click to pick this amenity for bulk apply">' + escHtml(c.am) + '</th>';
+            });
+            amRow.innerHTML = amHtml;
+
+            // Body rows for current page
+            var r = bsuwMatPageRange();
+            var rowHtml = '';
+            for (var i = r.start; i < r.end; i++) {
+                var d = bsuwUnitData[i];
+                var name = d.name || ('Unit ' + (i + 1));
+                var rowCls = d._selected ? ' row-selected' : '';
+                rowHtml += '<tr class="mat-row' + rowCls + '" data-idx="' + i + '">';
+                rowHtml += '<td class="bsuw-mat-unit-cell"><label><input type="checkbox" class="bsuw-mat-rowchk"' + (d._selected ? ' checked' : '') + '><span>' + escHtml(name) + '</span></label></td>';
+                var ams = d.amenities || [];
+                cols.forEach(function(c) {
+                    var on = ams.indexOf(c.am) !== -1 ? ' on' : '';
+                    var colPick = bsuwPickedCols.has(c.am) ? ' col-picked' : '';
+                    rowHtml += '<td class="bsuw-mat-cell' + on + colPick + '" data-am="' + escHtml(c.am) + '" title="' + escHtml(name) + ' — ' + escHtml(c.am) + '"></td>';
+                });
+                rowHtml += '</tr>';
+            }
+            body.innerHTML = rowHtml;
+
+            bsuwMatUpdateToolbar();
+            bsuwMatUpdateFooter();
         }
 
-        /* ── Your-Picks strip — shows pending Add and Remove actions ── */
-        function bsuwRenderSelStrip() {
-            var body  = document.getElementById('bsuw-am-picks-body');
-            var count = document.getElementById('bsuw-am-picks-count');
-            var sub   = document.getElementById('bsuw-am-picks-sub');
-            var clr   = document.getElementById('bsuw-am-picks-clear');
-            var adds = [], rems = [];
-            Object.keys(bsuwChipActions).forEach(function(am) {
-                if (bsuwChipActions[am] === 'add')         adds.push(am);
-                else if (bsuwChipActions[am] === 'remove') rems.push(am);
-            });
-            var n = adds.length + rems.length;
-            if (count) count.textContent = '(' + n + ')';
-            if (sub) {
-                if (n === 0) sub.textContent = 'No changes yet';
-                else {
-                    var bits = [];
-                    if (adds.length) bits.push(adds.length + ' to add');
-                    if (rems.length) bits.push(rems.length + ' to remove');
-                    sub.textContent = bits.join(', ');
+        function bsuwMatUpdateToolbar() {
+            var total = bsuwUnitData.length;
+            var selN  = bsuwUnitData.filter(function(u){ return u._selected; }).length;
+            var pickN = bsuwPickedCols.size;
+            var selElN = document.getElementById('bsuw-mat-sel-n');
+            var totEl  = document.getElementById('bsuw-mat-total');
+            var applyN = document.getElementById('bsuw-mat-apply-sel-n');
+            if (selElN) selElN.textContent = selN;
+            if (totEl)  totEl.textContent  = total;
+            if (applyN) applyN.textContent = selN;
+            var selallChk = document.getElementById('bsuw-mat-selall-chk');
+            if (selallChk) {
+                selallChk.checked = total > 0 && selN === total;
+                selallChk.indeterminate = selN > 0 && selN < total;
+            }
+            var applySel  = document.getElementById('bsuw-mat-apply-sel');
+            var applyAll  = document.getElementById('bsuw-mat-apply-all');
+            var removeSel = document.getElementById('bsuw-mat-remove-sel');
+            if (applySel)  applySel.disabled  = !(selN > 0 && pickN > 0);
+            if (applyAll)  applyAll.disabled  = !(total > 0 && pickN > 0);
+            if (removeSel) removeSel.disabled = !(selN > 0 && pickN > 0);
+
+            var chipsEl = document.getElementById('bsuw-mat-picked-chips');
+            var clrBtn  = document.getElementById('bsuw-mat-picked-clear');
+            if (chipsEl) {
+                if (pickN === 0) {
+                    chipsEl.innerHTML = '<span class="bsuw-mat-picked-empty">Click column headers to pick</span>';
+                    if (clrBtn) clrBtn.style.display = 'none';
+                } else {
+                    var html = '';
+                    bsuwPickedCols.forEach(function(am) {
+                        html += '<span class="bsuw-mat-picked-chip">' + escHtml(am) + '<button data-am="' + escHtml(am) + '" title="Unpick">&times;</button></span>';
+                    });
+                    chipsEl.innerHTML = html;
+                    if (clrBtn) clrBtn.style.display = 'inline-flex';
                 }
             }
-            if (clr) clr.style.display = n === 0 ? 'none' : 'inline-flex';
-            if (!body) return;
-            if (n === 0) {
-                body.innerHTML = '<span class="bsuw-am-picks-empty">Tap an amenity below — green chips are already set for all picked units; yellow chips are set for some; tap to add or remove.</span>';
-            } else {
-                var html = '';
-                if (adds.length) {
-                    html += '<div class="bsuw-am-pick-group"><span class="bsuw-am-pick-group-label"><i class="fas fa-plus-circle"></i> Add</span>';
-                    adds.forEach(function(am) {
-                        html += '<span class="bsuw-am-pick-pill">' + escHtml(am) + '<button data-am="'+escHtml(am)+'" title="Undo">&#x2715;</button></span>';
-                    });
-                    html += '</div>';
-                }
-                if (rems.length) {
-                    html += '<div class="bsuw-am-pick-group"><span class="bsuw-am-pick-group-label danger"><i class="fas fa-minus-circle"></i> Remove</span>';
-                    rems.forEach(function(am) {
-                        html += '<span class="bsuw-am-pick-pill remove">' + escHtml(am) + '<button data-am="'+escHtml(am)+'" title="Undo">&#x2715;</button></span>';
-                    });
-                    html += '</div>';
-                }
-                body.innerHTML = html;
-                body.querySelectorAll('button[data-am]').forEach(function(btn) {
-                    btn.addEventListener('click', function() {
-                        delete bsuwChipActions[this.dataset.am];
-                        bsuwUpdateChipStates();
-                        bsuwRenderSelStrip();
-                        bsuwAmUpdateCTA();
-                    });
-                });
-            }
-            bsuwAmUpdateCTA();
         }
 
-        /* Clear-all pending changes */
-        (function(){
-            var el = document.getElementById('bsuw-am-picks-clear');
-            if (el) el.addEventListener('click', function() {
-                bsuwChipActions = {};
-                bsuwUpdateChipStates();
-                bsuwRenderSelStrip();
+        function bsuwMatUpdateFooter() {
+            var pc = bsuwMatPageCount();
+            if (bsuwMatPage > pc) bsuwMatPage = pc;
+            if (bsuwMatPage < 1)  bsuwMatPage = 1;
+            var r = bsuwMatPageRange();
+            var info = document.getElementById('bsuw-mat-page-info');
+            var prev = document.getElementById('bsuw-mat-prev');
+            var next = document.getElementById('bsuw-mat-next');
+            if (info) {
+                if (bsuwUnitData.length === 0) info.textContent = 'No units';
+                else info.textContent = 'Page ' + bsuwMatPage + ' of ' + pc + ' — units ' + (r.start + 1) + '–' + r.end + ' of ' + bsuwUnitData.length;
+            }
+            if (prev) prev.disabled = (bsuwMatPage <= 1);
+            if (next) next.disabled = (bsuwMatPage >= pc);
+        }
+
+        /* Update just a single cell's "on" class without a full re-render — fast path for cell clicks */
+        function bsuwMatTouchCell(cellEl, on) {
+            cellEl.classList.toggle('on', on);
+        }
+
+        /* ── Matrix event delegation (cell clicks, row checks, column picks) ── */
+        (function() {
+            var mat = document.getElementById('bsuw-mat');
+            if (!mat) return;
+            mat.addEventListener('click', function(e) {
+                var t = e.target;
+                // Row checkbox — rowchk input itself
+                if (t && t.classList && t.classList.contains('bsuw-mat-rowchk')) {
+                    var tr = t.closest('tr');
+                    var idx = parseInt(tr.dataset.idx, 10);
+                    bsuwUnitData[idx]._selected = t.checked;
+                    tr.classList.toggle('row-selected', t.checked);
+                    bsuwMatUpdateToolbar();
+                    return;
+                }
+                // Column header — amenity pick
+                var head = t && t.closest ? t.closest('.mat-am-head') : null;
+                if (head) {
+                    var hAm = head.dataset.am;
+                    if (bsuwPickedCols.has(hAm)) bsuwPickedCols.delete(hAm);
+                    else bsuwPickedCols.add(hAm);
+                    bsuwRenderMatrix();
+                    return;
+                }
+                // Cell click — toggle amenity for unit
+                var cell = t && t.closest ? t.closest('.bsuw-mat-cell') : null;
+                if (cell) {
+                    var tr2 = cell.closest('tr');
+                    var idx2 = parseInt(tr2.dataset.idx, 10);
+                    var am = cell.dataset.am;
+                    var d = bsuwUnitData[idx2];
+                    if (!d.amenities) d.amenities = [];
+                    var pos = d.amenities.indexOf(am);
+                    if (pos === -1) { d.amenities.push(am); bsuwMatTouchCell(cell, true); }
+                    else            { d.amenities.splice(pos, 1); bsuwMatTouchCell(cell, false); }
+                    return;
+                }
             });
         })();
 
-        /* ── Amenity search ── */
-        function bsuwFilterAmenities(q) {
-            q = (q || '').trim().toLowerCase();
-            var any = false;
-            document.querySelectorAll('#bsuw-am-grid-body .suw-am-chip-row').forEach(function(row) {
-                var chips = row.querySelectorAll('.suw-am-chip');
-                var shown = 0;
-                chips.forEach(function(chip) {
-                    var match = !q || chip.dataset.am.toLowerCase().indexOf(q) !== -1;
-                    chip.classList.toggle('hidden', !match);
-                    if (match) shown++;
-                });
-                row.classList.toggle('hidden', shown === 0);
-                // Also hide the preceding category title if empty
-                var title = row.previousElementSibling;
-                if (title && title.classList.contains('suw-am-cat-title')) {
-                    title.classList.toggle('hidden', shown === 0);
-                }
-                if (shown > 0) any = true;
-            });
-            var empty = document.getElementById('bsuw-am-noamresults');
-            if (empty) empty.style.display = any ? 'none' : 'block';
-        }
-        document.getElementById('bsuw-am-amsearch').addEventListener('input', function() {
-            var v = this.value;
-            document.getElementById('bsuw-am-amsearch-clear').classList.toggle('visible', !!v.trim());
-            bsuwFilterAmenities(v);
+        /* Select-all / Clear-selection (row selection) */
+        document.getElementById('bsuw-mat-selall-chk').addEventListener('change', function() {
+            var on = this.checked;
+            bsuwUnitData.forEach(function(u) { u._selected = on; });
+            bsuwRenderMatrix();
         });
-        document.getElementById('bsuw-am-amsearch-clear').addEventListener('click', function() {
-            var inp = document.getElementById('bsuw-am-amsearch');
-            inp.value = ''; this.classList.remove('visible');
-            bsuwFilterAmenities('');
-            inp.focus();
+        document.getElementById('bsuw-mat-clear-rows').addEventListener('click', function() {
+            bsuwUnitData.forEach(function(u) { u._selected = false; });
+            bsuwRenderMatrix();
         });
 
-        /* ── Unit picker (Pick Specific mode) ── */
-        var BSUW_AM_PAGE_SIZE = 50;
-        var bsuwAmPage = 1;
-        var bsuwAmSearch = '';
-        function bsuwAmMatchesSearch(d, idx) {
-            if (!bsuwAmSearch) return true;
-            var name = (d.name || ('Unit ' + (idx + 1))).toLowerCase();
-            return name.indexOf(bsuwAmSearch) !== -1;
-        }
-        function bsuwAmFilteredIdx() {
-            var arr = [];
-            bsuwUnitData.forEach(function(d, i) { if (bsuwAmMatchesSearch(d, i)) arr.push(i); });
-            return arr;
-        }
-        function bsuwAmPageCount() {
-            return Math.max(1, Math.ceil(bsuwAmFilteredIdx().length / BSUW_AM_PAGE_SIZE));
-        }
-        function bsuwAmPageRange() {
-            var idx = bsuwAmFilteredIdx();
-            var s = (bsuwAmPage - 1) * BSUW_AM_PAGE_SIZE;
-            var e = Math.min(s + BSUW_AM_PAGE_SIZE, idx.length);
-            return { start: s, end: e, idx: idx, total: idx.length };
-        }
-        function bsuwUpdateAmUnitChecklist() {
-            var list = document.getElementById('bsuw-unit-checklist');
-            if (!list) return;
-            list.innerHTML = '';
-            if (!bsuwUnitData.length) {
-                list.innerHTML = '<span class="bsuw-unit-checklist-empty">No units yet. Go back to Step 1 and pick a property.</span>';
-                bsuwAmUpdateStats();
-                return;
-            }
-            var pc = bsuwAmPageCount();
-            if (bsuwAmPage > pc) bsuwAmPage = pc;
-            if (bsuwAmPage < 1)  bsuwAmPage = 1;
-            var r = bsuwAmPageRange();
-            if (r.total === 0) {
-                list.innerHTML = '<span class="bsuw-unit-checklist-empty">No units match &ldquo;' + escHtml(bsuwAmSearch) + '&rdquo;. Try a different search.</span>';
-            } else {
-                for (var i = r.start; i < r.end; i++) {
-                    (function(unitIdx) {
-                        var d = bsuwUnitData[unitIdx];
-                        var label = document.createElement('label');
-                        label.className = 'bsuw-unit-chk-item' + (d._selected ? ' checked' : '');
-                        label.innerHTML = '<input type="checkbox"'+(d._selected?' checked':'')+'>'+
-                            '<i class="fas fa-home" style="font-size:10px;"></i> '+escHtml(d.name || 'Unit '+(unitIdx+1));
-                        label.querySelector('input').addEventListener('change', function() {
-                            bsuwUnitData[unitIdx]._selected = this.checked;
-                            label.classList.toggle('checked', this.checked);
-                            bsuwAmUpdateStats();
-                            bsuwAmUpdateCTA();
-                        });
-                        list.appendChild(label);
-                    })(r.idx[i]);
-                }
-            }
-            var pag = document.getElementById('bsuw-am-pagination');
-            var pgInfo = document.getElementById('bsuw-am-pg-info');
-            var prev = document.getElementById('bsuw-am-prev');
-            var next = document.getElementById('bsuw-am-next');
-            if (pag)  pag.classList.toggle('hidden', pc <= 1);
-            if (pgInfo) pgInfo.textContent = 'Page ' + bsuwAmPage + ' of ' + pc;
-            if (prev) prev.disabled = (bsuwAmPage <= 1);
-            if (next) next.disabled = (bsuwAmPage >= pc);
-            bsuwAmUpdateStats();
-        }
-        function bsuwAmUpdateStats() {
-            var total    = bsuwUnitData.length;
-            var filtered = bsuwAmFilteredIdx().length;
-            var selected = bsuwUnitData.filter(function(u){ return u._selected; }).length;
-            var selEl   = document.getElementById('bsuw-am-sel-count');
-            var totEl   = document.getElementById('bsuw-am-total-count');
-            var shown   = document.getElementById('bsuw-am-shown-count');
-            var badge   = document.getElementById('bsuw-am-sel-badge');
-            var barFill = document.getElementById('bsuw-am-selstat-bar-fill');
-            var selAllLbl = document.getElementById('bsuw-am-selall-label');
-            var allSub  = document.getElementById('bsuw-am-mode-all-sub');
-            if (selEl)  selEl.textContent  = selected;
-            if (totEl)  totEl.textContent  = total;
-            if (shown)  shown.textContent  = filtered + ' of ' + total + ' shown';
-            if (badge)  badge.textContent  = selected;
-            if (barFill) barFill.style.width = (total > 0 ? (selected / total * 100) : 0) + '%';
-            if (selAllLbl) selAllLbl.textContent = 'All ' + (filtered || total);
-            if (allSub) allSub.textContent = total > 0 ? ('Apply to all ' + total + ' unit' + (total === 1 ? '' : 's')) : 'Apply to all units';
-            // Reseed tri-state chip visuals whenever the selected-unit pool may have changed
-            bsuwUpdateChipStates();
-            bsuwAmUpdateCTA();
-        }
-
-        /* ── Apply CTA label + disabled state ── */
-        function bsuwAmUpdateCTA() {
-            var btn   = document.getElementById('bsuw-am-apply-btn');
-            var label = document.getElementById('bsuw-am-apply-label');
-            if (!btn || !label) return;
-            var addN = 0, remN = 0;
-            Object.keys(bsuwChipActions).forEach(function(am) {
-                if (bsuwChipActions[am] === 'add')         addN++;
-                else if (bsuwChipActions[am] === 'remove') remN++;
-            });
-            var total  = bsuwUnitData.length;
-            var picked = bsuwUnitData.filter(function(u){ return u._selected; }).length;
-            var scope  = bsuwApplyToAll ? total : picked;
-            if (total === 0) {
-                btn.disabled = true; label.textContent = 'Load units first'; return;
-            }
-            if (!bsuwApplyToAll && picked === 0) {
-                btn.disabled = true; label.textContent = 'Pick at least one unit above'; return;
-            }
-            if (addN === 0 && remN === 0) {
-                btn.disabled = true; label.textContent = 'Tap amenities below to add or remove'; return;
-            }
-            btn.disabled = false;
-            var parts = [];
-            if (addN) parts.push('add ' + addN);
-            if (remN) parts.push('remove ' + remN);
-            var verb = parts.join(' + ');
-            label.textContent = 'Save — ' + verb + ' for ' + scope + ' unit' + (scope === 1 ? '' : 's');
-        }
-
-        /* ── Mode tiles ── */
-        document.getElementById('bsuw-am-mode-all').addEventListener('click', function() {
-            bsuwApplyToAll = true;
-            this.classList.add('active');
-            document.getElementById('bsuw-am-mode-pick').classList.remove('active');
-            hide('bsuw-am-selpanel');
-            bsuwUpdateChipStates();
-            bsuwRenderSelStrip();
-            bsuwAmUpdateCTA();
+        /* Picked-chips clear + individual unpick */
+        document.getElementById('bsuw-mat-picked-clear').addEventListener('click', function() {
+            bsuwPickedCols.clear();
+            bsuwRenderMatrix();
         });
-        document.getElementById('bsuw-am-mode-pick').addEventListener('click', function() {
-            bsuwApplyToAll = false;
-            this.classList.add('active');
-            document.getElementById('bsuw-am-mode-all').classList.remove('active');
-            show('bsuw-am-selpanel');
-            bsuwUpdateAmUnitChecklist();
+        document.getElementById('bsuw-mat-picked-chips').addEventListener('click', function(e) {
+            var btn = e.target && e.target.closest ? e.target.closest('button[data-am]') : null;
+            if (!btn) return;
+            bsuwPickedCols.delete(btn.dataset.am);
+            bsuwRenderMatrix();
         });
 
-        /* Unit search */
-        document.getElementById('bsuw-am-search').addEventListener('input', function() {
-            bsuwAmSearch = this.value.trim().toLowerCase();
-            bsuwAmPage = 1;
-            document.getElementById('bsuw-am-search-clear').style.display = bsuwAmSearch ? 'flex' : 'none';
-            bsuwUpdateAmUnitChecklist();
-        });
-        document.getElementById('bsuw-am-search-clear').addEventListener('click', function() {
-            var inp = document.getElementById('bsuw-am-search');
-            inp.value = ''; bsuwAmSearch = ''; this.style.display = 'none';
-            bsuwAmPage = 1; bsuwUpdateAmUnitChecklist();
+        /* Column filter search */
+        document.getElementById('bsuw-mat-colsearch').addEventListener('input', function() {
+            bsuwMatColFilter = this.value.trim().toLowerCase();
+            bsuwRenderMatrix();
         });
 
         /* Pagination */
-        document.getElementById('bsuw-am-prev').addEventListener('click', function() {
-            if (bsuwAmPage > 1) { bsuwAmPage--; bsuwUpdateAmUnitChecklist(); }
+        document.getElementById('bsuw-mat-prev').addEventListener('click', function() {
+            if (bsuwMatPage > 1) { bsuwMatPage--; bsuwRenderMatrix(); }
         });
-        document.getElementById('bsuw-am-next').addEventListener('click', function() {
-            if (bsuwAmPage < bsuwAmPageCount()) { bsuwAmPage++; bsuwUpdateAmUnitChecklist(); }
-        });
-
-        /* Quick-pick presets + page actions */
-        document.getElementById('bsuw-am-selall').addEventListener('click', function() {
-            // Select all units matching the current search filter (across all pages)
-            bsuwAmFilteredIdx().forEach(function(i) { bsuwUnitData[i]._selected = true; });
-            bsuwUpdateAmUnitChecklist();
-        });
-        document.getElementById('bsuw-am-first50').addEventListener('click', function() {
-            var n = Math.min(50, bsuwUnitData.length);
-            for (var i = 0; i < n; i++) bsuwUnitData[i]._selected = true;
-            bsuwAmPage = 1;
-            bsuwUpdateAmUnitChecklist();
-        });
-        document.getElementById('bsuw-am-last50').addEventListener('click', function() {
-            var total = bsuwUnitData.length;
-            var start = Math.max(0, total - 50);
-            for (var i = start; i < total; i++) bsuwUnitData[i]._selected = true;
-            bsuwAmPage = bsuwAmPageCount();
-            bsuwUpdateAmUnitChecklist();
-        });
-        document.getElementById('bsuw-am-unselall').addEventListener('click', function() {
-            bsuwUnitData.forEach(function(u) { u._selected = false; });
-            bsuwUpdateAmUnitChecklist();
-        });
-        document.getElementById('bsuw-am-selpage').addEventListener('click', function() {
-            var r = bsuwAmPageRange();
-            for (var i = r.start; i < r.end; i++) bsuwUnitData[r.idx[i]]._selected = true;
-            bsuwUpdateAmUnitChecklist();
-        });
-        document.getElementById('bsuw-am-unselpage').addEventListener('click', function() {
-            var r = bsuwAmPageRange();
-            for (var i = r.start; i < r.end; i++) bsuwUnitData[r.idx[i]]._selected = false;
-            bsuwUpdateAmUnitChecklist();
+        document.getElementById('bsuw-mat-next').addEventListener('click', function() {
+            if (bsuwMatPage < bsuwMatPageCount()) { bsuwMatPage++; bsuwRenderMatrix(); }
         });
 
-        /* Range selector */
-        document.getElementById('bsuw-am-range-apply').addEventListener('click', function() {
-            var fromEl = document.getElementById('bsuw-am-range-from');
-            var toEl   = document.getElementById('bsuw-am-range-to');
-            var from = parseInt(fromEl.value, 10);
-            var to   = parseInt(toEl.value, 10);
-            var total = bsuwUnitData.length;
-            if (!total) return;
-            if (isNaN(from) || from < 1) from = 1;
-            if (isNaN(to) || to > total) to = total;
-            if (from > to) { var tmp = from; from = to; to = tmp; }
-            for (var i = from - 1; i < to; i++) bsuwUnitData[i]._selected = true;
-            fromEl.value = ''; toEl.value = '';
-            bsuwUpdateAmUnitChecklist();
-        });
-
-        /* ── Apply button + rich success banner ── */
-        function bsuwAmFormatAmenityList(ams) {
-            if (ams.length <= 3) {
-                if (ams.length === 1) return '<strong>' + escHtml(ams[0]) + '</strong>';
-                if (ams.length === 2) return '<strong>' + escHtml(ams[0]) + '</strong> and <strong>' + escHtml(ams[1]) + '</strong>';
-                return '<strong>' + escHtml(ams[0]) + '</strong>, <strong>' + escHtml(ams[1]) + '</strong>, and <strong>' + escHtml(ams[2]) + '</strong>';
-            }
-            return '<strong>' + escHtml(ams[0]) + '</strong>, <strong>' + escHtml(ams[1]) + '</strong>, <strong>' + escHtml(ams[2]) + '</strong>, and <strong>' + (ams.length - 3) + ' more</strong>';
-        }
-        function bsuwAmShowSuccess(adds, rems, n) {
-            var body = document.getElementById('bsuw-am-success-body');
-            if (body) {
-                var parts = [];
-                if (adds.length) parts.push('added ' + bsuwAmFormatAmenityList(adds));
-                if (rems.length) parts.push('removed ' + bsuwAmFormatAmenityList(rems));
-                var msg;
-                if (parts.length === 0) msg = 'Nothing changed.';
-                else {
-                    // Capitalize first word
-                    var joined = parts.join(' and ');
-                    joined = joined.charAt(0).toUpperCase() + joined.slice(1);
-                    msg = joined + ' across <strong>' + n + ' unit' + (n === 1 ? '' : 's') + '</strong>. Adjust your unit selection or tap more amenities to keep editing.';
-                }
-                body.innerHTML = msg;
-            }
-            document.getElementById('bsuw-am-cta').style.display = 'none';
-            document.getElementById('bsuw-am-success').classList.add('show');
-        }
-        function bsuwAmHideSuccess() {
-            document.getElementById('bsuw-am-success').classList.remove('show');
-            document.getElementById('bsuw-am-cta').style.display = '';
-            bsuwAmUpdateCTA();
-        }
-        document.getElementById('bsuw-am-apply-btn').addEventListener('click', function() {
-            if (this.disabled) return;
-            var adds = [], rems = [];
-            Object.keys(bsuwChipActions).forEach(function(am) {
-                if (bsuwChipActions[am] === 'add')         adds.push(am);
-                else if (bsuwChipActions[am] === 'remove') rems.push(am);
-            });
-            var n = 0;
+        /* Bulk apply actions */
+        function bsuwMatApplyToPool(mode) {
+            // mode: 'sel' (add to selected), 'all' (add to all), 'rem' (remove from selected)
+            var touched = 0;
             bsuwUnitData.forEach(function(d) {
-                if (bsuwApplyToAll || d._selected) {
-                    if (!d.amenities) d.amenities = [];
-                    adds.forEach(function(am) {
-                        if (d.amenities.indexOf(am) === -1) d.amenities.push(am);
-                    });
-                    rems.forEach(function(am) {
+                var inScope = (mode === 'all') ? true : !!d._selected;
+                if (!inScope) return;
+                if (!d.amenities) d.amenities = [];
+                if (mode === 'rem') {
+                    bsuwPickedCols.forEach(function(am) {
                         var i = d.amenities.indexOf(am);
                         if (i !== -1) d.amenities.splice(i, 1);
                     });
-                    n++;
+                } else {
+                    bsuwPickedCols.forEach(function(am) {
+                        if (d.amenities.indexOf(am) === -1) d.amenities.push(am);
+                    });
                 }
+                touched++;
             });
-            // Clear pending actions; reseed chip visuals so they now reflect the new unit state
-            bsuwChipActions = {};
-            bsuwUpdateChipStates();
-            bsuwRenderSelStrip();
-            bsuwAmShowSuccess(adds, rems, n);
+            bsuwRenderMatrix();
+            return touched;
+        }
+        document.getElementById('bsuw-mat-apply-sel').addEventListener('click', function() {
+            if (this.disabled) return;
+            bsuwMatApplyToPool('sel');
         });
-        // "Save more" — hide success, let user continue editing with freshly-reseeded chips
-        document.getElementById('bsuw-am-success-edit').addEventListener('click', function() {
-            bsuwAmHideSuccess();
-            bsuwUpdateChipStates();
-            bsuwRenderSelStrip();
-            bsuwAmUpdateCTA();
+        document.getElementById('bsuw-mat-apply-all').addEventListener('click', function() {
+            if (this.disabled) return;
+            bsuwMatApplyToPool('all');
         });
-        document.getElementById('bsuw-am-success-continue').addEventListener('click', function() {
-            bsuwAmHideSuccess();
-            var nextBtn = document.getElementById('bsuw-btn-next');
-            if (nextBtn) nextBtn.click();
+        document.getElementById('bsuw-mat-remove-sel').addEventListener('click', function() {
+            if (this.disabled) return;
+            bsuwMatApplyToPool('rem');
         });
+
+        /* Back-compat no-ops — legacy Step 2 functions referenced elsewhere */
+        function bsuwRenderChips()       { bsuwRenderMatrix(); }
+        function bsuwRenderSelStrip()    { /* no-op — old picks strip removed */ }
+        function bsuwUpdateChipStates()  { /* no-op */ }
+        function bsuwAmUpdateStats()     { bsuwMatUpdateToolbar(); bsuwMatUpdateFooter(); }
+        function bsuwAmUpdateCTA()       { /* no-op — no single CTA in matrix UI */ }
+        function bsuwAmHideSuccess()     { /* no-op */ }
+        function bsuwAmScopeUnits() {
+            return bsuwUnitData.filter(function(u) { return bsuwApplyToAll || u._selected; });
+        }
 
         /* ─── Review step ─── */
         function bsuwBuildReview() {
@@ -3692,10 +3530,6 @@
             bsuwChipActions = {};
             bsuwApplyToAll = true;
             bsuwCurrentPage = 1;
-            bsuwAmPage = 1;
-            bsuwAmSearch = '';
-            var sEl = document.getElementById('bsuw-am-search'); if (sEl) sEl.value = '';
-            var scEl = document.getElementById('bsuw-am-search-clear'); if (scEl) scEl.style.display = 'none';
             var propSel = document.getElementById('bsuw-property-select');
             if (propSel) { propSel.value = ''; propSel.style.borderColor = ''; }
             document.getElementById('bsuw-success-msg').style.display = 'none';
@@ -3708,15 +3542,13 @@
             var brB = document.getElementById('bsuw-bulk-result'); if (brB) brB.classList.remove('show');
             var selLbl = document.getElementById('bsuw-qf-sel-label'); if (selLbl) selLbl.textContent = 'Apply to Selected (0)';
             var selBtn = document.getElementById('bsuw-bulk-selected'); if (selBtn) selBtn.disabled = true;
-            // Reset Step 2 state
-            document.getElementById('bsuw-am-mode-all').classList.add('active');
-            document.getElementById('bsuw-am-mode-pick').classList.remove('active');
-            hide('bsuw-am-selpanel');
-            document.getElementById('bsuw-am-pagination').classList.add('hidden');
-            document.getElementById('bsuw-am-success').classList.remove('show');
-            document.getElementById('bsuw-am-cta').style.display = '';
-            var amS = document.getElementById('bsuw-am-amsearch'); if (amS) amS.value = '';
-            var amSc = document.getElementById('bsuw-am-amsearch-clear'); if (amSc) amSc.classList.remove('visible');
+            // Reset Step 2 (matrix) state
+            bsuwPickedCols.clear();
+            bsuwMatPage = 1;
+            bsuwMatColFilter = '';
+            var colS = document.getElementById('bsuw-mat-colsearch'); if (colS) colS.value = '';
+            var selAllChk = document.getElementById('bsuw-mat-selall-chk');
+            if (selAllChk) { selAllChk.checked = false; selAllChk.indeterminate = false; }
             bsuwRender();
             overlay.classList.add('open');
             overlay.scrollTop = 0;
@@ -3745,10 +3577,7 @@
             else { btnNext.textContent = 'Next'; btnNext.classList.remove('finish'); }
             document.getElementById('bsuw-btn-back').style.visibility = currentStep === 1 ? 'hidden' : 'visible';
             if (currentStep === 2) {
-                bsuwRenderChips();
-                bsuwRenderSelStrip();
-                bsuwAmUpdateStats();
-                bsuwAmUpdateCTA();
+                bsuwRenderMatrix();
             }
             if (currentStep === 3) bsuwBuildReview();
             overlay.scrollTop = 0;
