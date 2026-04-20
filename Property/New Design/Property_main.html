@@ -969,9 +969,6 @@
                       </div>
                     </div>
                     <div class="apw-qf-actions">
-                      <button type="button" class="apw-qf-apply" id="apw-bulk-apply">
-                        <i class="fas fa-magic"></i> <span id="apw-qf-apply-label">Fill all units on this page</span>
-                      </button>
                       <button type="button" class="apw-qf-apply-sel" id="apw-bulk-selected" disabled>
                         <i class="fas fa-check-square"></i> <span id="apw-qf-sel-label">Apply to Selected (0)</span>
                       </button>
@@ -1005,7 +1002,6 @@
                         <th class="apw-ut-th-sm">Bed</th>
                         <th class="apw-ut-th-sm">Bath</th>
                         <th class="apw-ut-th-size">Size (sq ft)</th>
-                        <th class="apw-ut-th-status">Status</th>
                       </tr>
                     </thead>
                     <tbody id="apw-ut-tbody"></tbody>
@@ -1799,7 +1795,7 @@
         .apw-qf-input { padding: 9px 11px; border: 1.5px solid #DCE2EA; border-radius: 8px; font-size: 13px; font-family: inherit; color: #2D3748; background: #fff; outline: none; transition: all 0.12s; box-sizing: border-box; width: 100%; }
         .apw-qf-input:focus { border-color: #3B8DBD; box-shadow: 0 0 0 3px rgba(59, 141, 189, 0.12); }
         .apw-qf-input:hover:not(:focus) { border-color: #C0CCDA; }
-        .apw-qf-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .apw-qf-actions { display: block; }
         .apw-qf-apply, .apw-qf-apply-sel { width: 100%; border: none; padding: 11px 16px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.15s; font-family: inherit; letter-spacing: 0.01em; }
         .apw-qf-apply { background: linear-gradient(135deg, #3BAA6E 0%, #2E9A5F 100%); color: #fff; box-shadow: 0 3px 10px rgba(59, 170, 110, 0.28); }
         .apw-qf-apply:hover { box-shadow: 0 5px 16px rgba(59, 170, 110, 0.4); transform: translateY(-1px); }
@@ -2312,15 +2308,13 @@
                     if (d._selected) classes.push('apw-ut-selected');
                     if (total === 1) classes.push('apw-ut-single-row');
                     if (classes.length) tr.className = classes.join(' ');
-                    var status = apwRowStatus(d);
                     tr.innerHTML =
                         '<td class="apw-ut-chk-cell"><label class="apw-chk-wrap"><input type="checkbox" class="ut-ichk"' + (d._selected ? ' checked' : '') + '><span class="apw-chk-box"></span></label></td>' +
                         '<td style="text-align:center;"><div class="apw-ut-num">' + (idx + 1) + '</div></td>' +
                         '<td><input type="text" class="ut-iname" value="' + escAttr(d.name) + '" placeholder="Unit ' + (idx + 1) + '"></td>' +
                         '<td><select class="ut-ibeds">' + BED_OPTS.map(function(o){ return '<option value="' + o + '"' + (o === d.beds ? ' selected' : '') + '>' + (o || 'Select') + '</option>'; }).join('') + '</select></td>' +
                         '<td><select class="ut-ibaths">' + BATH_OPTS.map(function(o){ return '<option value="' + o + '"' + (o === d.baths ? ' selected' : '') + '>' + (o || 'Select') + '</option>'; }).join('') + '</select></td>' +
-                        '<td><input type="text" class="ut-isize" value="' + escAttr(d.size) + '" placeholder="e.g. 850"></td>' +
-                        '<td><span class="apw-ut-status-pill ' + status.cls + '"><i class="fas ' + status.icon + '"></i>' + status.label + '</span></td>';
+                        '<td><input type="text" class="ut-isize" value="' + escAttr(d.size) + '" placeholder="e.g. 850"></td>';
                     var chk = tr.querySelector('.ut-ichk');
                     if (chk) chk.addEventListener('change', function() {
                         apwUnitData[idx]._selected = this.checked;
@@ -2336,13 +2330,6 @@
                             var nd = apwUnitData[idx];
                             var nowFilled = nd.beds && nd.baths && nd.size;
                             tr.classList.toggle('apw-ut-filled', !!nowFilled);
-                            // Refresh status pill without full re-render
-                            var st = apwRowStatus(nd);
-                            var pill = tr.querySelector('.apw-ut-status-pill');
-                            if (pill) {
-                                pill.className = 'apw-ut-status-pill ' + st.cls;
-                                pill.innerHTML = '<i class="fas ' + st.icon + '"></i>' + st.label;
-                            }
                             apwUpdateProgress();
                         });
                     }
@@ -2522,26 +2509,6 @@
             var t = apwOtherPagesText(r);
             return t ? ' ' + t + ' weren\u2019t touched.' : '';
         }
-
-        (function(){
-            var applyBtn = document.getElementById('apw-bulk-apply');
-            if (applyBtn) applyBtn.addEventListener('click', function() {
-                var v = apwBulkFields();
-                if (!v.any) { apwShowBulkResult('Pick at least one value above to fill', 'warn'); return; }
-                var r = apwPageRange(), changed = 0;
-                for (var i = r.start; i < r.end; i++) {
-                    var d = apwUnitData[i], touched = false;
-                    if (v.beds  && d.beds  !== v.beds)  { d.beds  = v.beds;  touched = true; }
-                    if (v.baths && d.baths !== v.baths) { d.baths = v.baths; touched = true; }
-                    if (v.size  && d.size  !== v.size)  { d.size  = v.size;  touched = true; }
-                    if (touched) changed++;
-                }
-                apwBuildTable(); apwUpdateProgress(); apwUpdateSelBadge();
-                var pc = Math.max(1, Math.ceil(apwUnitData.length / APW_PAGE_SIZE));
-                var scope = pc > 1 ? (' on page ' + apwCurrentPage + ' of ' + pc) : '';
-                apwShowBulkResult('Filled ' + apwFormatList(v.labels) + ' on ' + changed + ' of ' + r.size + ' unit' + (r.size === 1 ? '' : 's') + scope, 'ok');
-            });
-        })();
 
         // Apply to Selected — applies Quick Fill values only to checked rows on the current page.
         (function(){
