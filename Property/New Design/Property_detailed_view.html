@@ -5905,59 +5905,48 @@
             <div class="apw-step-content" data-step="2">
               <div class="apw-inner">
                 <div class="apw-section-title">Unit Amenities</div>
-                <p style="text-align:center;color:#718096;font-size:13px;margin-bottom:18px;">Tick any cell to toggle one amenity for one unit. Or pick rows + columns and use the bulk-apply bar below.</p>
+                <p class="bsuw2-intro">Tick units on the left to target a subset — or leave all unselected to apply to everyone. Then check amenities on the right.</p>
 
-                <!-- Row 1: row selection summary + column filter -->
-                <div class="bsuw-mat-toolbar">
-                  <div class="bsuw-mat-rowsel">
-                    <label class="bsuw-mat-chk"><input type="checkbox" id="bsuw-mat-selall-chk"> <span>Select all units</span></label>
-                    <span class="bsuw-mat-sep">•</span>
-                    <span class="bsuw-mat-sel-summary"><strong id="bsuw-mat-sel-n">0</strong> of <strong id="bsuw-mat-total">0</strong> units selected</span>
-                    <button type="button" class="bsuw-mat-mini-btn" id="bsuw-mat-clear-rows"><i class="fas fa-times"></i> Clear selection</button>
-                  </div>
-                  <div class="bsuw-mat-colfilter">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="bsuw-mat-colsearch" placeholder="Filter amenity columns…">
-                  </div>
-                </div>
+                <div class="bsuw2-layout">
 
-                <!-- Row 2: picked amenities + bulk apply actions -->
-                <div class="bsuw-mat-bulkbar">
-                  <div class="bsuw-mat-picked">
-                    <span class="bsuw-mat-picked-label"><i class="fas fa-hand-pointer"></i> Picked amenities:</span>
-                    <span class="bsuw-mat-picked-list" id="bsuw-mat-picked-chips"><span class="bsuw-mat-picked-empty">Click column headers to pick</span></span>
-                    <button type="button" class="bsuw-mat-mini-btn" id="bsuw-mat-picked-clear" style="display:none;"><i class="fas fa-times"></i> Clear</button>
+                  <!-- ─── Left: unit selector ─── -->
+                  <div class="bsuw2-units-panel">
+                    <div class="bsuw2-units-head">
+                      <label class="bsuw2-selall-lbl">
+                        <input type="checkbox" id="bsuw2-selall-chk">
+                        <span>Units</span>
+                      </label>
+                      <span class="bsuw2-sel-badge" id="bsuw2-sel-count">none selected</span>
+                    </div>
+                    <div class="bsuw2-unit-list" id="bsuw2-unit-list">
+                      <div class="bsuw2-no-units">No units yet.<br>Pick a property in Step 1.</div>
+                    </div>
+                    <div class="bsuw2-units-foot">
+                      <button type="button" class="bsuw2-pg-btn" id="bsuw2-prev" disabled><i class="fas fa-chevron-left"></i></button>
+                      <span class="bsuw2-pg-info" id="bsuw2-pg-info">— / —</span>
+                      <button type="button" class="bsuw2-pg-btn" id="bsuw2-next" disabled><i class="fas fa-chevron-right"></i></button>
+                    </div>
                   </div>
-                  <div class="bsuw-mat-bulkactions">
-                    <button type="button" class="bsuw-mat-btn primary" id="bsuw-mat-apply-sel" disabled><i class="fas fa-check"></i> Apply to <span id="bsuw-mat-apply-sel-n">0</span> selected</button>
-                    <button type="button" class="bsuw-mat-btn" id="bsuw-mat-apply-all" disabled><i class="fas fa-globe"></i> Apply to all units</button>
-                    <button type="button" class="bsuw-mat-btn danger" id="bsuw-mat-remove-sel" disabled><i class="fas fa-minus"></i> Remove from selected</button>
-                  </div>
-                </div>
 
-                <!-- The matrix -->
-                <div class="bsuw-mat-wrap">
-                  <div class="bsuw-mat-empty" id="bsuw-mat-empty">No units loaded yet. Pick a property above.</div>
-                  <table class="bsuw-mat" id="bsuw-mat" style="display:none;">
-                    <thead>
-                      <tr class="bsuw-mat-cat-row" id="bsuw-mat-cat-row"></tr>
-                      <tr class="bsuw-mat-am-row" id="bsuw-mat-am-row"></tr>
-                    </thead>
-                    <tbody id="bsuw-mat-body"></tbody>
-                  </table>
-                </div>
+                  <!-- ─── Right: amenity categories ─── -->
+                  <div class="bsuw2-am-panel">
+                    <div class="bsuw2-scope-bar" id="bsuw2-scope-bar">
+                      <i class="fas fa-pencil-alt"></i>
+                      Editing:&nbsp;<strong id="bsuw2-scope-label">All 0 units</strong>
+                      <button type="button" class="bsuw2-clear-sel-btn" id="bsuw2-clear-sel" style="display:none;"><i class="fas fa-times"></i> Clear selection</button>
+                    </div>
+                    <div class="bsuw2-am-grid" id="bsuw2-am-grid">
+                      <!-- populated by bsuw2RenderAmenities() -->
+                    </div>
+                    <div class="bsuw2-legend">
+                      <span class="bsuw2-leg state-all"><i class="fas fa-check"></i> All have it</span>
+                      <span class="bsuw2-leg state-some"><i class="fas fa-minus"></i> Some have it</span>
+                      <span class="bsuw2-leg state-none"><i class="fas fa-plus"></i> None have it</span>
+                      <span class="bsuw2-leg-tip">— click any chip to toggle</span>
+                    </div>
+                  </div>
 
-                <!-- Pagination + auto-save note -->
-                <div class="bsuw-mat-footer">
-                  <div class="bsuw-mat-pagination">
-                    <button type="button" class="bsuw-mat-page-btn" id="bsuw-mat-prev" disabled><i class="fas fa-chevron-left"></i></button>
-                    <span class="bsuw-mat-page-info" id="bsuw-mat-page-info">Page 1 of 1</span>
-                    <button type="button" class="bsuw-mat-page-btn" id="bsuw-mat-next" disabled><i class="fas fa-chevron-right"></i></button>
-                  </div>
-                  <div class="bsuw-mat-save-note">
-                    <i class="fas fa-cloud-check"></i> Changes save as you tick. Click <strong>Next</strong> when done.
-                  </div>
-                </div>
+                </div><!-- /bsuw2-layout -->
               </div>
             </div>
 
@@ -8364,299 +8353,215 @@
             });
         })();
 
-        /* ─── Step 2: Amenity Matrix ───
-           Rows = units. Columns = amenities (grouped by category).
-           - Click a cell  → toggle that unit's amenity (one-off edit).
-           - Tick a row   → add to "selected" set.
-           - Click a column header → pick that amenity for bulk apply.
-           - "Apply to N selected" / "Apply to all" / "Remove from selected"
-             perform bulk actions using the picked columns × selected rows.
+        /* ─── Step 2: Two-panel amenity editor ───
+           Left  = paginated unit list with row checkboxes.
+           Right = ALL amenity categories + subcategories visible as chips at once — no horizontal scroll.
+
+           Scope rule: if any units are ticked → scope = those units.
+                       if nothing ticked      → scope = ALL units.
+           Chip states (for the current scope):
+             state-all  = every unit in scope has this amenity (green ✓)
+             state-some = only some units have it             (amber −)
+             state-none = no units have it                    (grey  +)
+           Click: all → remove from scope.  some/none → add to scope.
         */
-        var BSUW_MAT_PAGE_SIZE = 25;
-        var bsuwMatPage = 1;
-        var bsuwMatColFilter = '';
-        var bsuwPickedCols = new Set(); // column names currently picked for bulk apply
+        var BSUW2_PAGE_SIZE = 20;
+        var bsuw2Page = 1;
+        /* Keep old matrix vars so bsuwOpen() reset code compiles without errors */
+        var bsuwMatPage = 1, bsuwMatColFilter = '', bsuwPickedCols = new Set();
 
-        function bsuwMatAllCols() {
-            var out = [];
-            Object.keys(BSUW_AMENITIES).forEach(function(cat) {
-                BSUW_AMENITIES[cat].forEach(function(am) { out.push({ cat: cat, am: am }); });
-            });
-            return out;
+        /* Return the units that are currently "in scope". */
+        function bsuw2Scope() {
+            var sel = bsuwUnitData.filter(function(u) { return u._selected; });
+            return sel.length > 0 ? sel : bsuwUnitData;
         }
-        function bsuwMatFilteredCols() {
-            var q = bsuwMatColFilter;
-            return bsuwMatAllCols().filter(function(x) {
-                return !q || x.am.toLowerCase().indexOf(q) !== -1;
-            });
-        }
-        function bsuwMatPageCount() {
-            return Math.max(1, Math.ceil(bsuwUnitData.length / BSUW_MAT_PAGE_SIZE));
-        }
-        function bsuwMatPageRange() {
-            var s = (bsuwMatPage - 1) * BSUW_MAT_PAGE_SIZE;
-            var e = Math.min(s + BSUW_MAT_PAGE_SIZE, bsuwUnitData.length);
-            return { start: s, end: e };
-        }
-        function bsuwCatCssSuffix(cat) { return cat.replace(/[^A-Za-z]/g, ''); }
 
-        function bsuwRenderMatrix() {
-            var catRow = document.getElementById('bsuw-mat-cat-row');
-            var amRow  = document.getElementById('bsuw-mat-am-row');
-            var body   = document.getElementById('bsuw-mat-body');
-            var empty  = document.getElementById('bsuw-mat-empty');
-            var mat    = document.getElementById('bsuw-mat');
-            if (!catRow || !amRow || !body || !mat) return;
+        /* Returns 'all', 'some', or 'none' for the current scope. */
+        function bsuw2AmState(am) {
+            var scope = bsuw2Scope();
+            if (!scope.length) return 'none';
+            var has = scope.filter(function(u) {
+                return (u.amenities || []).indexOf(am) !== -1;
+            }).length;
+            if (has === scope.length) return 'all';
+            if (has === 0) return 'none';
+            return 'some';
+        }
 
+        /* Update the scope bar label + selall checkbox + sel-count badge. */
+        function bsuw2UpdateScopeBar() {
+            var total  = bsuwUnitData.length;
+            var selN   = bsuwUnitData.filter(function(u) { return u._selected; }).length;
+            var label  = document.getElementById('bsuw2-scope-label');
+            var clrBtn = document.getElementById('bsuw2-clear-sel');
+            var badge  = document.getElementById('bsuw2-sel-count');
+            var allChk = document.getElementById('bsuw2-selall-chk');
+            if (label) {
+                label.textContent = selN === 0
+                    ? 'All ' + total + ' unit' + (total === 1 ? '' : 's')
+                    : selN + ' selected unit' + (selN === 1 ? '' : 's');
+            }
+            if (clrBtn) clrBtn.style.display = selN > 0 ? 'inline-flex' : 'none';
+            if (badge)  badge.textContent    = selN > 0 ? selN + ' selected' : 'none selected';
+            if (allChk) {
+                allChk.checked       = total > 0 && selN === total;
+                allChk.indeterminate = selN > 0  && selN < total;
+            }
+        }
+
+        /* Render the unit list for the current page. */
+        function bsuw2RenderUnits() {
+            var list = document.getElementById('bsuw2-unit-list');
+            if (!list) return;
             if (!bsuwUnitData.length) {
-                mat.style.display = 'none';
-                if (empty) { empty.style.display = ''; empty.textContent = 'No units loaded yet. Pick a property above.'; }
-                bsuwMatUpdateToolbar();
-                bsuwMatUpdateFooter();
+                list.innerHTML = '<div class="bsuw2-no-units">No units yet.<br>Pick a property in Step 1.</div>';
+                var pgInfo = document.getElementById('bsuw2-pg-info');
+                var prev   = document.getElementById('bsuw2-prev');
+                var nxt    = document.getElementById('bsuw2-next');
+                if (pgInfo) pgInfo.textContent = '— / —';
+                if (prev)   prev.disabled = true;
+                if (nxt)    nxt.disabled  = true;
+                bsuw2UpdateScopeBar();
                 return;
             }
-            mat.style.display = '';
-            if (empty) empty.style.display = 'none';
-
-            var cols = bsuwMatFilteredCols();
-            if (cols.length === 0) {
-                mat.style.display = 'none';
-                if (empty) { empty.style.display = ''; empty.textContent = 'No amenities match "' + bsuwMatColFilter + '".'; }
-                bsuwMatUpdateToolbar();
-                bsuwMatUpdateFooter();
-                return;
-            }
-
-            // Header: grouped-by-category band
-            var catHtml = '<th class="unit-corner" rowspan="2">Unit</th>';
-            var curCat = null, groupCount = 0, groups = [];
-            cols.forEach(function(c) {
-                if (c.cat !== curCat) {
-                    if (curCat !== null) groups.push({ cat: curCat, count: groupCount });
-                    curCat = c.cat; groupCount = 0;
-                }
-                groupCount++;
-            });
-            if (curCat !== null) groups.push({ cat: curCat, count: groupCount });
-            groups.forEach(function(g) {
-                catHtml += '<th colspan="' + g.count + '" class="cat-' + bsuwCatCssSuffix(g.cat) + '">' + escHtml(g.cat) + '</th>';
-            });
-            catRow.innerHTML = catHtml;
-
-            // Amenity header row
-            var amHtml = '';
-            cols.forEach(function(c) {
-                var pick = bsuwPickedCols.has(c.am) ? ' picked' : '';
-                amHtml += '<th class="mat-am-head' + pick + '" data-am="' + escHtml(c.am) + '" title="Click to pick this amenity for bulk apply">' + escHtml(c.am) + '</th>';
-            });
-            amRow.innerHTML = amHtml;
-
-            // Body rows for current page
-            var r = bsuwMatPageRange();
-            var rowHtml = '';
-            for (var i = r.start; i < r.end; i++) {
-                var d = bsuwUnitData[i];
-                var name = d.name || ('Unit ' + (i + 1));
-                var rowCls = d._selected ? ' row-selected' : '';
-                rowHtml += '<tr class="mat-row' + rowCls + '" data-idx="' + i + '">';
-                rowHtml += '<td class="bsuw-mat-unit-cell"><label><input type="checkbox" class="bsuw-mat-rowchk"' + (d._selected ? ' checked' : '') + '><span>' + escHtml(name) + '</span></label></td>';
-                var ams = d.amenities || [];
-                cols.forEach(function(c) {
-                    var on = ams.indexOf(c.am) !== -1 ? ' on' : '';
-                    var colPick = bsuwPickedCols.has(c.am) ? ' col-picked' : '';
-                    rowHtml += '<td class="bsuw-mat-cell' + on + colPick + '" data-am="' + escHtml(c.am) + '" title="' + escHtml(name) + ' — ' + escHtml(c.am) + '"></td>';
-                });
-                rowHtml += '</tr>';
-            }
-            body.innerHTML = rowHtml;
-
-            bsuwMatUpdateToolbar();
-            bsuwMatUpdateFooter();
-        }
-
-        function bsuwMatUpdateToolbar() {
             var total = bsuwUnitData.length;
-            var selN  = bsuwUnitData.filter(function(u){ return u._selected; }).length;
-            var pickN = bsuwPickedCols.size;
-            var selElN = document.getElementById('bsuw-mat-sel-n');
-            var totEl  = document.getElementById('bsuw-mat-total');
-            var applyN = document.getElementById('bsuw-mat-apply-sel-n');
-            if (selElN) selElN.textContent = selN;
-            if (totEl)  totEl.textContent  = total;
-            if (applyN) applyN.textContent = selN;
-            var selallChk = document.getElementById('bsuw-mat-selall-chk');
-            if (selallChk) {
-                selallChk.checked = total > 0 && selN === total;
-                selallChk.indeterminate = selN > 0 && selN < total;
+            var pc = Math.max(1, Math.ceil(total / BSUW2_PAGE_SIZE));
+            if (bsuw2Page > pc) bsuw2Page = pc;
+            if (bsuw2Page < 1)  bsuw2Page = 1;
+            var s = (bsuw2Page - 1) * BSUW2_PAGE_SIZE;
+            var e = Math.min(s + BSUW2_PAGE_SIZE, total);
+            var html = '';
+            for (var i = s; i < e; i++) {
+                var d    = bsuwUnitData[i];
+                var name = d.name || ('Unit ' + (i + 1));
+                html += '<div class="bsuw2-unit-row' + (d._selected ? ' sel' : '') + '" data-idx="' + i + '">' +
+                    '<input type="checkbox" class="bsuw2-unit-chk"' + (d._selected ? ' checked' : '') + '>' +
+                    '<span>' + escHtml(name) + '</span>' +
+                    '</div>';
             }
-            var applySel  = document.getElementById('bsuw-mat-apply-sel');
-            var applyAll  = document.getElementById('bsuw-mat-apply-all');
-            var removeSel = document.getElementById('bsuw-mat-remove-sel');
-            if (applySel)  applySel.disabled  = !(selN > 0 && pickN > 0);
-            if (applyAll)  applyAll.disabled  = !(total > 0 && pickN > 0);
-            if (removeSel) removeSel.disabled = !(selN > 0 && pickN > 0);
-
-            var chipsEl = document.getElementById('bsuw-mat-picked-chips');
-            var clrBtn  = document.getElementById('bsuw-mat-picked-clear');
-            if (chipsEl) {
-                if (pickN === 0) {
-                    chipsEl.innerHTML = '<span class="bsuw-mat-picked-empty">Click column headers to pick</span>';
-                    if (clrBtn) clrBtn.style.display = 'none';
-                } else {
-                    var html = '';
-                    bsuwPickedCols.forEach(function(am) {
-                        html += '<span class="bsuw-mat-picked-chip">' + escHtml(am) + '<button data-am="' + escHtml(am) + '" title="Unpick">&times;</button></span>';
-                    });
-                    chipsEl.innerHTML = html;
-                    if (clrBtn) clrBtn.style.display = 'inline-flex';
-                }
-            }
+            list.innerHTML = html;
+            var pgInfo = document.getElementById('bsuw2-pg-info');
+            var prev   = document.getElementById('bsuw2-prev');
+            var nxt    = document.getElementById('bsuw2-next');
+            if (pgInfo) pgInfo.textContent = bsuw2Page + ' / ' + pc;
+            if (prev)   prev.disabled = bsuw2Page <= 1;
+            if (nxt)    nxt.disabled  = bsuw2Page >= pc;
+            bsuw2UpdateScopeBar();
         }
 
-        function bsuwMatUpdateFooter() {
-            var pc = bsuwMatPageCount();
-            if (bsuwMatPage > pc) bsuwMatPage = pc;
-            if (bsuwMatPage < 1)  bsuwMatPage = 1;
-            var r = bsuwMatPageRange();
-            var info = document.getElementById('bsuw-mat-page-info');
-            var prev = document.getElementById('bsuw-mat-prev');
-            var next = document.getElementById('bsuw-mat-next');
-            if (info) {
-                if (bsuwUnitData.length === 0) info.textContent = 'No units';
-                else info.textContent = 'Page ' + bsuwMatPage + ' of ' + pc + ' — units ' + (r.start + 1) + '–' + r.end + ' of ' + bsuwUnitData.length;
-            }
-            if (prev) prev.disabled = (bsuwMatPage <= 1);
-            if (next) next.disabled = (bsuwMatPage >= pc);
+        /* Render (or re-render) the amenity category chips for the current scope. */
+        function bsuw2RenderAmenities() {
+            var grid = document.getElementById('bsuw2-am-grid');
+            if (!grid) return;
+            if (!bsuwUnitData.length) { grid.innerHTML = ''; return; }
+            var html = '';
+            Object.keys(BSUW_AMENITIES).forEach(function(cat) {
+                html += '<div class="bsuw2-cat-section" data-cat="' + escHtml(cat) + '">';
+                html += '<div class="bsuw2-cat-title">' + escHtml(cat) + '</div>';
+                html += '<div class="bsuw2-am-chips">';
+                BSUW_AMENITIES[cat].forEach(function(am) {
+                    var st = bsuw2AmState(am);
+                    html += '<button type="button" class="bsuw2-am-chip state-' + st +
+                        '" data-am="' + escHtml(am) + '">' + escHtml(am) + '</button>';
+                });
+                html += '</div></div>';
+            });
+            grid.innerHTML = html;
         }
 
-        /* Update just a single cell's "on" class without a full re-render — fast path for cell clicks */
-        function bsuwMatTouchCell(cellEl, on) {
-            cellEl.classList.toggle('on', on);
+        /* Master render — called by bsuwRender() when stepping to Step 2. */
+        function bsuwRenderMatrix() {
+            bsuw2RenderUnits();
+            bsuw2RenderAmenities();
         }
 
-        /* ── Matrix event delegation (cell clicks, row checks, column picks) ── */
+        /* ── Unit list: row click toggles selection ── */
         (function() {
-            var mat = document.getElementById('bsuw-mat');
-            if (!mat) return;
-            mat.addEventListener('click', function(e) {
-                var t = e.target;
-                // Row checkbox — rowchk input itself
-                if (t && t.classList && t.classList.contains('bsuw-mat-rowchk')) {
-                    var tr = t.closest('tr');
-                    var idx = parseInt(tr.dataset.idx, 10);
-                    bsuwUnitData[idx]._selected = t.checked;
-                    tr.classList.toggle('row-selected', t.checked);
-                    bsuwMatUpdateToolbar();
-                    return;
-                }
-                // Column header — amenity pick
-                var head = t && t.closest ? t.closest('.mat-am-head') : null;
-                if (head) {
-                    var hAm = head.dataset.am;
-                    if (bsuwPickedCols.has(hAm)) bsuwPickedCols.delete(hAm);
-                    else bsuwPickedCols.add(hAm);
-                    bsuwRenderMatrix();
-                    return;
-                }
-                // Cell click — toggle amenity for unit
-                var cell = t && t.closest ? t.closest('.bsuw-mat-cell') : null;
-                if (cell) {
-                    var tr2 = cell.closest('tr');
-                    var idx2 = parseInt(tr2.dataset.idx, 10);
-                    var am = cell.dataset.am;
-                    var d = bsuwUnitData[idx2];
-                    if (!d.amenities) d.amenities = [];
-                    var pos = d.amenities.indexOf(am);
-                    if (pos === -1) { d.amenities.push(am); bsuwMatTouchCell(cell, true); }
-                    else            { d.amenities.splice(pos, 1); bsuwMatTouchCell(cell, false); }
-                    return;
-                }
+            var listEl = document.getElementById('bsuw2-unit-list');
+            if (!listEl) return;
+            listEl.addEventListener('click', function(e) {
+                var row = e.target.closest ? e.target.closest('.bsuw2-unit-row') : null;
+                if (!row) return;
+                var idx = parseInt(row.dataset.idx, 10);
+                if (isNaN(idx) || idx < 0 || idx >= bsuwUnitData.length) return;
+                bsuwUnitData[idx]._selected = !bsuwUnitData[idx]._selected;
+                row.classList.toggle('sel', bsuwUnitData[idx]._selected);
+                var chk = row.querySelector('.bsuw2-unit-chk');
+                if (chk) chk.checked = bsuwUnitData[idx]._selected;
+                bsuw2UpdateScopeBar();
+                bsuw2RenderAmenities();
             });
         })();
 
-        /* Select-all / Clear-selection (row selection) */
-        document.getElementById('bsuw-mat-selall-chk').addEventListener('change', function() {
-            var on = this.checked;
-            bsuwUnitData.forEach(function(u) { u._selected = on; });
-            bsuwRenderMatrix();
-        });
-        document.getElementById('bsuw-mat-clear-rows').addEventListener('click', function() {
-            bsuwUnitData.forEach(function(u) { u._selected = false; });
-            bsuwRenderMatrix();
-        });
+        /* ── Select-all checkbox ── */
+        (function() {
+            var chk = document.getElementById('bsuw2-selall-chk');
+            if (!chk) return;
+            chk.addEventListener('change', function() {
+                var on = this.checked;
+                bsuwUnitData.forEach(function(u) { u._selected = on; });
+                bsuw2RenderUnits();
+                bsuw2RenderAmenities();
+            });
+        })();
 
-        /* Picked-chips clear + individual unpick */
-        document.getElementById('bsuw-mat-picked-clear').addEventListener('click', function() {
-            bsuwPickedCols.clear();
-            bsuwRenderMatrix();
-        });
-        document.getElementById('bsuw-mat-picked-chips').addEventListener('click', function(e) {
-            var btn = e.target && e.target.closest ? e.target.closest('button[data-am]') : null;
+        /* ── Clear selection button ── */
+        (function() {
+            var btn = document.getElementById('bsuw2-clear-sel');
             if (!btn) return;
-            bsuwPickedCols.delete(btn.dataset.am);
-            bsuwRenderMatrix();
+            btn.addEventListener('click', function() {
+                bsuwUnitData.forEach(function(u) { u._selected = false; });
+                bsuw2RenderUnits();
+                bsuw2RenderAmenities();
+            });
+        })();
+
+        /* ── Unit list pagination ── */
+        document.getElementById('bsuw2-prev').addEventListener('click', function() {
+            if (bsuw2Page > 1) { bsuw2Page--; bsuw2RenderUnits(); }
+        });
+        document.getElementById('bsuw2-next').addEventListener('click', function() {
+            var pc = Math.max(1, Math.ceil(bsuwUnitData.length / BSUW2_PAGE_SIZE));
+            if (bsuw2Page < pc) { bsuw2Page++; bsuw2RenderUnits(); }
         });
 
-        /* Column filter search */
-        document.getElementById('bsuw-mat-colsearch').addEventListener('input', function() {
-            bsuwMatColFilter = this.value.trim().toLowerCase();
-            bsuwRenderMatrix();
-        });
-
-        /* Pagination */
-        document.getElementById('bsuw-mat-prev').addEventListener('click', function() {
-            if (bsuwMatPage > 1) { bsuwMatPage--; bsuwRenderMatrix(); }
-        });
-        document.getElementById('bsuw-mat-next').addEventListener('click', function() {
-            if (bsuwMatPage < bsuwMatPageCount()) { bsuwMatPage++; bsuwRenderMatrix(); }
-        });
-
-        /* Bulk apply actions */
-        function bsuwMatApplyToPool(mode) {
-            // mode: 'sel' (add to selected), 'all' (add to all), 'rem' (remove from selected)
-            var touched = 0;
-            bsuwUnitData.forEach(function(d) {
-                var inScope = (mode === 'all') ? true : !!d._selected;
-                if (!inScope) return;
-                if (!d.amenities) d.amenities = [];
-                if (mode === 'rem') {
-                    bsuwPickedCols.forEach(function(am) {
-                        var i = d.amenities.indexOf(am);
-                        if (i !== -1) d.amenities.splice(i, 1);
+        /* ── Amenity chip click: toggle for entire scope ── */
+        (function() {
+            var grid = document.getElementById('bsuw2-am-grid');
+            if (!grid) return;
+            grid.addEventListener('click', function(e) {
+                var chip = e.target.closest ? e.target.closest('.bsuw2-am-chip') : null;
+                if (!chip) return;
+                var am    = chip.dataset.am;
+                var scope = bsuw2Scope();
+                var state = bsuw2AmState(am);
+                if (state === 'all') {
+                    /* Remove from every unit in scope */
+                    scope.forEach(function(u) {
+                        var idx = (u.amenities || []).indexOf(am);
+                        if (idx !== -1) u.amenities.splice(idx, 1);
                     });
                 } else {
-                    bsuwPickedCols.forEach(function(am) {
-                        if (d.amenities.indexOf(am) === -1) d.amenities.push(am);
+                    /* Add to every unit in scope (covers 'none' and 'some') */
+                    scope.forEach(function(u) {
+                        if (!u.amenities) u.amenities = [];
+                        if (u.amenities.indexOf(am) === -1) u.amenities.push(am);
                     });
                 }
-                touched++;
+                /* Fast path: only re-render chips, units list unchanged */
+                bsuw2RenderAmenities();
             });
-            bsuwRenderMatrix();
-            return touched;
-        }
-        document.getElementById('bsuw-mat-apply-sel').addEventListener('click', function() {
-            if (this.disabled) return;
-            bsuwMatApplyToPool('sel');
-        });
-        document.getElementById('bsuw-mat-apply-all').addEventListener('click', function() {
-            if (this.disabled) return;
-            bsuwMatApplyToPool('all');
-        });
-        document.getElementById('bsuw-mat-remove-sel').addEventListener('click', function() {
-            if (this.disabled) return;
-            bsuwMatApplyToPool('rem');
-        });
+        })();
 
-        /* Back-compat no-ops — legacy Step 2 functions referenced elsewhere */
+        /* ── Back-compat shims (other code paths call these) ── */
         function bsuwRenderChips()       { bsuwRenderMatrix(); }
-        function bsuwRenderSelStrip()    { /* no-op — old picks strip removed */ }
+        function bsuwRenderSelStrip()    { /* no-op */ }
         function bsuwUpdateChipStates()  { /* no-op */ }
-        function bsuwAmUpdateStats()     { bsuwMatUpdateToolbar(); bsuwMatUpdateFooter(); }
-        function bsuwAmUpdateCTA()       { /* no-op — no single CTA in matrix UI */ }
+        function bsuwAmUpdateStats()     { bsuw2UpdateScopeBar(); }
+        function bsuwAmUpdateCTA()       { /* no-op */ }
         function bsuwAmHideSuccess()     { /* no-op */ }
-        function bsuwAmScopeUnits() {
-            return bsuwUnitData.filter(function(u) { return bsuwApplyToAll || u._selected; });
-        }
+        function bsuwAmScopeUnits()      { return bsuw2Scope(); }
+
         function bsuwBuildReview(){
             var body=document.getElementById('bsuw-review-body'),total=bsuwUnitData.length;
             var filled=bsuwUnitData.filter(function(d){return d.name||d.beds||d.baths;}).length;
@@ -8686,13 +8591,9 @@
             var brB=document.getElementById('bsuw-bulk-result'); if(brB) brB.classList.remove('show');
             var selLbl=document.getElementById('bsuw-qf-sel-label'); if(selLbl) selLbl.textContent='Apply to Selected (0)';
             var selBtn=document.getElementById('bsuw-bulk-selected'); if(selBtn) selBtn.disabled=true;
-            // Reset Step 2 (matrix) state
-            bsuwPickedCols.clear();
-            bsuwMatPage = 1;
-            bsuwMatColFilter = '';
-            var colS = document.getElementById('bsuw-mat-colsearch'); if (colS) colS.value = '';
-            var selAllChk = document.getElementById('bsuw-mat-selall-chk');
-            if (selAllChk) { selAllChk.checked = false; selAllChk.indeterminate = false; }
+            // Reset Step 2 state
+            bsuw2Page = 1;
+            bsuwUnitData.forEach(function(u) { u._selected = false; });
             bsuwGenerate(); /* auto-load 150 units immediately */
             bsuwRender();overlay.classList.add('open');overlay.scrollTop=0;document.body.style.overflow='hidden';
         }
@@ -9075,83 +8976,77 @@
         .bsuw-review-table tbody td { padding: 8px 12px; border-bottom: 1px solid #EDF2F7; color: #2D3748; vertical-align: middle; }
         .bsuw-review-table tbody tr:last-child td { border-bottom: none; }
         .bsuw-review-am-tag { display: inline-block; padding: 2px 8px; background: #EBF4FA; border: 1px solid #BDE0F5; border-radius: 12px; font-size: 11px; color: #2C6F9A; font-weight: 600; margin: 2px; }
-        /* ══ Step 2 — Amenity Matrix (unit × amenity grid) ══ */
-        .bsuw-mat-toolbar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 14px; background:#F8FAFB; border:1px solid #E2E6EB; border-radius:10px; margin-bottom:10px; flex-wrap:wrap; }
-        .bsuw-mat-rowsel { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-        .bsuw-mat-chk { display:inline-flex; align-items:center; gap:7px; cursor:pointer; font-size:13px; font-weight:600; color:#1B4B6E; }
-        .bsuw-mat-chk input { width:15px; height:15px; cursor:pointer; accent-color:#7B4FCF; }
-        .bsuw-mat-sep { color:#C4CDD6; }
-        .bsuw-mat-sel-summary { font-size:12.5px; color:#4A6B8A; }
-        .bsuw-mat-sel-summary strong { color:#1B4B6E; }
-        .bsuw-mat-mini-btn { padding:5px 10px; border-radius:6px; border:1.5px solid #D1D9E4; background:#fff; color:#4A6FA5; font-size:11.5px; font-weight:600; cursor:pointer; font-family:inherit; display:inline-flex; align-items:center; gap:5px; }
-        .bsuw-mat-mini-btn:hover { border-color:#7B4FCF; color:#7B4FCF; }
-        .bsuw-mat-colfilter { position:relative; min-width:220px; flex:0 0 auto; }
-        .bsuw-mat-colfilter i { position:absolute; left:10px; top:50%; transform:translateY(-50%); color:#6B8AA3; font-size:12px; pointer-events:none; }
-        .bsuw-mat-colfilter input { width:100%; padding:7px 10px 7px 30px; border:1.5px solid #D1D9E4; border-radius:8px; font-size:12.5px; font-family:inherit; color:#1B4B6E; background:#fff; box-sizing:border-box; }
-        .bsuw-mat-colfilter input:focus { outline:none; border-color:#7B4FCF; }
 
-        .bsuw-mat-bulkbar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; background:linear-gradient(135deg, #F4EFFF 0%, #EDE5FF 100%); border:1.5px solid #C6B3F0; border-radius:10px; margin-bottom:12px; flex-wrap:wrap; }
-        .bsuw-mat-picked { display:flex; align-items:center; gap:8px; flex-wrap:wrap; flex:1; min-width:220px; }
-        .bsuw-mat-picked-label { font-size:11px; font-weight:700; color:#5B32A8; text-transform:uppercase; letter-spacing:0.05em; display:inline-flex; align-items:center; gap:5px; white-space:nowrap; }
-        .bsuw-mat-picked-list { display:inline-flex; gap:5px; flex-wrap:wrap; }
-        .bsuw-mat-picked-empty { font-size:12px; color:#9485B8; font-style:italic; }
-        .bsuw-mat-picked-chip { display:inline-flex; align-items:center; gap:5px; padding:3px 5px 3px 10px; background:#fff; border:1.5px solid #7B4FCF; border-radius:999px; font-size:11.5px; font-weight:600; color:#5B32A8; }
-        .bsuw-mat-picked-chip button { border:none; background:#EDE5FF; color:#5B32A8; width:18px; height:18px; border-radius:50%; cursor:pointer; font-size:10px; display:flex; align-items:center; justify-content:center; padding:0; font-family:inherit; }
-        .bsuw-mat-picked-chip button:hover { background:#7B4FCF; color:#fff; }
-        .bsuw-mat-bulkactions { display:flex; gap:6px; flex-wrap:wrap; }
-        .bsuw-mat-btn { padding:8px 14px; border-radius:8px; border:1.5px solid #D1D9E4; background:#fff; color:#4A6FA5; font-size:12px; font-weight:600; cursor:pointer; font-family:inherit; display:inline-flex; align-items:center; gap:6px; transition:all 0.12s; }
-        .bsuw-mat-btn:hover:not(:disabled) { border-color:#7B4FCF; color:#7B4FCF; }
-        .bsuw-mat-btn:disabled { opacity:0.45; cursor:not-allowed; }
-        .bsuw-mat-btn.primary { background:#7B4FCF; border-color:#7B4FCF; color:#fff; }
-        .bsuw-mat-btn.primary:hover:not(:disabled) { background:#6A3FBD; border-color:#6A3FBD; color:#fff; }
-        .bsuw-mat-btn.danger { border-color:#E53E3E; color:#E53E3E; }
-        .bsuw-mat-btn.danger:hover:not(:disabled) { background:#E53E3E; color:#fff; }
+        /* ══ Step 2 — Two-panel amenity editor ══ */
+        .bsuw2-intro { text-align:center; color:#718096; font-size:13px; margin:0 0 16px; }
 
-        .bsuw-mat-wrap { position:relative; overflow:auto; max-height:480px; border:1px solid #E2E6EB; border-radius:10px; background:#fff; }
-        .bsuw-mat-empty { padding:50px 24px; text-align:center; color:#718096; font-size:13px; background:#F8FAFB; }
-        .bsuw-mat { border-collapse:separate; border-spacing:0; font-size:12px; width:max-content; min-width:100%; }
-        .bsuw-mat th, .bsuw-mat td { border-bottom:1px solid #E2E6EB; border-right:1px solid #EEF1F4; background:#fff; }
-        .bsuw-mat thead th { background:#F8FAFB; position:sticky; top:0; z-index:2; }
-        .bsuw-mat-cat-row th { padding:8px 10px; font-weight:700; font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:#4A5568; text-align:center; border-bottom:2px solid #D1D9E4; white-space:nowrap; }
-        .bsuw-mat-cat-row th.cat-Interior    { background:#EEF5FB; color:#1B4B6E; }
-        .bsuw-mat-cat-row th.cat-Bathroom    { background:#E8F7EF; color:#1F7A47; }
-        .bsuw-mat-cat-row th.cat-Kitchen     { background:#FFF4E5; color:#8A5B17; }
-        .bsuw-mat-cat-row th.cat-Tech        { background:#F0E8FF; color:#5B32A8; }
-        .bsuw-mat-cat-row th.cat-Accessibility { background:#FFF0F0; color:#9B1C1C; }
-        .bsuw-mat-cat-row th.unit-corner { background:#1B4B6E; color:#fff; font-size:12.5px; text-transform:none; letter-spacing:0; position:sticky; left:0; z-index:4; min-width:150px; text-align:left; padding:8px 12px; }
-        .bsuw-mat-am-row th { padding:10px 10px; font-weight:600; font-size:11.5px; color:#4A6B8A; cursor:pointer; text-align:center; white-space:nowrap; min-width:84px; background:#FCFCFD; position:sticky; top:32px; z-index:2; border-bottom:2px solid #D1D9E4; user-select:none; transition:all 0.12s; }
-        .bsuw-mat-am-row th:hover { background:#EDF6FF; color:#1B4B6E; }
-        .bsuw-mat-am-row th.picked { background:#7B4FCF !important; color:#fff !important; box-shadow:inset 0 -3px 0 #4D2A9C; }
-        .bsuw-mat-am-row th.picked::after { content:" ✓"; font-weight:900; }
-        .bsuw-mat-am-row th.unit-corner2 { background:#2A5A7E; color:#fff; position:sticky; left:0; z-index:4; cursor:default; text-align:left; padding:10px 12px; min-width:150px; }
-        .bsuw-mat-am-row th.unit-corner2:hover { background:#2A5A7E; color:#fff; box-shadow:none; }
+        .bsuw2-layout { display:flex; gap:14px; align-items:flex-start; min-height:440px; }
 
-        .bsuw-mat tbody tr:hover td { background:#F8FBFF; }
-        .bsuw-mat tbody tr.row-selected td { background:#F5EFFF; }
-        .bsuw-mat tbody tr.row-selected:hover td { background:#EDE5FF; }
-        .bsuw-mat-unit-cell { padding:8px 12px; text-align:left; font-weight:600; font-size:12px; color:#1B4B6E; position:sticky; left:0; background:#fff; border-right:2px solid #D1D9E4 !important; z-index:1; min-width:150px; }
-        .bsuw-mat tbody tr.row-selected .bsuw-mat-unit-cell { background:#F5EFFF; }
-        .bsuw-mat tbody tr:hover .bsuw-mat-unit-cell { background:#F8FBFF; }
-        .bsuw-mat tbody tr.row-selected:hover .bsuw-mat-unit-cell { background:#EDE5FF; }
-        .bsuw-mat-unit-cell label { display:flex; align-items:center; gap:8px; cursor:pointer; }
-        .bsuw-mat-unit-cell input { width:14px; height:14px; cursor:pointer; accent-color:#7B4FCF; flex-shrink:0; }
-        .bsuw-mat-cell { padding:0; cursor:pointer; min-width:84px; height:34px; user-select:none; text-align:center; color:transparent; font-size:13px; transition:background 0.1s; }
-        .bsuw-mat-cell:hover { background:#EDF6FF !important; color:#7FA8C9; }
-        .bsuw-mat-cell::before { content:"·"; font-size:16px; opacity:0.3; }
-        .bsuw-mat-cell.on { background:#E6F9ED !important; color:#1F7A47; font-weight:700; }
-        .bsuw-mat-cell.on::before { content:"\f00c"; font-family:"Font Awesome 5 Free"; font-weight:900; font-size:11px; opacity:1; color:#2FA866; }
-        .bsuw-mat-cell.on:hover { background:#CCF2D9 !important; }
-        .bsuw-mat-cell.col-picked { box-shadow:inset 2px 0 0 #7B4FCF, inset -2px 0 0 #7B4FCF; }
+        /* ── Left: unit list panel ── */
+        .bsuw2-units-panel { width:188px; flex-shrink:0; border:1px solid #D1D9E4; border-radius:10px; overflow:hidden; background:#fff; display:flex; flex-direction:column; }
+        .bsuw2-units-head { background:#1B4B6E; color:#fff; padding:9px 12px; display:flex; align-items:center; justify-content:space-between; gap:8px; flex-shrink:0; }
+        .bsuw2-selall-lbl { display:inline-flex; align-items:center; gap:7px; cursor:pointer; font-size:12.5px; font-weight:700; }
+        .bsuw2-selall-lbl input { width:13px; height:13px; cursor:pointer; accent-color:#A073E8; }
+        .bsuw2-sel-badge { font-size:10.5px; background:rgba(255,255,255,0.2); border-radius:10px; padding:2px 7px; white-space:nowrap; }
+        .bsuw2-unit-list { flex:1; overflow-y:auto; max-height:400px; }
+        .bsuw2-no-units { padding:24px 12px; text-align:center; color:#9AA5B4; font-size:12px; line-height:1.7; }
+        .bsuw2-unit-row { display:flex; align-items:center; gap:8px; padding:7px 12px; font-size:12px; cursor:pointer; border-bottom:1px solid #F0F3F6; color:#2D3748; transition:background 0.1s; user-select:none; }
+        .bsuw2-unit-row:last-child { border-bottom:none; }
+        .bsuw2-unit-row:hover { background:#EDF6FF; }
+        .bsuw2-unit-row.sel { background:#F5EFFF; font-weight:600; color:#4A2CA0; }
+        .bsuw2-unit-row.sel:hover { background:#EDE5FF; }
+        .bsuw2-unit-chk { width:13px; height:13px; flex-shrink:0; cursor:pointer; accent-color:#7B4FCF; pointer-events:none; }
+        .bsuw2-units-foot { padding:6px 12px; display:flex; align-items:center; justify-content:center; gap:6px; border-top:1px solid #E2E6EB; background:#F8FAFB; flex-shrink:0; }
+        .bsuw2-pg-btn { width:26px; height:26px; border-radius:6px; border:1.5px solid #D1D9E4; background:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#4A6FA5; font-size:10px; transition:all 0.1s; }
+        .bsuw2-pg-btn:hover:not(:disabled) { border-color:#7B4FCF; color:#7B4FCF; }
+        .bsuw2-pg-btn:disabled { opacity:0.4; cursor:not-allowed; }
+        .bsuw2-pg-info { font-size:11.5px; color:#4A6B8A; font-weight:700; min-width:40px; text-align:center; }
 
-        .bsuw-mat-footer { display:flex; justify-content:space-between; align-items:center; margin-top:12px; gap:10px; flex-wrap:wrap; padding:0 4px; }
-        .bsuw-mat-pagination { display:flex; align-items:center; gap:8px; }
-        .bsuw-mat-page-btn { width:32px; height:32px; border-radius:6px; border:1.5px solid #D1D9E4; background:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#4A6FA5; font-family:inherit; }
-        .bsuw-mat-page-btn:hover:not(:disabled) { border-color:#7B4FCF; color:#7B4FCF; }
-        .bsuw-mat-page-btn:disabled { opacity:0.4; cursor:not-allowed; }
-        .bsuw-mat-page-info { font-size:12px; color:#4A6B8A; font-weight:600; min-width:160px; text-align:center; }
-        .bsuw-mat-save-note { font-size:11.5px; color:#4A6B8A; display:inline-flex; align-items:center; gap:6px; }
-        .bsuw-mat-save-note i { color:#2FA866; }
-        .bsuw-mat-save-note strong { color:#1B4B6E; }
+        /* ── Right: amenity panel ── */
+        .bsuw2-am-panel { flex:1; min-width:0; }
+        .bsuw2-scope-bar { display:flex; align-items:center; gap:7px; padding:8px 14px; background:linear-gradient(135deg,#F5EEFF,#FAF6FF); border:1.5px solid #C6B3F0; border-radius:8px; margin-bottom:14px; font-size:12.5px; color:#5B32A8; flex-wrap:wrap; }
+        .bsuw2-scope-bar i { font-size:11px; flex-shrink:0; }
+        .bsuw2-scope-bar strong { color:#3D1D85; }
+        .bsuw2-clear-sel-btn { margin-left:auto; background:transparent; border:1px solid #9B72E0; border-radius:6px; color:#5B32A8; font-size:11px; font-weight:600; cursor:pointer; padding:3px 9px; font-family:inherit; display:inline-flex; align-items:center; gap:4px; transition:background 0.1s; }
+        .bsuw2-clear-sel-btn:hover { background:#EDE5FF; }
+
+        /* Amenity category sections */
+        .bsuw2-am-grid { }
+        .bsuw2-cat-section { margin-bottom:16px; }
+        .bsuw2-cat-title { font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.07em; padding:0 0 6px; border-bottom:2px solid #E2E6EB; margin-bottom:8px; display:flex; align-items:center; gap:5px; color:#4A5568; }
+        .bsuw2-cat-section[data-cat="Interior"] .bsuw2-cat-title         { color:#1B4B6E; border-color:#93C5DC; }
+        .bsuw2-cat-section[data-cat="Bathroom"] .bsuw2-cat-title         { color:#1F7A47; border-color:#6ECC99; }
+        .bsuw2-cat-section[data-cat="Kitchen"] .bsuw2-cat-title          { color:#8A5B17; border-color:#F5B84C; }
+        .bsuw2-cat-section[data-cat="Tech & Utilities"] .bsuw2-cat-title { color:#5B32A8; border-color:#B89EE6; }
+        .bsuw2-cat-section[data-cat="Accessibility"] .bsuw2-cat-title    { color:#9B1C1C; border-color:#F68B8B; }
+
+        /* Amenity chips */
+        .bsuw2-am-chips { display:flex; flex-wrap:wrap; gap:5px; }
+        .bsuw2-am-chip { display:inline-flex; align-items:center; gap:5px; padding:5px 11px; border-radius:999px; border:1.5px solid #D1D9E4; background:#fff; font-size:11.5px; font-weight:500; color:#4A6FA5; cursor:pointer; font-family:inherit; transition:all 0.12s; user-select:none; line-height:1.3; }
+        .bsuw2-am-chip:hover { border-color:#7B4FCF; background:#F5EEFF; }
+        .bsuw2-am-chip::before { font-family:"Font Awesome 5 Free"; font-weight:900; font-size:9px; width:11px; display:inline-block; text-align:center; flex-shrink:0; }
+        /* state-all = green check */
+        .bsuw2-am-chip.state-all  { background:#E6F9ED; border-color:#2FA866; color:#1F7A47; font-weight:700; }
+        .bsuw2-am-chip.state-all::before  { content:"\f00c"; color:#2FA866; }
+        .bsuw2-am-chip.state-all:hover    { background:#C6F2D8; }
+        /* state-some = amber minus */
+        .bsuw2-am-chip.state-some { background:#FFF4E5; border-color:#E8A83A; color:#8A5B17; font-weight:600; }
+        .bsuw2-am-chip.state-some::before { content:"\f068"; color:#E8A83A; }
+        .bsuw2-am-chip.state-some:hover   { background:#FFE8B0; }
+        /* state-none = grey plus */
+        .bsuw2-am-chip.state-none::before { content:"\f067"; color:#C4CDD6; }
+        .bsuw2-am-chip.state-none:hover   { border-color:#7B4FCF; background:#F5EEFF; color:#5B32A8; }
+
+        /* Legend */
+        .bsuw2-legend { display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-top:16px; padding-top:12px; border-top:1px solid #E2E6EB; }
+        .bsuw2-leg { display:inline-flex; align-items:center; gap:5px; font-size:11.5px; font-weight:600; }
+        .bsuw2-leg.state-all  { color:#1F7A47; }
+        .bsuw2-leg.state-some { color:#8A5B17; }
+        .bsuw2-leg.state-none { color:#718096; }
+        .bsuw2-leg-tip { font-size:11px; color:#9AA5B4; }
+
+        /* Success banner */
+        .bsuw-am-success { display: none; }
 
     </style>
 
