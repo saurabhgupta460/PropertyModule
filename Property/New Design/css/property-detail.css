@@ -513,7 +513,7 @@
 
         /* KPI strip — 3 tiles */
         .ovm-kpi-strip {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
             margin-bottom: 16px;
         }
         .ovm-kpi {
@@ -524,9 +524,11 @@
         .ovm-kpi::after {
             content: ""; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
         }
-        .ovm-kpi--total::after { background: linear-gradient(180deg, #3BAA6E, #2B9A6E); }
+        .ovm-kpi--total::after,
+        .ovm-kpi--good::after  { background: linear-gradient(180deg, #3BAA6E, #2B9A6E); }
         .ovm-kpi--warn::after  { background: linear-gradient(180deg, #E8843A, #D97706); }
         .ovm-kpi--info::after  { background: linear-gradient(180deg, #7C5CBF, #6B4EB3); }
+        .ovm-kpi--muted::after { background: linear-gradient(180deg, #94A3B8, #7A8FA8); }
         .ovm-kpi-val {
             font-size: 22px; font-weight: 700; color: #0F172A; line-height: 1;
             letter-spacing: -0.4px;
