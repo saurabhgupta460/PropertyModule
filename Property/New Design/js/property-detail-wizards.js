@@ -1278,13 +1278,15 @@
         })();
 
         /* ── Back-compat shims (other code paths call these) ── */
-        function bsuwRenderChips()       { bsuwRenderMatrix(); }
-        function bsuwRenderSelStrip()    { /* no-op */ }
-        function bsuwUpdateChipStates()  { /* no-op */ }
-        function bsuwAmUpdateStats()     { bsuw2UpdateScopeBar(); }
-        function bsuwAmUpdateCTA()       { /* no-op */ }
-        function bsuwAmHideSuccess()     { /* no-op */ }
-        function bsuwAmScopeUnits()      { return bsuw2Scope(); }
+        function bsuwRenderChips()          { bsuwRenderMatrix(); }
+        function bsuwRenderSelStrip()       { /* no-op */ }
+        function bsuwUpdateChipStates()     { /* no-op */ }
+        function bsuwAmUpdateStats()        { bsuw2UpdateScopeBar(); }
+        function bsuwAmUpdateCTA()          { /* no-op */ }
+        function bsuwAmHideSuccess()        { /* no-op */ }
+        function bsuwAmScopeUnits()         { return bsuw2Scope(); }
+        /* Sync the Step-2 unit list whenever Step-1 checkboxes change */
+        function bsuwUpdateUnitChecklist()  { bsuw2RenderUnits(); bsuw2UpdateScopeBar(); }
 
         /* ── Open / close the BSUW overlay ── */
         function bsuwOpen() {
