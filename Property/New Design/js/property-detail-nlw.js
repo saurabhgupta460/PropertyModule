@@ -28,7 +28,7 @@
         /* ── NEW LISTING WIZARD ── */
         (function() {
             var currentStep = 1;
-            var totalSteps  = 5;
+            var totalSteps  = 4;
             var overlay     = document.getElementById('nlw-overlay');
 
             function openWizard() {
@@ -193,7 +193,7 @@
                     var beds = parseFloat(document.getElementById('nlw-beds').value) || 2;
                     var size = parseFloat((document.getElementById('nlw-size').value || '').replace(/[^0-9.]/g,'')) || 1200;
                     var pets = (document.getElementById('nlw-pets').value || 'No Pets');
-                    var park = (document.getElementById('nlw-parking').value || 'None');
+                    var park = (document.getElementById('nlw-parking-type').value || 'None');
                     var furn = (document.getElementById('nlw-furnished').value || 'No');
 
                     // Base rent per bed
@@ -266,6 +266,75 @@
                 applyRent('nlw-ai-apply-low',  'nlw-ai-low');
                 applyRent('nlw-ai-apply-mid',  'nlw-ai-mid');
                 applyRent('nlw-ai-apply-high', 'nlw-ai-high');
+            })();
+
+            // ── AI Description Writer ─────────────────────────────────────────────
+            (function() {
+                var descBtn    = document.getElementById('nlw-ai-desc-btn');
+                var descCard   = document.getElementById('nlw-ai-desc-card');
+                var descLoad   = document.getElementById('nlw-ai-desc-loading');
+                var descResult = document.getElementById('nlw-ai-desc-result');
+                var descClose  = document.getElementById('nlw-ai-desc-card-close');
+                var descText   = document.getElementById('nlw-ai-desc-text');
+                var descUse    = document.getElementById('nlw-ai-desc-use');
+                var descRegen  = document.getElementById('nlw-ai-desc-regen');
+                if (!descBtn) return;
+
+                var SAMPLE_DESCS = [
+                    'This beautifully appointed unit offers an ideal blend of comfort and modern style. Featuring {beds} bedroom(s), {baths} bath(s), and {size} of thoughtfully designed living space, it is perfect for those seeking a refined rental experience. The open-concept layout is bathed in natural light, complemented by quality finishes throughout. Enjoy the convenience of {parking} and a pet-friendly environment. Available {avail} — schedule your tour today!',
+                    'Welcome home to this stunning {beds}-bedroom, {baths}-bath residence spanning {size}. Designed with discerning renters in mind, this unit boasts high-end finishes, generous closet space, and an airy open floor plan. {parking} is included. Ideally located near top-rated schools, shopping, and dining. Move-in ready as of {avail}.',
+                    'Discover the perfect place to call home in this {beds} bed / {baths} bath unit offering {size} of refined living space. Light-filled rooms, premium appliances, and modern design details make this listing stand out. {parking} available. Don\'t miss your chance — contact us to book a showing before {avail}!'
+                ];
+
+                function buildDesc() {
+                    function v(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+                    var beds  = v('nlw-beds')   || '2';
+                    var baths = v('nlw-baths')  || '1';
+                    var size  = v('nlw-size')   || '1,200 sq ft';
+                    var avail = v('nlw-avail')  || 'soon';
+                    var parkType = v('nlw-parking-type');
+                    var parkSpaces = v('nlw-parking-spaces');
+                    var parking = (parkType && parkType !== 'none')
+                        ? ((parkSpaces ? parkSpaces + '-space ' : '') + parkType.replace(/-/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();}))
+                        : 'No dedicated parking';
+                    var tpl = SAMPLE_DESCS[Math.floor(Math.random() * SAMPLE_DESCS.length)];
+                    return tpl
+                        .replace(/\{beds\}/g, beds)
+                        .replace(/\{baths\}/g, baths)
+                        .replace(/\{size\}/g, size)
+                        .replace(/\{avail\}/g, avail)
+                        .replace(/\{parking\}/g, parking);
+                }
+
+                function runDescAI() {
+                    descCard.style.display = 'block';
+                    descLoad.style.display = 'flex';
+                    descResult.style.display = 'none';
+                    setTimeout(function() {
+                        descLoad.style.display = 'none';
+                        descText.textContent = buildDesc();
+                        descResult.style.display = 'block';
+                    }, 1800);
+                }
+
+                descBtn.addEventListener('click', runDescAI);
+                descRegen.addEventListener('click', function() {
+                    descLoad.style.display = 'flex';
+                    descResult.style.display = 'none';
+                    setTimeout(function() {
+                        descLoad.style.display = 'none';
+                        descText.textContent = buildDesc();
+                        descResult.style.display = 'block';
+                    }, 1400);
+                });
+                descUse.addEventListener('click', function() {
+                    var ta = document.getElementById('nlw-desc');
+                    if (ta) ta.value = descText.textContent;
+                    descCard.style.display = 'none';
+                });
+                descClose.addEventListener('click', function() {
+                    descCard.style.display = 'none';
+                });
             })();
 
             // Photo upload with tagging

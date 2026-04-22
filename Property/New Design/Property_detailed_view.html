@@ -2390,7 +2390,7 @@
           <div class="nlw-steps">
             <div class="nlw-step active" data-step="1">
               <div class="nlw-step-circle">1</div>
-              <div class="nlw-step-label">Advertising<br>Description</div>
+              <div class="nlw-step-label">Lease &amp; Rental<br>Details</div>
             </div>
             <div class="nlw-step" data-step="2">
               <div class="nlw-step-circle">2</div>
@@ -2402,10 +2402,6 @@
             </div>
             <div class="nlw-step" data-step="4">
               <div class="nlw-step-circle">4</div>
-              <div class="nlw-step-label">Lease &amp; Rental<br>Details</div>
-            </div>
-            <div class="nlw-step" data-step="5">
-              <div class="nlw-step-circle">5</div>
               <div class="nlw-step-label">Advertising &amp;<br>Syndication</div>
             </div>
           </div>
@@ -2413,51 +2409,6 @@
 
         <!-- Wizard Body -->
         <div class="nlw-body">
-
-          <!-- ── STEP 1: Advertising Description ── -->
-          <div class="nlw-step-content active" data-step="1">
-            <div class="nlw-step-heading">Advertising Description</div>
-            <div class="nlw-step-sub">Describe your property and fill in key details that will appear on your listing.</div>
-
-            <div class="nlw-section-title"><i class="fas fa-heading"></i> Description</div>
-            <div class="nlw-two-col">
-              <div class="form-group nlw-full">
-                <label class="form-label">Public Description</label>
-                <textarea class="form-textarea" id="nlw-desc" rows="5" placeholder='e.g. "Charming 2-Bed, 2-Bath Retreat with 1700 Sq Ft of Comfort…"'></textarea>
-              </div>
-            </div>
-
-            <div class="nlw-section-title"><i class="fas fa-info-circle"></i> Property Details</div>
-            <div class="nlw-two-col">
-              <div class="form-group">
-                <label class="form-label"><i class="fas fa-couch" style="color:#718096;margin-right:4px;"></i> Furnished</label>
-                <select class="form-select" id="nlw-furnished">
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="form-label"><i class="fas fa-ruler-horizontal" style="color:#718096;margin-right:4px;"></i> Lot Size (Acres)</label>
-                <input class="form-input" type="text" id="nlw-lot" placeholder="e.g. 12">
-              </div>
-              <div class="form-group">
-                <label class="form-label"><i class="fas fa-video" style="color:#718096;margin-right:4px;"></i> Virtual Tour URL</label>
-                <input class="form-input" type="url" id="nlw-tour" placeholder="https://">
-              </div>
-              <div class="form-group">
-                <label class="form-label"><i class="fas fa-file-alt" style="color:#718096;margin-right:4px;"></i> Rental Application Link</label>
-                <input class="form-input" type="url" id="nlw-app-link" placeholder="https://">
-              </div>
-              <div class="form-group">
-                <label class="form-label"><i class="fas fa-lock" style="color:#718096;margin-right:4px;"></i> Lockbox Number</label>
-                <input class="form-input" type="text" id="nlw-lockbox" placeholder="e.g. 1234">
-              </div>
-              <div class="form-group">
-                <label class="form-label"><i class="fas fa-key" style="color:#718096;margin-right:4px;"></i> Lockbox Description</label>
-                <input class="form-input" type="text" id="nlw-lockbox-desc" placeholder="e.g. test lock box">
-              </div>
-            </div>
-          </div>
 
           <!-- ── STEP 2: Amenities ── -->
           <div class="nlw-step-content" data-step="2">
@@ -2540,8 +2491,8 @@
             </div>
           </div>
 
-          <!-- ── STEP 4: Lease & Rental Details ── -->
-          <div class="nlw-step-content" data-step="4">
+          <!-- ── STEP 1: Lease & Rental Details ── -->
+          <div class="nlw-step-content active" data-step="1">
             <div class="nlw-step-heading">Lease &amp; Rental Details</div>
             <div class="nlw-step-sub">Set the lease terms, rent amount, deposit, and unit specifications for this listing.</div>
 
@@ -2696,15 +2647,66 @@
                   <option value="10">10</option>
                 </select>
               </div>
+              <div class="form-group">
+                <label class="form-label"><i class="fas fa-couch" style="color:#718096;margin-right:4px;"></i> Furnished</label>
+                <select class="form-select" id="nlw-furnished">
+                  <option value="No">No</option>
+                  <option value="Yes">Yes</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label"><i class="fas fa-ruler-horizontal" style="color:#718096;margin-right:4px;"></i> Lot Size (Acres)</label>
+                <input class="form-input" type="text" id="nlw-lot" placeholder="e.g. 12">
+              </div>
             </div>
           </div>
 
-          <!-- ── STEP 5: Advertising & Syndication ── -->
-          <div class="nlw-step-content" data-step="5">
+          <!-- ── STEP 4: Advertising & Syndication ── -->
+          <div class="nlw-step-content" data-step="4">
             <div class="nlw-step-heading">Advertising &amp; Syndication</div>
-            <div class="nlw-step-sub">Choose where to advertise your listing and set the go-live date.</div>
+            <div class="nlw-step-sub">Write your listing description, choose where to advertise, and set the go-live date.</div>
 
-            <div class="nlw-section-title"><i class="fas fa-share-alt"></i> Syndication Channels</div>
+            <div class="nlw-section-title"><i class="fas fa-heading"></i> Listing Description</div>
+            <div class="nlw-two-col">
+              <div class="form-group nlw-full">
+                <label class="form-label">Public Description</label>
+                <div class="nlw-rent-input-row" style="margin-bottom:8px;">
+                  <textarea class="form-textarea" id="nlw-desc" rows="5" placeholder='e.g. "Charming 2-Bed, 2-Bath Retreat with 1700 Sq Ft of Comfort…"' style="flex:1; resize:vertical;"></textarea>
+                </div>
+                <button class="nlw-ai-rent-btn" id="nlw-ai-desc-btn" type="button" style="width:auto; align-self:flex-start;">
+                  <span class="nlw-ai-btn-inner">
+                    <i class="fas fa-wand-magic-sparkles"></i>
+                    <span>Write with AI</span>
+                  </span>
+                </button>
+                <!-- AI Description Card -->
+                <div class="nlw-ai-card" id="nlw-ai-desc-card" style="display:none; margin-top:10px;">
+                  <div class="nlw-ai-card-header">
+                    <div class="nlw-ai-card-title">
+                      <i class="fas fa-robot"></i> AI Description Writer
+                    </div>
+                    <button class="nlw-ai-card-close" id="nlw-ai-desc-card-close" type="button"><i class="fas fa-times"></i></button>
+                  </div>
+                  <!-- Loading state -->
+                  <div class="nlw-ai-loading" id="nlw-ai-desc-loading">
+                    <div class="nlw-ai-pulse-dots">
+                      <span></span><span></span><span></span>
+                    </div>
+                    <div class="nlw-ai-loading-text">Generating a compelling listing description…</div>
+                  </div>
+                  <!-- Result state -->
+                  <div class="nlw-ai-result" id="nlw-ai-desc-result" style="display:none;">
+                    <div style="font-size:13px; color:#334155; line-height:1.6; background:#F8FAFC; border:1px solid #E2E6EB; border-radius:8px; padding:14px; margin-bottom:12px;" id="nlw-ai-desc-text"></div>
+                    <div class="nlw-ai-actions">
+                      <button class="nlw-ai-apply-btn nlw-ai-apply-recommended" id="nlw-ai-desc-use" type="button"><i class="fas fa-check"></i> Use This Description</button>
+                      <button class="nlw-ai-apply-btn" id="nlw-ai-desc-regen" type="button"><i class="fas fa-redo"></i> Regenerate</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="nlw-section-title" style="margin-top:22px;"><i class="fas fa-share-alt"></i> Syndication Channels</div>
             <div class="nlw-synd-grid" style="grid-template-columns:1fr;">
               <div class="nlw-synd-item">
                 <div class="nlw-synd-logo" style="background:linear-gradient(135deg,#006AFF,#0054CC);"><i class="fas fa-search"></i></div>
@@ -2752,7 +2754,7 @@
 
         <!-- Wizard Footer -->
         <div class="nlw-footer">
-          <div class="nlw-footer-left" id="nlw-step-label">Step 1 of 5</div>
+          <div class="nlw-footer-left" id="nlw-step-label">Step 1 of 4</div>
           <div class="nlw-footer-right">
             <button class="nlw-btn-back" id="nlw-btn-back" type="button">Back</button>
             <button class="nlw-btn-next" id="nlw-btn-next" type="button">Next</button>
