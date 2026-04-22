@@ -2220,6 +2220,10 @@
             padding: 0 5px; margin-left: 2px;
         }
         .unit-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        /* Clip thead corners to match the parent card's border-radius
+           (parent no longer uses overflow:hidden so dropdown can escape) */
+        .unit-table thead th:first-child { border-radius: 11px 0 0 0; }
+        .unit-table thead th:last-child  { border-radius: 0 11px 0 0; }
         .unit-table thead th {
             background: #1B5068; color: #fff; font-weight: 600; font-size: 12px;
             padding: 11px 16px; text-align: left; border-bottom: 1px solid #16465A;
@@ -2287,7 +2291,7 @@
         /* Dots dropdown in Unit tab */
         .unit-dots-wrap { position: relative; display: inline-block; }
         .unit-dropdown {
-            display: none; position: absolute; right: 0; top: 32px; z-index: 100;
+            display: none; position: absolute; right: 0; top: 32px; z-index: 9999;
             background: #fff; border: 1px solid #E2E6EB; border-radius: 10px;
             box-shadow: 0 6px 24px rgba(0,0,0,0.12); min-width: 170px;
             overflow: hidden; animation: slideUp 0.15s ease-out;
@@ -2750,6 +2754,12 @@
             padding: 20px 16px 40px;
         }
         .apw-overlay.open { display: flex; }
+
+        /* Constrain wizard width so all steps share the same card width */
+        .apw-overlay .apw-page {
+            width: 100%;
+            max-width: 940px;
+        }
 
         .suw-am-chip.action-remove::before { content: "\f068"; font-family: "Font Awesome 5 Free"; font-weight: 900; font-size: 10px; color: #E53E3E; }
         .suw-am-chip .chip-count { display: none; }

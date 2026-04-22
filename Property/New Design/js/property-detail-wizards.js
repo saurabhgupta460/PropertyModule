@@ -594,31 +594,54 @@
         window.suwClose    = suwClose;
 
         function suwRender() {
-            // Toggle edit-mode class to show/hide Step 1 pill
-            overlay.classList.toggle('edit-mode', suwEditMode);
+            var isEdit     = suwEditMode;
+            var firstStep  = isEdit ? 2 : 1;   // first visible step index
+            var numSteps   = isEdit ? 4 : 5;   // how many steps the user sees
+
+            // Toggle edit-mode class on overlay (used by CSS for connector tweaks)
+            overlay.classList.toggle('edit-mode', isEdit);
+
             // Swap topbar title based on mode
-            var titleEl = document.querySelector('#suw-overlay .apw-topbar-title h1');
+            var titleEl    = document.querySelector('#suw-overlay .apw-topbar-title h1');
             var subtitleEl = document.querySelector('#suw-overlay .apw-topbar-title p');
-            if (titleEl) titleEl.textContent = suwEditMode ? 'Edit Unit' : 'Set Up Unit';
-            if (subtitleEl) subtitleEl.textContent = suwEditMode
+            if (titleEl)    titleEl.textContent    = isEdit ? 'Edit Unit' : 'Set Up Unit';
+            if (subtitleEl) subtitleEl.textContent = isEdit
                 ? 'Update unit details, amenities and photos'
                 : 'Add a new unit with details, amenities and photos';
+
+            // Step pills: hide Step 1 in edit mode, renumber circles
             document.querySelectorAll('#suw-overlay .apw-step').forEach(function(el) {
                 var s = parseInt(el.dataset.step);
+                // Hide the "Property & Unit" pill when editing an existing unit
+                el.style.display = (isEdit && s === 1) ? 'none' : '';
                 el.classList.toggle('active',    s === currentStep);
                 el.classList.toggle('completed', s < currentStep);
                 var circle = el.querySelector('.apw-step-circle');
-                if (s < currentStep) circle.innerHTML = '<i class="fas fa-check" style="font-size:11px;"></i>';
-                else circle.textContent = s;
+                if (s < currentStep) {
+                    circle.innerHTML = '<i class="fas fa-check" style="font-size:11px;"></i>';
+                } else {
+                    // In edit mode show virtual numbers 1-4 instead of 2-5
+                    circle.textContent = isEdit ? (s - 1) : s;
+                }
             });
+
+            // Show / hide step content panels
             document.querySelectorAll('#suw-overlay .apw-step-content').forEach(function(el) {
                 el.classList.toggle('active', parseInt(el.dataset.step) === currentStep);
             });
-            document.getElementById('suw-step-label').textContent = 'Step ' + currentStep + ' of ' + totalSteps;
+
+            // Footer: "Step N of 4" in edit mode
+            var displayStep = isEdit ? (currentStep - 1) : currentStep;
+            document.getElementById('suw-step-label').textContent = 'Step ' + displayStep + ' of ' + numSteps;
+
+            // Next / Save button label
             var btnNext = document.getElementById('suw-btn-next');
             if (currentStep === totalSteps) { btnNext.textContent = 'Save'; btnNext.classList.add('finish'); }
             else { btnNext.textContent = 'Next'; btnNext.classList.remove('finish'); }
-            document.getElementById('suw-btn-back').style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+
+            // Back button: hidden on the first visible step
+            document.getElementById('suw-btn-back').style.visibility = currentStep === firstStep ? 'hidden' : 'visible';
+
             if (currentStep === 3) { suwRenderAmenityChips(); suwRenderSelStrip(); }
             if (currentStep === 4) suwRenderPhotoGrid();
             overlay.scrollTop = 0;
