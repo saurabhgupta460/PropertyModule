@@ -718,6 +718,49 @@
             }, 1500);
         };
 
+        // ── Tax & Insurance adjustment (slideout) ──
+        window.slToggleTaxInsAdj = function() {
+            var panel = document.getElementById('tax-ins-adj-panel');
+            if (!panel) return;
+            panel.classList.toggle('is-open');
+            // Reset on close
+            if (!panel.classList.contains('is-open')) {
+                var taxInp = document.getElementById('tax-adj-amount');
+                var insInp = document.getElementById('ins-adj-amount');
+                if (taxInp) taxInp.value = '';
+                if (insInp) insInp.value = '';
+                var succ = document.getElementById('tax-ins-adj-success');
+                if (succ) succ.style.display = 'none';
+                window.taxInsAdjPreview();
+            }
+        };
+
+        window.taxInsAdjPreview = function() {
+            var taxAmt = parseCurrency((document.getElementById('tax-adj-amount') || {}).value || '');
+            var insAmt = parseCurrency((document.getElementById('ins-adj-amount') || {}).value || '');
+            var elT = document.getElementById('tax-adj-new-tax');
+            var elI = document.getElementById('tax-adj-new-ins');
+            if (elT) elT.textContent = '$' + (taxAmt || 0).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+            if (elI) elI.textContent = '$' + (insAmt || 0).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+        };
+
+        window.applyTaxInsAdj = function() {
+            var taxAmt = parseCurrency((document.getElementById('tax-adj-amount') || {}).value || '');
+            var insAmt = parseCurrency((document.getElementById('ins-adj-amount') || {}).value || '');
+            // Update the "current" display values
+            var curT = document.getElementById('tax-adj-cur-tax');
+            var curI = document.getElementById('tax-adj-cur-ins');
+            if (curT) curT.textContent = '$' + (taxAmt || 0).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+            if (curI) curI.textContent = '$' + (insAmt || 0).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+            // Show success message
+            var succ = document.getElementById('tax-ins-adj-success');
+            if (succ) succ.style.display = 'block';
+            // Collapse after a short delay
+            setTimeout(function() {
+                window.slToggleTaxInsAdj();
+            }, 1500);
+        };
+
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeSlideout('slideout-appliances-bg', 'slideout-appliances');
