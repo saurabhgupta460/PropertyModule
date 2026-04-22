@@ -3520,6 +3520,16 @@
                             <input class="form-input" type="text" id="pmt-interest" placeholder="0" oninput="window.pmtCalcRemaining()">
                         </div>
                     </div>
+                    <div class="form-row" style="margin-top:12px;">
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Tax portion ($) <span style="font-weight:400; color:#A0AEC0;">(optional)</span></label>
+                            <input class="form-input" type="text" id="pmt-tax" placeholder="0">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Insurance portion ($) <span style="font-weight:400; color:#A0AEC0;">(optional)</span></label>
+                            <input class="form-input" type="text" id="pmt-insurance" placeholder="0">
+                        </div>
+                    </div>
                     <div class="pmt-remaining" id="pmt-remaining" style="margin-top:12px;">
                         Remaining: $0.00
                     </div>
@@ -3531,10 +3541,6 @@
                         <i class="fas fa-layer-group"></i> Escrow &amp; other
                     </div>
                     <div class="form-row">
-                        <div class="form-group" style="margin-bottom:0;">
-                            <label class="form-label">Escrow portion ($) <span style="font-weight:400; color:#A0AEC0;">(optional)</span></label>
-                            <input class="form-input" type="text" id="pmt-escrow" placeholder="0">
-                        </div>
                         <div class="form-group" style="margin-bottom:0;">
                             <label class="form-label">Additional principal ($) <span style="font-weight:400; color:#A0AEC0;">(optional)</span></label>
                             <input class="form-input" type="text" id="pmt-extra-principal" placeholder="0">
