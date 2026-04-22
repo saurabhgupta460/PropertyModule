@@ -2757,10 +2757,10 @@
         }
         .apw-overlay.open { display: flex; }
 
-        /* Constrain wizard width so all steps share the same card width */
+        /* Match Edit Unit width to Create Ad popup (1100px) */
         .apw-overlay .apw-page {
-            width: 100%;
-            max-width: 940px;
+            width: 1100px;
+            max-width: 96vw;
         }
 
         .suw-am-chip.action-remove::before { content: "\f068"; font-family: "Font Awesome 5 Free"; font-weight: 900; font-size: 10px; color: #E53E3E; }
