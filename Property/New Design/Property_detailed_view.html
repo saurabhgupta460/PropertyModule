@@ -1017,6 +1017,41 @@
                                         </div>
                                     </div>
                                     <div class="ad-rental-item">
+                                        <div class="rental-icon rental-icon--teal"><i class="fas fa-calendar-alt"></i></div>
+                                        <div class="rental-info">
+                                            <div class="rental-label">Year Built</div>
+                                            <div class="rental-val" id="ad-view-year-built">2005</div>
+                                        </div>
+                                    </div>
+                                    <div class="ad-rental-item">
+                                        <div class="rental-icon rental-icon--purple"><i class="fas fa-school"></i></div>
+                                        <div class="rental-info">
+                                            <div class="rental-label">School District</div>
+                                            <div class="rental-val" id="ad-view-school-district">Chicago Public Schools</div>
+                                        </div>
+                                    </div>
+                                    <div class="ad-rental-item">
+                                        <div class="rental-icon rental-icon--orange"><i class="fas fa-map-marker-alt"></i></div>
+                                        <div class="rental-info">
+                                            <div class="rental-label">Address Strategy</div>
+                                            <div class="rental-val" id="ad-view-addr-strategy">Standard</div>
+                                        </div>
+                                    </div>
+                                    <div class="ad-rental-item">
+                                        <div class="rental-icon rental-icon--green"><i class="fas fa-car"></i></div>
+                                        <div class="rental-info">
+                                            <div class="rental-label">Parking Type</div>
+                                            <div class="rental-val" id="ad-view-parking-type">Garage – Attached</div>
+                                        </div>
+                                    </div>
+                                    <div class="ad-rental-item">
+                                        <div class="rental-icon rental-icon--blue"><i class="fas fa-sort-numeric-up"></i></div>
+                                        <div class="rental-info">
+                                            <div class="rental-label">Parking Spaces</div>
+                                            <div class="rental-val" id="ad-view-parking-spaces">2</div>
+                                        </div>
+                                    </div>
+                                    <div class="ad-rental-item">
                                         <div class="rental-icon rental-icon--blue"><i class="fas fa-user-tie"></i></div>
                                         <div class="rental-info">
                                             <div class="rental-label">Property Manager</div>
@@ -1067,6 +1102,56 @@
                                     <div class="ad-form-field">
                                         <label class="ad-form-label" for="ad-edit-rent-size"><i class="fas fa-ruler-combined"></i> Size</label>
                                         <input type="text" id="ad-edit-rent-size" class="ad-form-input" placeholder="e.g. 2100 sq ft.">
+                                    </div>
+                                    <div class="ad-form-field">
+                                        <label class="ad-form-label" for="ad-edit-year-built"><i class="fas fa-calendar-alt"></i> Year Built</label>
+                                        <input type="number" id="ad-edit-year-built" class="ad-form-input" placeholder="e.g. 2005" min="1800" max="2099">
+                                    </div>
+                                    <div class="ad-form-field">
+                                        <label class="ad-form-label" for="ad-edit-school-district"><i class="fas fa-school"></i> School District</label>
+                                        <input type="text" id="ad-edit-school-district" class="ad-form-input" placeholder="e.g. Chicago Public Schools">
+                                    </div>
+                                    <div class="ad-form-field">
+                                        <label class="ad-form-label" for="ad-edit-addr-strategy"><i class="fas fa-map-marker-alt"></i> Street Address Strategy</label>
+                                        <select id="ad-edit-addr-strategy" class="ad-form-input" style="height:36px;">
+                                            <option value="standard">A – Standard</option>
+                                            <option value="add-unit-name">B – Add Unit Name</option>
+                                            <option value="use-unit-name">C – Use Unit Name Instead</option>
+                                        </select>
+                                    </div>
+                                    <div class="ad-form-field">
+                                        <label class="ad-form-label" for="ad-edit-parking-type"><i class="fas fa-car"></i> Parking Type</label>
+                                        <select id="ad-edit-parking-type" class="ad-form-input" style="height:36px;">
+                                            <option value="">— Select type —</option>
+                                            <option value="garage-attached">Garage – Attached</option>
+                                            <option value="garage-detached">Garage – Detached</option>
+                                            <option value="covered">Covered Parking</option>
+                                            <option value="reserved-outside">Reserved Outside Parking</option>
+                                            <option value="street">Street Parking</option>
+                                            <option value="surface-lot">Surface Lot</option>
+                                            <option value="underground">Underground / Basement Parking</option>
+                                            <option value="carport">Carport</option>
+                                            <option value="tandem">Tandem Parking</option>
+                                            <option value="valet">Valet Parking</option>
+                                            <option value="permit">Permit Only</option>
+                                            <option value="none">No Parking</option>
+                                        </select>
+                                    </div>
+                                    <div class="ad-form-field">
+                                        <label class="ad-form-label" for="ad-edit-parking-spaces"><i class="fas fa-sort-numeric-up"></i> Parking Spaces</label>
+                                        <select id="ad-edit-parking-spaces" class="ad-form-input" style="height:36px;">
+                                            <option value="">— Select —</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
                                     </div>
                                     <div class="ad-form-field">
                                         <label class="ad-form-label" for="ad-edit-rent-pm"><i class="fas fa-user-tie"></i> Property manager</label>
@@ -2552,6 +2637,22 @@
                 <input class="form-input" type="text" id="nlw-size" placeholder="e.g. 2100 sq ft.">
               </div>
               <div class="form-group">
+                <label class="form-label"><i class="fas fa-calendar-alt" style="color:#718096;margin-right:4px;"></i> Year Built</label>
+                <input class="form-input" type="number" id="nlw-year-built" placeholder="e.g. 2005" min="1800" max="2099">
+              </div>
+              <div class="form-group">
+                <label class="form-label"><i class="fas fa-school" style="color:#718096;margin-right:4px;"></i> School District</label>
+                <input class="form-input" type="text" id="nlw-school-district" placeholder="e.g. Chicago Public Schools">
+              </div>
+              <div class="form-group">
+                <label class="form-label"><i class="fas fa-map-marker-alt" style="color:#718096;margin-right:4px;"></i> Street Address Strategy</label>
+                <select class="form-select" id="nlw-addr-strategy">
+                  <option value="standard">A – Standard</option>
+                  <option value="add-unit-name">B – Add Unit Name</option>
+                  <option value="use-unit-name">C – Use Unit Name Instead</option>
+                </select>
+              </div>
+              <div class="form-group">
                 <label class="form-label"><i class="fas fa-paw" style="color:#718096;margin-right:4px;"></i> Pet Policy</label>
                 <select class="form-select" id="nlw-pets">
                   <option>Pets Allowed</option>
@@ -2562,13 +2663,37 @@
                 </select>
               </div>
               <div class="form-group">
-                <label class="form-label"><i class="fas fa-car" style="color:#718096;margin-right:4px;"></i> Parking</label>
-                <select class="form-select" id="nlw-parking">
-                  <option>1-Car Garage</option>
-                  <option>2-Car Garage</option>
-                  <option>Street Parking</option>
-                  <option>Assigned Spot</option>
-                  <option>None</option>
+                <label class="form-label"><i class="fas fa-car" style="color:#718096;margin-right:4px;"></i> Parking Type</label>
+                <select class="form-select" id="nlw-parking-type">
+                  <option value="">— Select type —</option>
+                  <option value="garage-attached">Garage – Attached</option>
+                  <option value="garage-detached">Garage – Detached</option>
+                  <option value="covered">Covered Parking</option>
+                  <option value="reserved-outside">Reserved Outside Parking</option>
+                  <option value="street">Street Parking</option>
+                  <option value="surface-lot">Surface Lot</option>
+                  <option value="underground">Underground / Basement Parking</option>
+                  <option value="carport">Carport</option>
+                  <option value="tandem">Tandem Parking</option>
+                  <option value="valet">Valet Parking</option>
+                  <option value="permit">Permit Only</option>
+                  <option value="none">No Parking</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label"><i class="fas fa-sort-numeric-up" style="color:#718096;margin-right:4px;"></i> Parking Spaces</label>
+                <select class="form-select" id="nlw-parking-spaces">
+                  <option value="">— Select —</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
                 </select>
               </div>
             </div>
