@@ -1316,6 +1316,73 @@
             });
         })();
 
+        /* ── Saved-selections summary (third frame) ── */
+        var bsuw2SavedSelections = []; /* [{id, scopeIsAll, unitIndices, scopeLabel, amenities[]}] */
+
+        function bsuw2RenderSummary() {
+            var list = document.getElementById('bsuw2-sum-list');
+            var cnt  = document.getElementById('bsuw2-sum-count');
+            if (!list) return;
+            if (cnt) cnt.textContent = bsuw2SavedSelections.length;
+            if (!bsuw2SavedSelections.length) {
+                list.innerHTML = '<div class="bsuw2-sum-empty">' +
+                    '<i class="fas fa-inbox"></i>' +
+                    '<div>Nothing saved yet</div>' +
+                    '<div class="bsuw2-sum-empty-sub">Pick units &amp; amenities, then click <strong>Save selection</strong></div>' +
+                    '</div>';
+                return;
+            }
+            var html = '';
+            bsuw2SavedSelections.forEach(function(s) {
+                var ams = s.amenities.map(function(a) {
+                    return '<span class="bsuw2-sum-row-am">' + escHtml(a) + '</span>';
+                }).join('');
+                html += '<div class="bsuw2-sum-row" data-id="' + escAttr(s.id) + '">' +
+                    '<button type="button" class="bsuw2-sum-row-rm" title="Remove this selection" data-rm-id="' + escAttr(s.id) + '"><i class="fas fa-times"></i></button>' +
+                    '<div class="bsuw2-sum-row-scope">' +
+                        '<i class="fas ' + (s.scopeIsAll ? 'fa-layer-group' : 'fa-door-closed') + '"></i>' +
+                        escHtml(s.scopeLabel) +
+                    '</div>' +
+                    '<div class="bsuw2-sum-row-ams">' + ams + '</div>' +
+                '</div>';
+            });
+            list.innerHTML = html;
+        }
+
+        function bsuw2RemoveSavedById(id) {
+            var idx = -1;
+            for (var i = 0; i < bsuw2SavedSelections.length; i++) {
+                if (bsuw2SavedSelections[i].id === id) { idx = i; break; }
+            }
+            if (idx === -1) return;
+            var entry = bsuw2SavedSelections[idx];
+            /* Undo: remove these amenities from these units */
+            entry.unitIndices.forEach(function(unitIdx) {
+                var u = bsuwUnitData[unitIdx];
+                if (!u || !u.amenities) return;
+                entry.amenities.forEach(function(am) {
+                    var ai = u.amenities.indexOf(am);
+                    if (ai !== -1) u.amenities.splice(ai, 1);
+                });
+            });
+            bsuw2SavedSelections.splice(idx, 1);
+            bsuw2RenderSummary();
+            bsuw2RenderAmenities();
+            bsuw2UpdateScopeBar();
+        }
+
+        /* Delegated click handler for remove buttons */
+        (function() {
+            var list = document.getElementById('bsuw2-sum-list');
+            if (!list) return;
+            list.addEventListener('click', function(e) {
+                var btn = e.target.closest ? e.target.closest('.bsuw2-sum-row-rm') : null;
+                if (!btn) return;
+                var id = btn.getAttribute('data-rm-id');
+                if (id) bsuw2RemoveSavedById(id);
+            });
+        })();
+
         /* ── Save button ── */
         (function() {
             var btn   = document.getElementById('bsuw2-save-btn');
@@ -1325,28 +1392,86 @@
             btn.addEventListener('click', function() {
                 var scope    = bsuw2Scope();
                 var scopeN   = scope.length;
-                /* Count amenities that every unit in scope now has */
-                var amWithAll = 0;
+                /* Collect amenities currently 'all' state for the active scope */
+                var amList = [];
                 Object.keys(BSUW_AMENITIES).forEach(function(cat) {
                     BSUW_AMENITIES[cat].forEach(function(am) {
-                        if (bsuw2AmState(am) === 'all') amWithAll++;
+                        if (bsuw2AmState(am) === 'all') amList.push(am);
                     });
                 });
-                var selN = bsuwUnitData.filter(function(u) { return u._selected; }).length;
-                var scopeLabel = selN === 0 ? 'all ' + scopeN + ' units' : scopeN + ' unit' + (scopeN === 1 ? '' : 's');
-                var amLabel    = amWithAll + ' amenit' + (amWithAll === 1 ? 'y' : 'ies');
-                if (det) det.textContent = 'Saved — ' + amLabel + ' applied to ' + scopeLabel + '. Pick new units to continue.';
+                var selN       = bsuwUnitData.filter(function(u) { return u._selected; }).length;
+                var scopeIsAll = (selN === 0);
+
+                /* Block save when there are no amenities to record */
+                if (amList.length === 0) {
+                    if (det) det.textContent = 'Pick at least one amenity before saving.';
+                    if (toast) {
+                        toast.style.display = 'inline-flex';
+                        toast.style.background = '#FFF4E5';
+                        toast.style.borderColor = '#E8A83A';
+                        toast.style.color = '#8A5B17';
+                        clearTimeout(toast._hide);
+                        toast._hide = setTimeout(function() {
+                            toast.style.display = 'none';
+                            toast.style.background = '';
+                            toast.style.borderColor = '';
+                            toast.style.color = '';
+                        }, 3000);
+                    }
+                    return;
+                }
+
+                /* Build scope unit-indices and label */
+                var unitIndices = [];
+                if (scopeIsAll) {
+                    bsuwUnitData.forEach(function(_, i) { unitIndices.push(i); });
+                } else {
+                    bsuwUnitData.forEach(function(u, i) { if (u._selected) unitIndices.push(i); });
+                }
+                var scopeLabel;
+                if (scopeIsAll) {
+                    scopeLabel = 'All Units (' + scopeN + ')';
+                } else if (selN <= 3) {
+                    scopeLabel = unitIndices.map(function(i) {
+                        return bsuwUnitData[i].name || ('Unit ' + (i + 1));
+                    }).join(', ');
+                } else {
+                    var first2 = unitIndices.slice(0, 2).map(function(i) {
+                        return bsuwUnitData[i].name || ('Unit ' + (i + 1));
+                    }).join(', ');
+                    scopeLabel = selN + ' units · ' + first2 + '…';
+                }
+
+                bsuw2SavedSelections.push({
+                    id: 'sel_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+                    scopeIsAll: scopeIsAll,
+                    unitIndices: unitIndices,
+                    scopeLabel: scopeLabel,
+                    amenities: amList.slice()
+                });
+
+                var amLabel = amList.length + ' amenit' + (amList.length === 1 ? 'y' : 'ies');
+                var sLabel  = scopeIsAll ? 'all ' + scopeN + ' units' : selN + ' unit' + (selN === 1 ? '' : 's');
+                if (det) det.textContent = 'Saved — ' + amLabel + ' applied to ' + sLabel + '.';
                 if (toast) {
                     toast.style.display = 'inline-flex';
+                    toast.style.background = '';
+                    toast.style.borderColor = '';
+                    toast.style.color = '';
                     clearTimeout(toast._hide);
                     toast._hide = setTimeout(function() { toast.style.display = 'none'; }, 4000);
                 }
-                /* Auto-reset selection so user can pick a new batch */
+
+                /* Auto-reset frames 1 & 2 so user can pick a new batch */
                 bsuwUnitData.forEach(function(u) { u._selected = false; });
                 bsuw2RenderUnits();
                 bsuw2RenderAmenities();
+                bsuw2RenderSummary();
             });
         })();
+
+        /* Render summary on initial load */
+        bsuw2RenderSummary();
 
         /* ── Unit list pagination ── */
         document.getElementById('bsuw2-prev').addEventListener('click', function() {
