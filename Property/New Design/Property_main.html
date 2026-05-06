@@ -1038,24 +1038,31 @@
 
                 <div class="bsuw2-layout">
 
-                  <!-- ─── Left: unit selector ─── -->
-                  <div class="bsuw2-units-panel">
-                    <div class="bsuw2-units-head">
+                  <!-- ─── Frame 1: Pick Units ─── -->
+                  <div class="bsuw2-panel bsuw2-units-panel">
+                    <div class="bsuw2-panel-head bsuw2-head-blue">
+                      <span class="bsuw2-panel-num">1</span>
+                      <span class="bsuw2-panel-title">Pick Units</span>
+                      <span class="bsuw2-panel-badge" id="bsuw2-sel-count">0</span>
+                    </div>
+                    <div class="bsuw2-panel-body">
+                      <!-- All Units shortcut card -->
+                      <div class="bsuw2-allunits-row active" id="bsuw2-allunits-row" title="Apply amenities to every unit">
+                        <i class="fas fa-layer-group"></i>
+                        <div class="bsuw2-allunits-meta">
+                          <div class="bsuw2-allunits-title">All Units</div>
+                          <div class="bsuw2-allunits-sub">Apply to everyone</div>
+                        </div>
+                        <span class="bsuw2-allunits-cnt" id="bsuw2-allunits-cnt">0</span>
+                      </div>
+                      <div class="bsuw2-units-divider">— or pick specific —</div>
                       <label class="bsuw2-selall-lbl">
                         <input type="checkbox" id="bsuw2-selall-chk">
-                        <span>Units</span>
+                        <span>Select all units</span>
                       </label>
-                      <span class="bsuw2-sel-badge" id="bsuw2-sel-count">none selected</span>
-                    </div>
-                    <!-- All Units shortcut row -->
-                    <div class="bsuw2-allunits-row active" id="bsuw2-allunits-row" title="Apply amenities to every unit">
-                      <i class="fas fa-layer-group"></i>
-                      <span>All Units</span>
-                      <span class="bsuw2-allunits-cnt" id="bsuw2-allunits-cnt">0</span>
-                    </div>
-                    <div class="bsuw2-units-divider">— or pick specific —</div>
-                    <div class="bsuw2-unit-list" id="bsuw2-unit-list">
-                      <div class="bsuw2-no-units">No units yet.<br>Pick a property in Step 1.</div>
+                      <div class="bsuw2-unit-list" id="bsuw2-unit-list">
+                        <div class="bsuw2-no-units">No units yet.<br>Pick a property in Step 1.</div>
+                      </div>
                     </div>
                     <div class="bsuw2-units-foot">
                       <button type="button" class="bsuw2-pg-btn" id="bsuw2-prev" disabled><i class="fas fa-chevron-left"></i></button>
@@ -1064,26 +1071,26 @@
                     </div>
                   </div>
 
-                  <!-- ─── Middle: amenity categories ─── -->
-                  <div class="bsuw2-am-panel">
-                    <div class="bsuw2-scope-bar" id="bsuw2-scope-bar">
-                      <i class="fas fa-pencil-alt"></i>
-                      Editing:&nbsp;<strong id="bsuw2-scope-label">All 0 units</strong>
-                      <button type="button" class="bsuw2-clear-sel-btn" id="bsuw2-clear-sel" style="display:none;"><i class="fas fa-times"></i> Clear selection</button>
+                  <!-- ─── Frame 2: Choose Amenities ─── -->
+                  <div class="bsuw2-panel bsuw2-am-panel">
+                    <div class="bsuw2-panel-head bsuw2-head-green">
+                      <span class="bsuw2-panel-num">2</span>
+                      <span class="bsuw2-panel-title">Choose Amenities</span>
+                      <span class="bsuw2-panel-badge" id="bsuw2-am-count">0</span>
                     </div>
-                    <div class="bsuw2-am-grid" id="bsuw2-am-grid">
-                      <!-- populated by bsuw2RenderAmenities() -->
+                    <div class="bsuw2-panel-body">
+                      <div class="bsuw2-scope-pill" id="bsuw2-scope-bar">
+                        <i class="fas fa-arrow-left"></i>
+                        Applying to&nbsp;<strong id="bsuw2-scope-label">All units</strong>
+                        <button type="button" class="bsuw2-clear-sel-btn" id="bsuw2-clear-sel" style="display:none;"><i class="fas fa-times"></i> Clear</button>
+                      </div>
+                      <div class="bsuw2-am-grid" id="bsuw2-am-grid">
+                        <!-- populated by bsuw2RenderAmenities() -->
+                      </div>
                     </div>
-                    <div class="bsuw2-legend">
-                      <span class="bsuw2-leg state-all"><i class="fas fa-check"></i> All have it</span>
-                      <span class="bsuw2-leg state-some"><i class="fas fa-minus"></i> Some have it</span>
-                      <span class="bsuw2-leg state-none"><i class="fas fa-plus"></i> None have it</span>
-                      <span class="bsuw2-leg-tip">— click any chip to toggle</span>
-                    </div>
-                    <!-- Save area -->
-                    <div class="bsuw2-save-area">
+                    <div class="bsuw2-am-foot">
                       <button type="button" class="bsuw2-save-btn" id="bsuw2-save-btn">
-                        <i class="fas fa-save"></i> Save selection
+                        <i class="fas fa-save"></i> Save Selection
                       </button>
                       <div class="bsuw2-saved-toast" id="bsuw2-saved-toast" style="display:none;">
                         <i class="fas fa-check-circle"></i>
@@ -1092,18 +1099,18 @@
                     </div>
                   </div>
 
-                  <!-- ─── Right: selection summary ─── -->
-                  <div class="bsuw2-summary-panel">
-                    <div class="bsuw2-sum-head">
-                      <i class="fas fa-list-check"></i>
-                      <span>Saved selections</span>
-                      <span class="bsuw2-sum-count" id="bsuw2-sum-count">0</span>
+                  <!-- ─── Frame 3: Saved Selections ─── -->
+                  <div class="bsuw2-panel bsuw2-summary-panel">
+                    <div class="bsuw2-panel-head bsuw2-head-purple">
+                      <span class="bsuw2-panel-num">3</span>
+                      <span class="bsuw2-panel-title">Saved</span>
+                      <span class="bsuw2-panel-badge" id="bsuw2-sum-count">0</span>
                     </div>
                     <div class="bsuw2-sum-list" id="bsuw2-sum-list">
                       <div class="bsuw2-sum-empty">
                         <i class="fas fa-inbox"></i>
-                        <div>Nothing saved yet</div>
-                        <div class="bsuw2-sum-empty-sub">Pick units &amp; amenities, then click <strong>Save selection</strong></div>
+                        <div class="bsuw2-sum-empty-title">Nothing saved yet</div>
+                        <div class="bsuw2-sum-empty-sub">Pick units &amp; amenities,<br>then click <strong>Save Selection</strong></div>
                       </div>
                     </div>
                   </div>

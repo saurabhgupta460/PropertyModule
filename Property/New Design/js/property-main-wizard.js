@@ -1188,7 +1188,7 @@
                     : selN + ' selected unit' + (selN === 1 ? '' : 's');
             }
             if (clrBtn) clrBtn.style.display = selN > 0 ? 'inline-flex' : 'none';
-            if (badge)  badge.textContent    = selN > 0 ? selN + ' selected' : 'none selected';
+            if (badge)  badge.textContent    = String(selN);
             if (allChk) {
                 allChk.checked       = total > 0 && selN === total;
                 allChk.indeterminate = selN > 0  && selN < total;
@@ -1239,29 +1239,42 @@
         }
 
         /* Render (or re-render) the amenity category chips for the current scope. */
+        /* Current-round amenity selection (binary). Cleared on save / step entry. */
+        var bsuw2CurrentAmSelection = (typeof Set !== 'undefined') ? new Set() : { _arr: [], has: function(x){ return this._arr.indexOf(x)!==-1; }, add: function(x){ if(!this.has(x)) this._arr.push(x); }, delete: function(x){ var i=this._arr.indexOf(x); if(i!==-1) this._arr.splice(i,1); }, clear: function(){ this._arr.length=0; }, get size(){ return this._arr.length; }, forEach: function(cb){ this._arr.forEach(cb); } };
+
         function bsuw2RenderAmenities() {
             var grid = document.getElementById('bsuw2-am-grid');
             if (!grid) return;
-            if (!bsuwUnitData.length) { grid.innerHTML = ''; return; }
+            if (!bsuwUnitData.length) { grid.innerHTML = ''; bsuw2UpdateAmCount(); return; }
             var html = '';
             Object.keys(BSUW_AMENITIES).forEach(function(cat) {
                 html += '<div class="bsuw2-cat-section" data-cat="' + escHtml(cat) + '">';
                 html += '<div class="bsuw2-cat-title">' + escHtml(cat) + '</div>';
                 html += '<div class="bsuw2-am-chips">';
                 BSUW_AMENITIES[cat].forEach(function(am) {
-                    var st = bsuw2AmState(am);
-                    html += '<button type="button" class="bsuw2-am-chip state-' + st +
+                    var sel = bsuw2CurrentAmSelection.has(am);
+                    html += '<button type="button" class="bsuw2-am-chip' + (sel ? ' selected' : '') +
                         '" data-am="' + escHtml(am) + '">' + escHtml(am) + '</button>';
                 });
                 html += '</div></div>';
             });
             grid.innerHTML = html;
+            bsuw2UpdateAmCount();
+        }
+
+        function bsuw2UpdateAmCount() {
+            var el = document.getElementById('bsuw2-am-count');
+            if (el) el.textContent = bsuw2CurrentAmSelection.size;
         }
 
         /* Master render — called by bsuwRender() when stepping to Step 2. */
         function bsuwRenderMatrix() {
+            /* Reset frames 1 & 2 every time the user lands on this step */
+            bsuwUnitData.forEach(function(u) { u._selected = false; });
+            bsuw2CurrentAmSelection.clear();
             bsuw2RenderUnits();
             bsuw2RenderAmenities();
+            bsuw2RenderSummary();
         }
 
         /* ── Unit list: row click toggles selection ── */
@@ -1390,19 +1403,14 @@
             var det   = document.getElementById('bsuw2-saved-detail');
             if (!btn) return;
             btn.addEventListener('click', function() {
-                var scope    = bsuw2Scope();
-                var scopeN   = scope.length;
-                /* Collect amenities currently 'all' state for the active scope */
-                var amList = [];
-                Object.keys(BSUW_AMENITIES).forEach(function(cat) {
-                    BSUW_AMENITIES[cat].forEach(function(am) {
-                        if (bsuw2AmState(am) === 'all') amList.push(am);
-                    });
-                });
+                /* Read current picks from frames 1 & 2 */
+                var scopeN     = bsuwUnitData.length;
                 var selN       = bsuwUnitData.filter(function(u) { return u._selected; }).length;
                 var scopeIsAll = (selN === 0);
+                var amList = [];
+                bsuw2CurrentAmSelection.forEach(function(a) { amList.push(a); });
 
-                /* Block save when there are no amenities to record */
+                /* Block save when frame 2 is empty */
                 if (amList.length === 0) {
                     if (det) det.textContent = 'Pick at least one amenity before saving.';
                     if (toast) {
@@ -1420,6 +1428,9 @@
                     }
                     return;
                 }
+
+                /* Block save when there are no units at all */
+                if (scopeN === 0) return;
 
                 /* Build scope unit-indices and label */
                 var unitIndices = [];
@@ -1442,6 +1453,17 @@
                     scopeLabel = selN + ' units · ' + first2 + '…';
                 }
 
+                /* Apply the current amenity selection to every unit in scope */
+                unitIndices.forEach(function(idx) {
+                    var u = bsuwUnitData[idx];
+                    if (!u) return;
+                    if (!u.amenities) u.amenities = [];
+                    amList.forEach(function(am) {
+                        if (u.amenities.indexOf(am) === -1) u.amenities.push(am);
+                    });
+                });
+
+                /* Push summary row */
                 bsuw2SavedSelections.push({
                     id: 'sel_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
                     scopeIsAll: scopeIsAll,
@@ -1450,6 +1472,7 @@
                     amenities: amList.slice()
                 });
 
+                /* Toast confirmation */
                 var amLabel = amList.length + ' amenit' + (amList.length === 1 ? 'y' : 'ies');
                 var sLabel  = scopeIsAll ? 'all ' + scopeN + ' units' : selN + ' unit' + (selN === 1 ? '' : 's');
                 if (det) det.textContent = 'Saved — ' + amLabel + ' applied to ' + sLabel + '.';
@@ -1462,8 +1485,9 @@
                     toast._hide = setTimeout(function() { toast.style.display = 'none'; }, 4000);
                 }
 
-                /* Auto-reset frames 1 & 2 so user can pick a new batch */
+                /* === Full reset of frames 1 & 2 === */
                 bsuwUnitData.forEach(function(u) { u._selected = false; });
+                bsuw2CurrentAmSelection.clear();
                 bsuw2RenderUnits();
                 bsuw2RenderAmenities();
                 bsuw2RenderSummary();
@@ -1482,31 +1506,23 @@
             if (bsuw2Page < pc) { bsuw2Page++; bsuw2RenderUnits(); }
         });
 
-        /* ── Amenity chip click: toggle for entire scope ── */
+        /* ── Amenity chip click: toggle in current-selection Set ── */
         (function() {
             var grid = document.getElementById('bsuw2-am-grid');
             if (!grid) return;
             grid.addEventListener('click', function(e) {
                 var chip = e.target.closest ? e.target.closest('.bsuw2-am-chip') : null;
                 if (!chip) return;
-                var am    = chip.dataset.am;
-                var scope = bsuw2Scope();
-                var state = bsuw2AmState(am);
-                if (state === 'all') {
-                    /* Remove from every unit in scope */
-                    scope.forEach(function(u) {
-                        var idx = (u.amenities || []).indexOf(am);
-                        if (idx !== -1) u.amenities.splice(idx, 1);
-                    });
+                var am = chip.dataset.am;
+                if (!am) return;
+                if (bsuw2CurrentAmSelection.has(am)) {
+                    bsuw2CurrentAmSelection.delete(am);
+                    chip.classList.remove('selected');
                 } else {
-                    /* Add to every unit in scope (covers 'none' and 'some') */
-                    scope.forEach(function(u) {
-                        if (!u.amenities) u.amenities = [];
-                        if (u.amenities.indexOf(am) === -1) u.amenities.push(am);
-                    });
+                    bsuw2CurrentAmSelection.add(am);
+                    chip.classList.add('selected');
                 }
-                /* Fast path: only re-render chips, units list unchanged */
-                bsuw2RenderAmenities();
+                bsuw2UpdateAmCount();
             });
         })();
 
